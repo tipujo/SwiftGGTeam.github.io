@@ -1,0 +1,697 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="vqJV77bZM6" />
+  
+    <title>如何在 iOS 8 中使用 Swift 实现本地通知（下） | SwiftGG 翻译组 - 高质量的 Swift 译文网站</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="SwiftGG">
+    
+    <meta name="keywords" content="swift语言,swift翻译,swift学习" /> 
+
+    
+    <meta name="description" content="作者：Jason Newell，原文链接，原文日期：2015/03/04译者：小铁匠Linus；校对：shanks；定稿：numbbbbb
+
+&amp;lt;!--此处开始正文--&amp;gt;
+
+本文代码是基于 Xcode 6.2 写的。
+
+在上集中，我们已经构建了一个简单的待办列表应用（to-do list app），这个应用可以在待办项过期时通过本地通知提醒用户。现在，我们要在之前的基础上添加以下功能：应用图标角标上">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何在 iOS 8 中使用 Swift 实现本地通知（下）">
+<meta property="og:url" content="http://swiftggteam.github.io/2015/09/18/local-notifications-in-ios-8-with-swift-part-2/index.html">
+<meta property="og:site_name" content="SwiftGG">
+<meta property="og:description" content="作者：Jason Newell，原文链接，原文日期：2015/03/04译者：小铁匠Linus；校对：shanks；定稿：numbbbbb
+
+&amp;lt;!--此处开始正文--&amp;gt;
+
+本文代码是基于 Xcode 6.2 写的。
+
+在上集中，我们已经构建了一个简单的待办列表应用（to-do list app），这个应用可以在待办项过期时通过本地通知提醒用户。现在，我们要在之前的基础上添加以下功能：应用图标角标上">
+<meta property="og:image" content="http://swiftggteam.github.io/img/articles/local-notifications-in-ios-8-with-swift-part-2/iOS-Simulator-Screen-Shot-Feb-4-2015-10.31.14-PM.png1444269937.440762">
+<meta property="og:image" content="http://swiftggteam.github.io/img/articles/local-notifications-in-ios-8-with-swift-part-2/iOS-Simulator-Screen-Shot-Feb-4-2015-11.51.25-PM.png1444269937.731704">
+<meta property="og:image" content="http://swiftggteam.github.io/img/articles/local-notifications-in-ios-8-with-swift-part-2/Screen-Shot-2015-02-04-at-11.38.14-PM.png1444269938.072636">
+<meta property="og:image" content="http://swiftggteam.github.io/img/articles/local-notifications-in-ios-8-with-swift-part-2/Screen-Shot-2015-02-04-at-11.38.14-PM.png1444269938.072636">
+<meta property="og:image" content="http://swiftggteam.github.io/img/articles/local-notifications-in-ios-8-with-swift-part-2/iOS-Simulator-Screen-Shot-Feb-6-2015-12.43.34-AM.png1444269938.316587">
+<meta property="og:image" content="http://swiftggteam.github.io/img/articles/local-notifications-in-ios-8-with-swift-part-2/iOS-Simulator-Screen-Shot-Feb-6-2015-12.43.37-AM.png1444269938.705509">
+<meta property="og:image" content="http://swiftggteam.github.io/img/articles/local-notifications-in-ios-8-with-swift-part-2/iOS-Simulator-Screen-Shot-Feb-6-2015-12.41.20-AM.png1444269939.116427">
+<meta property="og:image" content="http://swiftggteam.github.io/img/articles/local-notifications-in-ios-8-with-swift-part-2/iOS-Simulator-Screen-Shot-Feb-6-2015-12.06.33-AM.png1444269939.455359">
+<meta property="og:image" content="http://swiftggteam.github.io/img/articles/local-notifications-in-ios-8-with-swift-part-2/iOS-Simulator-Screen-Shot-Feb-6-2015-1.25.36-AM.png1444269939.847281">
+<meta property="og:updated_time" content="2015-11-02T04:05:01.500Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何在 iOS 8 中使用 Swift 实现本地通知（下）">
+<meta name="twitter:description" content="作者：Jason Newell，原文链接，原文日期：2015/03/04译者：小铁匠Linus；校对：shanks；定稿：numbbbbb
+
+&amp;lt;!--此处开始正文--&amp;gt;
+
+本文代码是基于 Xcode 6.2 写的。
+
+在上集中，我们已经构建了一个简单的待办列表应用（to-do list app），这个应用可以在待办项过期时通过本地通知提醒用户。现在，我们要在之前的基础上添加以下功能：应用图标角标上">
+
+    
+    <link rel="alternative" href="/atom.xml" title="SwiftGG" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/logo.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/logo.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.jpg" alt="SwiftGG" title="SwiftGG"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="SwiftGG">SwiftGG</a></h1>
+				<h2 class="blog-motto">走心的 Swift 翻译组</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+						<li><a href="/stat">统计</a></li>
+					
+					<li>
+ 					
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		
+  <header class="article-info clearfix">
+    <h1 itemprop="name">
+      
+        <a href="/2015/09/18/local-notifications-in-ios-8-with-swift-part-2/" title="如何在 iOS 8 中使用 Swift 实现本地通知（下）" itemprop="url">如何在 iOS 8 中使用 Swift 实现本地通知（下）</a>
+    </h1>
+    <p class="article-time">
+      <time datetime="2015-09-18T12:00:00.000Z" itemprop="datePublished"><i class="icon-time"></i> 2015-09-18</time>
+      <span style="margin-left: 0.5em;"><i class="icon-eye-open"></i> <span class="viewcount"></span></span>
+    </p>
+  </header>
+
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#为应用图标添加角标（Badge）"><span class="toc-number">1.</span> <span class="toc-text">为应用图标添加角标（Badge）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何让通知反复触发"><span class="toc-number">2.</span> <span class="toc-text">如何让通知反复触发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#后台执行通知动作"><span class="toc-number">3.</span> <span class="toc-text">后台执行通知动作</span></a></li></ol>
+		
+		</div>
+		
+		<blockquote>
+<p>作者：Jason Newell，<a href="http://jamesonquave.com/blog/local-notifications-in-ios-8-with-swift-part-2/" target="_blank" rel="external">原文链接</a>，原文日期：2015/03/04<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
+</blockquote>
+<!--此处开始正文-->
+<blockquote>
+<p>本文代码是基于 Xcode 6.2 写的。</p>
+</blockquote>
+<p>在上集中，我们已经构建了一个简单的待办列表应用（to-do list app），这个应用可以在待办项过期时通过本地通知提醒用户。现在，我们要在之前的基础上添加以下功能：应用图标角标上显示过期待办项的数量、通知动作的支持和在不开启应用的情况下编辑和完成待办项。</p>
+<p>你可以在<a href="https://github.com/jasonbnewell/LocalNotificationTutorials/tree/part1_simplified" target="_blank" rel="external">这里</a>下载上一集的源代码。</p>
+<a id="more"></a>
+<h2 id="为应用图标添加角标（Badge）">为应用图标添加角标（Badge）</h2><p>值得注意的是，我们不通过本地通知也可以为应用图标添加角标。AppDelegate 中的 applicationWillResignActive: 方法是可以实现这个功能的。在用户返回主屏幕的时候，看到应用图标时候，会触发这个方法。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">applicationWillResignActive</span><span class="params">(application: UIApplication)</span></span> &#123;</span><br><span class="line">  <span class="keyword">var</span> todoItems: [<span class="type">TodoItem</span>] = <span class="type">TodoList</span>.sharedInstance.allItems()</span><br><span class="line">  <span class="keyword">var</span> overdueItems = todoItems.<span class="built_in">filter</span>(&#123; (todoItem) -&gt; <span class="type">Bool</span> <span class="keyword">in</span></span><br><span class="line">    <span class="keyword">return</span> todoItem.deadline.compare(<span class="type">NSDate</span>()) != .<span class="type">OrderedDescending</span></span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="type">UIApplication</span>.sharedApplication().applicationIconBadgeNumber = overdueItems.<span class="built_in">count</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<div style="max-width:300px;"><br><img src="/img/articles/local-notifications-in-ios-8-with-swift-part-2/iOS-Simulator-Screen-Shot-Feb-4-2015-10.31.14-PM.png1444269937.440762" alt=""><img src="/img/articles/local-notifications-in-ios-8-with-swift-part-2/iOS-Simulator-Screen-Shot-Feb-4-2015-11.51.25-PM.png1444269937.731704" alt=""><br></div>
+
+<p>虽然可行，但是并不能在待办项过期时自动更新角标的值。因为我们不能简单的在通知触发的时候增加角标的值，因此，我们可以为本地通知预设一个“applicationIconBadgeNumber”的属性值。接下来，我们在 TodoList 中写一个为每个通知设置相关角标值的方法。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">setBadgeNumbers</span><span class="params">()</span></span> &#123;</span><br><span class="line">  <span class="keyword">var</span> notifications = <span class="type">UIApplication</span>.sharedApplication().scheduledLocalNotifications <span class="keyword">as</span>! [<span class="type">UILocalNotification</span>]</span><br><span class="line">  <span class="keyword">var</span> todoItems: [<span class="type">TodoItem</span>] = <span class="keyword">self</span>.allItems()</span><br><span class="line">  <span class="keyword">for</span> notification <span class="keyword">in</span> notifications &#123;</span><br><span class="line">    <span class="keyword">var</span> overdueItems = todoItems.<span class="built_in">filter</span>(&#123; (todoItem) -&gt; <span class="type">Bool</span> <span class="keyword">in</span></span><br><span class="line">      <span class="keyword">return</span> (todoItem.deadline.compare(notification.fireDate!) != .<span class="type">OrderedDescending</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="type">UIApplication</span>.sharedApplication().cancelLocalNotification(notification) </span><br><span class="line">    notification.applicationIconBadgeNumber = overdueItems.<span class="built_in">count</span></span><br><span class="line">    <span class="type">UIApplication</span>.sharedApplication().scheduleLocalNotification(notification)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>虽然没有办法去更新已经计划好时间的通知，但是可以通过删除当前通知然后重新设置的方式来达到同样的效果。</p>
+<p><code>applicationIconBadgeNumber</code>这个属性可以接受的最大值是 2,147,483,647（<code>NSIntegerMax</code>），超过 5 位数的数字就会在图标上被截断，如图所示。而且，设置为零或负数是不会产生效果的。</p>
+<div style="max-width:300px;"><br><img src="/img/articles/local-notifications-in-ios-8-with-swift-part-2/Screen-Shot-2015-02-04-at-11.38.14-PM.png1444269938.072636" alt=""><img src="/img/articles/local-notifications-in-ios-8-with-swift-part-2/Screen-Shot-2015-02-04-at-11.38.14-PM.png1444269938.072636" alt=""><br></div>
+
+
+<p>我们只是需要在待办列表发生变化的时候调用这个方法。将下面这段代码添加到 TodoList 中的<code>addItem:</code>和<code>removeItem:</code>两个方法之后。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">self</span>.setBadgeNumbers()</span><br></pre></td></tr></table></figure>
+<p>这样，当一个通知被触发的时候，角标的值会被自动更新。</p>
+<h2 id="如何让通知反复触发">如何让通知反复触发</h2><p><code>UILocalNotificaiton</code>实例有个属性，叫<code>repeatInterval</code>，可以让通知以一个固定的时长反复触发。这种方法可以很好的避免通知数量 64 的这个上限，而且一个重复的通知只会被计算一次。</p>
+<p>不幸的是，在我们的应用中，只能在<code>repeatInterval</code>和<code>applicationIconBadgeNumber</code>中选择一个。角标值会在每次通知被触发的时候更新。较旧的通知可能会被新的通知终结，而且恰好新的通知是重复的通知（一个重复的通知只会被计算一次），即导致角标的值会比预计的小。我们可以设置两个通知，一个是重复的通知会显示提醒和播放提示音，另一个是非重复的通知会更新角标值，会发现测试的结果角标值只有预想的一半。</p>
+<p>重复通知的最大局限是重复的间隔（repeatInterval）不接受自定义值。你必须提供一个<code>NSCalendarUnit</code>值，例如<code>HourCalendarUnit</code>或<code>DayCalendarUnit</code>。假如，如果你希望设置的通知每 30 分钟触发一次，那么可以通过设置两个通知（两者之间间隔 30 分钟，并都以一小时重复触发）来解决。当然了，如果你希望是每 31 分钟触发一次，那就没办法了。</p>
+<h2 id="后台执行通知动作">后台执行通知动作</h2><p>iOS 8 引进了一个很有用的新特性：通知动作（notification actions），它可以让通知由用户来触发，甚至用户没有打开应用都可以触发。让我们来实现这个功能吧：从通知横幅上直接完成或等会提醒待办项。</p>
+<div style="max-width:300px;"><br><img src="/img/articles/local-notifications-in-ios-8-with-swift-part-2/iOS-Simulator-Screen-Shot-Feb-6-2015-12.43.34-AM.png1444269938.316587" alt=""><img src="/img/articles/local-notifications-in-ios-8-with-swift-part-2/iOS-Simulator-Screen-Shot-Feb-6-2015-12.43.37-AM.png1444269938.705509" alt=""><br></div>
+
+<p><code>AppDelegate</code>文件里可以这样写：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">application</span><span class="params">(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?)</span></span> -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">  <span class="keyword">let</span> completeAction = <span class="type">UIMutableUserNotificationAction</span>()</span><br><span class="line">  completeAction.identifier = <span class="string">"COMPLETE_TODO"</span></span><br><span class="line">  completeAction.title = <span class="string">"Complete"</span></span><br><span class="line">  completeAction.activationMode = .<span class="type">Background</span></span><br><span class="line">  completeAction.authenticationRequired = <span class="literal">false</span></span><br><span class="line">  completeAction.destructive = <span class="literal">true</span></span><br><span class="line">  <span class="keyword">let</span> remindAction = <span class="type">UIMutableUserNotificationAction</span>()</span><br><span class="line">  remindAction.identifier = <span class="string">"REMIND"</span></span><br><span class="line">  remindAction.title = <span class="string">"Remind in 30 minutes"</span></span><br><span class="line">  remindAction.activationMode = .<span class="type">Background</span></span><br><span class="line">  remindAction.destructive = fal  </span><br><span class="line">  <span class="keyword">let</span> todoCategory = <span class="type">UIMutableUserNotificationCategory</span>()</span><br><span class="line">  todoCategory.identifier = <span class="string">"TODO_CATEGORY"</span></span><br><span class="line">  todoCategory.setActions([remindAction, completeAction], forContext: .<span class="type">Default</span>)</span><br><span class="line">  todoCategory.setActions([completeAction, remindAction], forContext: .<span class="type">Minimal</span>)</span><br><span class="line">  application.registerUserNotificationSettings(<span class="type">UIUserNotificationSettings</span>(forTypes: .<span class="type">Alert</span> | .<span class="type">Badge</span> | .<span class="type">Sou</span>  categories: <span class="type">NSSet</span>(array: [todoCategory])))</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>值得注意的是，上面的代码中我们调用了<code>todoCategory.setActions()</code>两次，分别设置了动作上下文（action contexts）。如果通知是以横幅（banner）的形式显示，那么通知动作会以迷你形式（minimal context）显示出来。如果通知是以（默认的）提示（alert） 形式显示，通知动作会显示至少 4 个操作。如下图。</p>
+<div style="max-width:300px;"><br><img src="/img/articles/local-notifications-in-ios-8-with-swift-part-2/iOS-Simulator-Screen-Shot-Feb-6-2015-12.41.20-AM.png1444269939.116427" alt=""><img src="/img/articles/local-notifications-in-ios-8-with-swift-part-2/iOS-Simulator-Screen-Shot-Feb-6-2015-12.06.33-AM.png1444269939.455359" alt=""><br></div>
+
+<p>我们传递到<code>setActions:</code>方法里的通知动作的顺序会一一对应的呈现在 UI 里，但是很奇怪的是，迷你形式里通知动作的顺序是以从右向左排列的方式显示的。</p>
+<p>下面的代码是为了确保通知的<code>category</code>是为 TodoList 的<code>addItem:</code>方法设置的。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">notification.category = <span class="string">"TODO_CATEGORY"</span></span><br></pre></td></tr></table></figure>
+<p>到此，我们已经可以用<code>removeItem:</code>方法来实现完成待办项，现在我们需要在 TodoList 里实现过会提醒的功能。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">func scheduleReminderforItem(item: TodoItem) &#123;</span><br><span class="line">  var notification = UILocalNotification()</span><br><span class="line">  notification.alertBody = "Reminder: Todo Item \"\(item.title)\" Is Overdue"</span><br><span class="line">  notification.alertAction = "open"</span><br><span class="line">  notification.fireDate = NSDate().dateByAddingTimeInterval(30 * 60)</span><br><span class="line">  notification.soundName = UILocalNotificationDefaultSoundName</span><br><span class="line">  notification.userInfo = ["title": item.title, "UUID": item.UUID]</span><br><span class="line">  notification.category = "TODO_CATEGOR  </span><br><span class="line">  UIApplication.sharedApplication().scheduleLocalNotification(notification)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>值得注意的是，我们并没有修改待办项的到期日期（或者试着取消原来的通知，虽然已经被自动删除）。现在，回到<code>AppDelegate</code>里，实现<code>actions:</code>里的处理。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">application</span><span class="params">(application: UIApplication, handleActionWithIdentifier identifier: String?, forLocalNotification notification: UILocalNotification, completionHandler: <span class="params">()</span></span></span> -&gt; <span class="type">Void</span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> item = <span class="type">TodoItem</span>(deadline: notification.fireDate!, title: notification.userInfo![<span class="string">"title"</span>] <span class="keyword">as</span> <span class="type">String</span>, <span class="type">UU</span>  notification.userInfo![<span class="string">"UUID"</span>] <span class="keyword">as</span> <span class="type">String</span>!)</span><br><span class="line">  <span class="keyword">switch</span> (identifier!) &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="string">"COMPLETE_TODO"</span>:</span><br><span class="line">      <span class="type">TodoList</span>.sharedInstance.removeItem(item)</span><br><span class="line">  <span class="keyword">case</span> <span class="string">"REMIND"</span>:</span><br><span class="line">      <span class="type">TodoList</span>.sharedInstance.scheduleReminderforItem(item)</span><br><span class="line">  <span class="keyword">default</span>:</span><br><span class="line">      <span class="built_in">println</span>(<span class="string">"Error: unexpected notification action identifier!"</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  completionHandler()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>终于可以试着运行这个应用了（为了测试方便，建议将<code>dateByAddingTimeInterval:</code>设置一个较小的值）。</p>
+<p><div style="max-width:300px;"><br><img src="/img/articles/local-notifications-in-ios-8-with-swift-part-2/iOS-Simulator-Screen-Shot-Feb-6-2015-1.25.36-AM.png1444269939.847281" alt=""><br></div><br>我们讨论了所有的非地理上（注：上一集讲到的用户进入和离开某个地理区域时，可以触发本地通知的功能）的 UILocalNotification 功能，现在已经有一个功能较全的待办项应用了，所以本系列教程到此结束。你可以在<a href="https://github.com/jasonbnewell/LocalNotificationTutorials/tree/part2_simplified" target="_blank" rel="external">这里</a>下载工程的源代码。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Swift-进阶/">Swift 进阶</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/JamesonQuave-com/">JamesonQuave.com</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://swiftggteam.github.io/2015/09/18/local-notifications-in-ios-8-with-swift-part-2/" data-title="如何在 iOS 8 中使用 Swift 实现本地通知（下） | SwiftGG" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/09/21/building-memory-efficient-apps/" title="构建内存高效的应用">
+  <strong>上一篇：</strong><br/>
+  <span>
+  构建内存高效的应用</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/09/18/local-notifications-in-ios-8-with-swift-part-1/"  title="如何在 iOS 8 中使用 Swift 实现本地通知(上)">
+ <strong>下一篇：</strong><br/> 
+ <span>如何在 iOS 8 中使用 Swift 实现本地通知(上)
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2015/09/18/local-notifications-in-ios-8-with-swift-part-2/" data-title="如何在 iOS 8 中使用 Swift 实现本地通知（下）" data-url="http://swiftggteam.github.io/2015/09/18/local-notifications-in-ios-8-with-swift-part-2/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#为应用图标添加角标（Badge）"><span class="toc-number">1.</span> <span class="toc-text">为应用图标添加角标（Badge）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何让通知反复触发"><span class="toc-number">2.</span> <span class="toc-text">如何让通知反复触发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#后台执行通知动作"><span class="toc-number">3.</span> <span class="toc-text">后台执行通知动作</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/3D-Touch/" title="3D Touch">3D Touch<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Swift-入门/Apple-TV-开发/" title="Apple TV 开发">Apple TV 开发<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Swift-入门/" title="Swift 入门">Swift 入门<sup>27</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/3D-Touch/Swift-入门/" title="Swift 入门">Swift 入门<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS9/Swift-入门/" title="Swift 入门">Swift 入门<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Swift-进阶/" title="Swift 进阶">Swift 进阶<sup>24</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Swift-入门/Swift2-0/" title="Swift2.0">Swift2.0<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Swift-入门/WatchOS-2/" title="WatchOS 2">WatchOS 2<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS9/" title="iOS9">iOS9<sup>2</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Natasha-The-Robot/" title="Natasha The Robot">Natasha The Robot<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Crunchy-Development/" title="Crunchy Development">Crunchy Development<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Thomas-Hanning/" title="Thomas Hanning">Thomas Hanning<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Jameson-Quave/" title="Jameson Quave">Jameson Quave<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IOSCREATOR/" title="IOSCREATOR">IOSCREATOR<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Erica-Sadun/" title="Erica Sadun">Erica Sadun<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Raj-Kandathi/" title="Raj Kandathi">Raj Kandathi<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mike-Ash/" title="Mike Ash">Mike Ash<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ole-Begemann/" title="Ole Begemann">Ole Begemann<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Swift-and-Painless/" title="Swift and Painless">Swift and Painless<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/APPVENTURE/" title="APPVENTURE">APPVENTURE<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JamesonQuave-com/" title="JamesonQuave.com">JamesonQuave.com<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Tomasz-Szulc/" title="Tomasz Szulc">Tomasz Szulc<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AppCoda/" title="AppCoda">AppCoda<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ioscreator/" title="ioscreator">ioscreator<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Natasha-the-Robot/" title="Natasha the Robot">Natasha the Robot<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Benedikt-Terhechte/" title="Benedikt Terhechte">Benedikt Terhechte<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/dom/" title="dom">dom<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Big-O-Note-Taking/" title="Big O Note-Taking">Big O Note-Taking<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://www.swiftguide.cn" target="_blank" title="The Swift Programming Language 中文版">The Swift Programming Language 中文版</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://codebuild.me" target="_blank" title="Code Build Me">Code Build Me</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.swiftyper.com" target="_blank" title="小锅的swift之路">小锅的swift之路</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net/mmoaay" target="_blank" title="画渣程序猿mmoaay">画渣程序猿mmoaay</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blogoflinus.sinaapp.com" target="_blank" title="小铁匠的swift之路">小铁匠的swift之路</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" title="Swift&#39;s Secret">Swift&#39;s Secret</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wxgbridgeq.github.io/" target="_blank" title="BridgeQ">BridgeQ</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://bearychat.com/" target="_blank" title="BearyChat">BearyChat</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="wechatpart">
+	<p class="asidetitle">微信公众号</p>
+	<img src="/img/wechat.jpg" />
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer>
+
+
+<div id="footer" >
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="SwiftGG">SwiftGG</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+<script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+<script src="/js/mm.js"></script>
+<script src="/js/subscribe.js"></script>
+
+<div id="swiftweekly" style="display:none;">
+  <span id="sw_slogan">订阅同样走心的<b>『Swift开发者周报』</b>&nbsp;</span>
+  <form id="content">
+    <input name="email" id="sw_email" placeholder="输入邮箱地址" type="email" /><a class="sw_sub">订阅</a>
+  </form>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+  
+
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"swiftgg"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66150920-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
