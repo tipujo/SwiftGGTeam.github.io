@@ -4,7 +4,7 @@
   <subtitle><![CDATA[走心的 Swift 翻译组]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://swiftggteam.github.io/"/>
-  <updated>2015-11-03T02:27:04.869Z</updated>
+  <updated>2015-11-03T03:11:32.129Z</updated>
   <id>http://swiftggteam.github.io/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://swiftggteam.github.io/2015/11/03/watchconnectivity-introduction-say-goodbye-to-the-spinner/"/>
     <id>http://swiftggteam.github.io/2015/11/03/watchconnectivity-introduction-say-goodbye-to-the-spinner/</id>
     <published>2015-11-03T01:00:00.000Z</published>
-    <updated>2015-11-03T02:27:04.869Z</updated>
+    <updated>2015-11-03T03:11:32.129Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/watchconnectivity-introduction-say-goodbye-to-the-spinner/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-21<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -39,13 +39,13 @@
 <p>一个例子是你可能想要在一个文本消息的应用中使用它-对于一个完整的会话和上下文环境来说，最后一条信息和第一条信息是同等重要的。如果用户更新了他们简介信息中的一小部分，Watch 简介中也应该同步这些更新。</p>
 <h3 id="文件传输">文件传输</h3><p>顾名思义，在你的 iOS 和 Watch 应用之间使用文件传输去传输文件，例如图片或者<code>plists</code>。文件传输一个很棒的特性是你可以包含一个<code>meta-data</code>字典，其中包含你的文件名和数据，比如说这样你就可以排序你的图片。</p>
 <h2 id="交互式消息">交互式消息</h2><p>使用交互式消息能够实时地在你的 iOS 和 Watch 应用之间传输数据！一个绝佳的示例就是愤怒的小鸟应用的 Watch 版本和 iPhone 版本-用户点击 Watch，但是小鸟在手机上飞。按钮点击通过交互式消息被传输到手机上了。</p>
-<p><img src="/img/articles/watchconnectivity-introduction-say-goodbye-to-the-spinner/flappybirdwatch.gif1446514267.121279" alt="这里写图片描述"></p>
+<p><img src="/img/articles/watchconnectivity-introduction-say-goodbye-to-the-spinner/flappybirdwatch.gif1446514271.8482146" alt="这里写图片描述"></p>
 <p>一个需要注意的地方是，交互式消息需要 iPhone 开启<code>&quot;reachable&quot;</code>状态。Apple 文档解释道：</p>
 <blockquote>
 <p>Watch 应用的可达性需要配对的 iOS 设备在重启之后至少解锁一次。</p>
 </blockquote>
 <h2 id="总结">总结</h2><p>我爱死<a href="http://www.kristinathai.com/watchos-2-how-to-communicate-between-devices-using-watch-connectivity/" target="_blank" rel="external">Kristina Thai’s WatchConnectivity post</a> 里面区别传输的图解了：</p>
-<p><img src="/img/articles/watchconnectivity-introduction-say-goodbye-to-the-spinner/Screen-Shot-2015-09-21-at-8.17.29-AM.png1446514271.90717" alt="这里写图片描述"></p>
+<p><img src="/img/articles/watchconnectivity-introduction-say-goodbye-to-the-spinner/Screen-Shot-2015-09-21-at-8.17.29-AM.png1446514277.5708654" alt="这里写图片描述"></p>
 <p>同时，本文参考了 Curtis Herbert 的文章 <a href="http://blog.curtisherbert.com/data-synchronization-with-watchos/" target="_blank" rel="external">Getting Data to Your WatchOS 2 App</a> 中最后的 Watch OS 2 observations 部分。</p>
 ]]></content>
     <summary type="html">
@@ -58,7 +58,9 @@
     
       <category term="Natasha The Robot" scheme="http://swiftggteam.github.io/tags/Natasha-The-Robot/"/>
     
-      <category term="Swift 入门，WatchOS 2" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8%EF%BC%8CWatchOS-2/"/>
+      <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
+    
+      <category term="WatchOS 2" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/WatchOS-2/"/>
     
   </entry>
   
@@ -67,7 +69,7 @@
     <link href="http://swiftggteam.github.io/2015/11/02/watchconnectivity-say-hello-to-wcsession/"/>
     <id>http://swiftggteam.github.io/2015/11/02/watchconnectivity-say-hello-to-wcsession/</id>
     <published>2015-11-01T16:00:00.000Z</published>
-    <updated>2015-11-03T02:27:04.869Z</updated>
+    <updated>2015-11-03T03:11:32.129Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/watchconnectivity-say-hello-to-wcsession/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-21<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -151,7 +153,7 @@
     <link href="http://swiftggteam.github.io/2015/10/30/lets-talk-about-monads/"/>
     <id>http://swiftggteam.github.io/2015/10/30/lets-talk-about-monads/</id>
     <published>2015-10-30T01:00:00.000Z</published>
-    <updated>2015-11-03T02:27:04.869Z</updated>
+    <updated>2015-11-03T03:11:32.129Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Olivier Halligon，<a href="http://alisoftware.github.io/swift/2015/10/17/lets-talk-about-monads/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-17<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -216,7 +218,7 @@
     <link href="http://swiftggteam.github.io/2015/10/29/list-comprehensions-and-performance-with-swift/"/>
     <id>http://swiftggteam.github.io/2015/10/29/list-comprehensions-and-performance-with-swift/</id>
     <published>2015-10-29T01:00:00.000Z</published>
-    <updated>2015-11-03T02:27:04.869Z</updated>
+    <updated>2015-11-03T03:11:32.129Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Veronica Ray，<a href="http://jamesonquave.com/blog/list-comprehensions-and-performance-with-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-08-15<br>译者：<a href="http://weibo.com/riven0951" target="_blank" rel="external">riven</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a></p>
 <p>本文写于 2015.8.15 适用于 Xcode 6 和 Swift 1.2</p>
@@ -277,7 +279,7 @@
     <link href="http://swiftggteam.github.io/2015/10/28/five-myths-about-swift/"/>
     <id>http://swiftggteam.github.io/2015/10/28/five-myths-about-swift/</id>
     <published>2015-10-28T01:00:00.000Z</published>
-    <updated>2015-11-03T02:27:04.869Z</updated>
+    <updated>2015-11-03T03:11:32.125Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/five-myths-about-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-19<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a></p>
 </blockquote>
@@ -322,7 +324,7 @@
     <link href="http://swiftggteam.github.io/2015/10/27/swift-pattern-matching-in-detail/"/>
     <id>http://swiftggteam.github.io/2015/10/27/swift-pattern-matching-in-detail/</id>
     <published>2015-10-27T01:00:00.000Z</published>
-    <updated>2015-11-03T02:27:04.869Z</updated>
+    <updated>2015-11-03T03:11:32.125Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Benedikt Terhechte，<a href="http://appventure.me/2015/08/20/swift-pattern-matching-in-detail/" target="_blank" rel="external">原文链接</a>，原文日期：2015-08-20<br>译者：<a href="http://blog.csdn.net/mmoaay" target="_blank" rel="external">mmoaay</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -545,7 +547,7 @@
     <link href="http://swiftggteam.github.io/2015/10/26/swift-ranges-and-intervals/"/>
     <id>http://swiftggteam.github.io/2015/10/26/swift-ranges-and-intervals/</id>
     <published>2015-10-26T01:00:00.000Z</published>
-    <updated>2015-11-03T02:27:04.869Z</updated>
+    <updated>2015-11-03T03:11:32.125Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Ole Begemann，<a href="http://oleb.net/blog/2015/09/swift-ranges-and-intervals/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-24<br>译者：<a href="http://www.dianqk.org/" target="_blank" rel="external">靛青K</a>；校对：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；定稿：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a></p>
 </blockquote>
@@ -643,7 +645,7 @@
     <link href="http://swiftggteam.github.io/2015/10/23/3d-touch-impressions-and-thoughts/"/>
     <id>http://swiftggteam.github.io/2015/10/23/3d-touch-impressions-and-thoughts/</id>
     <published>2015-10-23T01:00:00.000Z</published>
-    <updated>2015-11-03T02:27:04.865Z</updated>
+    <updated>2015-11-03T03:11:32.125Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/3d-touch-impressions-and-thoughts" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-26<br>译者：<a href="http://www.brighttj.com" target="_blank" rel="external">saitjr</a>；校对：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -704,7 +706,7 @@
     <link href="http://swiftggteam.github.io/2015/10/22/thinking-in-swift-4/"/>
     <id>http://swiftggteam.github.io/2015/10/22/thinking-in-swift-4/</id>
     <published>2015-10-22T01:00:00.000Z</published>
-    <updated>2015-11-03T02:27:04.865Z</updated>
+    <updated>2015-11-03T03:11:32.125Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Olivier Halligon，<a href="http://alisoftware.github.io/swift/2015/10/11/thinking-in-swift-4/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-11<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="http://www.futantan.com" target="_blank" rel="external">Prayer</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -795,7 +797,7 @@
     <link href="http://swiftggteam.github.io/2015/10/21/reordering-collection-view-cells-tutorial/"/>
     <id>http://swiftggteam.github.io/2015/10/21/reordering-collection-view-cells-tutorial/</id>
     <published>2015-10-21T01:00:00.000Z</published>
-    <updated>2015-11-03T02:27:04.865Z</updated>
+    <updated>2015-11-03T03:11:32.125Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：ioscreator，<a href="http://www.ioscreator.com/tutorials/reordering-collection-view-cells-tutorial" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-17<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://www.dianqk.org/" target="_blank" rel="external">靛青K</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -859,7 +861,7 @@
     <link href="http://swiftggteam.github.io/2015/10/20/thinking-in-swift-3/"/>
     <id>http://swiftggteam.github.io/2015/10/20/thinking-in-swift-3/</id>
     <published>2015-10-20T01:00:00.000Z</published>
-    <updated>2015-11-03T02:27:04.865Z</updated>
+    <updated>2015-11-03T03:11:32.125Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Olivier Halligon，<a href="http://alisoftware.github.io/swift/2015/10/03/thinking-in-swift-3/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-03<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；定稿：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a></p>
 </blockquote>
@@ -922,7 +924,7 @@
     <link href="http://swiftggteam.github.io/2015/10/19/friday-qa-2015-09-04-lets-build-dispatch_queue/"/>
     <id>http://swiftggteam.github.io/2015/10/19/friday-qa-2015-09-04-lets-build-dispatch_queue/</id>
     <published>2015-10-19T01:00:00.000Z</published>
-    <updated>2015-11-03T02:27:04.865Z</updated>
+    <updated>2015-11-03T03:11:32.125Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Mike Ash，<a href="https://www.mikeash.com/pyblog/friday-qa-2015-09-04-lets-build-dispatch_queue.html" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-04<br>译者：<a href="http://blog.csdn.net/yake_099" target="_blank" rel="external">Yake</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a></p>
 <p>译者注：这篇文章的代码是用 Objective-C 完成的，不过不妨碍大家学习多线程编码的知识。</p>
@@ -1054,7 +1056,7 @@
     <link href="http://swiftggteam.github.io/2015/10/16/swift-pattern-matching/"/>
     <id>http://swiftggteam.github.io/2015/10/16/swift-pattern-matching/</id>
     <published>2015-10-16T01:00:00.000Z</published>
-    <updated>2015-11-03T02:27:04.805Z</updated>
+    <updated>2015-11-03T03:11:32.125Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Ole Begemann，<a href="http://oleb.net/blog/2015/09/swift-pattern-matching/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-18<br>译者：<a href="undefined">lfb-CD</a>；校对：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1137,7 +1139,7 @@
     <link href="http://swiftggteam.github.io/2015/10/15/watchos-2-hello-world/"/>
     <id>http://swiftggteam.github.io/2015/10/15/watchos-2-hello-world/</id>
     <published>2015-10-15T01:00:00.000Z</published>
-    <updated>2015-11-03T02:27:04.805Z</updated>
+    <updated>2015-11-03T03:11:32.125Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/watchos-2-hello-world/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-21<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1181,7 +1183,7 @@
     <link href="http://swiftggteam.github.io/2015/10/14/templates-in-xcode-6/"/>
     <id>http://swiftggteam.github.io/2015/10/14/templates-in-xcode-6/</id>
     <published>2015-10-14T01:00:00.000Z</published>
-    <updated>2015-11-03T02:27:04.805Z</updated>
+    <updated>2015-11-03T03:11:32.125Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/templates-in-xcode-6/" target="_blank" rel="external">原文链接</a>，原文日期：2015-08-27<br>译者：<a href="https://github.com/chenmingbiao" target="_blank" rel="external">CMB</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a></p>
 </blockquote>
@@ -1237,7 +1239,7 @@
     <link href="http://swiftggteam.github.io/2015/10/13/alternatives-to-try-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/10/13/alternatives-to-try-swiftlang/</id>
     <published>2015-10-13T01:00:00.000Z</published>
-    <updated>2015-11-03T02:27:04.801Z</updated>
+    <updated>2015-11-03T03:11:32.125Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/09/03/alternatives-to-try-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-03<br>译者：<a href="http://blog.csdn.net/nsnirvana" target="_blank" rel="external">我偏笑</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1360,7 +1362,7 @@ print(<span class="string">"Result is \(unwrappedResult)"</span>)
     <link href="http://swiftggteam.github.io/2015/10/12/how-to-test-uialertcontroller-in-swift/"/>
     <id>http://swiftggteam.github.io/2015/10/12/how-to-test-uialertcontroller-in-swift/</id>
     <published>2015-10-12T01:00:00.000Z</published>
-    <updated>2015-11-03T02:27:04.801Z</updated>
+    <updated>2015-11-03T03:11:32.125Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：dom，<a href="http://swiftandpainless.com/how-to-test-uialertcontroller-in-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-18<br>译者：<a href="undefined">DianQK</a>；校对：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；定稿：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a></p>
 </blockquote>
@@ -1406,7 +1408,7 @@ print(<span class="string">"Result is \(unwrappedResult)"</span>)
     <link href="http://swiftggteam.github.io/2015/10/10/tuples-swift-advanced-usage-best-practices/"/>
     <id>http://swiftggteam.github.io/2015/10/10/tuples-swift-advanced-usage-best-practices/</id>
     <published>2015-10-10T01:00:00.000Z</published>
-    <updated>2015-11-03T02:27:04.801Z</updated>
+    <updated>2015-11-03T03:11:32.125Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：terhechte，<a href="http://appventure.me/2015/07/19/tuples-swift-advanced-usage-best-practices/" target="_blank" rel="external">原文链接</a>，原文日期：2015/07/19<br>译者：<a href="http://blog.csdn.net/mmoaay" target="_blank" rel="external">mmoaay</a>；校对：<a href="http://weibo.com/lfbWb" target="_blank" rel="external">lfb_CD</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1518,7 +1520,7 @@ print(<span class="string">"Result is \(unwrappedResult)"</span>)
     <link href="http://swiftggteam.github.io/2015/10/09/thinking-in-swift-2/"/>
     <id>http://swiftggteam.github.io/2015/10/09/thinking-in-swift-2/</id>
     <published>2015-10-09T01:00:00.000Z</published>
-    <updated>2015-11-03T02:27:04.801Z</updated>
+    <updated>2015-11-03T03:11:32.125Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Olivier Halligon，<a href="http://alisoftware.github.io/swift/2015/09/20/thinking-in-swift-2/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-20<br>译者：<a href="http://blog.csdn.net/nsnirvana" target="_blank" rel="external">我偏笑</a>；校对：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
 </blockquote>
@@ -1573,7 +1575,7 @@ print(<span class="string">"Result is \(unwrappedResult)"</span>)
     <link href="http://swiftggteam.github.io/2015/10/08/stack-view-tutorial/"/>
     <id>http://swiftggteam.github.io/2015/10/08/stack-view-tutorial/</id>
     <published>2015-10-08T01:00:00.000Z</published>
-    <updated>2015-11-03T02:27:04.801Z</updated>
+    <updated>2015-11-03T03:11:32.125Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Arthur Knopper，<a href="http://www.ioscreator.com/tutorials/stack-view-tutorial/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-14<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a></p>
 </blockquote>
