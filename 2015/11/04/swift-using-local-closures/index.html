@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="baidu-site-verification" content="vqJV77bZM6" />
   
-    <title>好的错误处理原则 | SwiftGG 翻译组 - 高质量的 Swift 译文网站</title>
+    <title>Swift：使用本地闭包 | SwiftGG 翻译组 - 高质量的 Swift 译文网站</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="SwiftGG">
@@ -13,25 +13,31 @@
     <meta name="keywords" content="swift语言,swift翻译,swift学习" /> 
 
     
-    <meta name="description" content="作者：Erica Sadun，原文链接，原文日期：2015-09-02译者：小袋子；校对：shanks；定稿：shanks
+    <meta name="description" content="作者：Thomas Hanning，原文链接，原文日期：2015-10-22译者：小锅；校对：千叶知风；定稿：千叶知风
 
-为了处理错误，我们可以抛出一些遵循 ErrorType 协议的实例。最简单的例子，创建一个 struct 并且抛出错误，就像如下示例：
-123public struct SomethingWentWrong : ErrorType &amp;#123;&amp;#125;...someth">
+&amp;lt;!--此处开始正文--&amp;gt;
+闭包一般是用来作为函数的参数。不过某些情况下，使用本地闭包也是十分方便的。
+假设有一个 ViewController，里面包含了两种 GUI 模式：
+1234enum GUIMode &amp;#123;	case Mode1	case Mode2&amp;#125">
 <meta property="og:type" content="article">
-<meta property="og:title" content="好的错误处理原则">
-<meta property="og:url" content="http://swiftggteam.github.io/2015/09/30/good-errors-swiftlang/index.html">
+<meta property="og:title" content="Swift：使用本地闭包">
+<meta property="og:url" content="http://swiftggteam.github.io/2015/11/04/swift-using-local-closures/index.html">
 <meta property="og:site_name" content="SwiftGG">
-<meta property="og:description" content="作者：Erica Sadun，原文链接，原文日期：2015-09-02译者：小袋子；校对：shanks；定稿：shanks
+<meta property="og:description" content="作者：Thomas Hanning，原文链接，原文日期：2015-10-22译者：小锅；校对：千叶知风；定稿：千叶知风
 
-为了处理错误，我们可以抛出一些遵循 ErrorType 协议的实例。最简单的例子，创建一个 struct 并且抛出错误，就像如下示例：
-123public struct SomethingWentWrong : ErrorType &amp;#123;&amp;#125;...someth">
-<meta property="og:updated_time" content="2015-11-04T01:42:12.712Z">
+&amp;lt;!--此处开始正文--&amp;gt;
+闭包一般是用来作为函数的参数。不过某些情况下，使用本地闭包也是十分方便的。
+假设有一个 ViewController，里面包含了两种 GUI 模式：
+1234enum GUIMode &amp;#123;	case Mode1	case Mode2&amp;#125">
+<meta property="og:updated_time" content="2015-11-04T01:42:12.716Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="好的错误处理原则">
-<meta name="twitter:description" content="作者：Erica Sadun，原文链接，原文日期：2015-09-02译者：小袋子；校对：shanks；定稿：shanks
+<meta name="twitter:title" content="Swift：使用本地闭包">
+<meta name="twitter:description" content="作者：Thomas Hanning，原文链接，原文日期：2015-10-22译者：小锅；校对：千叶知风；定稿：千叶知风
 
-为了处理错误，我们可以抛出一些遵循 ErrorType 协议的实例。最简单的例子，创建一个 struct 并且抛出错误，就像如下示例：
-123public struct SomethingWentWrong : ErrorType &amp;#123;&amp;#125;...someth">
+&amp;lt;!--此处开始正文--&amp;gt;
+闭包一般是用来作为函数的参数。不过某些情况下，使用本地闭包也是十分方便的。
+假设有一个 ViewController，里面包含了两种 GUI 模式：
+1234enum GUIMode &amp;#123;	case Mode1	case Mode2&amp;#125">
 
     
     <link rel="alternative" href="/atom.xml" title="SwiftGG" type="application/atom+xml">
@@ -89,10 +95,10 @@
   <header class="article-info clearfix">
     <h1 itemprop="name">
       
-        <a href="/2015/09/30/good-errors-swiftlang/" title="好的错误处理原则" itemprop="url">好的错误处理原则</a>
+        <a href="/2015/11/04/swift-using-local-closures/" title="Swift：使用本地闭包" itemprop="url">Swift：使用本地闭包</a>
     </h1>
     <p class="article-time">
-      <time datetime="2015-09-30T01:00:00.000Z" itemprop="datePublished"><i class="icon-time"></i> 2015-09-30</time>
+      <time datetime="2015-11-04T01:00:00.000Z" itemprop="datePublished"><i class="icon-time"></i> 2015-11-04</time>
       <span style="margin-left: 0.5em;"><i class="icon-eye-open"></i> <span class="viewcount"></span></span>
     </p>
   </header>
@@ -107,33 +113,18 @@
 		</div>
 		
 		<blockquote>
-<p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/09/02/good-errors-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-02<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
+<p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-using-local-closures/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-22<br>译者：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
-<p>为了处理错误，我们可以抛出一些遵循 <code>ErrorType</code> 协议的实例。最简单的例子，创建一个 <code>struct</code> 并且抛出错误，就像如下示例：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">struct</span> <span class="title">SomethingWentWrong</span> : <span class="title">ErrorType</span> </span>&#123;&#125;</span><br><span class="line">...something happens...</span><br><span class="line"><span class="keyword">throw</span> <span class="type">SomethingWentWrong</span>()</span><br></pre></td></tr></table></figure>
+<!--此处开始正文-->
+<p>闭包一般是用来作为函数的参数。不过某些情况下，使用本地闭包也是十分方便的。</p>
+<p>假设有一个 <code>ViewController</code>，里面包含了两种 GUI 模式：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">GUIMode</span> </span>&#123;</span><br><span class="line">	<span class="keyword">case</span> <span class="type">Mode1</span></span><br><span class="line">	<span class="keyword">case</span> <span class="type">Mode2</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
-<p>在所有可能的描述里，你的错误信息阅读起来不应该像随机的幸运纸片那样杂乱无章，而应该是像建设性指针那样，能够解释你的失败。应避免出现下列的写法：</p>
-<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">enum</span> <span class="title">SomethingWentWrongError</span>: <span class="title">ErrorType</span> &#123;</span></span><br><span class="line">    <span class="keyword">case</span> <span class="constant">YouWillFindNewLove</span></span><br><span class="line">    <span class="keyword">case</span> <span class="constant">AClosedMouthGathersNoFeet</span></span><br><span class="line">    <span class="keyword">case</span> <span class="constant">CynicsAreFrustratedOptimists</span></span><br><span class="line">    <span class="keyword">case</span> <span class="constant">IfEverythingIsComingYourWayYouAreInTheWrongLane</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>优秀的错误处理机制应该更易于我们在特定语境中理解错误：</p>
-<ul>
-<li><p>逻辑清晰。一个优秀的错误信息应该表明问题是什么，问题的起因是什么，问题的源头在哪里，以及如何解决这个问题。我们可以从 <code>Foundation</code> 里面的错误处理获取灵感，并在你的错误反馈中提供错误原因和恢复方法。</p>
-</li>
-<li><p>保持精准。 当你的错误返回一个错误点时，错误信息越具体，使用你代码的程序员就越有可能使用这个具体的信息修复他们的代码，或者在运行代码时找到变通的办法。</p>
-</li>
-<li><p>整合细节。<code>Swift</code> 错误机制允许我们创建结构体，关联值，并且提供了错误产生位置和产生原因的重要上下文信息。因此我们应该创建更多有关错误的详尽信息。</p>
-</li>
-<li><p>语义清楚。不要单纯为了让错误信息简短就去限制错误信息的字数。正确的写法: <code>Unable to access uninitialized data store</code>；错误的写法: <code>Uninitialized</code>。同时，应该正确界定正在处理错误的问题说明，避免出现不必要的冗余描述。</p>
-</li>
-<li><p>添加支持。当你加入 API 和 文档的引用后, 可以进一步帮助你解释上下文和支持的恢复方法。使用链接和片段是很好的方式，但是全文档说明就没必要了。允许使用像快速帮助这样的特性去适当地理解这段代码的作用，而不是试图去篡改他们。</p>
-</li>
-<li><p>避免使用术语。特别是当你的错误，可能在超出你正在运行的上下文环境下产生时。因此，推荐选择简单且更加通俗的语言，而不是专业的术语名称。</p>
-</li>
-<li><p>措辞应优雅礼貌。在错误信息中不应该羞辱你的同伴，你的管理者，或者那些和你一起努力奋斗开发 <code>API</code> 的人。此外，应减少错误信息中幽默的写法，幽默的效果并不大，一个自嘲意味的错误信息有可能成为将来某个时刻的隐患。</p>
-<blockquote>
-<p>译者注：以苹果开发的角度来说，异常处理可以细分成对于「错误（<code>error</code>）」和「异常（<code>exception</code>）」两类情况的处理，前者是可以预见到发生可能性的、可以恢复的非致命错误，比如找不到指定位置的文件或者网络忽然断开之类；后者则是无法预见通常也不可恢复的致命错误，比如磁盘坏了、内存没了之类。本文中的异常处理应是错误（<code>error</code>）处理。</p>
-</blockquote>
-</li>
-</ul>
+<p>对于每一种 GUI 模式，我们都需要对三个 label 设置某些属性：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> guiMode: <span class="type">GUIMode</span> = .<span class="type">Mode1</span> &#123;</span><br><span class="line">    <span class="keyword">didSet</span> &#123;              </span><br><span class="line">        <span class="keyword">switch</span> guiMode &#123;</span><br><span class="line">        <span class="keyword">case</span> .<span class="type">Mode1</span>:</span><br><span class="line">            label1.text = <span class="string">"1"</span></span><br><span class="line">            label1.textColor = <span class="type">UIColor</span>.redColor()</span><br><span class="line">            label1.font = <span class="type">UIFont</span>(name: <span class="string">"HelveticaNeue"</span>, size: <span class="number">10</span>)</span><br><span class="line">                </span><br><span class="line">            label2.text = <span class="string">"2"</span></span><br><span class="line">            label2.textColor = <span class="type">UIColor</span>.blueColor()</span><br><span class="line">            label2.font = <span class="type">UIFont</span>(name: <span class="string">"HelveticaNeue"</span>, size: <span class="number">12</span>)</span><br><span class="line">                </span><br><span class="line">            label3.text = <span class="string">"3"</span></span><br><span class="line">            label3.textColor = <span class="type">UIColor</span>.yellowColor()</span><br><span class="line">            label3.font = <span class="type">UIFont</span>(name: <span class="string">"HelveticaNeue"</span>, size: <span class="number">11</span>)</span><br><span class="line">                </span><br><span class="line">        <span class="keyword">case</span> .<span class="type">Mode2</span>:</span><br><span class="line">            label1.text = <span class="string">"4"</span></span><br><span class="line">            label1.textColor = <span class="type">UIColor</span>.yellowColor()</span><br><span class="line">            label1.font = <span class="type">UIFont</span>(name: <span class="string">"HelveticaNeue"</span>, size: <span class="number">11</span>)</span><br><span class="line">                </span><br><span class="line">            label2.text = <span class="string">"5"</span></span><br><span class="line">            label2.textColor = <span class="type">UIColor</span>.blueColor()</span><br><span class="line">            label2.font = <span class="type">UIFont</span>(name: <span class="string">"HelveticaNeue"</span>, size: <span class="number">9</span>)</span><br><span class="line">                </span><br><span class="line">            label3.text = <span class="string">"6"</span></span><br><span class="line">            label3.textColor = <span class="type">UIColor</span>.brownColor()</span><br><span class="line">            label3.font = <span class="type">UIFont</span>(name: <span class="string">"HelveticaNeue"</span>, size: <span class="number">10</span>)</span><br><span class="line">        &#125;           </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里有很多重复的代码。你可以创建一个函数，在函数里对一个 label 的属性进行设置，但是这个函数我们基本不会在别的地方再次使用。因此，在这种情况下使用闭包就是一个相当不错的解决方案：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> guiMode: <span class="type">GUIMode</span> = .<span class="type">Mode1</span> &#123;</span><br><span class="line">    <span class="keyword">didSet</span> &#123;      </span><br><span class="line">        <span class="keyword">let</span> styleLabel: (label:<span class="type">UILabel</span>,text:<span class="type">String</span>,color:<span class="type">UIColor</span>,size:<span class="type">CGFloat</span>) -&gt; () = &#123; (label,text,color,size) <span class="keyword">in</span></span><br><span class="line">            label.text = text</span><br><span class="line">            label.textColor = color</span><br><span class="line">            label.font = <span class="type">UIFont</span>(name: <span class="string">"HelveticaNeue"</span>, size:size)</span><br><span class="line">        &#125;</span><br><span class="line">                        </span><br><span class="line">        <span class="keyword">switch</span> guiMode &#123;</span><br><span class="line">        <span class="keyword">case</span> .<span class="type">Mode1</span>:</span><br><span class="line">            styleLabel(label: label1, text: <span class="string">"1"</span>, color: <span class="type">UIColor</span>.redColor(), size:<span class="number">10</span>)</span><br><span class="line">            styleLabel(label: label2, text: <span class="string">"2"</span>, color: <span class="type">UIColor</span>.blueColor(), size:<span class="number">12</span>)</span><br><span class="line">            styleLabel(label: label3, text: <span class="string">"3"</span>, color: <span class="type">UIColor</span>.yellowColor(), size:<span class="number">11</span>)</span><br><span class="line">        <span class="keyword">case</span> .<span class="type">Mode2</span>:</span><br><span class="line">            styleLabel(label: label1, text: <span class="string">"4"</span>, color: <span class="type">UIColor</span>.yellowColor(), size:<span class="number">11</span>)</span><br><span class="line">            styleLabel(label: label2, text: <span class="string">"5"</span>, color: <span class="type">UIColor</span>.blackColor(), size:<span class="number">9</span>)</span><br><span class="line">            styleLabel(label: label3, text: <span class="string">"6"</span>, color: <span class="type">UIColor</span>.brownColor(), size:<span class="number">10</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样一来，代码就少了很多，看起来也更加简洁了。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -147,7 +138,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Erica-Sadun/">Erica Sadun</a>
+  <span></span> <a href="/tags/Thomas-Hanning/">Thomas Hanning</a>
   </div>
 
 </div>
@@ -156,7 +147,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://swiftggteam.github.io/2015/09/30/good-errors-swiftlang/" data-title="好的错误处理原则 | SwiftGG" data-tsina="null" class="share clearfix">
+	  <div data-url="http://swiftggteam.github.io/2015/11/04/swift-using-local-closures/" data-title="Swift：使用本地闭包 | SwiftGG" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -169,19 +160,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/10/08/stack-view-tutorial/" title="如何在 iOS 9 中创建 Stack View">
-  <strong>上一篇：</strong><br/>
-  <span>
-  如何在 iOS 9 中创建 Stack View</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2015/09/29/thinking-in-swift-1/"  title="Swift 编程思想，第一部分：拯救小马">
+<a href="/2015/11/03/watchconnectivity-introduction-say-goodbye-to-the-spinner/"  title="WatchConnectivity 介绍：告别加载等待">
  <strong>下一篇：</strong><br/> 
- <span>Swift 编程思想，第一部分：拯救小马
+ <span>WatchConnectivity 介绍：告别加载等待
 </span>
 </a>
 </div>
@@ -190,7 +173,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/09/30/good-errors-swiftlang/" data-title="好的错误处理原则" data-url="http://swiftggteam.github.io/2015/09/30/good-errors-swiftlang/"></div>
+	<div class="ds-thread" data-thread-key="2015/11/04/swift-using-local-closures/" data-title="Swift：使用本地闭包" data-url="http://swiftggteam.github.io/2015/11/04/swift-using-local-closures/"></div>
 </section>
 
 
