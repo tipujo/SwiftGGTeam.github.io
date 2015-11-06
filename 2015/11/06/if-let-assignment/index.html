@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="baidu-site-verification" content="vqJV77bZM6" />
   
-    <title>深入研究 Swift 中的 ErrorType | SwiftGG 翻译组 - 高质量的 Swift 译文网站</title>
+    <title>If-Let 赋值运算符 | SwiftGG 翻译组 - 高质量的 Swift 译文网站</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="SwiftGG">
@@ -13,28 +13,28 @@
     <meta name="keywords" content="swift语言,swift翻译,swift学习" /> 
 
     
-    <meta name="description" content="作者：Marius Rackwitz，原文链接，原文日期：2015/08/02译者：mmoaay；校对：shanks；定稿：numbbbbb
+    <meta name="description" content="作者：Weston Hanners，原文链接，原文日期：2015-10-29译者：pmst；校对：千叶知风；定稿：千叶知风
 
-抱歉，由于没有拿到作者授权，我们无法继续提供这个内容。
-如果你真的很需要查看中文译文，可以去阅读译者文章。
-你也可以去首页看看我们的其他文章！">
+&amp;lt;!--此处开始正文--&amp;gt;
+(AKA：你希望使用一个自定义操作符)
+有多少次你是以这种匹配模式实现的呢？">
 <meta property="og:type" content="article">
-<meta property="og:title" content="深入研究 Swift 中的 ErrorType">
-<meta property="og:url" content="http://swiftggteam.github.io/2015/09/09/testing-swifts-errortype/index.html">
+<meta property="og:title" content="If-Let 赋值运算符">
+<meta property="og:url" content="http://swiftggteam.github.io/2015/11/06/if-let-assignment/index.html">
 <meta property="og:site_name" content="SwiftGG">
-<meta property="og:description" content="作者：Marius Rackwitz，原文链接，原文日期：2015/08/02译者：mmoaay；校对：shanks；定稿：numbbbbb
+<meta property="og:description" content="作者：Weston Hanners，原文链接，原文日期：2015-10-29译者：pmst；校对：千叶知风；定稿：千叶知风
 
-抱歉，由于没有拿到作者授权，我们无法继续提供这个内容。
-如果你真的很需要查看中文译文，可以去阅读译者文章。
-你也可以去首页看看我们的其他文章！">
-<meta property="og:updated_time" content="2015-11-06T01:34:12.815Z">
+&amp;lt;!--此处开始正文--&amp;gt;
+(AKA：你希望使用一个自定义操作符)
+有多少次你是以这种匹配模式实现的呢？">
+<meta property="og:updated_time" content="2015-11-06T01:34:12.819Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="深入研究 Swift 中的 ErrorType">
-<meta name="twitter:description" content="作者：Marius Rackwitz，原文链接，原文日期：2015/08/02译者：mmoaay；校对：shanks；定稿：numbbbbb
+<meta name="twitter:title" content="If-Let 赋值运算符">
+<meta name="twitter:description" content="作者：Weston Hanners，原文链接，原文日期：2015-10-29译者：pmst；校对：千叶知风；定稿：千叶知风
 
-抱歉，由于没有拿到作者授权，我们无法继续提供这个内容。
-如果你真的很需要查看中文译文，可以去阅读译者文章。
-你也可以去首页看看我们的其他文章！">
+&amp;lt;!--此处开始正文--&amp;gt;
+(AKA：你希望使用一个自定义操作符)
+有多少次你是以这种匹配模式实现的呢？">
 
     
     <link rel="alternative" href="/atom.xml" title="SwiftGG" type="application/atom+xml">
@@ -92,10 +92,10 @@
   <header class="article-info clearfix">
     <h1 itemprop="name">
       
-        <a href="/2015/09/09/testing-swifts-errortype/" title="深入研究 Swift 中的 ErrorType" itemprop="url">深入研究 Swift 中的 ErrorType</a>
+        <a href="/2015/11/06/if-let-assignment/" title="If-Let 赋值运算符" itemprop="url">If-Let 赋值运算符</a>
     </h1>
     <p class="article-time">
-      <time datetime="2015-09-08T16:00:00.000Z" itemprop="datePublished"><i class="icon-time"></i> 2015-09-09</time>
+      <time datetime="2015-11-06T01:00:00.000Z" itemprop="datePublished"><i class="icon-time"></i> 2015-11-06</time>
       <span style="margin-left: 0.5em;"><i class="icon-eye-open"></i> <span class="viewcount"></span></span>
     </p>
   </header>
@@ -110,16 +110,41 @@
 		</div>
 		
 		<blockquote>
-<p>作者：Marius Rackwitz，<a href="https://realm.io/news/testing-swift-error-type/" target="_blank" rel="external">原文链接</a>，原文日期：2015/08/02<br>译者：<a href="http://blog.csdn.net/mmoaay" target="_blank" rel="external">mmoaay</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
+<p>作者：Weston Hanners，<a href="http://www.alloc-init.com/2015/10/if-let-assignment/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-29<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
-<p>抱歉，由于没有拿到作者授权，我们无法继续提供这个内容。</p>
-<p>如果你真的很需要查看中文译文，可以去阅读<a href="http://blog.csdn.net/mmoaay/article/details/48051477" target="_blank" rel="external">译者文章</a>。</p>
-<p>你也可以去<a href="http://swift.gg" target="_blank" rel="external">首页</a>看看我们的其他文章！</p>
+<!--此处开始正文-->
+<p>(AKA：你希望使用一个自定义操作符)</p>
+<p>有多少次你是以这种匹配模式实现的呢？</p>
+<a id="more"></a>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> value = someOptionalValue <span class="keyword">as</span>? <span class="type">String</span> &#123;</span><br><span class="line">  <span class="keyword">self</span>.value = value</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我一直使用这种方式进行JSON数据解析或者NSCoding的实现。但我觉得这对于Swift来说有点啰嗦，坚信肯定存在某种更好的方式。</p>
+<p><a href="http://nshipster.com/swift-operators/" target="_blank" rel="external">NSHipster</a>提出自定义逻辑或赋值运算符(<code>||=</code>)，这看起来很不错。不管怎样，它似乎还未为泛型实现(作者:如果这里我理解错了，请告诉我).我想我可以先试一试…</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">infix</span> <span class="keyword">operator</span> ||= &#123; <span class="keyword">associativity</span> <span class="keyword">right</span> <span class="keyword">precedence</span> <span class="number">90</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 译者注: 测试只有加上&lt;T&gt;才能正常运行</span></span><br><span class="line"><span class="func"><span class="keyword">func</span> ||= <span class="generics">&lt;T&gt;</span><span class="params">(<span class="keyword">inout</span> <span class="keyword">left</span>: T, <span class="keyword">right</span>: T?)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">let</span> <span class="keyword">right</span> = <span class="keyword">right</span> &#123;</span><br><span class="line">        <span class="keyword">left</span> = <span class="keyword">right</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>实际上它能够很好地工作，我将原代码简化如下:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">self</span>.value ||= someOptionalValue <span class="keyword">as</span>? <span class="type">String</span></span><br></pre></td></tr></table></figure>
+<p>或许这有点微不足道，但是当你需要连续处理一系列任务时，这节省了大量代码，变得更具可读性。</p>
+<p>还有件事…我依然尝试去弄清楚这是怎么回事，但我最终定义了第二个方法用于可选类型赋值。而唯一的不同是现在左侧参数类型为<code>T?</code></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> ||= <span class="generics">&lt;T&gt;</span><span class="params">(<span class="keyword">inout</span> <span class="keyword">left</span>: T?, <span class="keyword">right</span>: T?)</span></span> &#123; <span class="comment">// The left param is now Optional</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">let</span> <span class="keyword">right</span> = <span class="keyword">right</span> &#123;</span><br><span class="line">        <span class="keyword">left</span> = <span class="keyword">right</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> someOptionalString: <span class="type">String</span>?</span><br><span class="line"></span><br><span class="line">someOptionalString ||= newValue <span class="comment">// Will assign when newValue is not optional</span></span><br></pre></td></tr></table></figure>
+<p>如果你有兴趣看看这个，请点击<a href="http://www.alloc-init.com/wp-content/uploads/2015/10/if-let-operator.playground.zip" target="_blank" rel="external">Playground</a>下载。</p>
+<p>温馨提示: 文章测试环境是Swift2.0。</p>
+<p><strong>更新日志 11/01/2015:</strong></p>
+<p>twitter上有人提醒我: ruby中<code>||=</code>等价于<code>left = left || right</code>，与我想要实现的<code>left = right || left</code>不同。我对这种用法不是很了解，为了避免混淆，我可能使用另外一个操作符<code>?=</code>替代。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">infix</span> <span class="keyword">operator</span> ?= &#123; <span class="keyword">associativity</span> <span class="keyword">right</span> <span class="keyword">precedence</span> <span class="number">90</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="func"><span class="keyword">func</span> ?=<span class="generics">&lt;T&gt;</span><span class="params">(<span class="keyword">inout</span> <span class="keyword">left</span>: T, <span class="keyword">right</span>: T?)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">let</span> value = <span class="keyword">right</span> &#123;</span><br><span class="line">        <span class="keyword">left</span> = value</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="func"><span class="keyword">func</span> ?=<span class="generics">&lt;T&gt;</span><span class="params">(<span class="keyword">inout</span> <span class="keyword">left</span>: T?, <span class="keyword">right</span>: T?)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">let</span> value = <span class="keyword">right</span> &#123;</span><br><span class="line">        <span class="keyword">left</span> = value</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
   
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Swift-入门/">Swift 入门</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Weston-Hanners/">Weston Hanners</a>
+  </div>
 
 </div>
 
@@ -127,7 +152,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://swiftggteam.github.io/2015/09/09/testing-swifts-errortype/" data-title="深入研究 Swift 中的 ErrorType | SwiftGG" data-tsina="null" class="share clearfix">
+	  <div data-url="http://swiftggteam.github.io/2015/11/06/if-let-assignment/" data-title="If-Let 赋值运算符 | SwiftGG" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -140,19 +165,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/09/09/collection-data-structures-swift/" title="Swift 集合数据结构性能分析">
-  <strong>上一篇：</strong><br/>
-  <span>
-  Swift 集合数据结构性能分析</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2015/09/08/Sequence-Conformance/"  title="Swift 中序列的实现方式">
+<a href="/2015/11/05/swift-playground-the-monty-hall-problem/"  title="Swift Playground: 三门问题的解法">
  <strong>下一篇：</strong><br/> 
- <span>Swift 中序列的实现方式
+ <span>Swift Playground: 三门问题的解法
 </span>
 </a>
 </div>
@@ -161,7 +178,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/09/09/testing-swifts-errortype/" data-title="深入研究 Swift 中的 ErrorType" data-url="http://swiftggteam.github.io/2015/09/09/testing-swifts-errortype/"></div>
+	<div class="ds-thread" data-thread-key="2015/11/06/if-let-assignment/" data-title="If-Let 赋值运算符" data-url="http://swiftggteam.github.io/2015/11/06/if-let-assignment/"></div>
 </section>
 
 
