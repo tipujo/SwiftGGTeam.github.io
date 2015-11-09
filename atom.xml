@@ -4,7 +4,7 @@
   <subtitle><![CDATA[走心的 Swift 翻译组]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://swiftggteam.github.io/"/>
-  <updated>2015-11-06T01:34:12.819Z</updated>
+  <updated>2015-11-09T01:43:47.065Z</updated>
   <id>http://swiftggteam.github.io/</id>
   
   <author>
@@ -15,11 +15,63 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[好代码是怎样炼成的]]></title>
+    <link href="http://swiftggteam.github.io/2015/11/09/what-makes-good-code/"/>
+    <id>http://swiftggteam.github.io/2015/11/09/what-makes-good-code/</id>
+    <published>2015-11-09T01:00:00.000Z</published>
+    <updated>2015-11-09T01:43:47.065Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/10/28/what-makes-good-code/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-28<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
+</blockquote>
+<!--此处开始正文-->
+<p>最近有个人发 Email 问我：“好代码是怎样炼成的”。之前，我身体有点不舒服，所以我漫无边际的说了下。现在好多了，所以我想分享一下以下这些想法，因为我觉得这些对于这次重要的讨论来说是一个有趣的起点。</p>
+<a id="more"></a>
+<p>当时，我写道：</p>
+<ul>
+<li><p>好代码并不只是可以编译而已，它还会沟通。它会和现在的你交谈，也会和以后维护代码的你交谈。它对于你的团队和任何外部来查看的人来说都是可以被理解的。</p>
+</li>
+<li><p>好代码对可靠性和可测试性的要求胜过聪明的小技巧。如果需要清晰的表明自己的意图和结果，好代码会更倾向于使用一个或多个额外的步骤来表达。</p>
+</li>
+<li><p>好代码也考虑其使用程度，一段代码一次跑一百万遍和只跑一遍的要求是不同的，就好比在树林里的一棵树和孤零零的一棵树那样。</p>
+</li>
+<li><p>好代码即使被分解了也可以成为合理的单元，而不是大规模的单一的实现。</p>
+</li>
+<li><p>好代码不仅仅是实现一次或两次，而且还要审查和重构。这才有可能让它成为最好的和最健壮的实现。</p>
+</li>
+<li><p>好代码会考虑到全球化，并提供给不同文化的潜在用户。添加国际化以及相关的可访问性，这些真的是代码层面的事情，而不是嘴上说说的马后炮而已。</p>
+</li>
+<li><p>好代码不仅仅考虑今天具体运行在什么环境上，也考虑如何适应这些可能随时间变化的环境。</p>
+</li>
+</ul>
+<p>以上是我想到的，你对我关于这个“好代码是怎样炼成的”话题列出的清单有什么想添加、删除、修改的？期待看到你们的想法。</p>
+<p><strong>更新</strong></p>
+<p>Seivan Heidari 建议添加：好代码会在作为 API 为外面调用时，不提供内部的实现细节。</p>
+<p>Anonymous 建议添加：好代码是浑然天成的。好代码可以照你需要的样子执行，且能被按时交付，其余的都是扯蛋哈哈。</p>
+<p>Dave DeLong 建议添加：好代码会让读的人产生敬畏，并使读的人受到启发从而也去写自己的好代码。</p>
+<p>Paul Cantrell 建议添加：好代码会注意权衡。它会根据工程来权衡,而不是按照绝对的教条。它也不会让工具或技术成为组内状态标记(in-group status markers)。</p>
+<p>Rainer Brockerhoff 建议添加：好代码可以被很轻松的重用（即使是在几年之后），也能只用几行代码来进行扩展或改编。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/10/28/what-makes-good-code/">原文链接</a>，原文日期：2015-10-28<br>译者：<a href="http://weibo.com/linusling">小铁匠Linus</a>；校对：<a href="http://weibo.com/xiaoxxiao">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao">千叶知风</a></p>
+</blockquote>
+<!--此处开始正文-->
+<p>最近有个人发 Email 问我：“好代码是怎样炼成的”。之前，我身体有点不舒服，所以我漫无边际的说了下。现在好多了，所以我想分享一下以下这些想法，因为我觉得这些对于这次重要的讨论来说是一个有趣的起点。</p>]]>
+    
+    </summary>
+    
+      <category term="Erica Sadun" scheme="http://swiftggteam.github.io/tags/Erica-Sadun/"/>
+    
+      <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[If-Let 赋值运算符]]></title>
     <link href="http://swiftggteam.github.io/2015/11/06/if-let-assignment/"/>
     <id>http://swiftggteam.github.io/2015/11/06/if-let-assignment/</id>
     <published>2015-11-06T01:00:00.000Z</published>
-    <updated>2015-11-06T01:34:12.819Z</updated>
+    <updated>2015-11-09T01:43:47.065Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Weston Hanners，<a href="http://www.alloc-init.com/2015/10/if-let-assignment/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-29<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -63,7 +115,7 @@
     <link href="http://swiftggteam.github.io/2015/11/05/swift-playground-the-monty-hall-problem/"/>
     <id>http://swiftggteam.github.io/2015/11/05/swift-playground-the-monty-hall-problem/</id>
     <published>2015-11-05T01:00:00.000Z</published>
-    <updated>2015-11-06T01:34:12.819Z</updated>
+    <updated>2015-11-09T01:43:47.065Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-playground-the-monty-hall-problem/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-27<br>译者：<a href="https://github.com/SergioChan" target="_blank" rel="external">SergioChan</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -108,7 +160,7 @@
     <link href="http://swiftggteam.github.io/2015/11/04/swift-using-local-closures/"/>
     <id>http://swiftggteam.github.io/2015/11/04/swift-using-local-closures/</id>
     <published>2015-11-04T01:00:00.000Z</published>
-    <updated>2015-11-06T01:34:12.819Z</updated>
+    <updated>2015-11-09T01:43:47.065Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-using-local-closures/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-22<br>译者：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -145,7 +197,7 @@
     <link href="http://swiftggteam.github.io/2015/11/03/watchconnectivity-introduction-say-goodbye-to-the-spinner/"/>
     <id>http://swiftggteam.github.io/2015/11/03/watchconnectivity-introduction-say-goodbye-to-the-spinner/</id>
     <published>2015-11-03T01:00:00.000Z</published>
-    <updated>2015-11-06T01:34:12.819Z</updated>
+    <updated>2015-11-09T01:43:47.065Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/watchconnectivity-introduction-say-goodbye-to-the-spinner/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-21<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -195,7 +247,7 @@
     <link href="http://swiftggteam.github.io/2015/11/02/watchconnectivity-say-hello-to-wcsession/"/>
     <id>http://swiftggteam.github.io/2015/11/02/watchconnectivity-say-hello-to-wcsession/</id>
     <published>2015-11-01T16:00:00.000Z</published>
-    <updated>2015-11-06T01:34:12.819Z</updated>
+    <updated>2015-11-09T01:43:47.065Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/watchconnectivity-say-hello-to-wcsession/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-21<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -279,7 +331,7 @@
     <link href="http://swiftggteam.github.io/2015/10/30/lets-talk-about-monads/"/>
     <id>http://swiftggteam.github.io/2015/10/30/lets-talk-about-monads/</id>
     <published>2015-10-30T01:00:00.000Z</published>
-    <updated>2015-11-06T01:34:12.819Z</updated>
+    <updated>2015-11-09T01:43:47.065Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Olivier Halligon，<a href="http://alisoftware.github.io/swift/2015/10/17/lets-talk-about-monads/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-17<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -344,7 +396,7 @@
     <link href="http://swiftggteam.github.io/2015/10/29/list-comprehensions-and-performance-with-swift/"/>
     <id>http://swiftggteam.github.io/2015/10/29/list-comprehensions-and-performance-with-swift/</id>
     <published>2015-10-29T01:00:00.000Z</published>
-    <updated>2015-11-06T01:34:12.815Z</updated>
+    <updated>2015-11-09T01:43:47.065Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Veronica Ray，<a href="http://jamesonquave.com/blog/list-comprehensions-and-performance-with-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-08-15<br>译者：<a href="http://weibo.com/riven0951" target="_blank" rel="external">riven</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a></p>
 <p>本文写于 2015.8.15 适用于 Xcode 6 和 Swift 1.2</p>
@@ -405,7 +457,7 @@
     <link href="http://swiftggteam.github.io/2015/10/28/five-myths-about-swift/"/>
     <id>http://swiftggteam.github.io/2015/10/28/five-myths-about-swift/</id>
     <published>2015-10-28T01:00:00.000Z</published>
-    <updated>2015-11-06T01:34:12.815Z</updated>
+    <updated>2015-11-09T01:43:47.065Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/five-myths-about-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-19<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a></p>
 </blockquote>
@@ -450,7 +502,7 @@
     <link href="http://swiftggteam.github.io/2015/10/27/swift-pattern-matching-in-detail/"/>
     <id>http://swiftggteam.github.io/2015/10/27/swift-pattern-matching-in-detail/</id>
     <published>2015-10-27T01:00:00.000Z</published>
-    <updated>2015-11-06T01:34:12.815Z</updated>
+    <updated>2015-11-09T01:43:47.065Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Benedikt Terhechte，<a href="http://appventure.me/2015/08/20/swift-pattern-matching-in-detail/" target="_blank" rel="external">原文链接</a>，原文日期：2015-08-20<br>译者：<a href="http://blog.csdn.net/mmoaay" target="_blank" rel="external">mmoaay</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -673,7 +725,7 @@
     <link href="http://swiftggteam.github.io/2015/10/26/swift-ranges-and-intervals/"/>
     <id>http://swiftggteam.github.io/2015/10/26/swift-ranges-and-intervals/</id>
     <published>2015-10-26T01:00:00.000Z</published>
-    <updated>2015-11-06T01:34:12.815Z</updated>
+    <updated>2015-11-09T01:43:47.065Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Ole Begemann，<a href="http://oleb.net/blog/2015/09/swift-ranges-and-intervals/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-24<br>译者：<a href="http://www.dianqk.org/" target="_blank" rel="external">靛青K</a>；校对：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；定稿：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a></p>
 </blockquote>
@@ -771,7 +823,7 @@
     <link href="http://swiftggteam.github.io/2015/10/23/3d-touch-impressions-and-thoughts/"/>
     <id>http://swiftggteam.github.io/2015/10/23/3d-touch-impressions-and-thoughts/</id>
     <published>2015-10-23T01:00:00.000Z</published>
-    <updated>2015-11-06T01:34:12.815Z</updated>
+    <updated>2015-11-09T01:43:47.065Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/3d-touch-impressions-and-thoughts" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-26<br>译者：<a href="http://www.brighttj.com" target="_blank" rel="external">saitjr</a>；校对：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -832,7 +884,7 @@
     <link href="http://swiftggteam.github.io/2015/10/22/thinking-in-swift-4/"/>
     <id>http://swiftggteam.github.io/2015/10/22/thinking-in-swift-4/</id>
     <published>2015-10-22T01:00:00.000Z</published>
-    <updated>2015-11-06T01:34:12.815Z</updated>
+    <updated>2015-11-09T01:43:47.065Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Olivier Halligon，<a href="http://alisoftware.github.io/swift/2015/10/11/thinking-in-swift-4/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-11<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="http://www.futantan.com" target="_blank" rel="external">Prayer</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -923,7 +975,7 @@
     <link href="http://swiftggteam.github.io/2015/10/21/reordering-collection-view-cells-tutorial/"/>
     <id>http://swiftggteam.github.io/2015/10/21/reordering-collection-view-cells-tutorial/</id>
     <published>2015-10-21T01:00:00.000Z</published>
-    <updated>2015-11-06T01:34:12.815Z</updated>
+    <updated>2015-11-09T01:43:47.065Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：ioscreator，<a href="http://www.ioscreator.com/tutorials/reordering-collection-view-cells-tutorial" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-17<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://www.dianqk.org/" target="_blank" rel="external">靛青K</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -987,7 +1039,7 @@
     <link href="http://swiftggteam.github.io/2015/10/20/thinking-in-swift-3/"/>
     <id>http://swiftggteam.github.io/2015/10/20/thinking-in-swift-3/</id>
     <published>2015-10-20T01:00:00.000Z</published>
-    <updated>2015-11-06T01:34:12.815Z</updated>
+    <updated>2015-11-09T01:43:47.065Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Olivier Halligon，<a href="http://alisoftware.github.io/swift/2015/10/03/thinking-in-swift-3/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-03<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；定稿：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a></p>
 </blockquote>
@@ -1050,7 +1102,7 @@
     <link href="http://swiftggteam.github.io/2015/10/19/friday-qa-2015-09-04-lets-build-dispatch_queue/"/>
     <id>http://swiftggteam.github.io/2015/10/19/friday-qa-2015-09-04-lets-build-dispatch_queue/</id>
     <published>2015-10-19T01:00:00.000Z</published>
-    <updated>2015-11-06T01:34:12.815Z</updated>
+    <updated>2015-11-09T01:43:47.065Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Mike Ash，<a href="https://www.mikeash.com/pyblog/friday-qa-2015-09-04-lets-build-dispatch_queue.html" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-04<br>译者：<a href="http://blog.csdn.net/yake_099" target="_blank" rel="external">Yake</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a></p>
 <p>译者注：这篇文章的代码是用 Objective-C 完成的，不过不妨碍大家学习多线程编码的知识。</p>
@@ -1182,7 +1234,7 @@
     <link href="http://swiftggteam.github.io/2015/10/16/swift-pattern-matching/"/>
     <id>http://swiftggteam.github.io/2015/10/16/swift-pattern-matching/</id>
     <published>2015-10-16T01:00:00.000Z</published>
-    <updated>2015-11-06T01:34:12.815Z</updated>
+    <updated>2015-11-09T01:43:47.061Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Ole Begemann，<a href="http://oleb.net/blog/2015/09/swift-pattern-matching/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-18<br>译者：<a href="undefined">lfb-CD</a>；校对：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1265,7 +1317,7 @@
     <link href="http://swiftggteam.github.io/2015/10/15/watchos-2-hello-world/"/>
     <id>http://swiftggteam.github.io/2015/10/15/watchos-2-hello-world/</id>
     <published>2015-10-15T01:00:00.000Z</published>
-    <updated>2015-11-06T01:34:12.815Z</updated>
+    <updated>2015-11-09T01:43:47.061Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/watchos-2-hello-world/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-21<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1309,7 +1361,7 @@
     <link href="http://swiftggteam.github.io/2015/10/14/templates-in-xcode-6/"/>
     <id>http://swiftggteam.github.io/2015/10/14/templates-in-xcode-6/</id>
     <published>2015-10-14T01:00:00.000Z</published>
-    <updated>2015-11-06T01:34:12.815Z</updated>
+    <updated>2015-11-09T01:43:47.061Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/templates-in-xcode-6/" target="_blank" rel="external">原文链接</a>，原文日期：2015-08-27<br>译者：<a href="https://github.com/chenmingbiao" target="_blank" rel="external">CMB</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a></p>
 </blockquote>
@@ -1365,7 +1417,7 @@
     <link href="http://swiftggteam.github.io/2015/10/13/alternatives-to-try-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/10/13/alternatives-to-try-swiftlang/</id>
     <published>2015-10-13T01:00:00.000Z</published>
-    <updated>2015-11-06T01:34:12.815Z</updated>
+    <updated>2015-11-09T01:43:47.061Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/09/03/alternatives-to-try-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-03<br>译者：<a href="http://blog.csdn.net/nsnirvana" target="_blank" rel="external">我偏笑</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1480,52 +1532,6 @@ print(<span class="string">"Result is \(unwrappedResult)"</span>)
       <category term="Erica Sadun" scheme="http://swiftggteam.github.io/tags/Erica-Sadun/"/>
     
       <category term="Swift 进阶" scheme="http://swiftggteam.github.io/categories/Swift-%E8%BF%9B%E9%98%B6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[如何在 Swift 中测试 UIAlertController]]></title>
-    <link href="http://swiftggteam.github.io/2015/10/12/how-to-test-uialertcontroller-in-swift/"/>
-    <id>http://swiftggteam.github.io/2015/10/12/how-to-test-uialertcontroller-in-swift/</id>
-    <published>2015-10-12T01:00:00.000Z</published>
-    <updated>2015-11-06T01:34:12.815Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>作者：dom，<a href="http://swiftandpainless.com/how-to-test-uialertcontroller-in-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-18<br>译者：<a href="undefined">DianQK</a>；校对：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；定稿：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a></p>
-</blockquote>
-<p>最近我读了一篇在 Objective-C 中使用 control swizzling 测试<code>UIAlertController</code>的<a href="http://qualitycoding.org/testing-uialertcontrollers/" target="_blank" rel="external">文章</a>。这样的文章总是促使我寻找一种不使用 control swizzling 也可以测试同样东西的方法。虽然，我知道 swizzling 是开发者的一个非常有力的工具，但我个人是尽可能去避免去使用它的。事实上，在最近的六年时间里，我只在一个应用上用了 swizzling。所以我相信我们现在可以不使用 swizzling 来实现测试。</p>
-<p>那么问题来了，如何在 Swift 中不使用 swizzling 来对<code>UIAlertController</code> 进行测试？</p>
-<a id="more"></a>
-<p>我们先从我们要测试的代码开始吧。我已经添加一个按钮到 Storyboard 中。（我之所以使用 Storyboard 为了让那些不想用代码写界面的小伙伴有个更直观的感受）当按下这个按钮就会出现一个弹窗(alert)，它有标题、消息内容，还有两个按钮，分别是 OK 和取消(Cancel)。下面是这段代码：   </p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> UIKit</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ViewController</span>: <span class="title">UIViewController</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">var</span> actionString: <span class="type">String</span>?</span><br><span class="line">  </span><br><span class="line">  <span class="preprocessor">@IBAction</span> <span class="func"><span class="keyword">func</span> <span class="title">showAlert</span><span class="params">(sender: UIButton)</span></span> &#123;</span><br><span class="line">    <span class="keyword">let</span> alertViewController = <span class="type">UIAlertController</span>(title: <span class="string">"Test Title"</span>, message: <span class="string">"Message"</span>, preferredStyle: .<span class="type">Alert</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">let</span> okAction = <span class="type">UIAlertAction</span>(title: <span class="string">"OK"</span>, style: .<span class="type">Default</span>) &#123; (action) -&gt; <span class="type">Void</span> <span class="keyword">in</span></span><br><span class="line">      <span class="keyword">self</span>.actionString = <span class="string">"OK"</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">let</span> cancelAction = <span class="type">UIAlertAction</span>(title: <span class="string">"Cancel"</span>, style: .<span class="type">Cancel</span>) &#123; (action) -&gt; <span class="type">Void</span> <span class="keyword">in</span></span><br><span class="line">      <span class="keyword">self</span>.actionString = <span class="string">"Cancel"</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    alertViewController.addAction(cancelAction)</span><br><span class="line">    alertViewController.addAction(okAction)</span><br><span class="line">    </span><br><span class="line">    presentViewController(alertViewController, animated: <span class="literal">true</span>, completion: <span class="literal">nil</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>注意，在这个例子中弹窗动作没有做什么具体的操作，他们只表示能验证单元测试。</p>
-<p>让我们开始一个简单的测试：测试这个弹窗控制器的标题和消息内容。</p>
-<p>测试的代码如下：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> XCTest</span><br><span class="line"><span class="preprocessor">@testable</span> <span class="keyword">import</span> TestingAlertExperiment</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestingAlertExperimentTests</span>: <span class="title">XCTestCase</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">var</span> sut: <span class="type">ViewController</span>!</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">setUp</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">super</span>.setUp()</span><br><span class="line">  </span><br><span class="line">    sut = <span class="type">UIStoryboard</span>(name: <span class="string">"Main"</span>, bundle: <span class="literal">nil</span>).instantiateInitialViewController() <span class="keyword">as</span>! <span class="type">ViewController</span></span><br><span class="line">    </span><br><span class="line">    <span class="type">UIApplication</span>.sharedApplication().keyWindow?.rootViewController = sut</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">tearDown</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">// Put teardown code here. This method is called after the invocation of each test method in the class.</span></span><br><span class="line">    <span class="keyword">super</span>.tearDown()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>我们需要设置 sut 为根视图控制器，否则视图控制器不能弹出这个弹窗视图控制器。</p>
-<p>添加 UIAlertController 测试标题的代码如下：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">testAlert_HasTitle</span><span class="params">()</span></span> &#123;</span><br><span class="line">  sut.showAlert(<span class="type">UIButton</span>())</span><br><span class="line">    </span><br><span class="line">  <span class="type">XCTAssertTrue</span>(sut.presentedViewController <span class="keyword">is</span> <span class="type">UIAlertController</span>)</span><br><span class="line">  <span class="type">XCTAssertEqual</span>(sut.presentedViewController?.title, <span class="string">"Test Title"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这很简单。现在让我们测试 UIAlertController 的取消按钮。这里有一个问题：无法获取弹窗动作的闭包。因此我们需要模拟弹窗动作，为了存储这个 handler 并在测试中调用它，看弹窗动作是否和我们预期的一样。在测试用例中添加这样一个类：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MockAlertAction</span> : <span class="title">UIAlertAction</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">typealias</span> <span class="type">Handler</span> = ((<span class="type">UIAlertAction</span>) -&gt; <span class="type">Void</span>)</span><br><span class="line">  <span class="keyword">var</span> handler: <span class="type">Handler</span>?</span><br><span class="line">  <span class="keyword">var</span> mockTitle: <span class="type">String</span>?</span><br><span class="line">  <span class="keyword">var</span> mockStyle: <span class="type">UIAlertActionStyle</span></span><br><span class="line">  </span><br><span class="line">  <span class="keyword">convenience</span> <span class="keyword">init</span>(title: <span class="type">String</span>?, style: <span class="type">UIAlertActionStyle</span>, handler: ((<span class="type">UIAlertAction</span>) -&gt; <span class="type">Void</span>)?) &#123;</span><br><span class="line">    <span class="keyword">self</span>.<span class="keyword">init</span>()</span><br><span class="line">    </span><br><span class="line">    mockTitle = title</span><br><span class="line">    mockStyle = style</span><br><span class="line">    <span class="keyword">self</span>.handler = handler</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">override</span> <span class="keyword">init</span>() &#123;</span><br><span class="line">    mockStyle = .<span class="type">Default</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">super</span>.<span class="keyword">init</span>()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这个模拟类的主要工作是捕获 handler 块，以备后用。现在我们需要将这个模拟的类插入到实现代码中。将视图控制器中的代码换成下面这个：   </p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> UIKit</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ViewController</span>: <span class="title">UIViewController</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">var</span> <span class="type">Action</span> = <span class="type">UIAlertAction</span>.<span class="keyword">self</span></span><br><span class="line">  <span class="keyword">var</span> actionString: <span class="type">String</span>?</span><br><span class="line">  </span><br><span class="line">  <span class="preprocessor">@IBAction</span> <span class="func"><span class="keyword">func</span> <span class="title">showAlert</span><span class="params">(sender: UIButton)</span></span> &#123;</span><br><span class="line">    <span class="keyword">let</span> alertViewController = <span class="type">UIAlertController</span>(title: <span class="string">"Test Title"</span>, message: <span class="string">"Message"</span>, preferredStyle: .<span class="type">Alert</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">let</span> okAction = <span class="type">Action</span>.<span class="keyword">init</span>(title: <span class="string">"OK"</span>, style: .<span class="type">Default</span>) &#123; (action) -&gt; <span class="type">Void</span> <span class="keyword">in</span></span><br><span class="line">      <span class="keyword">self</span>.actionString = <span class="string">"OK"</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">let</span> cancelAction = <span class="type">Action</span>.<span class="keyword">init</span>(title: <span class="string">"Cancel"</span>, style: .<span class="type">Cancel</span>) &#123; (action) -&gt; <span class="type">Void</span> <span class="keyword">in</span></span><br><span class="line">      <span class="keyword">self</span>.actionString = <span class="string">"Cancel"</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    alertViewController.addAction(cancelAction)</span><br><span class="line">    alertViewController.addAction(okAction)</span><br><span class="line">    </span><br><span class="line">    presentViewController(alertViewController, animated: <span class="literal">true</span>, completion: <span class="literal">nil</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>我们添加了一个类变量<code>Action</code>，并设置为<code>UIAlertAction.self</code>。这个变量我们会在初始化弹窗动作时使用。这就能让我们在测试时可以重写它。像这样：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">testAlert_FirstActionStoresCancel</span><span class="params">()</span></span> &#123;</span><br><span class="line">  sut.<span class="type">Action</span> = <span class="type">MockAlertAction</span>.<span class="keyword">self</span></span><br><span class="line">  </span><br><span class="line">  sut.showAlert(<span class="type">UIButton</span>())</span><br><span class="line">  <span class="keyword">let</span> alertController = sut.presentedViewController <span class="keyword">as</span>! <span class="type">UIAlertController</span></span><br><span class="line">  <span class="keyword">let</span> action = alertController.actions.first <span class="keyword">as</span>! <span class="type">MockAlertAction</span></span><br><span class="line">  action.handler!(action)</span><br><span class="line">  </span><br><span class="line">  <span class="type">XCTAssertEqual</span>(sut.actionString, <span class="string">"Cancel"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>首先我们插入了这个弹窗动作。之后我们调用代码弹出弹窗视图控制器。我们从呈现的视图控制器中获取了取消动作，并且成功调用了捕获的 handler 块。最后一步就是去断言当前的动作是否和我们预期的一样。</p>
-<p>就是这样，一种很简单的又不使用 swizzling 来测试 UIAlertViewController 的方式。</p>
-<p>文章中的代码已经放到 <a href="https://github.com/dasdom/TestingAlertExperiment" target="_blank" rel="external">github</a> 。 </p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>作者：dom，<a href="http://swiftandpainless.com/how-to-test-uialertcontroller-in-swift/">原文链接</a>，原文日期：2015-09-18<br>译者：<a href="undefined">DianQK</a>；校对：<a href="http://weibo.com/linusling">小铁匠Linus</a>；定稿：<a href="http://www.swiftyper.com/">小锅</a></p>
-</blockquote>
-<p>最近我读了一篇在 Objective-C 中使用 control swizzling 测试<code>UIAlertController</code>的<a href="http://qualitycoding.org/testing-uialertcontrollers/">文章</a>。这样的文章总是促使我寻找一种不使用 control swizzling 也可以测试同样东西的方法。虽然，我知道 swizzling 是开发者的一个非常有力的工具，但我个人是尽可能去避免去使用它的。事实上，在最近的六年时间里，我只在一个应用上用了 swizzling。所以我相信我们现在可以不使用 swizzling 来实现测试。</p>
-<p>那么问题来了，如何在 Swift 中不使用 swizzling 来对<code>UIAlertController</code> 进行测试？</p>]]>
-    
-    </summary>
-    
-      <category term="dom" scheme="http://swiftggteam.github.io/tags/dom/"/>
-    
-      <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
     
   </entry>
   
