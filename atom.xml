@@ -4,7 +4,7 @@
   <subtitle><![CDATA[走心的 Swift 翻译组]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://swiftggteam.github.io/"/>
-  <updated>2015-11-09T01:43:47.065Z</updated>
+  <updated>2015-11-10T01:23:15.076Z</updated>
   <id>http://swiftggteam.github.io/</id>
   
   <author>
@@ -15,11 +15,76 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[使用 NSUndoManager 来进行撤销和重做]]></title>
+    <link href="http://swiftggteam.github.io/2015/11/10/ios-undo-and-redo-with-nsundomanager/"/>
+    <id>http://swiftggteam.github.io/2015/11/10/ios-undo-and-redo-with-nsundomanager/</id>
+    <published>2015-11-10T01:00:00.000Z</published>
+    <updated>2015-11-10T01:23:15.076Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/ios-undo-and-redo-with-nsundomanager/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-13<br>译者：<a href="http://blog.csdn.net/yake_099" target="_blank" rel="external">Yake</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="undefined"></a></p>
+</blockquote>
+<p>在相当长的一段时间内 NSUndoManager 对我来说都是一个很神秘的东西。我想学习使用它，但是一直没有时间。一直到今天，我写了一个简单的应用，这个应用创建了一个可以移动的矩形，并且还可以修改矩形的属性，例如背景色或者圆角。</p>
+<a id="more"></a>
+<p>你可以在<a href="https://github.com/tomkowz/undo-manager-practice" target="_blank" rel="external">这儿</a>获取到示例应用<br><a href="https://youtu.be/3Pk85X8bugk" target="_blank" rel="external">这儿</a>是一段小视频，你可以看看这个示例应用是怎么工作的。</p>
+<p><img src="http://szulctomasz.com/wp-content/uploads/2015/09/Screen-Shot-2015-09-13-at-17.24.19.png" alt="Screen-Shot-2015-09-13-at-17.24.19.png"></p>
+<h2 id="NSUndoManager">NSUndoManager</h2><p><code>NSUndoManager</code>允许记录用户执行的操作并且反转这类操作。</p>
+<p>当你调用一个可以改变一些东西的方法或者是执行一个改变属性值的动作（例如 setter 方法）时，你可以注册这个操作来进行撤销。</p>
+<p>一个撤销操作包含了接收消息的对象，发送消息以及参数 - 通常你会传入原始值。</p>
+<p><code>NSUndoManager</code>实例支持重做操作，所以才能逆转操作。你可以认为这个管理器拥有两个栈。实际上，它管理两个栈，<code>undo</code>(撤销)栈和<code>redo</code>（重做）栈 - 对应<code>NSUndoManager</code>的私有属性<code>_undoStack</code>和<code>_redoStack</code>，里面存储着一些操作。</p>
+<p>注册<code>undo</code>操作时，它会被添加到<code>undo</code>栈中。当调用<code>undo()</code>方法时管理器就会进行撤销，执行栈中的操作并把这个操作移动到<code>redo</code>栈中，这样你就可以重做它。当你拥有多个<code>undo</code>操作时，按照逆序来撤销和重做这些操作。你肯定不会将操作直接注册到<code>redo</code>栈中，实际上这根本无法实现。</p>
+<p>你可以为<code>undo</code>操作设置一个级别，这指的是一个管理器可以在它的栈中存储多少<code>undo</code>操作。如果添加的<code>undo</code>操作数量超过了这个级别，最早加入的那个操作将会从栈中移除。</p>
+<p>你可以通过<code>canUndo</code>和<code>canRedo</code>来检查<code>undo</code>和<code>redo</code>栈的状态。这些状态很重要，你可能会基于这些栈的状态来更新 UI。</p>
+<p>假设你已经设置了<code>undo</code>操作的级别并且<code>redo</code>栈中还有一个操作，如果<code>undo</code>操作超过了这个级别，那你就需要使用<code>canUndo</code>和<code>canRedo</code>来检测可用性。之所以要这样做，是因为在这种情况下<code>NSUndoManager</code>将会移除<code>redo</code>操作，因为它是历史操作中最新的<code>undo</code>操作。（校对注：这里确实很绕，大家可以类比一下编辑器的撤销和重做操作，如果你在撤销之后进行了新的改动，那之前撤销过的操作其实已经无法再被重做了，因此可以被直接删掉，从而把更多的空间留给<code>undo</code>操作。）</p>
+<h2 id="注册undo操作">注册<code>undo</code>操作</h2><p>API提供了两种注册操作的方法。</p>
+<p>第一种是使用<code>registerUndoWithTarget(_:selector:object:)</code>方法：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">registerUndoAddFigure</span><span class="params">(figure: FigureView)</span></span> &#123;</span><br><span class="line">    undoManager.registerUndoWithTarget(<span class="keyword">self</span>, selector: <span class="type">Selector</span>(“removeFigure:”), object: figure)</span><br><span class="line">    undoManager.setActionName(“<span class="type">Add</span> <span class="type">Figure</span>”)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>第二种撤销方法是基于<code>NSInvocation</code>。你可以使用<code>prepareWithInvocationTarget(_:)</code>方法来注册此类操作。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">registerUndoAddFigure</span><span class="params">(figure: FigureView)</span></span> &#123;</span><br><span class="line">    undoManager.prepareWithInvocationTarget(<span class="keyword">self</span>).removeFigure(figure)</span><br><span class="line">    undoManager.setActionName(<span class="string">"Add Figure"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>你将会得到一个<code>NSUndoManagerProxy</code>类型对象，可以用它调用任何方法（但是只能调用目标对象遵守的那些协议方法，否则应用会抛出运行时异常）。注册之后代理对象将会在内部创建<code>NSInvocation</code>对象来记录你的操作，这个对象会在传入的目标对象执行<code>undo</code>操作时被调用。</p>
+<p>值得强调的是，在注册过程中目标对象没有被持有，需要你去管理它。如果<code>undo</code>操作被调用而目标对象已经被销毁，就会产生运行时异常。</p>
+<p>当对象将要被销毁时你需要调用<code>removeAllActionsWithTarget(_:)</code>来移除与目标对象相关联的一些操作，或者调用<code>removeAllActions()</code>来移除<code>undo</code>和<code>redo</code>栈中所有的操作</p>
+<h2 id="将操作分组">将操作分组</h2><p>分组操作是一件很有用的事情。默认情况下操作是通过事件进行分组的。这就意味着操作将会通过每一轮运行时循环来分组。你可以关闭自动分组，调用<code>beginUndoGrouping()</code>和<code>endUndoGrouping()</code>方法来手动操作分组。</p>
+<h2 id="命名并显示操作">命名并显示操作</h2><p><code>NSUndoManager</code>支持存储操作的名称。你可以调用<code>setActionName(_:)</code>方法来为操作命名。管理器已经包含<code>Undo</code>和<code>Redo</code>这两个单词的多语言版本，可以使用 API 直接获取对应语言的<code>Undo/Redo</code>字符串。</p>
+<p>下面这个方法来自示例应用，每一个新的<code>undo</code>操作被注册或者<code>undo``redo</code>操作被执行之后，将会更新<code>undo</code>和<code>redo</code>按钮。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="func"><span class="keyword">func</span> <span class="title">updateUndoAndRedoButtons</span><span class="params">()</span></span> &#123;</span><br><span class="line">    undoButton.enabled = undoManager.canUndo == <span class="literal">true</span></span><br><span class="line">    <span class="keyword">if</span> undoManager.canUndo &#123;</span><br><span class="line">        undoButton.setTitle(undoManager.undoMenuTitleForUndoActionName(undoManager.undoActionName), forState: .<span class="type">Normal</span>)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        undoButton.setTitle(undoManager.undoMenuItemTitle, forState: .<span class="type">Normal</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    redoButton.enabled = undoManager.canRedo == <span class="literal">true</span></span><br><span class="line">    <span class="keyword">if</span> undoManager.canRedo &#123;</span><br><span class="line">        redoButton.setTitle(undoManager.redoMenuTitleForUndoActionName(undoManager.redoActionName), forState: .<span class="type">Normal</span>)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        redoButton.setTitle(undoManager.redoMenuItemTitle, forState: .<span class="type">Normal</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="通知">通知</h2><p>管理器有几个你可以观察的通知类型。在示例应用中我关注的是<code>NSUndoManagerDidUndoChangeNotification</code>和<code>NSUndoManagerDidRedoChangeNotification</code>。为了让应用完美运行，我可能需要观察所有<code>will</code>或者<code>did</code>类型的通知，因为操作可能要执行一段时间，并且一部分代码可能是异步的。在这些情况下应用要正确展示 UI 就需要使用这些通知来刷新<code>Undo</code>和<code>Redo</code>按钮。</p>
+<h2 id="上下文">上下文</h2><p>应用在不同的上下文中可能有不同的管理器。示例应用在不同的上下文中用了两个管理器。</p>
+<p>第一个上下文是块展板，展板用来展示矩形并且可以在上面移动这个矩形。在这个展板上下文中可能发生的操作就是添加、移动或者移除一个矩形。</p>
+<p>第二个上下文是这个矩形自己。你可以改变它的颜色和圆角。我决定追踪展板的背景色以及圆角，忽略掉它在展板中的位置。</p>
+<p>这样你就可以添加一个矩形，移动它，改变它的颜色和圆角，使用<code>undo</code>来撤销移动操作但是不会撤销掉背景色和圆角的改变。你所使用的上下文数量取决于你的应用是怎么样的。</p>
+<h2 id="响应链">响应链</h2><p>每一个<code>UIView</code>对象继承自<code>UIResponder</code>类型，这个类定义了响应对象的接口并且处理事件。</p>
+<p><code>UIResponder</code>类声明了<code>undoManager</code>属性。当应用接收到<code>undo</code>事件，<code>UIResponder</code>搭建起响应者链并通过<code>undoManager</code>返回一个<code>NSUndoManager</code>类型的对象来找到这个响应者。找到的第一个响应者将被用来处理<code>undo</code>或者<code>redo</code>操作。</p>
+<p>为了使用响应者链你需要重载<code>canBecomeFirstResponder()</code>属性并且设置返回值为<code>true</code>，然后通过调用<code>becomeFirstResponder()</code>方法使持有<code>undoManager</code>的对象成为第一响应者。如果你已经正确设置好了一切，可以执行一个摇晃手势，应用会出现一个警告框询问你是否要执行<code>undo</code>操作。</p>
+<p><img src="http://szulctomasz.com/wp-content/uploads/2015/09/undo-event.png" alt="图片二.png"></p>
+<h2 id="示例代码">示例代码</h2><p>当我写这个示例代码的时候我注意自己花费了很多时间去考虑“具有唯一目的”的方法。当你需要支持撤销和重做操作时这其实很重要，因为你调用那些方法就是出于特定的目的。</p>
+<p>下面的示例代码来自那个示例应用，它展示了在展板中的添加，移除以及移动操作都是怎么实现的。下面是所有与<code>undo manager</code>相关的代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// MARK: Actions on Figures</span></span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">addFigure</span><span class="params">(figure: FigureView)</span></span> &#123;</span><br><span class="line">    registerUndoAddFigure(figure)</span><br><span class="line">    </span><br><span class="line">    boardView.addSubview(figure)</span><br><span class="line">    figures.append(figure)</span><br><span class="line">    </span><br><span class="line">    updateUndoAndRedoButtons()</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">removeFigure</span><span class="params">(figure: FigureView)</span></span> &#123;</span><br><span class="line">    registerUndoRemoveFigure(figure)</span><br><span class="line">    </span><br><span class="line">    figure.removeFromSuperview()</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">let</span> index = figures.indexOf(figure) &#123;</span><br><span class="line">        figures.removeAtIndex(index)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">moveFigure</span><span class="params">(figure: FigureView, center: CGPoint)</span></span> &#123;</span><br><span class="line">    registerUndoMoveFigure(figure)</span><br><span class="line">    figure.center = center</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="comment">/// MARK: Undo Manager</span></span><br><span class="line"><span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">canBecomeFirstResponder</span><span class="params">()</span></span> -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">private</span> <span class="keyword">var</span> _undoManager = <span class="type">NSUndoManager</span>()</span><br><span class="line"><span class="keyword">override</span> <span class="keyword">var</span> undoManager: <span class="type">NSUndoManager</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> _undoManager</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">private</span> <span class="func"><span class="keyword">func</span> <span class="title">observeUndoManager</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="type">NSNotificationCenter</span>.defaultCenter().addObserver(<span class="keyword">self</span>, selector: <span class="type">Selector</span>(<span class="string">"updateUndoAndRedoButtons"</span>), name: <span class="type">NSUndoManagerDidUndoChangeNotification</span>, object: undoManager)</span><br><span class="line">    <span class="type">NSNotificationCenter</span>.defaultCenter().addObserver(<span class="keyword">self</span>, selector: <span class="type">Selector</span>(<span class="string">"updateUndoAndRedoButtons"</span>), name: <span class="type">NSUndoManagerDidRedoChangeNotification</span>, object: undoManager)</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="preprocessor">@objc</span> <span class="keyword">private</span> <span class="func"><span class="keyword">func</span> <span class="title">updateUndoAndRedoButtons</span><span class="params">()</span></span> &#123;</span><br><span class="line">    undoButton.enabled = undoManager.canUndo == <span class="literal">true</span></span><br><span class="line">    <span class="keyword">if</span> undoManager.canUndo &#123;</span><br><span class="line">        undoButton.setTitle(undoManager.undoMenuTitleForUndoActionName(undoManager.undoActionName), forState: .<span class="type">Normal</span>)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        undoButton.setTitle(undoManager.undoMenuItemTitle, forState: .<span class="type">Normal</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    redoButton.enabled = undoManager.canRedo == <span class="literal">true</span></span><br><span class="line">    <span class="keyword">if</span> undoManager.canRedo &#123;</span><br><span class="line">        redoButton.setTitle(undoManager.redoMenuTitleForUndoActionName(undoManager.redoActionName), forState: .<span class="type">Normal</span>)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        redoButton.setTitle(undoManager.redoMenuItemTitle, forState: .<span class="type">Normal</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="comment">/// MARK: Undo Manager Actions</span></span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">registerUndoAddFigure</span><span class="params">(figure: FigureView)</span></span> &#123;</span><br><span class="line">    undoManager.prepareWithInvocationTarget(<span class="keyword">self</span>).removeFigure(figure)</span><br><span class="line">    undoManager.setActionName(<span class="string">"Add Figure"</span>)</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">registerUndoRemoveFigure</span><span class="params">(figure: FigureView)</span></span> &#123;</span><br><span class="line">    undoManager.prepareWithInvocationTarget(<span class="keyword">self</span>).addFigure(figure)</span><br><span class="line">    undoManager.setActionName(<span class="string">"Remove Figure"</span>)</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">registerUndoMoveFigure</span><span class="params">(figure: FigureView)</span></span> &#123;</span><br><span class="line">    undoManager.prepareWithInvocationTarget(<span class="keyword">self</span>).moveFigure(figure, center: figure.center)</span><br><span class="line">    undoManager.setActionName(<span class="string">"Move to <span class="subst">\(figure.center)</span>"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我创建了一些<code>undo</code>相关的简单方法。这样做效果很好，注册<code>undo</code>操作的逻辑和操作本身的逻辑相分离，代码精简为一句函数调用。</p>
+<p>我决定放弃使用<code>registerUndoWithTarget(_:selector:object:)</code>方法，因为<code>Selector</code>是一个字符串，这样做很危险。而<code>prepareWithInvocationTarget(_:)</code>看起来更好一些，既安全又便于使用。</p>
+<p>不过，当你需要设置属性时可能要用带<code>Selector</code>的方法。</p>
+<p>你需要直接调用想要记录的方法，但是这样做不能设置属性（因为只能调用方法）。有两种解决方法：第一种是添加类似<code>setPropertyName(_:)</code>的方法，第二种是使用<code>registerUndoWithTarget(_:selector:object:)</code>方法并将<code>Selector</code>设置为<code>setPropertyName:</code>，作为参数传入。</p>
+<h2 id="结论">结论</h2><p><code>NSUndoManager</code>是一种强大的机制，我们可以简单地向应用中加入<code>undo</code>和<code>redo</code>方法。它需要你谨慎地设计应用的结构，因为你需要使用“具有唯一目的性”的方法来将用户的操作设置为<code>undo</code>或者是<code>redo</code>。但是总体来说这是个好事，不是吗？这会改善代码设计。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/ios-undo-and-redo-with-nsundomanager/">原文链接</a>，原文日期：2015-09-13<br>译者：<a href="http://blog.csdn.net/yake_099">Yake</a>；校对：<a href="https://github.com/numbbbbb">numbbbbb</a>；定稿：<a href="undefined"></a></p>
+</blockquote>
+<p>在相当长的一段时间内 NSUndoManager 对我来说都是一个很神秘的东西。我想学习使用它，但是一直没有时间。一直到今天，我写了一个简单的应用，这个应用创建了一个可以移动的矩形，并且还可以修改矩形的属性，例如背景色或者圆角。</p>]]>
+    
+    </summary>
+    
+      <category term="Tomasz Szulc" scheme="http://swiftggteam.github.io/tags/Tomasz-Szulc/"/>
+    
+      <category term="Swift 进阶" scheme="http://swiftggteam.github.io/categories/Swift-%E8%BF%9B%E9%98%B6/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[好代码是怎样炼成的]]></title>
     <link href="http://swiftggteam.github.io/2015/11/09/what-makes-good-code/"/>
     <id>http://swiftggteam.github.io/2015/11/09/what-makes-good-code/</id>
     <published>2015-11-09T01:00:00.000Z</published>
-    <updated>2015-11-09T01:43:47.065Z</updated>
+    <updated>2015-11-10T01:23:15.076Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/10/28/what-makes-good-code/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-28<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -71,7 +136,7 @@
     <link href="http://swiftggteam.github.io/2015/11/06/if-let-assignment/"/>
     <id>http://swiftggteam.github.io/2015/11/06/if-let-assignment/</id>
     <published>2015-11-06T01:00:00.000Z</published>
-    <updated>2015-11-09T01:43:47.065Z</updated>
+    <updated>2015-11-10T01:23:15.076Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Weston Hanners，<a href="http://www.alloc-init.com/2015/10/if-let-assignment/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-29<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -115,7 +180,7 @@
     <link href="http://swiftggteam.github.io/2015/11/05/swift-playground-the-monty-hall-problem/"/>
     <id>http://swiftggteam.github.io/2015/11/05/swift-playground-the-monty-hall-problem/</id>
     <published>2015-11-05T01:00:00.000Z</published>
-    <updated>2015-11-09T01:43:47.065Z</updated>
+    <updated>2015-11-10T01:23:15.076Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-playground-the-monty-hall-problem/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-27<br>译者：<a href="https://github.com/SergioChan" target="_blank" rel="external">SergioChan</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -160,7 +225,7 @@
     <link href="http://swiftggteam.github.io/2015/11/04/swift-using-local-closures/"/>
     <id>http://swiftggteam.github.io/2015/11/04/swift-using-local-closures/</id>
     <published>2015-11-04T01:00:00.000Z</published>
-    <updated>2015-11-09T01:43:47.065Z</updated>
+    <updated>2015-11-10T01:23:15.076Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-using-local-closures/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-22<br>译者：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -197,7 +262,7 @@
     <link href="http://swiftggteam.github.io/2015/11/03/watchconnectivity-introduction-say-goodbye-to-the-spinner/"/>
     <id>http://swiftggteam.github.io/2015/11/03/watchconnectivity-introduction-say-goodbye-to-the-spinner/</id>
     <published>2015-11-03T01:00:00.000Z</published>
-    <updated>2015-11-09T01:43:47.065Z</updated>
+    <updated>2015-11-10T01:23:15.076Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/watchconnectivity-introduction-say-goodbye-to-the-spinner/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-21<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -247,7 +312,7 @@
     <link href="http://swiftggteam.github.io/2015/11/02/watchconnectivity-say-hello-to-wcsession/"/>
     <id>http://swiftggteam.github.io/2015/11/02/watchconnectivity-say-hello-to-wcsession/</id>
     <published>2015-11-01T16:00:00.000Z</published>
-    <updated>2015-11-09T01:43:47.065Z</updated>
+    <updated>2015-11-10T01:23:15.076Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/watchconnectivity-say-hello-to-wcsession/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-21<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -331,7 +396,7 @@
     <link href="http://swiftggteam.github.io/2015/10/30/lets-talk-about-monads/"/>
     <id>http://swiftggteam.github.io/2015/10/30/lets-talk-about-monads/</id>
     <published>2015-10-30T01:00:00.000Z</published>
-    <updated>2015-11-09T01:43:47.065Z</updated>
+    <updated>2015-11-10T01:23:15.076Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Olivier Halligon，<a href="http://alisoftware.github.io/swift/2015/10/17/lets-talk-about-monads/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-17<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -396,7 +461,7 @@
     <link href="http://swiftggteam.github.io/2015/10/29/list-comprehensions-and-performance-with-swift/"/>
     <id>http://swiftggteam.github.io/2015/10/29/list-comprehensions-and-performance-with-swift/</id>
     <published>2015-10-29T01:00:00.000Z</published>
-    <updated>2015-11-09T01:43:47.065Z</updated>
+    <updated>2015-11-10T01:23:15.076Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Veronica Ray，<a href="http://jamesonquave.com/blog/list-comprehensions-and-performance-with-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-08-15<br>译者：<a href="http://weibo.com/riven0951" target="_blank" rel="external">riven</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a></p>
 <p>本文写于 2015.8.15 适用于 Xcode 6 和 Swift 1.2</p>
@@ -457,7 +522,7 @@
     <link href="http://swiftggteam.github.io/2015/10/28/five-myths-about-swift/"/>
     <id>http://swiftggteam.github.io/2015/10/28/five-myths-about-swift/</id>
     <published>2015-10-28T01:00:00.000Z</published>
-    <updated>2015-11-09T01:43:47.065Z</updated>
+    <updated>2015-11-10T01:23:15.076Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/five-myths-about-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-19<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a></p>
 </blockquote>
@@ -502,7 +567,7 @@
     <link href="http://swiftggteam.github.io/2015/10/27/swift-pattern-matching-in-detail/"/>
     <id>http://swiftggteam.github.io/2015/10/27/swift-pattern-matching-in-detail/</id>
     <published>2015-10-27T01:00:00.000Z</published>
-    <updated>2015-11-09T01:43:47.065Z</updated>
+    <updated>2015-11-10T01:23:15.076Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Benedikt Terhechte，<a href="http://appventure.me/2015/08/20/swift-pattern-matching-in-detail/" target="_blank" rel="external">原文链接</a>，原文日期：2015-08-20<br>译者：<a href="http://blog.csdn.net/mmoaay" target="_blank" rel="external">mmoaay</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -725,7 +790,7 @@
     <link href="http://swiftggteam.github.io/2015/10/26/swift-ranges-and-intervals/"/>
     <id>http://swiftggteam.github.io/2015/10/26/swift-ranges-and-intervals/</id>
     <published>2015-10-26T01:00:00.000Z</published>
-    <updated>2015-11-09T01:43:47.065Z</updated>
+    <updated>2015-11-10T01:23:15.076Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Ole Begemann，<a href="http://oleb.net/blog/2015/09/swift-ranges-and-intervals/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-24<br>译者：<a href="http://www.dianqk.org/" target="_blank" rel="external">靛青K</a>；校对：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；定稿：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a></p>
 </blockquote>
@@ -823,7 +888,7 @@
     <link href="http://swiftggteam.github.io/2015/10/23/3d-touch-impressions-and-thoughts/"/>
     <id>http://swiftggteam.github.io/2015/10/23/3d-touch-impressions-and-thoughts/</id>
     <published>2015-10-23T01:00:00.000Z</published>
-    <updated>2015-11-09T01:43:47.065Z</updated>
+    <updated>2015-11-10T01:23:15.072Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/3d-touch-impressions-and-thoughts" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-26<br>译者：<a href="http://www.brighttj.com" target="_blank" rel="external">saitjr</a>；校对：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -884,7 +949,7 @@
     <link href="http://swiftggteam.github.io/2015/10/22/thinking-in-swift-4/"/>
     <id>http://swiftggteam.github.io/2015/10/22/thinking-in-swift-4/</id>
     <published>2015-10-22T01:00:00.000Z</published>
-    <updated>2015-11-09T01:43:47.065Z</updated>
+    <updated>2015-11-10T01:23:15.072Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Olivier Halligon，<a href="http://alisoftware.github.io/swift/2015/10/11/thinking-in-swift-4/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-11<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="http://www.futantan.com" target="_blank" rel="external">Prayer</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -975,7 +1040,7 @@
     <link href="http://swiftggteam.github.io/2015/10/21/reordering-collection-view-cells-tutorial/"/>
     <id>http://swiftggteam.github.io/2015/10/21/reordering-collection-view-cells-tutorial/</id>
     <published>2015-10-21T01:00:00.000Z</published>
-    <updated>2015-11-09T01:43:47.065Z</updated>
+    <updated>2015-11-10T01:23:15.072Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：ioscreator，<a href="http://www.ioscreator.com/tutorials/reordering-collection-view-cells-tutorial" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-17<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://www.dianqk.org/" target="_blank" rel="external">靛青K</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1039,7 +1104,7 @@
     <link href="http://swiftggteam.github.io/2015/10/20/thinking-in-swift-3/"/>
     <id>http://swiftggteam.github.io/2015/10/20/thinking-in-swift-3/</id>
     <published>2015-10-20T01:00:00.000Z</published>
-    <updated>2015-11-09T01:43:47.065Z</updated>
+    <updated>2015-11-10T01:23:15.072Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Olivier Halligon，<a href="http://alisoftware.github.io/swift/2015/10/03/thinking-in-swift-3/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-03<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；定稿：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a></p>
 </blockquote>
@@ -1102,7 +1167,7 @@
     <link href="http://swiftggteam.github.io/2015/10/19/friday-qa-2015-09-04-lets-build-dispatch_queue/"/>
     <id>http://swiftggteam.github.io/2015/10/19/friday-qa-2015-09-04-lets-build-dispatch_queue/</id>
     <published>2015-10-19T01:00:00.000Z</published>
-    <updated>2015-11-09T01:43:47.065Z</updated>
+    <updated>2015-11-10T01:23:15.072Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Mike Ash，<a href="https://www.mikeash.com/pyblog/friday-qa-2015-09-04-lets-build-dispatch_queue.html" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-04<br>译者：<a href="http://blog.csdn.net/yake_099" target="_blank" rel="external">Yake</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a></p>
 <p>译者注：这篇文章的代码是用 Objective-C 完成的，不过不妨碍大家学习多线程编码的知识。</p>
@@ -1234,7 +1299,7 @@
     <link href="http://swiftggteam.github.io/2015/10/16/swift-pattern-matching/"/>
     <id>http://swiftggteam.github.io/2015/10/16/swift-pattern-matching/</id>
     <published>2015-10-16T01:00:00.000Z</published>
-    <updated>2015-11-09T01:43:47.061Z</updated>
+    <updated>2015-11-10T01:23:15.072Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Ole Begemann，<a href="http://oleb.net/blog/2015/09/swift-pattern-matching/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-18<br>译者：<a href="undefined">lfb-CD</a>；校对：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1317,7 +1382,7 @@
     <link href="http://swiftggteam.github.io/2015/10/15/watchos-2-hello-world/"/>
     <id>http://swiftggteam.github.io/2015/10/15/watchos-2-hello-world/</id>
     <published>2015-10-15T01:00:00.000Z</published>
-    <updated>2015-11-09T01:43:47.061Z</updated>
+    <updated>2015-11-10T01:23:15.072Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/watchos-2-hello-world/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-21<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1361,7 +1426,7 @@
     <link href="http://swiftggteam.github.io/2015/10/14/templates-in-xcode-6/"/>
     <id>http://swiftggteam.github.io/2015/10/14/templates-in-xcode-6/</id>
     <published>2015-10-14T01:00:00.000Z</published>
-    <updated>2015-11-09T01:43:47.061Z</updated>
+    <updated>2015-11-10T01:23:15.072Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/templates-in-xcode-6/" target="_blank" rel="external">原文链接</a>，原文日期：2015-08-27<br>译者：<a href="https://github.com/chenmingbiao" target="_blank" rel="external">CMB</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a></p>
 </blockquote>
@@ -1409,129 +1474,6 @@
       <category term="Thomas Hanning" scheme="http://swiftggteam.github.io/tags/Thomas-Hanning/"/>
     
       <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[try? 的替代实现]]></title>
-    <link href="http://swiftggteam.github.io/2015/10/13/alternatives-to-try-swiftlang/"/>
-    <id>http://swiftggteam.github.io/2015/10/13/alternatives-to-try-swiftlang/</id>
-    <published>2015-10-13T01:00:00.000Z</published>
-    <updated>2015-11-09T01:43:47.061Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/09/03/alternatives-to-try-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-03<br>译者：<a href="http://blog.csdn.net/nsnirvana" target="_blank" rel="external">我偏笑</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
-</blockquote>
-<p><code>try？</code> 语法的优点在于你不必把可能会抛出错误的函数写在一个 <code>do-catch</code> 代码块当中。如果你使用了 <code>try?</code>，该函数的返回值就会是一个可选类型：成功返回 <code>.Some</code>，失败则返回 <code>.None</code>。你可以配合着 <code>if-let</code> 或者 <code>guard</code> 语句来使用 <code>try?</code> 语法。<br><a id="more"></a><br><code>try?</code> 语法的不足则在于它对错误的简化，让你难以了解到错误是什么以及错误发生的时间。这可不是件好事。</p>
-<p>但你可以试着自己写出 <code>try?</code> 的替代方法。比如实现一个简单的枚举<code>Result</code>：</p>
-<pre><code><span class="class"><span class="keyword">enum</span> <span class="title">Result</span>&lt;<span class="title">T</span>&gt; {</span>
-    <span class="keyword">case</span> <span class="constant">Value</span>(<span class="constant">T</span>)
-    <span class="keyword">case</span> <span class="constant">Error</span>(<span class="constant">ErrorType</span>)
-}
-</code></pre><p>就像上面的代码写的那样，我喜欢分成 <code>Value</code> 和 <code>Error</code> 而不是 <code>err</code> 和 <code>ok</code> ，枚举的不同状态可以按你自己的喜好来命名。</p>
-<p>然后你可以写个函数来执行 <code>do-catch</code> 语句，然后把执行结果包含在上面定义的枚举中返回。</p>
-<pre><code><span class="func"><span class="keyword">func</span> <span class="title">tryit</span><span class="generics">&lt;T&gt;</span><span class="params">(block: <span class="params">()</span></span></span> <span class="keyword">throws</span> -&gt; <span class="type">T</span>) -&gt; <span class="type">Result</span>&lt;<span class="type">T</span>&gt; {
-    <span class="keyword">do</span> {
-        <span class="keyword">let</span> value = <span class="keyword">try</span> block()
-        <span class="keyword">return</span> <span class="type">Result</span>.<span class="type">Value</span>(value)
-    } <span class="keyword">catch</span> {<span class="keyword">return</span> <span class="type">Result</span>.<span class="type">Error</span>(error)}
-}
-</code></pre><p>实际上我也不太喜欢 tryit 这个名字，你可以你喜欢的名字代替。</p>
-<p>这个函数的调用有点啰嗦。原来的写法是：</p>
-<pre><code><span class="keyword">let</span> <span class="literal">result</span> = <span class="keyword">try</span> myFailableCoinToss()
-</code></pre><p>新的写法是：</p>
-<p><del><code>let result = tryit{try myFailableCoinToss()}</code></del> <em>感谢bigonotetaker指出错误</em><br><code>let result = tryit(myFailableCoinToss)</code></p>
-<p>读者glessard提供给我一个很棒的替代方式，建议我给<code>Result</code>添加一个初始化方法而不是用 tryit：</p>
-<pre><code><span class="class"><span class="keyword">enum</span> <span class="title">Result</span>&lt;<span class="title">T</span>&gt; {</span>
-    <span class="keyword">case</span> <span class="constant">Value</span>(<span class="constant">T</span>)
-    <span class="keyword">case</span> <span class="constant">Error</span>(<span class="constant">ErrorType</span>)
-
-    init(_ <span class="symbol">block:</span> () throws -&gt; <span class="constant">T</span>) {
-        <span class="keyword">do</span> {
-            let value = try block()
-            <span class="keyword">self</span> = <span class="constant">Result</span>.<span class="constant">Value</span>(value)
-        } catch {
-            <span class="keyword">self</span> = <span class="constant">Result</span>.<span class="constant">Error</span>(error)
-        }
-    }
-}
-</code></pre><p>然后你直接这么调用就行了：</p>
-<pre><code><span class="keyword">let</span> <span class="literal">result</span> = <span class="type">Result</span>(myFailableCoinToss)
-</code></pre><p>你需要用 <code>if-let</code> 和 <code>guard</code> 之外的语句来拆包你的返回值，可以用 <code>switch</code>：</p>
-<p><del><code>let result = tryit{try myFailableCoinToss()}</code></del><br>    let result = tryit(myFailableCoinToss)<br>    switch result {<br>    case .Value(let value): print(“Success:”, value)<br>    case .Error(let error): print(“Failure:”, error)<br>    }</p>
-<p>或者直接用模式匹配：</p>
-<pre><code><span class="keyword">if</span> <span class="keyword">case</span> .<span class="type">Value</span>(<span class="keyword">let</span> value) = <span class="literal">result</span> {
-    print(<span class="string">"Success:"</span>, value)
-} <span class="keyword">else</span> <span class="keyword">if</span> <span class="keyword">case</span> .<span class="type">Error</span>(<span class="keyword">let</span> error) = <span class="literal">result</span> {
-    print(<span class="string">"Failure:"</span>, error)
-}
-</code></pre><p>你也可以添加一些退出作用域的代码来模仿 <code>guard</code>，这的确可行，但是代码太难看了。</p>
-<pre><code><span class="class"><span class="keyword">enum</span> <span class="title">Result</span>&lt;<span class="title">T</span>&gt; </span>{
-    <span class="keyword">case</span> <span class="type">Value</span>(<span class="type">T</span>)
-    <span class="keyword">case</span> <span class="type">Error</span>(<span class="type">ErrorType</span>)
-
-    <span class="func"><span class="keyword">func</span> <span class="title">unwrap</span><span class="params">()</span></span> <span class="keyword">throws</span> -&gt; <span class="type">T</span> {
-        <span class="keyword">if</span> <span class="keyword">case</span> .<span class="type">Value</span>(<span class="keyword">let</span> value) = <span class="keyword">self</span> {<span class="keyword">return</span> value}
-        <span class="keyword">throw</span> <span class="string">"Unable to unwrap result"</span>
-    }
-
-    <span class="func"><span class="keyword">func</span> <span class="title">handleError</span><span class="params">(errorHandler: ErrorType -&gt; Void)</span></span> -&gt; <span class="type">Bool</span> {
-        <span class="keyword">if</span> <span class="keyword">case</span> .<span class="type">Error</span>(<span class="keyword">let</span> error) = <span class="keyword">self</span> {
-            errorHandler(error)
-            <span class="keyword">return</span> <span class="literal">true</span>
-        }
-        <span class="keyword">return</span> <span class="literal">false</span>
-    }
-}
-
-<span class="func"><span class="keyword">func</span> <span class="title">tryit</span><span class="generics">&lt;T&gt;</span><span class="params">(block: <span class="params">()</span></span></span> <span class="keyword">throws</span> -&gt; <span class="type">T</span>) -&gt; <span class="type">Result</span>&lt;<span class="type">T</span>&gt; {
-    <span class="keyword">do</span> {
-        <span class="keyword">let</span> value = <span class="keyword">try</span> block()
-        <span class="keyword">return</span> <span class="type">Result</span>.<span class="type">Value</span>(value)
-    } <span class="keyword">catch</span> {<span class="keyword">return</span> <span class="type">Result</span>.<span class="type">Error</span>(error)}
-}
-</code></pre><p><del><code>let result = tryit{try myFailableCoinToss()}</code></del><br>    let result = tryit(myFailableCoinToss)</p>
-<pre><code>// guard error
-<span class="keyword">if</span> <span class="literal">result</span>.handleError({
-    error <span class="keyword">in</span>
-    print(<span class="string">"Error is \(error)"</span>)
-}) {fatalError()} // leave scope on <span class="literal">true</span>
-
-// force <span class="keyword">try</span> <span class="keyword">for</span> success <span class="keyword">case</span>
-<span class="keyword">let</span> unwrappedResult = <span class="keyword">try</span>! <span class="literal">result</span>.unwrap()
-
-// <span class="literal">result</span> <span class="keyword">is</span> now usable at top level scope
-print(<span class="string">"Result is \(unwrappedResult)"</span>)
-</code></pre><p>这还有另外一种更像 <code>try?</code> 的方式，但是需要打印了所有产生的错误信息。</p>
-<pre><code><span class="func"><span class="keyword">func</span> <span class="title">tryit</span><span class="generics">&lt;T&gt;</span><span class="params">(block: <span class="params">()</span></span></span> <span class="keyword">throws</span> -&gt; <span class="type">T</span>) -&gt; <span class="type">Optional</span>&lt;<span class="type">T</span>&gt;{
-    <span class="keyword">do</span> {
-        <span class="keyword">return</span> <span class="keyword">try</span> block()
-    } <span class="keyword">catch</span> {
-        <span class="built_in">print</span>(error)
-        <span class="keyword">return</span> <span class="literal">nil</span>
-    }
-}
-</code></pre><p>这种替代 <code>try?</code> 的方法不仅拥有了 <code>if-let</code> 和 <code>guard</code> 的语句特性，还能返回错误。你可以用之前<code>Result</code>调用的方式使用它：</p>
-<p><del><code>let result = tryit{try myFailableCoinToss()}</code></del><br><code>let result = tryit(myFailableCoinToss)</code></p>
-<p>你仍然不能基于错误类型和错误细节来制定错误处理策略，但是这种实现方式也不像 <code>try?</code> 那样把错误信息完全丢弃掉了。</p>
-<p>你也可以修改<code>tryit</code>函数，让它也能接受做错误处理的<code>block</code>，但因为会有两个闭包，这个函数就会变得相当臃肿。我尝试过几种不同的实现方式，但都做的不太好，就不在这分享出来了。最大的问题是，就算你把做错误处理的<code>block</code>传给<code>tryit</code>了，你也不能像 <code>guard</code>语句那样退出作用域，而且也没有这样的<code>guard</code>的替代形式能接受<code>try?</code>的错误来作退出作用域<code>block</code>的参数。</p>
-<p>我觉得我最后实现的应该类似于下面的这种形式，在顶层作用域中执行条件赋值，并采用  <code>guard</code> 语句的方式来替代普通的 <code>try</code>：</p>
-<pre><code>guard <span class="keyword">let</span> <span class="literal">result</span> = <span class="keyword">try</span>!! myFailableCoinToss() <span class="keyword">else</span> {error <span class="keyword">in</span> ...}
-</code></pre><p>之所以这么做是因为我们想知道我们的程序到底会不会出错，如果不出错的话，直接就能得到返回值了。</p>
-<pre><code><span class="keyword">let</span> <span class="literal">result</span> = <span class="keyword">try</span> myFailableCoinToss()
-</code></pre><p>在当前的状态下，如果要用 <code>try</code> （而且又需要进行错误处理的话），你就必须得用 <code>do-catch</code> 或者像<code>Result</code>枚举之类的变通方法。</p>
-<p>非常感谢<a href="http://mikeash.com/" target="_blank" rel="external">Mike Ash</a>的帮忙！</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/09/03/alternatives-to-try-swiftlang/">原文链接</a>，原文日期：2015-09-03<br>译者：<a href="http://blog.csdn.net/nsnirvana">我偏笑</a>；校对：<a href="http://codebuild.me/">shanks</a>；定稿：<a href="http://weibo.com/xiaoxxiao">千叶知风</a></p>
-</blockquote>
-<p><code>try？</code> 语法的优点在于你不必把可能会抛出错误的函数写在一个 <code>do-catch</code> 代码块当中。如果你使用了 <code>try?</code>，该函数的返回值就会是一个可选类型：成功返回 <code>.Some</code>，失败则返回 <code>.None</code>。你可以配合着 <code>if-let</code> 或者 <code>guard</code> 语句来使用 <code>try?</code> 语法。<br>]]>
-    
-    </summary>
-    
-      <category term="Erica Sadun" scheme="http://swiftggteam.github.io/tags/Erica-Sadun/"/>
-    
-      <category term="Swift 进阶" scheme="http://swiftggteam.github.io/categories/Swift-%E8%BF%9B%E9%98%B6/"/>
     
   </entry>
   
