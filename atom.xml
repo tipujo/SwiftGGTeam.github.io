@@ -4,7 +4,7 @@
   <subtitle><![CDATA[走心的 Swift 翻译组]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://swiftggteam.github.io/"/>
-  <updated>2015-11-10T01:23:15.076Z</updated>
+  <updated>2015-11-11T00:54:18.653Z</updated>
   <id>http://swiftggteam.github.io/</id>
   
   <author>
@@ -15,11 +15,90 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[在 Swift 2.0 当中使用 C 语言回调]]></title>
+    <link href="http://swiftggteam.github.io/2015/11/11/c-callbacks-in-swift/"/>
+    <id>http://swiftggteam.github.io/2015/11/11/c-callbacks-in-swift/</id>
+    <published>2015-11-11T01:00:00.000Z</published>
+    <updated>2015-11-11T00:54:18.653Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>作者：Ole Begemann，<a href="http://oleb.net/blog/2015/06/c-callbacks-in-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-06-22<br>译者：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
+</blockquote>
+<!--此处开始正文-->
+<blockquote>
+<p>更新:</p>
+</blockquote>
+<ul>
+<li><p>2015-06-25<br>增加关于传递另一个（可以捕获外部变量的）闭包到 <code>userInfo</code> 参数的备注。</p>
+</li>
+<li><p>2015-07-01<br>针对 Xcode 7 beta 2 更新从 <code>CGPathElement</code> 创建一个 <code>PathElement</code> 类型的代码。</p>
+</li>
+</ul>
+<p>几年前，我曾经写过一篇关于如何获取 <code>CGPath</code> 和 <code>UIBezierPath</code> 中元素的<a href="http://oleb.net/blog/2012/12/accessing-pretty-printing-cgpath-elements/" target="_blank" rel="external">文章</a>。可以通过调用 <a href="https://developer.apple.com/library/ios/documentation/GraphicsImaging/Reference/CGPath/index.html#//apple_ref/c/func/CGPathApply" target="_blank" rel="external">CGPathApply</a> 函数，并给这个函数传入一个回调的函数指针来达到这个目的。 随后 <code>CGPathApply</code> 会对 path(CGPath 或 UIBezierPath) 中的每一个元素调用这个回调函数。  </p>
+<a id="more"></a>
+<p>很不幸，我们无法在 Swift 1.x 中做到这件事，因为我们没办法将 Swift 函数桥接到 C 语言函数。我们需要使用 C 或者 Objective-C 写一个小小的包装层来对这个回调函数进行封装。</p>
+<p>而在 Swift 2 当中，可以直接使用原生的 Swift 来完成这件事。Swift 将 C 语言的函数指针<a href="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/BuildingCocoaApps/InteractingWithCAPIs.html" target="_blank" rel="external">作为闭包来导入</a>。在任何需要传入 C 语言函数指针的地方，我们都可以传入与该函数指针参数相匹配的 Swift 闭包或者函数 —— 除了一个特殊情况：与闭包不同的是，C 语言的函数指针没有捕获状态(capturing state)的概念。因此，编译器只允许传入不捕获任何外部变量的 Swift 闭包来对C语言函数指针进行桥接。Swift 使用了新的 <code>@convention(c)</code> 注解来标识这一约定。</p>
+<blockquote>
+<p>下载本篇文章的<a href="http://oleb.net/media/c-callbacks-in-swift.playground.zip" target="_blank" rel="external">playground</a>，要求 Swift 2/Xcode 7。</p>
+</blockquote>
+<h2 id="获取_UIBezierPath_中的元素">获取 UIBezierPath 中的元素</h2><p>让我们使用迭代一个 path 中元素这个熟悉的任务来作为例子。</p>
+<h3 id="一个_Swift_化后的数据结构">一个 Swift 化后的数据结构</h3><p>首先，考虑一下我们必须处理的数据结构。<code>CGPathApply</code> 会将一个 <a href="https://developer.apple.com/library/ios/documentation/GraphicsImaging/Reference/CGPath/index.html#//apple_ref/c/tdef/CGPathElement" target="_blank" rel="external">CGPathElement</a> 的指针传递给回调函数（或者闭包）。<code>CGPathElement</code> 是一个结构体，这个结构体包含了一个标识 path 元素类型的的常量，以及一个 <code>CGPoint</code> 类型的C语言数组。这个数组中的点(point)的个数将在 0 到 3 之间，取决于元素的类型。</p>
+<p>在 Swift 当中直接使用 <code>CGPathElement</code> 很不方便。C语言数组在 Swift 中是被当作 <code>UnsafeMutablePointer&lt;CGPoint&gt;</code> 来导入的，并且它的生命周期被限制在该回调函数中，因此，如果想在别的地方使用这个数组，我们就得将它的内容复制并保存。更进一步地，如果有一个更安全的方式来获取每个元素中点(point)的个数就更好了。</p>
+<p>一个关联了点(point)个数的 Swift 枚举，会是达到这个目的的理想类型。我们同时还要定义一个从 <code>CGPathElement</code> 转换的自定义构造器。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// A Swiftified representation of a `CGPathElement`</span></span><br><span class="line"><span class="comment">///</span></span><br><span class="line"><span class="comment">/// Simpler and safer than `CGPathElement` because it doesn’t use a</span></span><br><span class="line"><span class="comment">/// C array for the associated points.</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">PathElement</span> </span>&#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="type">MoveToPoint</span>(<span class="type">CGPoint</span>)</span><br><span class="line">    <span class="keyword">case</span> <span class="type">AddLineToPoint</span>(<span class="type">CGPoint</span>)</span><br><span class="line">    <span class="keyword">case</span> <span class="type">AddQuadCurveToPoint</span>(<span class="type">CGPoint</span>, <span class="type">CGPoint</span>)</span><br><span class="line">    <span class="keyword">case</span> <span class="type">AddCurveToPoint</span>(<span class="type">CGPoint</span>, <span class="type">CGPoint</span>, <span class="type">CGPoint</span>)</span><br><span class="line">    <span class="keyword">case</span> <span class="type">CloseSubpath</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">init</span>(element: <span class="type">CGPathElement</span>) &#123;</span><br><span class="line">        <span class="keyword">switch</span> element.type &#123;</span><br><span class="line">        <span class="keyword">case</span> .<span class="type">MoveToPoint</span>:</span><br><span class="line">            <span class="keyword">self</span> = .<span class="type">MoveToPoint</span>(element.points[<span class="number">0</span>])</span><br><span class="line">        <span class="keyword">case</span> .<span class="type">AddLineToPoint</span>:</span><br><span class="line">            <span class="keyword">self</span> = .<span class="type">AddLineToPoint</span>(element.points[<span class="number">0</span>])</span><br><span class="line">        <span class="keyword">case</span> .<span class="type">AddQuadCurveToPoint</span>:</span><br><span class="line">            <span class="keyword">self</span> = .<span class="type">AddQuadCurveToPoint</span>(element.points[<span class="number">0</span>], element.points[<span class="number">1</span>])</span><br><span class="line">        <span class="keyword">case</span> .<span class="type">AddCurveToPoint</span>:</span><br><span class="line">            <span class="keyword">self</span> = .<span class="type">AddCurveToPoint</span>(element.points[<span class="number">0</span>], element.points[<span class="number">1</span>], element.points[<span class="number">2</span>])</span><br><span class="line">        <span class="keyword">case</span> .<span class="type">CloseSubpath</span>:</span><br><span class="line">            <span class="keyword">self</span> = .<span class="type">CloseSubpath</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来，为我们的新数据类型定义一个格式化的输出，这将使我们调试时更加方便：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">PathElement</span> : <span class="title">CustomDebugStringConvertible</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">var</span> debugDescription: <span class="type">String</span> &#123;</span><br><span class="line">        <span class="keyword">switch</span> <span class="keyword">self</span> &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="keyword">let</span> .<span class="type">MoveToPoint</span>(point):</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"<span class="subst">\(point.x)</span> <span class="subst">\(point.y)</span> moveto"</span></span><br><span class="line">        <span class="keyword">case</span> <span class="keyword">let</span> .<span class="type">AddLineToPoint</span>(point):</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"<span class="subst">\(point.x)</span> <span class="subst">\(point.y)</span> lineto"</span></span><br><span class="line">        <span class="keyword">case</span> <span class="keyword">let</span> .<span class="type">AddQuadCurveToPoint</span>(point1, point2):</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"<span class="subst">\(point1.x)</span> <span class="subst">\(point1.y)</span> <span class="subst">\(point2.x)</span> <span class="subst">\(point2.y)</span> quadcurveto"</span></span><br><span class="line">        <span class="keyword">case</span> <span class="keyword">let</span> .<span class="type">AddCurveToPoint</span>(point1, point2, point3):</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"<span class="subst">\(point1.x)</span> <span class="subst">\(point1.y)</span> <span class="subst">\(point2.x)</span> <span class="subst">\(point2.y)</span> <span class="subst">\(point3.x)</span> <span class="subst">\(point3.y)</span> curveto"</span></span><br><span class="line">        <span class="keyword">case</span> .<span class="type">CloseSubpath</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"closepath"</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>再接再厉，来将 <code>PathElement</code> 实现为可比较的(Equatable)（因为我们<a href="https://developer.apple.com/videos/wwdc/2015/?id=414" target="_blank" rel="external">始终应该这样做</a>）</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">PathElement</span> : <span class="title">Equatable</span> </span>&#123; &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="func"><span class="keyword">func</span> ==<span class="params">(lhs: PathElement, rhs: PathElement)</span></span> -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">    <span class="keyword">switch</span>(lhs, rhs) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="keyword">let</span> (.<span class="type">MoveToPoint</span>(l), .<span class="type">MoveToPoint</span>(r)):</span><br><span class="line">        <span class="keyword">return</span> l == r</span><br><span class="line">    <span class="keyword">case</span> <span class="keyword">let</span> (.<span class="type">AddLineToPoint</span>(l), .<span class="type">AddLineToPoint</span>(r)):</span><br><span class="line">        <span class="keyword">return</span> l == r</span><br><span class="line">    <span class="keyword">case</span> <span class="keyword">let</span> (.<span class="type">AddQuadCurveToPoint</span>(l1, l2), .<span class="type">AddQuadCurveToPoint</span>(r1, r2)):</span><br><span class="line">        <span class="keyword">return</span> l1 == r1 &amp;&amp; l2 == r2</span><br><span class="line">    <span class="keyword">case</span> <span class="keyword">let</span> (.<span class="type">AddCurveToPoint</span>(l1, l2, l3), .<span class="type">AddCurveToPoint</span>(r1, r2, r3)):</span><br><span class="line">        <span class="keyword">return</span> l1 == r1 &amp;&amp; l2 == r2 &amp;&amp; l3 == r3</span><br><span class="line">    <span class="keyword">case</span> (.<span class="type">CloseSubpath</span>, .<span class="type">CloseSubpath</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">    <span class="keyword">case</span> (<span class="number">_</span>, <span class="number">_</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="枚举_Path_元素">枚举 Path 元素</h3><p>现在到了有趣的部分了。我们要对 <code>UIBezierPath</code> 增加一个名为 <code>elements</code> 的计算属性，它会迭代 path 并且返回一个 <code>PathElement</code> 类型的数组。我们需要调用 <code>CGPathApply()</code> 并传递给它一个闭包参数，它会对每个元素都调用这个闭包。在这个闭包内部，我们需要将 <code>CGPathElement</code> 转化为 <code>PathElement</code> 并将它存储在一个数组当中。 最后一部分的实现并不像听起来的那么简单，因为 C 函数指针的调用约定不允许我们对外部上下文中的变量进行捕获。</p>
+<p>这个 API 的纯 C 实现也面临着同样的问题，因此 <code>CGPathApply</code> 接收了一个额外的 <code>void *</code> 类型的参数并将这个指针传递给回调函数。这使得调用者可以传递一个任意类型的数据（比如一个指向数组的指针）给回调函数 —— 这正是我们所需要的。</p>
+<p><code>void *</code> 类型在 Swift 当中是被作为 <a href="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Reference/Swift_UnsafeMutablePointer_Structure/" target="_blank" rel="external">UnsafeMutablePointer<void></void></a> 引入的。我们先创建一个 Swift 数组用于存储 <code>PathElement</code> 的值，然后使用 <a href="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Reference/Swift_StandardLibrary_Functions/index.html#//apple_ref/swift/func/s:FSs24withUnsafeMutablePointeru0_rFTRq_FGVSs20UnsafeMutablePointerq__q0__q0_" target="_blank" rel="external">withUnsafeMutablePointer()</a> 来获得指向这个数组的指针，这个指针会作为参数传递到该函数的闭包中。在该闭包当中，我们就可以开始调用 <code>CGPathApply</code>。在 <code>CGPathApply</code> 的内部闭包中最后一步是要将 void 指针转型回 <code>UnsafeMutablePointer&lt;[PathElement]&gt;</code>，并通过 <code>memory</code> 属性来直接获取底层的数组。（注：我不是很确定这是不是将一个数组传递到闭包中的最好方法，如果你知道有更好的方法，请让我知道）</p>
+<p>完整的实现看起来是这样子的：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">UIBezierPath</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> elements: [<span class="type">PathElement</span>] &#123;</span><br><span class="line">        <span class="keyword">var</span> pathElements = [<span class="type">PathElement</span>]()</span><br><span class="line">        <span class="built_in">withUnsafeMutablePointer</span>(&amp;pathElements) &#123; elementsPointer <span class="keyword">in</span></span><br><span class="line">            <span class="type">CGPathApply</span>(<span class="type">CGPath</span>, elementsPointer) &#123; (userInfo, nextElementPointer) <span class="keyword">in</span></span><br><span class="line">                <span class="keyword">let</span> nextElement = <span class="type">PathElement</span>(element: nextElementPointer.memory)</span><br><span class="line">                <span class="keyword">let</span> elementsPointer = <span class="type">UnsafeMutablePointer</span>&lt;[<span class="type">PathElement</span>]&gt;(userInfo)</span><br><span class="line">                elementsPointer.memory.append(nextElement)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> pathElements</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>更新：在<a href="https://forums.developer.apple.com/message/15725#15725" target="_blank" rel="external">苹果开发者论坛中的一个帖子</a>里，苹果员工 Quinn “The Eskimo!” 提出了一个稍微不同的方法：我们可以传递指向另一个闭包的指针给 <code>userInfo</code> 参数，而非我们想要操作的数组的指针。因为这个闭包没有被C调用约定所限制，因此它是可以捕获外部变量的。</p>
+<p>创建一个闭包的指针会涉及到丑陋的 <code>@convention(block)</code> 注解和 <code>unsafeBitCast</code> 魔法（或者是将闭包包装到一个包装类型中），我不太确定我是否会喜欢这种形式。不过使用这种方法确实是相当方便的。</p>
+<h2 id="收尾">收尾</h2><p>现在，我们有了一个包含 path 元素的数组，很自然地，我们会想要将 UIBezierPath 转化成一个序列。这使得用户可以使用 <code>for-in</code> 循环来对 path 进行迭代，或者直接对它调用 <code>map</code> 或 <code>filter</code> 方法。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">UIBezierPath</span> : <span class="title">SequenceType</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="func"><span class="keyword">func</span> <span class="title">generate</span><span class="params">()</span></span> -&gt; <span class="type">AnyGenerator</span>&lt;<span class="type">PathElement</span>&gt; &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">anyGenerator</span>(elements.generate())</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后，这是一个便于 UIBezierPath 调试的格式化输出的实现，这个实现参考了 OS X 上的 NSBezierPath 的输出格式。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">UIBezierPath</span> : <span class="title">CustomDebugStringConvertible</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">var</span> debugDescription: <span class="type">String</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> cgPath = <span class="keyword">self</span>.<span class="type">CGPath</span>;</span><br><span class="line">        <span class="keyword">let</span> bounds = <span class="type">CGPathGetPathBoundingBox</span>(cgPath);</span><br><span class="line">        <span class="keyword">let</span> controlPointBounds = <span class="type">CGPathGetBoundingBox</span>(cgPath);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> description = <span class="string">"<span class="subst">\(<span class="keyword">self</span>.<span class="keyword">dynamicType</span>)</span>\n"</span></span><br><span class="line">            + <span class="string">"    Bounds: <span class="subst">\(bounds)</span>\n"</span></span><br><span class="line">            + <span class="string">"    Control Point Bounds: <span class="subst">\(controlPointBounds)</span>"</span></span><br><span class="line">            + elements.<span class="built_in">reduce</span>(<span class="string">""</span>, combine: &#123; (acc, element) <span class="keyword">in</span></span><br><span class="line">                acc + <span class="string">"\n    <span class="subst">\(String(reflecting: element)</span>)"</span></span><br><span class="line">            &#125;)</span><br><span class="line">        <span class="keyword">return</span> description</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在用一个示例 path 来进行一下试验：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> path = <span class="type">UIBezierPath</span>()</span><br><span class="line">path.moveToPoint(<span class="type">CGPoint</span>(x: <span class="number">0</span>, y: <span class="number">0</span>))</span><br><span class="line">path.addLineToPoint(<span class="type">CGPoint</span>(x: <span class="number">100</span>, y: <span class="number">0</span>))</span><br><span class="line">path.addLineToPoint(<span class="type">CGPoint</span>(x: <span class="number">50</span>, y: <span class="number">100</span>))</span><br><span class="line">path.closePath()</span><br><span class="line">path.moveToPoint(<span class="type">CGPoint</span>(x: <span class="number">0</span>, y: <span class="number">100</span>))</span><br><span class="line">path.addQuadCurveToPoint(<span class="type">CGPoint</span>(x: <span class="number">100</span>, y: <span class="number">100</span>),</span><br><span class="line">    controlPoint: <span class="type">CGPoint</span>(x: <span class="number">50</span>, y: <span class="number">200</span>))</span><br><span class="line">path.closePath()</span><br><span class="line">path.moveToPoint(<span class="type">CGPoint</span>(x: <span class="number">100</span>, y: <span class="number">0</span>))</span><br><span class="line">path.addCurveToPoint(<span class="type">CGPoint</span>(x: <span class="number">200</span>, y: <span class="number">0</span>),</span><br><span class="line">    controlPoint1: <span class="type">CGPoint</span>(x: <span class="number">125</span>, y: <span class="number">100</span>),</span><br><span class="line">    controlPoint2: <span class="type">CGPoint</span>(x: <span class="number">175</span>, y: -<span class="number">100</span>))</span><br><span class="line">path.closePath()</span><br></pre></td></tr></table></figure>
+<p><img src="/img/articles/c-callbacks-in-swift/uibezierpath-example.png1447203254.48282" alt="The example path"></p>
+<p>也可以迭代 path 中的每一个元素，然后打印出每个元素的描述(description)字符串：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> element <span class="keyword">in</span> path &#123;</span><br><span class="line">    <span class="built_in">debugPrint</span>(element)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Output:</span><br><span class="line">0.0 0.0 moveto</span><br><span class="line">100.0 0.0 lineto</span><br><span class="line">50.0 100.0 lineto</span><br><span class="line">closepath</span><br><span class="line">0.0 100.0 moveto</span><br><span class="line">50.0 200.0 100.0 100.0 quadcurveto</span><br><span class="line">closepath</span><br><span class="line">100.0 0.0 moveto</span><br><span class="line">125.0 100.0 175.0 -100.0 200.0 0.0 curveto</span><br><span class="line">closepath</span><br><span class="line">*/</span></span><br></pre></td></tr></table></figure>
+<p>或者，我们也可以计算 path 中的闭合路径(closepath)的个数：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> closePathCount = path.<span class="built_in">filter</span> &#123;</span><br><span class="line">        element <span class="keyword">in</span> element == <span class="type">PathElement</span>.<span class="type">CloseSubpath</span></span><br><span class="line">    &#125;.<span class="built_in">count</span></span><br><span class="line"><span class="comment">// -&gt; 3</span></span><br></pre></td></tr></table></figure>
+<h2 id="总结">总结</h2><p>Swift 2 中自动地将 C 语言函数指针桥接到为闭包。这使得对大量的接收函数指针的 C 语言API 进行操作成为可能（并且相当方便）。因为 C 语言的调用约定，这种类型的闭包无法捕获外部的状态，所以我们经常需要将回调闭包中需要用到的数据通过一个外部的 <code>void</code> 类型的指针传入，而这正是很多基于C语言的 API 的做法。在 Swift 当中进行这样的操作会有点绕，不过却是完全可能的。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>作者：Ole Begemann，<a href="http://oleb.net/blog/2015/06/c-callbacks-in-swift/">原文链接</a>，原文日期：2015-06-22<br>译者：<a href="http://www.swiftyper.com/">小锅</a>；校对：<a href="http://codebuild.me/">shanks</a>；定稿：<a href="http://codebuild.me/">shanks</a></p>
+</blockquote>
+<!--此处开始正文-->
+<blockquote>
+<p>更新:</p>
+</blockquote>
+<ul>
+<li><p>2015-06-25<br>增加关于传递另一个（可以捕获外部变量的）闭包到 <code>userInfo</code> 参数的备注。</p>
+</li>
+<li><p>2015-07-01<br>针对 Xcode 7 beta 2 更新从 <code>CGPathElement</code> 创建一个 <code>PathElement</code> 类型的代码。</p>
+</li>
+</ul>
+<p>几年前，我曾经写过一篇关于如何获取 <code>CGPath</code> 和 <code>UIBezierPath</code> 中元素的<a href="http://oleb.net/blog/2012/12/accessing-pretty-printing-cgpath-elements/">文章</a>。可以通过调用 <a href="https://developer.apple.com/library/ios/documentation/GraphicsImaging/Reference/CGPath/index.html#//apple_ref/c/func/CGPathApply">CGPathApply</a> 函数，并给这个函数传入一个回调的函数指针来达到这个目的。 随后 <code>CGPathApply</code> 会对 path(CGPath 或 UIBezierPath) 中的每一个元素调用这个回调函数。  </p>]]>
+    
+    </summary>
+    
+      <category term="Ole Begemann" scheme="http://swiftggteam.github.io/tags/Ole-Begemann/"/>
+    
+      <category term="Swift 进阶" scheme="http://swiftggteam.github.io/categories/Swift-%E8%BF%9B%E9%98%B6/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[使用 NSUndoManager 来进行撤销和重做]]></title>
     <link href="http://swiftggteam.github.io/2015/11/10/ios-undo-and-redo-with-nsundomanager/"/>
     <id>http://swiftggteam.github.io/2015/11/10/ios-undo-and-redo-with-nsundomanager/</id>
     <published>2015-11-10T01:00:00.000Z</published>
-    <updated>2015-11-10T01:23:15.076Z</updated>
+    <updated>2015-11-11T00:54:18.653Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/ios-undo-and-redo-with-nsundomanager/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-13<br>译者：<a href="http://blog.csdn.net/yake_099" target="_blank" rel="external">Yake</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="undefined"></a></p>
 </blockquote>
@@ -84,7 +163,7 @@
     <link href="http://swiftggteam.github.io/2015/11/09/what-makes-good-code/"/>
     <id>http://swiftggteam.github.io/2015/11/09/what-makes-good-code/</id>
     <published>2015-11-09T01:00:00.000Z</published>
-    <updated>2015-11-10T01:23:15.076Z</updated>
+    <updated>2015-11-11T00:54:18.653Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/10/28/what-makes-good-code/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-28<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -136,7 +215,7 @@
     <link href="http://swiftggteam.github.io/2015/11/06/if-let-assignment/"/>
     <id>http://swiftggteam.github.io/2015/11/06/if-let-assignment/</id>
     <published>2015-11-06T01:00:00.000Z</published>
-    <updated>2015-11-10T01:23:15.076Z</updated>
+    <updated>2015-11-11T00:54:18.653Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Weston Hanners，<a href="http://www.alloc-init.com/2015/10/if-let-assignment/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-29<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -180,7 +259,7 @@
     <link href="http://swiftggteam.github.io/2015/11/05/swift-playground-the-monty-hall-problem/"/>
     <id>http://swiftggteam.github.io/2015/11/05/swift-playground-the-monty-hall-problem/</id>
     <published>2015-11-05T01:00:00.000Z</published>
-    <updated>2015-11-10T01:23:15.076Z</updated>
+    <updated>2015-11-11T00:54:18.653Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-playground-the-monty-hall-problem/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-27<br>译者：<a href="https://github.com/SergioChan" target="_blank" rel="external">SergioChan</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -225,7 +304,7 @@
     <link href="http://swiftggteam.github.io/2015/11/04/swift-using-local-closures/"/>
     <id>http://swiftggteam.github.io/2015/11/04/swift-using-local-closures/</id>
     <published>2015-11-04T01:00:00.000Z</published>
-    <updated>2015-11-10T01:23:15.076Z</updated>
+    <updated>2015-11-11T00:54:18.649Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-using-local-closures/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-22<br>译者：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -262,7 +341,7 @@
     <link href="http://swiftggteam.github.io/2015/11/03/watchconnectivity-introduction-say-goodbye-to-the-spinner/"/>
     <id>http://swiftggteam.github.io/2015/11/03/watchconnectivity-introduction-say-goodbye-to-the-spinner/</id>
     <published>2015-11-03T01:00:00.000Z</published>
-    <updated>2015-11-10T01:23:15.076Z</updated>
+    <updated>2015-11-11T00:54:18.649Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/watchconnectivity-introduction-say-goodbye-to-the-spinner/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-21<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -312,7 +391,7 @@
     <link href="http://swiftggteam.github.io/2015/11/02/watchconnectivity-say-hello-to-wcsession/"/>
     <id>http://swiftggteam.github.io/2015/11/02/watchconnectivity-say-hello-to-wcsession/</id>
     <published>2015-11-01T16:00:00.000Z</published>
-    <updated>2015-11-10T01:23:15.076Z</updated>
+    <updated>2015-11-11T00:54:18.649Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/watchconnectivity-say-hello-to-wcsession/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-21<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -396,7 +475,7 @@
     <link href="http://swiftggteam.github.io/2015/10/30/lets-talk-about-monads/"/>
     <id>http://swiftggteam.github.io/2015/10/30/lets-talk-about-monads/</id>
     <published>2015-10-30T01:00:00.000Z</published>
-    <updated>2015-11-10T01:23:15.076Z</updated>
+    <updated>2015-11-11T00:54:18.649Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Olivier Halligon，<a href="http://alisoftware.github.io/swift/2015/10/17/lets-talk-about-monads/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-17<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -461,7 +540,7 @@
     <link href="http://swiftggteam.github.io/2015/10/29/list-comprehensions-and-performance-with-swift/"/>
     <id>http://swiftggteam.github.io/2015/10/29/list-comprehensions-and-performance-with-swift/</id>
     <published>2015-10-29T01:00:00.000Z</published>
-    <updated>2015-11-10T01:23:15.076Z</updated>
+    <updated>2015-11-11T00:54:18.649Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Veronica Ray，<a href="http://jamesonquave.com/blog/list-comprehensions-and-performance-with-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-08-15<br>译者：<a href="http://weibo.com/riven0951" target="_blank" rel="external">riven</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a></p>
 <p>本文写于 2015.8.15 适用于 Xcode 6 和 Swift 1.2</p>
@@ -522,7 +601,7 @@
     <link href="http://swiftggteam.github.io/2015/10/28/five-myths-about-swift/"/>
     <id>http://swiftggteam.github.io/2015/10/28/five-myths-about-swift/</id>
     <published>2015-10-28T01:00:00.000Z</published>
-    <updated>2015-11-10T01:23:15.076Z</updated>
+    <updated>2015-11-11T00:54:18.649Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/five-myths-about-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-19<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a></p>
 </blockquote>
@@ -567,7 +646,7 @@
     <link href="http://swiftggteam.github.io/2015/10/27/swift-pattern-matching-in-detail/"/>
     <id>http://swiftggteam.github.io/2015/10/27/swift-pattern-matching-in-detail/</id>
     <published>2015-10-27T01:00:00.000Z</published>
-    <updated>2015-11-10T01:23:15.076Z</updated>
+    <updated>2015-11-11T00:54:18.649Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Benedikt Terhechte，<a href="http://appventure.me/2015/08/20/swift-pattern-matching-in-detail/" target="_blank" rel="external">原文链接</a>，原文日期：2015-08-20<br>译者：<a href="http://blog.csdn.net/mmoaay" target="_blank" rel="external">mmoaay</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -790,7 +869,7 @@
     <link href="http://swiftggteam.github.io/2015/10/26/swift-ranges-and-intervals/"/>
     <id>http://swiftggteam.github.io/2015/10/26/swift-ranges-and-intervals/</id>
     <published>2015-10-26T01:00:00.000Z</published>
-    <updated>2015-11-10T01:23:15.076Z</updated>
+    <updated>2015-11-11T00:54:18.649Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Ole Begemann，<a href="http://oleb.net/blog/2015/09/swift-ranges-and-intervals/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-24<br>译者：<a href="http://www.dianqk.org/" target="_blank" rel="external">靛青K</a>；校对：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；定稿：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a></p>
 </blockquote>
@@ -888,7 +967,7 @@
     <link href="http://swiftggteam.github.io/2015/10/23/3d-touch-impressions-and-thoughts/"/>
     <id>http://swiftggteam.github.io/2015/10/23/3d-touch-impressions-and-thoughts/</id>
     <published>2015-10-23T01:00:00.000Z</published>
-    <updated>2015-11-10T01:23:15.072Z</updated>
+    <updated>2015-11-11T00:54:18.649Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/3d-touch-impressions-and-thoughts" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-26<br>译者：<a href="http://www.brighttj.com" target="_blank" rel="external">saitjr</a>；校对：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -949,7 +1028,7 @@
     <link href="http://swiftggteam.github.io/2015/10/22/thinking-in-swift-4/"/>
     <id>http://swiftggteam.github.io/2015/10/22/thinking-in-swift-4/</id>
     <published>2015-10-22T01:00:00.000Z</published>
-    <updated>2015-11-10T01:23:15.072Z</updated>
+    <updated>2015-11-11T00:54:18.649Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Olivier Halligon，<a href="http://alisoftware.github.io/swift/2015/10/11/thinking-in-swift-4/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-11<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="http://www.futantan.com" target="_blank" rel="external">Prayer</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1040,7 +1119,7 @@
     <link href="http://swiftggteam.github.io/2015/10/21/reordering-collection-view-cells-tutorial/"/>
     <id>http://swiftggteam.github.io/2015/10/21/reordering-collection-view-cells-tutorial/</id>
     <published>2015-10-21T01:00:00.000Z</published>
-    <updated>2015-11-10T01:23:15.072Z</updated>
+    <updated>2015-11-11T00:54:18.649Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：ioscreator，<a href="http://www.ioscreator.com/tutorials/reordering-collection-view-cells-tutorial" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-17<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://www.dianqk.org/" target="_blank" rel="external">靛青K</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1104,7 +1183,7 @@
     <link href="http://swiftggteam.github.io/2015/10/20/thinking-in-swift-3/"/>
     <id>http://swiftggteam.github.io/2015/10/20/thinking-in-swift-3/</id>
     <published>2015-10-20T01:00:00.000Z</published>
-    <updated>2015-11-10T01:23:15.072Z</updated>
+    <updated>2015-11-11T00:54:18.649Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Olivier Halligon，<a href="http://alisoftware.github.io/swift/2015/10/03/thinking-in-swift-3/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-03<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；定稿：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a></p>
 </blockquote>
@@ -1167,7 +1246,7 @@
     <link href="http://swiftggteam.github.io/2015/10/19/friday-qa-2015-09-04-lets-build-dispatch_queue/"/>
     <id>http://swiftggteam.github.io/2015/10/19/friday-qa-2015-09-04-lets-build-dispatch_queue/</id>
     <published>2015-10-19T01:00:00.000Z</published>
-    <updated>2015-11-10T01:23:15.072Z</updated>
+    <updated>2015-11-11T00:54:18.649Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Mike Ash，<a href="https://www.mikeash.com/pyblog/friday-qa-2015-09-04-lets-build-dispatch_queue.html" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-04<br>译者：<a href="http://blog.csdn.net/yake_099" target="_blank" rel="external">Yake</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a></p>
 <p>译者注：这篇文章的代码是用 Objective-C 完成的，不过不妨碍大家学习多线程编码的知识。</p>
@@ -1299,7 +1378,7 @@
     <link href="http://swiftggteam.github.io/2015/10/16/swift-pattern-matching/"/>
     <id>http://swiftggteam.github.io/2015/10/16/swift-pattern-matching/</id>
     <published>2015-10-16T01:00:00.000Z</published>
-    <updated>2015-11-10T01:23:15.072Z</updated>
+    <updated>2015-11-11T00:54:18.649Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Ole Begemann，<a href="http://oleb.net/blog/2015/09/swift-pattern-matching/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-18<br>译者：<a href="undefined">lfb-CD</a>；校对：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1382,7 +1461,7 @@
     <link href="http://swiftggteam.github.io/2015/10/15/watchos-2-hello-world/"/>
     <id>http://swiftggteam.github.io/2015/10/15/watchos-2-hello-world/</id>
     <published>2015-10-15T01:00:00.000Z</published>
-    <updated>2015-11-10T01:23:15.072Z</updated>
+    <updated>2015-11-11T00:54:18.649Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/watchos-2-hello-world/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-21<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1418,62 +1497,6 @@
     </summary>
     
       <category term="Natasha the Robot" scheme="http://swiftggteam.github.io/tags/Natasha-the-Robot/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Xcode6 中模版的介绍]]></title>
-    <link href="http://swiftggteam.github.io/2015/10/14/templates-in-xcode-6/"/>
-    <id>http://swiftggteam.github.io/2015/10/14/templates-in-xcode-6/</id>
-    <published>2015-10-14T01:00:00.000Z</published>
-    <updated>2015-11-10T01:23:15.072Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/templates-in-xcode-6/" target="_blank" rel="external">原文链接</a>，原文日期：2015-08-27<br>译者：<a href="https://github.com/chenmingbiao" target="_blank" rel="external">CMB</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a></p>
-</blockquote>
-<p><code>Xcode</code> 为我们提供一整套的项目模板。在这篇文章中，我们将对这些模版进行讨论。</p>
-<a id="more"></a>
-<h3 id="主-从视图应用程序(Master-Detail_Application)">主-从视图应用程序(Master-Detail Application)</h3><blockquote>
-<p>这种模版提供了主-从视图应用程序的入口。它提供一个由导航控制器控制的用户界面，用于显示一组项目，在 iPad 中，则显示为分割视图（split view）。</p>
-<p>-Apple</p>
-</blockquote>
-<p>这是一个对学习分割视图控制器(<code>split view controllers</code>)和列表视图控制器(<code>table view controllers</code>)基础知识很有帮助的模版。如果你只在 <code>iPhone</code> 设备中使用，该模版中的分割视图控制器将不起作用，只能使用导航控制器来导航的主-从视图控制器。这种视图对于新手开发者来说这是一个好的开始。</p>
-<p><img src="/img/articles/templates-in-xcode-6/Bildschirmfoto-2015-08-25-um-18.28.35.png1444784411.7165086" alt="icon"></p>
-<h3 id="Page_Based_应用程序">Page Based 应用程序</h3><blockquote>
-<p>这种模板提供了一个 page-based 应用程序的入口，该模版使用一个页面视图控制器（<code>page base viewcontroller</code>）</p>
-<p>-Apple</p>
-</blockquote>
-<p>这个模版有点特别，它会创建一个有12个页面的页面视图控制器。同样的，这种模板对于学习基本的 iOS 开发也是很有帮助的。</p>
-<p><img src="/img/articles/templates-in-xcode-6/Bildschirmfoto-2015-08-25-um-18.40.16.png1444784413.1235225" alt="icon"></p>
-<h3 id="单视图应用程序（Single_View_Application）">单视图应用程序（Single View Application）</h3><p>这是最基础的模版。</p>
-<blockquote>
-<p>这个模版提供了使用单视图应用的入口，并且提供了一个视图控制器去管理视图和包含这个视图的 storyboard 或 nib。</p>
-<p>-Apple</p>
-</blockquote>
-<p>它不仅仅是只用在单视图应用程序，而且还是复杂应用程序最好的解决方案。如果你想一切尽在你的掌握中，这种模板是最好的选择。 很多应用程序都会选择这种模版。</p>
-<h1 id="Tabbed_应用程序">Tabbed 应用程序</h1><blockquote>
-<p>这种模版提供选项卡(tab bar)应用程序的入口。它提供了用户界面，用来配置选项卡控制器和对应项的视图控制器。</p>
-</blockquote>
-<p>这是非常基础的模版，它会创建一个含有两个视图控制器的选项卡(<code>tab bar</code>)控制器。</p>
-<p><img src="/img/articles/templates-in-xcode-6/Bildschirmfoto-2015-08-25-um-18.42.57.png1444784413.9353302" alt="icon"></p>
-<h1 id="Game">Game</h1><blockquote>
-<p>这种模版提供了游戏开发的入口。</p>
-<p>-Apple</p>
-</blockquote>
-<p>这是一个非常复杂的模版。你可以选择 <code>SceneKit</code>, <code>SpriteKit</code>, <code>Open GL ES</code> 或 <code>Metal</code> 的模版。如果你想了解游戏开发，这种模版可以让你有一个好的开始。</p>
-<p><img src="/img/articles/templates-in-xcode-6/Bildschirmfoto-2015-08-25-um-18.45.48.png1444784414.774583" alt="icon"></p>
-<h1 id="总结">总结</h1><p>模版是学习关于 iOS 开发基础知识最好的一种方式。然而对于实际的项目你应该更多的使用 “单视图应用程序(<code>Single View Application</code>)” 模版，因为使用这种模版最容易搭建你的项目架构。</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/templates-in-xcode-6/">原文链接</a>，原文日期：2015-08-27<br>译者：<a href="https://github.com/chenmingbiao">CMB</a>；校对：<a href="http://codebuild.me/">shanks</a>；定稿：<a href="http://www.swiftyper.com/">小锅</a></p>
-</blockquote>
-<p><code>Xcode</code> 为我们提供一整套的项目模板。在这篇文章中，我们将对这些模版进行讨论。</p>]]>
-    
-    </summary>
-    
-      <category term="Thomas Hanning" scheme="http://swiftggteam.github.io/tags/Thomas-Hanning/"/>
-    
-      <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
     
   </entry>
   
