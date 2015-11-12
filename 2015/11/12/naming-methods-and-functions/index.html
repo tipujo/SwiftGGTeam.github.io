@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="baidu-site-verification" content="vqJV77bZM6" />
   
-    <title>UIGestureRecognizer教程：创建自定义手势识别器 | SwiftGG 翻译组 - 高质量的 Swift 译文网站</title>
+    <title>函数和方法命名规范 | SwiftGG 翻译组 - 高质量的 Swift 译文网站</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="SwiftGG">
@@ -13,28 +13,25 @@
     <meta name="keywords" content="swift语言,swift翻译,swift学习" /> 
 
     
-    <meta name="description" content="作者：Michael Katz，原文链接，原文日期：2015/08/06译者：mmoaay；校对：千叶知风；定稿：numbbbbb
+    <meta name="description" content="作者：Erica Sadun，原文链接，原文日期：2015-08-31译者：天才175；校对：numbbbbb；定稿：numbbbbb
 
-抱歉，由于没有拿到作者授权，我们无法继续提供这个内容。
-如果你真的很需要查看中文译文，可以去阅读译者文章。
-你也可以去首页看看我们的其他文章！">
+请各位随意批判。同时请看这里和这里。
+简单明了。根据上下文给动词和介词加上名词。请使用removeObject(object, atIndex: index)，而不是remove(object, at: index)。不要为了过度的简洁而影响清晰准确性。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="UIGestureRecognizer教程：创建自定义手势识别器">
-<meta property="og:url" content="http://swiftggteam.github.io/2015/08/11/uigesturerecognizer-tutorial-creating-custom-recognizers/index.html">
+<meta property="og:title" content="函数和方法命名规范">
+<meta property="og:url" content="http://swiftggteam.github.io/2015/11/12/naming-methods-and-functions/index.html">
 <meta property="og:site_name" content="SwiftGG">
-<meta property="og:description" content="作者：Michael Katz，原文链接，原文日期：2015/08/06译者：mmoaay；校对：千叶知风；定稿：numbbbbb
+<meta property="og:description" content="作者：Erica Sadun，原文链接，原文日期：2015-08-31译者：天才175；校对：numbbbbb；定稿：numbbbbb
 
-抱歉，由于没有拿到作者授权，我们无法继续提供这个内容。
-如果你真的很需要查看中文译文，可以去阅读译者文章。
-你也可以去首页看看我们的其他文章！">
-<meta property="og:updated_time" content="2015-11-12T01:07:21.221Z">
+请各位随意批判。同时请看这里和这里。
+简单明了。根据上下文给动词和介词加上名词。请使用removeObject(object, atIndex: index)，而不是remove(object, at: index)。不要为了过度的简洁而影响清晰准确性。">
+<meta property="og:updated_time" content="2015-11-12T01:07:21.225Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="UIGestureRecognizer教程：创建自定义手势识别器">
-<meta name="twitter:description" content="作者：Michael Katz，原文链接，原文日期：2015/08/06译者：mmoaay；校对：千叶知风；定稿：numbbbbb
+<meta name="twitter:title" content="函数和方法命名规范">
+<meta name="twitter:description" content="作者：Erica Sadun，原文链接，原文日期：2015-08-31译者：天才175；校对：numbbbbb；定稿：numbbbbb
 
-抱歉，由于没有拿到作者授权，我们无法继续提供这个内容。
-如果你真的很需要查看中文译文，可以去阅读译者文章。
-你也可以去首页看看我们的其他文章！">
+请各位随意批判。同时请看这里和这里。
+简单明了。根据上下文给动词和介词加上名词。请使用removeObject(object, atIndex: index)，而不是remove(object, at: index)。不要为了过度的简洁而影响清晰准确性。">
 
     
     <link rel="alternative" href="/atom.xml" title="SwiftGG" type="application/atom+xml">
@@ -92,10 +89,10 @@
   <header class="article-info clearfix">
     <h1 itemprop="name">
       
-        <a href="/2015/08/11/uigesturerecognizer-tutorial-creating-custom-recognizers/" title="UIGestureRecognizer教程：创建自定义手势识别器" itemprop="url">UIGestureRecognizer教程：创建自定义手势识别器</a>
+        <a href="/2015/11/12/naming-methods-and-functions/" title="函数和方法命名规范" itemprop="url">函数和方法命名规范</a>
     </h1>
     <p class="article-time">
-      <time datetime="2015-08-10T16:00:00.000Z" itemprop="datePublished"><i class="icon-time"></i> 2015-08-11</time>
+      <time datetime="2015-11-12T01:00:00.000Z" itemprop="datePublished"><i class="icon-time"></i> 2015-11-12</time>
       <span style="margin-left: 0.5em;"><i class="icon-eye-open"></i> <span class="viewcount"></span></span>
     </p>
   </header>
@@ -110,16 +107,40 @@
 		</div>
 		
 		<blockquote>
-<p>作者：Michael Katz，<a href="http://www.raywenderlich.com/104744/uigesturerecognizer-tutorial-creating-custom-recognizers" target="_blank" rel="external">原文链接</a>，原文日期：2015/08/06<br>译者：<a href="http://blog.csdn.net/mmoaay" target="_blank" rel="external">mmoaay</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
+<p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/08/31/naming-methods-and-functions/" target="_blank" rel="external">原文链接</a>，原文日期：2015-08-31<br>译者：<a href="http://weibo.com/u/2916092907" target="_blank" rel="external">天才175</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
-<p>抱歉，由于没有拿到作者授权，我们无法继续提供这个内容。</p>
-<p>如果你真的很需要查看中文译文，可以去阅读<a href="http://blog.csdn.net/mmoaay/article/details/47355709" target="_blank" rel="external">译者文章</a>。</p>
-<p>你也可以去<a href="http://swift.gg" target="_blank" rel="external">首页</a>看看我们的其他文章！</p>
+<p>请各位随意批判。同时请看<a href="https://realm.io/news/swift-summit-swifty-methods-clarity-brevity/" target="_blank" rel="external">这里</a>和<a href="http://radex.io/swift/methods/" target="_blank" rel="external">这里</a>。</p>
+<p><strong>简单明了</strong>。根据上下文给动词和介词加上名词。请使用<code>removeObject(object, atIndex: index)</code>，而不是<code>remove(object, at: index)</code>。不要为了过度的简洁而影响清晰准确性。</p>
+<a id="more"></a>
+<p><strong>避免缩写</strong>。使用<code>printError(myError)</code>而不是<code>printErr(myErr)</code>以及<code>setBackgroundImage(myImage)</code>而不是<code>setBGImage(myImg)</code>。虽然苹果提供了一系列“可接受”的缩写，但是请不要在 Swift 中使用像 max 和 min 这样的缩写。</p>
+<p><strong>避免歧义</strong>。考虑一下函数或者方法的命名是否存在多种解释。举个栗子，在<code>displayName</code>中，display 是名词还是动词呢？如果命名不清晰的话，请重新命名来消除混淆。</p>
+<p><strong>保持一致性</strong>。在你的应用和库中使用相同的术语来描述概念。避免在一个方法里使用<code>fetchBezierElements()</code>，却在另外一个里使用<code>listPathComponents()</code>。</p>
+<p><strong>不要引用类型关键字</strong>。避免命名中出现 struct、enum、class、instance 以及 object。请使用<code>buildDeckofCards()</code>而不是<code>buildDeckofCardsStruct()</code>。</p>
+<p><strong>方法命名使用小写</strong>。虽然大多数开发者使用小写命名全局函数，但你可以大写，这并不是什么罪过。虽然这种函数命名过时了，但大写的函数名却能立刻将函数与方法区别开来。有一段时间我也改变过想法，但是最终还是决定奋起抗争，使用小写。这种做法曾经和命名空间一样普及，但是突然间就销声匿迹了。就像一百万个喊着大写的人突然沉默。</p>
+<p><strong>省略”get”</strong>。获取状态信息的函数应该描述他们要返回的东西。请使用<code>extendedExecutionIsEnabled()</code>或<code>isExtendedExecutionEnabled()</code>而不是<code>getExtendedExecutionIsEnabled()</code>。通过参数返回数据的函数例外。</p>
+<p><strong>使用标签描述参数</strong>。建议结合函数名和标签来描述函数本身，这样创建出来的会是包括介词（with、of、between 等等）的描述符。你会”construct color with red, green, and blue”（译者注：使用红绿蓝构建颜色），测试”length of string”（译者注：字符串的长度），或者”test equality between x and y”（译者注：判断 x 和 y 是否相等）。</p>
+<p>好的函数名和标签可以告诉人们如何使用函数。结果会是自文档化，不用依靠记忆或查找来确定需要传入的参数。请使用<code>withTag:</code>而不是<code>tag:</code>。</p>
+<p><strong>使用介词，避免”and”</strong>。<code>And</code> 是 Apple 特别声称要避免的一个词。避免使用”view and position”，使用”view, position”。 </p>
+<p>如果你必须使用<code>and</code>，请确保一组参数有语义联系，如使用”red, green and blue”构建颜色。哪怕之后调整了关键字，也显然不可能中断这些项的联系。在这种情况下，即使是代码洁癖患者也不会认为你的代码有问题。</p>
+<p>Apple 支持使用 and 的一个例子是在一个方法中描述两种截然不同的动作，比如<code>openFile(withApplication:, andDeactivate:)</code>。</p>
+<p><strong>在基于类型的名字后面加上<code>value</code> </strong>。请使用<code>toIntValue</code>而不是<code>toInt</code>，以及<code>withCGRectValue</code>而不是<code>withCGRect</code>。</p>
+<p><strong>使用美国标准短语</strong>。由于这些词是由 Apple 提供的，请使用 initialize 而不是 initialise 以及 color 而不是 colour。</p>
+<p><strong>有疑惑，找 Apple</strong>。使用相似的概念搜索 Apple API 接口并模仿其方法签名。尽量参考 Objective-C  命名，因为 Swift 中的 Apple API 并没有全部通过人工审查。自动转换过来的 API 可能并不是一个好例子。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Swift-入门/">Swift 入门</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Erica-Sadun/">Erica Sadun</a>
+  </div>
 
 </div>
 
@@ -127,7 +148,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://swiftggteam.github.io/2015/08/11/uigesturerecognizer-tutorial-creating-custom-recognizers/" data-title="UIGestureRecognizer教程：创建自定义手势识别器 | SwiftGG" data-tsina="null" class="share clearfix">
+	  <div data-url="http://swiftggteam.github.io/2015/11/12/naming-methods-and-functions/" data-title="函数和方法命名规范 | SwiftGG" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -140,19 +161,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/08/14/friday-qa-2015-07-17-when-to-use-swift-structs-and-classes/" title="Swift：什么时候使用结构体和类">
-  <strong>上一篇：</strong><br/>
-  <span>
-  Swift：什么时候使用结构体和类</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2015/08/11/raywenderlich-swift-style-guide/"  title="RayWenderlich 官方 Swift 风格指南">
+<a href="/2015/11/11/c-callbacks-in-swift/"  title="在 Swift 2.0 当中使用 C 语言回调">
  <strong>下一篇：</strong><br/> 
- <span>RayWenderlich 官方 Swift 风格指南
+ <span>在 Swift 2.0 当中使用 C 语言回调
 </span>
 </a>
 </div>
@@ -161,7 +174,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/08/11/uigesturerecognizer-tutorial-creating-custom-recognizers/" data-title="UIGestureRecognizer教程：创建自定义手势识别器" data-url="http://swiftggteam.github.io/2015/08/11/uigesturerecognizer-tutorial-creating-custom-recognizers/"></div>
+	<div class="ds-thread" data-thread-key="2015/11/12/naming-methods-and-functions/" data-title="函数和方法命名规范" data-url="http://swiftggteam.github.io/2015/11/12/naming-methods-and-functions/"></div>
 </section>
 
 

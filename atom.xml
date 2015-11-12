@@ -4,7 +4,7 @@
   <subtitle><![CDATA[走心的 Swift 翻译组]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://swiftggteam.github.io/"/>
-  <updated>2015-11-11T00:54:18.653Z</updated>
+  <updated>2015-11-12T01:07:21.225Z</updated>
   <id>http://swiftggteam.github.io/</id>
   
   <author>
@@ -15,11 +15,53 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[函数和方法命名规范]]></title>
+    <link href="http://swiftggteam.github.io/2015/11/12/naming-methods-and-functions/"/>
+    <id>http://swiftggteam.github.io/2015/11/12/naming-methods-and-functions/</id>
+    <published>2015-11-12T01:00:00.000Z</published>
+    <updated>2015-11-12T01:07:21.225Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/08/31/naming-methods-and-functions/" target="_blank" rel="external">原文链接</a>，原文日期：2015-08-31<br>译者：<a href="http://weibo.com/u/2916092907" target="_blank" rel="external">天才175</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
+</blockquote>
+<p>请各位随意批判。同时请看<a href="https://realm.io/news/swift-summit-swifty-methods-clarity-brevity/" target="_blank" rel="external">这里</a>和<a href="http://radex.io/swift/methods/" target="_blank" rel="external">这里</a>。</p>
+<p><strong>简单明了</strong>。根据上下文给动词和介词加上名词。请使用<code>removeObject(object, atIndex: index)</code>，而不是<code>remove(object, at: index)</code>。不要为了过度的简洁而影响清晰准确性。</p>
+<a id="more"></a>
+<p><strong>避免缩写</strong>。使用<code>printError(myError)</code>而不是<code>printErr(myErr)</code>以及<code>setBackgroundImage(myImage)</code>而不是<code>setBGImage(myImg)</code>。虽然苹果提供了一系列“可接受”的缩写，但是请不要在 Swift 中使用像 max 和 min 这样的缩写。</p>
+<p><strong>避免歧义</strong>。考虑一下函数或者方法的命名是否存在多种解释。举个栗子，在<code>displayName</code>中，display 是名词还是动词呢？如果命名不清晰的话，请重新命名来消除混淆。</p>
+<p><strong>保持一致性</strong>。在你的应用和库中使用相同的术语来描述概念。避免在一个方法里使用<code>fetchBezierElements()</code>，却在另外一个里使用<code>listPathComponents()</code>。</p>
+<p><strong>不要引用类型关键字</strong>。避免命名中出现 struct、enum、class、instance 以及 object。请使用<code>buildDeckofCards()</code>而不是<code>buildDeckofCardsStruct()</code>。</p>
+<p><strong>方法命名使用小写</strong>。虽然大多数开发者使用小写命名全局函数，但你可以大写，这并不是什么罪过。虽然这种函数命名过时了，但大写的函数名却能立刻将函数与方法区别开来。有一段时间我也改变过想法，但是最终还是决定奋起抗争，使用小写。这种做法曾经和命名空间一样普及，但是突然间就销声匿迹了。就像一百万个喊着大写的人突然沉默。</p>
+<p><strong>省略”get”</strong>。获取状态信息的函数应该描述他们要返回的东西。请使用<code>extendedExecutionIsEnabled()</code>或<code>isExtendedExecutionEnabled()</code>而不是<code>getExtendedExecutionIsEnabled()</code>。通过参数返回数据的函数例外。</p>
+<p><strong>使用标签描述参数</strong>。建议结合函数名和标签来描述函数本身，这样创建出来的会是包括介词（with、of、between 等等）的描述符。你会”construct color with red, green, and blue”（译者注：使用红绿蓝构建颜色），测试”length of string”（译者注：字符串的长度），或者”test equality between x and y”（译者注：判断 x 和 y 是否相等）。</p>
+<p>好的函数名和标签可以告诉人们如何使用函数。结果会是自文档化，不用依靠记忆或查找来确定需要传入的参数。请使用<code>withTag:</code>而不是<code>tag:</code>。</p>
+<p><strong>使用介词，避免”and”</strong>。<code>And</code> 是 Apple 特别声称要避免的一个词。避免使用”view and position”，使用”view, position”。 </p>
+<p>如果你必须使用<code>and</code>，请确保一组参数有语义联系，如使用”red, green and blue”构建颜色。哪怕之后调整了关键字，也显然不可能中断这些项的联系。在这种情况下，即使是代码洁癖患者也不会认为你的代码有问题。</p>
+<p>Apple 支持使用 and 的一个例子是在一个方法中描述两种截然不同的动作，比如<code>openFile(withApplication:, andDeactivate:)</code>。</p>
+<p><strong>在基于类型的名字后面加上<code>value</code> </strong>。请使用<code>toIntValue</code>而不是<code>toInt</code>，以及<code>withCGRectValue</code>而不是<code>withCGRect</code>。</p>
+<p><strong>使用美国标准短语</strong>。由于这些词是由 Apple 提供的，请使用 initialize 而不是 initialise 以及 color 而不是 colour。</p>
+<p><strong>有疑惑，找 Apple</strong>。使用相似的概念搜索 Apple API 接口并模仿其方法签名。尽量参考 Objective-C  命名，因为 Swift 中的 Apple API 并没有全部通过人工审查。自动转换过来的 API 可能并不是一个好例子。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/08/31/naming-methods-and-functions/">原文链接</a>，原文日期：2015-08-31<br>译者：<a href="http://weibo.com/u/2916092907">天才175</a>；校对：<a href="https://github.com/numbbbbb">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb">numbbbbb</a></p>
+</blockquote>
+<p>请各位随意批判。同时请看<a href="https://realm.io/news/swift-summit-swifty-methods-clarity-brevity/">这里</a>和<a href="http://radex.io/swift/methods/">这里</a>。</p>
+<p><strong>简单明了</strong>。根据上下文给动词和介词加上名词。请使用<code>removeObject(object, atIndex: index)</code>，而不是<code>remove(object, at: index)</code>。不要为了过度的简洁而影响清晰准确性。</p>]]>
+    
+    </summary>
+    
+      <category term="Erica Sadun" scheme="http://swiftggteam.github.io/tags/Erica-Sadun/"/>
+    
+      <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[在 Swift 2.0 当中使用 C 语言回调]]></title>
     <link href="http://swiftggteam.github.io/2015/11/11/c-callbacks-in-swift/"/>
     <id>http://swiftggteam.github.io/2015/11/11/c-callbacks-in-swift/</id>
     <published>2015-11-11T01:00:00.000Z</published>
-    <updated>2015-11-11T00:54:18.653Z</updated>
+    <updated>2015-11-12T01:07:21.225Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Ole Begemann，<a href="http://oleb.net/blog/2015/06/c-callbacks-in-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-06-22<br>译者：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
 </blockquote>
@@ -98,14 +140,14 @@
     <link href="http://swiftggteam.github.io/2015/11/10/ios-undo-and-redo-with-nsundomanager/"/>
     <id>http://swiftggteam.github.io/2015/11/10/ios-undo-and-redo-with-nsundomanager/</id>
     <published>2015-11-10T01:00:00.000Z</published>
-    <updated>2015-11-11T00:54:18.653Z</updated>
+    <updated>2015-11-12T01:07:21.225Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/ios-undo-and-redo-with-nsundomanager/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-13<br>译者：<a href="http://blog.csdn.net/yake_099" target="_blank" rel="external">Yake</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="undefined"></a></p>
 </blockquote>
 <p>在相当长的一段时间内 NSUndoManager 对我来说都是一个很神秘的东西。我想学习使用它，但是一直没有时间。一直到今天，我写了一个简单的应用，这个应用创建了一个可以移动的矩形，并且还可以修改矩形的属性，例如背景色或者圆角。</p>
 <a id="more"></a>
 <p>你可以在<a href="https://github.com/tomkowz/undo-manager-practice" target="_blank" rel="external">这儿</a>获取到示例应用<br><a href="https://youtu.be/3Pk85X8bugk" target="_blank" rel="external">这儿</a>是一段小视频，你可以看看这个示例应用是怎么工作的。</p>
-<p><img src="http://szulctomasz.com/wp-content/uploads/2015/09/Screen-Shot-2015-09-13-at-17.24.19.png" alt="Screen-Shot-2015-09-13-at-17.24.19.png"></p>
+<p><img src="/img/articles/ios-undo-and-redo-with-nsundomanager/Screen-Shot-2015-09-13-at-17.24.19.png1447290433.4454885" alt="Screen-Shot-2015-09-13-at-17.24.19.png"></p>
 <h2 id="NSUndoManager">NSUndoManager</h2><p><code>NSUndoManager</code>允许记录用户执行的操作并且反转这类操作。</p>
 <p>当你调用一个可以改变一些东西的方法或者是执行一个改变属性值的动作（例如 setter 方法）时，你可以注册这个操作来进行撤销。</p>
 <p>一个撤销操作包含了接收消息的对象，发送消息以及参数 - 通常你会传入原始值。</p>
@@ -134,7 +176,7 @@
 <h2 id="响应链">响应链</h2><p>每一个<code>UIView</code>对象继承自<code>UIResponder</code>类型，这个类定义了响应对象的接口并且处理事件。</p>
 <p><code>UIResponder</code>类声明了<code>undoManager</code>属性。当应用接收到<code>undo</code>事件，<code>UIResponder</code>搭建起响应者链并通过<code>undoManager</code>返回一个<code>NSUndoManager</code>类型的对象来找到这个响应者。找到的第一个响应者将被用来处理<code>undo</code>或者<code>redo</code>操作。</p>
 <p>为了使用响应者链你需要重载<code>canBecomeFirstResponder()</code>属性并且设置返回值为<code>true</code>，然后通过调用<code>becomeFirstResponder()</code>方法使持有<code>undoManager</code>的对象成为第一响应者。如果你已经正确设置好了一切，可以执行一个摇晃手势，应用会出现一个警告框询问你是否要执行<code>undo</code>操作。</p>
-<p><img src="http://szulctomasz.com/wp-content/uploads/2015/09/undo-event.png" alt="图片二.png"></p>
+<p><img src="/img/articles/ios-undo-and-redo-with-nsundomanager/undo-event.png1447290437.6564598" alt="图片二.png"></p>
 <h2 id="示例代码">示例代码</h2><p>当我写这个示例代码的时候我注意自己花费了很多时间去考虑“具有唯一目的”的方法。当你需要支持撤销和重做操作时这其实很重要，因为你调用那些方法就是出于特定的目的。</p>
 <p>下面的示例代码来自那个示例应用，它展示了在展板中的添加，移除以及移动操作都是怎么实现的。下面是所有与<code>undo manager</code>相关的代码：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// MARK: Actions on Figures</span></span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">addFigure</span><span class="params">(figure: FigureView)</span></span> &#123;</span><br><span class="line">    registerUndoAddFigure(figure)</span><br><span class="line">    </span><br><span class="line">    boardView.addSubview(figure)</span><br><span class="line">    figures.append(figure)</span><br><span class="line">    </span><br><span class="line">    updateUndoAndRedoButtons()</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">removeFigure</span><span class="params">(figure: FigureView)</span></span> &#123;</span><br><span class="line">    registerUndoRemoveFigure(figure)</span><br><span class="line">    </span><br><span class="line">    figure.removeFromSuperview()</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">let</span> index = figures.indexOf(figure) &#123;</span><br><span class="line">        figures.removeAtIndex(index)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">moveFigure</span><span class="params">(figure: FigureView, center: CGPoint)</span></span> &#123;</span><br><span class="line">    registerUndoMoveFigure(figure)</span><br><span class="line">    figure.center = center</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="comment">/// MARK: Undo Manager</span></span><br><span class="line"><span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">canBecomeFirstResponder</span><span class="params">()</span></span> -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">private</span> <span class="keyword">var</span> _undoManager = <span class="type">NSUndoManager</span>()</span><br><span class="line"><span class="keyword">override</span> <span class="keyword">var</span> undoManager: <span class="type">NSUndoManager</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> _undoManager</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">private</span> <span class="func"><span class="keyword">func</span> <span class="title">observeUndoManager</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="type">NSNotificationCenter</span>.defaultCenter().addObserver(<span class="keyword">self</span>, selector: <span class="type">Selector</span>(<span class="string">"updateUndoAndRedoButtons"</span>), name: <span class="type">NSUndoManagerDidUndoChangeNotification</span>, object: undoManager)</span><br><span class="line">    <span class="type">NSNotificationCenter</span>.defaultCenter().addObserver(<span class="keyword">self</span>, selector: <span class="type">Selector</span>(<span class="string">"updateUndoAndRedoButtons"</span>), name: <span class="type">NSUndoManagerDidRedoChangeNotification</span>, object: undoManager)</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="preprocessor">@objc</span> <span class="keyword">private</span> <span class="func"><span class="keyword">func</span> <span class="title">updateUndoAndRedoButtons</span><span class="params">()</span></span> &#123;</span><br><span class="line">    undoButton.enabled = undoManager.canUndo == <span class="literal">true</span></span><br><span class="line">    <span class="keyword">if</span> undoManager.canUndo &#123;</span><br><span class="line">        undoButton.setTitle(undoManager.undoMenuTitleForUndoActionName(undoManager.undoActionName), forState: .<span class="type">Normal</span>)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        undoButton.setTitle(undoManager.undoMenuItemTitle, forState: .<span class="type">Normal</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    redoButton.enabled = undoManager.canRedo == <span class="literal">true</span></span><br><span class="line">    <span class="keyword">if</span> undoManager.canRedo &#123;</span><br><span class="line">        redoButton.setTitle(undoManager.redoMenuTitleForUndoActionName(undoManager.redoActionName), forState: .<span class="type">Normal</span>)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        redoButton.setTitle(undoManager.redoMenuItemTitle, forState: .<span class="type">Normal</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="comment">/// MARK: Undo Manager Actions</span></span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">registerUndoAddFigure</span><span class="params">(figure: FigureView)</span></span> &#123;</span><br><span class="line">    undoManager.prepareWithInvocationTarget(<span class="keyword">self</span>).removeFigure(figure)</span><br><span class="line">    undoManager.setActionName(<span class="string">"Add Figure"</span>)</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">registerUndoRemoveFigure</span><span class="params">(figure: FigureView)</span></span> &#123;</span><br><span class="line">    undoManager.prepareWithInvocationTarget(<span class="keyword">self</span>).addFigure(figure)</span><br><span class="line">    undoManager.setActionName(<span class="string">"Remove Figure"</span>)</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">registerUndoMoveFigure</span><span class="params">(figure: FigureView)</span></span> &#123;</span><br><span class="line">    undoManager.prepareWithInvocationTarget(<span class="keyword">self</span>).moveFigure(figure, center: figure.center)</span><br><span class="line">    undoManager.setActionName(<span class="string">"Move to <span class="subst">\(figure.center)</span>"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -163,7 +205,7 @@
     <link href="http://swiftggteam.github.io/2015/11/09/what-makes-good-code/"/>
     <id>http://swiftggteam.github.io/2015/11/09/what-makes-good-code/</id>
     <published>2015-11-09T01:00:00.000Z</published>
-    <updated>2015-11-11T00:54:18.653Z</updated>
+    <updated>2015-11-12T01:07:21.225Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/10/28/what-makes-good-code/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-28<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -215,7 +257,7 @@
     <link href="http://swiftggteam.github.io/2015/11/06/if-let-assignment/"/>
     <id>http://swiftggteam.github.io/2015/11/06/if-let-assignment/</id>
     <published>2015-11-06T01:00:00.000Z</published>
-    <updated>2015-11-11T00:54:18.653Z</updated>
+    <updated>2015-11-12T01:07:21.225Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Weston Hanners，<a href="http://www.alloc-init.com/2015/10/if-let-assignment/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-29<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -259,7 +301,7 @@
     <link href="http://swiftggteam.github.io/2015/11/05/swift-playground-the-monty-hall-problem/"/>
     <id>http://swiftggteam.github.io/2015/11/05/swift-playground-the-monty-hall-problem/</id>
     <published>2015-11-05T01:00:00.000Z</published>
-    <updated>2015-11-11T00:54:18.653Z</updated>
+    <updated>2015-11-12T01:07:21.225Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-playground-the-monty-hall-problem/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-27<br>译者：<a href="https://github.com/SergioChan" target="_blank" rel="external">SergioChan</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -304,7 +346,7 @@
     <link href="http://swiftggteam.github.io/2015/11/04/swift-using-local-closures/"/>
     <id>http://swiftggteam.github.io/2015/11/04/swift-using-local-closures/</id>
     <published>2015-11-04T01:00:00.000Z</published>
-    <updated>2015-11-11T00:54:18.649Z</updated>
+    <updated>2015-11-12T01:07:21.225Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-using-local-closures/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-22<br>译者：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -341,7 +383,7 @@
     <link href="http://swiftggteam.github.io/2015/11/03/watchconnectivity-introduction-say-goodbye-to-the-spinner/"/>
     <id>http://swiftggteam.github.io/2015/11/03/watchconnectivity-introduction-say-goodbye-to-the-spinner/</id>
     <published>2015-11-03T01:00:00.000Z</published>
-    <updated>2015-11-11T00:54:18.649Z</updated>
+    <updated>2015-11-12T01:07:21.225Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/watchconnectivity-introduction-say-goodbye-to-the-spinner/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-21<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -391,7 +433,7 @@
     <link href="http://swiftggteam.github.io/2015/11/02/watchconnectivity-say-hello-to-wcsession/"/>
     <id>http://swiftggteam.github.io/2015/11/02/watchconnectivity-say-hello-to-wcsession/</id>
     <published>2015-11-01T16:00:00.000Z</published>
-    <updated>2015-11-11T00:54:18.649Z</updated>
+    <updated>2015-11-12T01:07:21.225Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/watchconnectivity-say-hello-to-wcsession/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-21<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -475,7 +517,7 @@
     <link href="http://swiftggteam.github.io/2015/10/30/lets-talk-about-monads/"/>
     <id>http://swiftggteam.github.io/2015/10/30/lets-talk-about-monads/</id>
     <published>2015-10-30T01:00:00.000Z</published>
-    <updated>2015-11-11T00:54:18.649Z</updated>
+    <updated>2015-11-12T01:07:21.225Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Olivier Halligon，<a href="http://alisoftware.github.io/swift/2015/10/17/lets-talk-about-monads/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-17<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -540,7 +582,7 @@
     <link href="http://swiftggteam.github.io/2015/10/29/list-comprehensions-and-performance-with-swift/"/>
     <id>http://swiftggteam.github.io/2015/10/29/list-comprehensions-and-performance-with-swift/</id>
     <published>2015-10-29T01:00:00.000Z</published>
-    <updated>2015-11-11T00:54:18.649Z</updated>
+    <updated>2015-11-12T01:07:21.225Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Veronica Ray，<a href="http://jamesonquave.com/blog/list-comprehensions-and-performance-with-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-08-15<br>译者：<a href="http://weibo.com/riven0951" target="_blank" rel="external">riven</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a></p>
 <p>本文写于 2015.8.15 适用于 Xcode 6 和 Swift 1.2</p>
@@ -601,7 +643,7 @@
     <link href="http://swiftggteam.github.io/2015/10/28/five-myths-about-swift/"/>
     <id>http://swiftggteam.github.io/2015/10/28/five-myths-about-swift/</id>
     <published>2015-10-28T01:00:00.000Z</published>
-    <updated>2015-11-11T00:54:18.649Z</updated>
+    <updated>2015-11-12T01:07:21.225Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/five-myths-about-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-19<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a></p>
 </blockquote>
@@ -646,7 +688,7 @@
     <link href="http://swiftggteam.github.io/2015/10/27/swift-pattern-matching-in-detail/"/>
     <id>http://swiftggteam.github.io/2015/10/27/swift-pattern-matching-in-detail/</id>
     <published>2015-10-27T01:00:00.000Z</published>
-    <updated>2015-11-11T00:54:18.649Z</updated>
+    <updated>2015-11-12T01:07:21.225Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Benedikt Terhechte，<a href="http://appventure.me/2015/08/20/swift-pattern-matching-in-detail/" target="_blank" rel="external">原文链接</a>，原文日期：2015-08-20<br>译者：<a href="http://blog.csdn.net/mmoaay" target="_blank" rel="external">mmoaay</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -869,7 +911,7 @@
     <link href="http://swiftggteam.github.io/2015/10/26/swift-ranges-and-intervals/"/>
     <id>http://swiftggteam.github.io/2015/10/26/swift-ranges-and-intervals/</id>
     <published>2015-10-26T01:00:00.000Z</published>
-    <updated>2015-11-11T00:54:18.649Z</updated>
+    <updated>2015-11-12T01:07:21.225Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Ole Begemann，<a href="http://oleb.net/blog/2015/09/swift-ranges-and-intervals/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-24<br>译者：<a href="http://www.dianqk.org/" target="_blank" rel="external">靛青K</a>；校对：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；定稿：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a></p>
 </blockquote>
@@ -967,7 +1009,7 @@
     <link href="http://swiftggteam.github.io/2015/10/23/3d-touch-impressions-and-thoughts/"/>
     <id>http://swiftggteam.github.io/2015/10/23/3d-touch-impressions-and-thoughts/</id>
     <published>2015-10-23T01:00:00.000Z</published>
-    <updated>2015-11-11T00:54:18.649Z</updated>
+    <updated>2015-11-12T01:07:21.225Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/3d-touch-impressions-and-thoughts" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-26<br>译者：<a href="http://www.brighttj.com" target="_blank" rel="external">saitjr</a>；校对：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1028,7 +1070,7 @@
     <link href="http://swiftggteam.github.io/2015/10/22/thinking-in-swift-4/"/>
     <id>http://swiftggteam.github.io/2015/10/22/thinking-in-swift-4/</id>
     <published>2015-10-22T01:00:00.000Z</published>
-    <updated>2015-11-11T00:54:18.649Z</updated>
+    <updated>2015-11-12T01:07:21.225Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Olivier Halligon，<a href="http://alisoftware.github.io/swift/2015/10/11/thinking-in-swift-4/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-11<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="http://www.futantan.com" target="_blank" rel="external">Prayer</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1119,7 +1161,7 @@
     <link href="http://swiftggteam.github.io/2015/10/21/reordering-collection-view-cells-tutorial/"/>
     <id>http://swiftggteam.github.io/2015/10/21/reordering-collection-view-cells-tutorial/</id>
     <published>2015-10-21T01:00:00.000Z</published>
-    <updated>2015-11-11T00:54:18.649Z</updated>
+    <updated>2015-11-12T01:07:21.225Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：ioscreator，<a href="http://www.ioscreator.com/tutorials/reordering-collection-view-cells-tutorial" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-17<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://www.dianqk.org/" target="_blank" rel="external">靛青K</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1183,7 +1225,7 @@
     <link href="http://swiftggteam.github.io/2015/10/20/thinking-in-swift-3/"/>
     <id>http://swiftggteam.github.io/2015/10/20/thinking-in-swift-3/</id>
     <published>2015-10-20T01:00:00.000Z</published>
-    <updated>2015-11-11T00:54:18.649Z</updated>
+    <updated>2015-11-12T01:07:21.225Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Olivier Halligon，<a href="http://alisoftware.github.io/swift/2015/10/03/thinking-in-swift-3/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-03<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；定稿：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a></p>
 </blockquote>
@@ -1246,7 +1288,7 @@
     <link href="http://swiftggteam.github.io/2015/10/19/friday-qa-2015-09-04-lets-build-dispatch_queue/"/>
     <id>http://swiftggteam.github.io/2015/10/19/friday-qa-2015-09-04-lets-build-dispatch_queue/</id>
     <published>2015-10-19T01:00:00.000Z</published>
-    <updated>2015-11-11T00:54:18.649Z</updated>
+    <updated>2015-11-12T01:07:21.225Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Mike Ash，<a href="https://www.mikeash.com/pyblog/friday-qa-2015-09-04-lets-build-dispatch_queue.html" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-04<br>译者：<a href="http://blog.csdn.net/yake_099" target="_blank" rel="external">Yake</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a></p>
 <p>译者注：这篇文章的代码是用 Objective-C 完成的，不过不妨碍大家学习多线程编码的知识。</p>
@@ -1378,7 +1420,7 @@
     <link href="http://swiftggteam.github.io/2015/10/16/swift-pattern-matching/"/>
     <id>http://swiftggteam.github.io/2015/10/16/swift-pattern-matching/</id>
     <published>2015-10-16T01:00:00.000Z</published>
-    <updated>2015-11-11T00:54:18.649Z</updated>
+    <updated>2015-11-12T01:07:21.225Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Ole Begemann，<a href="http://oleb.net/blog/2015/09/swift-pattern-matching/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-18<br>译者：<a href="undefined">lfb-CD</a>；校对：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1453,50 +1495,6 @@
     </summary>
     
       <category term="Ole Begemann" scheme="http://swiftggteam.github.io/tags/Ole-Begemann/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[WatchOS 2: Hello, World]]></title>
-    <link href="http://swiftggteam.github.io/2015/10/15/watchos-2-hello-world/"/>
-    <id>http://swiftggteam.github.io/2015/10/15/watchos-2-hello-world/</id>
-    <published>2015-10-15T01:00:00.000Z</published>
-    <updated>2015-11-11T00:54:18.649Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>作者：Natasha The Robot，<a href="http://natashatherobot.com/watchos-2-hello-world/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-21<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
-</blockquote>
-<!--此处开始正文-->
-<p>欢迎学习我的<code>WatchOS 2</code>系列教程。我会从最简单的部分开始带你学习<code>WatchOS 2</code>。一个 “Hello,World” app，没错，这个程序虽然非常简单，还是有一些要注意的地方。</p>
-<a id="more"></a>
-<p>首先，创建一个新的<code>Single View Application</code>。我将假设你已经知道如何创建一个基本的<code>Xcode</code>项目。现在进入有趣的部分：</p>
-<ol>
-<li>在 <code>Xcode</code> 中, 打开 <code>File -&gt; New -&gt; Target</code></li>
-</ol>
-<p><img src="/img/articles/watchos-2-hello-world/Screen_Shot_2015-09-21_at_7_23_42_AM.png1444874958.106001" alt=""></p>
-<ol>
-<li>选择<code>watchOS -&gt; Application</code>。注意在<code>iOS</code>菜单下面有一个<code>Apple Watch</code>选项。不要选择这个选项！因为我曾经做过 <code>WatchKit apps</code>，所以系统自动选择了这个错误的选项 :( 。</li>
-</ol>
-<p><img src="/img/articles/watchos-2-hello-world/ItsAWatchWorld_xcodeproj.png1444874960.646429" alt=""></p>
-<ol>
-<li>选择<code>WatchKit App</code> 然后点击<code>Next</code>。注意<strong>你的 Watch App 项目名称不能和 iOS 名称相同</strong> - 因为这会创建两个名字相同的<code>target</code>！你可以随时在<code>Info.plist</code>中修改<code>Bundle Display Name</code>。同时还要注意，不要勾选<code>Include Complication</code>选项 :) 。</li>
-</ol>
-<p><img src="/img/articles/watchos-2-hello-world/Screenshot_9_21_15__7_35_AM.png1444874962.648526" alt=""></p>
-<ol>
-<li>点击<code>Finish</code>。就酱！来看一下你的新 <code>App</code> 和 <code>Extension</code> 吧。跟 <code>WatchKit</code> 一样，这里有一个用于 Watch 的 <code>target</code>，并且附带了一个 <code>Storyboard</code>，以及用于编写程序逻辑的 <code>Extension</code>。</li>
-</ol>
-<p><img src="/img/articles/watchos-2-hello-world/Menubar_and_ItsAWatchWorld_xcodeproj_and_MyPlayground_6_36_06_PM_playground.png1444874964.5578082" alt=""></p>
-<p>开心地编程吧！！</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>作者：Natasha The Robot，<a href="http://natashatherobot.com/watchos-2-hello-world/">原文链接</a>，原文日期：2015-09-21<br>译者：<a href="http://daizi.me">小袋子</a>；校对：<a href="http://www.swiftyper.com/">小锅</a>；定稿：<a href="https://github.com/numbbbbb">numbbbbb</a></p>
-</blockquote>
-<!--此处开始正文-->
-<p>欢迎学习我的<code>WatchOS 2</code>系列教程。我会从最简单的部分开始带你学习<code>WatchOS 2</code>。一个 “Hello,World” app，没错，这个程序虽然非常简单，还是有一些要注意的地方。</p>]]>
-    
-    </summary>
-    
-      <category term="Natasha the Robot" scheme="http://swiftggteam.github.io/tags/Natasha-the-Robot/"/>
     
   </entry>
   
