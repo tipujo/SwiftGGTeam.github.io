@@ -611,7 +611,7 @@
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/09/02/good-errors-swiftlang/">原文链接</a>，原文日期：2015-09-02<br>译者：<a href="http://daizi.me">小袋子</a>；校对：<a href="http://codebuild.me/">shanks</a>；定稿：<a href="http://codebuild.me/">shanks</a></p>
 </blockquote>
 <p>为了处理错误，我们可以抛出一些遵循 <code>ErrorType</code> 协议的实例。最简单的例子，创建一个 <code>struct</code> 并且抛出错误，就像如下示例：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">struct</span> <span class="title">SomethingWentWrong</span> : <span class="title">ErrorType</span> </span>&#123;&#125;</span><br><span class="line">...something happens...</span><br><span class="line"><span class="keyword">throw</span> <span class="type">SomethingWentWrong</span>()</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">struct</span> <span class="title">SomethingWentWrong</span> : <span class="title">ErrorType</span> </span>&#123;&#125;</span><br><span class="line">...something happens...</span><br><span class="line"><span class="keyword">throw</span> <span class="type">SomethingWentWrong</span>()</span><br></pre></td></tr></table></figure>
         
         
         <p class="article-more-link">

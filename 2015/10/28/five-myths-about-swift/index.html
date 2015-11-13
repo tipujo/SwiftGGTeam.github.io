@@ -25,7 +25,7 @@ Swift 虽然是一门比较新的技术语言，却已经有了很多关于 Swif
 
 &amp;lt;!--此处开始正文--&amp;gt;
 Swift 虽然是一门比较新的技术语言，却已经有了很多关于 Swift 的误区。">
-<meta property="og:updated_time" content="2015-11-13T01:58:19.367Z">
+<meta property="og:updated_time" content="2015-11-13T01:59:13.332Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关于 Swift 的 5 个误区">
 <meta name="twitter:description" content="作者：Thomas Hanning，原文链接，原文日期：2015-10-19译者：小铁匠Linus；校对：numbbbbb；定稿：小锅
@@ -113,10 +113,10 @@ Swift 虽然是一门比较新的技术语言，却已经有了很多关于 Swif
 <p>Swift 虽然是一门比较新的技术语言，却已经有了很多关于 Swift 的误区。</p>
 <a id="more"></a>
 <h2 id="误区_1_：“Swift_是弱类型的语言”">误区 1 ：“Swift 是弱类型的语言”</h2><p>很多人认为 Swift 是一种弱类型的语言。他们这么说的原因主要是可以隐式声明一个值，而不管类型是什么：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> i = <span class="number">5</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> i = <span class="number">5</span></span><br></pre></td></tr></table></figure>
 <p>这代码看上去好像<code>i</code>没有类型，其实并不是这样的。因为 5 是一个整型，所以编译器就会让<code>i</code>成为整型变量。之后，整型变量<code>i</code>不会再被改变，也就是说<code>i</code>永远是整型变量。</p>
 <p>当然，我们也可以明确的指定变量的类型：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> i: <span class="type">Int</span> = <span class="number">5</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> i: <span class="type">Int</span> = <span class="number">5</span></span><br></pre></td></tr></table></figure>
 <p>虽然这种方式不是必要的，但它可以提高代码的可读性。</p>
 <h2 id="误区_2_：“Swift_和_Objective-C_协作性差”">误区 2 ：“Swift 和 Objective-C 协作性差”</h2><p>很多人不想开始尝试使用 Swift，因为他们认为 Swift 不能兼容现存的 Objective-C 代码和类库。其实并不是这样的。在同一个工程中，同时使用 Swift 和 Objective-C 也是可行的。并且，在 Swift 代码中也可以使用 Objective-C 的第三方库。</p>
 <p>可以在所谓的桥接文件中声明 Objective-C 的头文件，然后，所有头文件的内容都会被翻译成 Swfit 的语法，这样在调用 Objective-C 的 API 的时候就不会感觉到什么区别了。甚至 Objective-C 错误处理也被转换成 Swift 的<code>do-try-catch</code>语法了。</p>

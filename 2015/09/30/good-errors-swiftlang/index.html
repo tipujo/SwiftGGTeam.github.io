@@ -16,7 +16,7 @@
     <meta name="description" content="作者：Erica Sadun，原文链接，原文日期：2015-09-02译者：小袋子；校对：shanks；定稿：shanks
 
 为了处理错误，我们可以抛出一些遵循 ErrorType 协议的实例。最简单的例子，创建一个 struct 并且抛出错误，就像如下示例：
-123public struct SomethingWentWrong : ErrorType &amp;#123;&amp;#125;...someth">
+public struct SomethingWentWrong : ErrorType &amp;#123;&amp;#125;...something">
 <meta property="og:type" content="article">
 <meta property="og:title" content="好的错误处理原则">
 <meta property="og:url" content="http://swiftggteam.github.io/2015/09/30/good-errors-swiftlang/index.html">
@@ -24,14 +24,14 @@
 <meta property="og:description" content="作者：Erica Sadun，原文链接，原文日期：2015-09-02译者：小袋子；校对：shanks；定稿：shanks
 
 为了处理错误，我们可以抛出一些遵循 ErrorType 协议的实例。最简单的例子，创建一个 struct 并且抛出错误，就像如下示例：
-123public struct SomethingWentWrong : ErrorType &amp;#123;&amp;#125;...someth">
-<meta property="og:updated_time" content="2015-11-13T01:58:19.363Z">
+public struct SomethingWentWrong : ErrorType &amp;#123;&amp;#125;...something">
+<meta property="og:updated_time" content="2015-11-13T01:59:13.328Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="好的错误处理原则">
 <meta name="twitter:description" content="作者：Erica Sadun，原文链接，原文日期：2015-09-02译者：小袋子；校对：shanks；定稿：shanks
 
 为了处理错误，我们可以抛出一些遵循 ErrorType 协议的实例。最简单的例子，创建一个 struct 并且抛出错误，就像如下示例：
-123public struct SomethingWentWrong : ErrorType &amp;#123;&amp;#125;...someth">
+public struct SomethingWentWrong : ErrorType &amp;#123;&amp;#125;...something">
 
     
     <link rel="alternative" href="/atom.xml" title="SwiftGG" type="application/atom+xml">
@@ -110,10 +110,10 @@
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/09/02/good-errors-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-02<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
 </blockquote>
 <p>为了处理错误，我们可以抛出一些遵循 <code>ErrorType</code> 协议的实例。最简单的例子，创建一个 <code>struct</code> 并且抛出错误，就像如下示例：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">struct</span> <span class="title">SomethingWentWrong</span> : <span class="title">ErrorType</span> </span>&#123;&#125;</span><br><span class="line">...something happens...</span><br><span class="line"><span class="keyword">throw</span> <span class="type">SomethingWentWrong</span>()</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">struct</span> <span class="title">SomethingWentWrong</span> : <span class="title">ErrorType</span> </span>&#123;&#125;</span><br><span class="line">...something happens...</span><br><span class="line"><span class="keyword">throw</span> <span class="type">SomethingWentWrong</span>()</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
 <p>在所有可能的描述里，你的错误信息阅读起来不应该像随机的幸运纸片那样杂乱无章，而应该是像建设性指针那样，能够解释你的失败。应避免出现下列的写法：</p>
-<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">enum</span> <span class="title">SomethingWentWrongError</span>: <span class="title">ErrorType</span> &#123;</span></span><br><span class="line">    <span class="keyword">case</span> <span class="constant">YouWillFindNewLove</span></span><br><span class="line">    <span class="keyword">case</span> <span class="constant">AClosedMouthGathersNoFeet</span></span><br><span class="line">    <span class="keyword">case</span> <span class="constant">CynicsAreFrustratedOptimists</span></span><br><span class="line">    <span class="keyword">case</span> <span class="constant">IfEverythingIsComingYourWayYouAreInTheWrongLane</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight crystal"><table><tr><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">enum</span> <span class="title">SomethingWentWrongError</span>: <span class="title">ErrorType</span> &#123;</span></span><br><span class="line">    <span class="keyword">case</span> <span class="constant">YouWillFindNewLove</span></span><br><span class="line">    <span class="keyword">case</span> <span class="constant">AClosedMouthGathersNoFeet</span></span><br><span class="line">    <span class="keyword">case</span> <span class="constant">CynicsAreFrustratedOptimists</span></span><br><span class="line">    <span class="keyword">case</span> <span class="constant">IfEverythingIsComingYourWayYouAreInTheWrongLane</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>优秀的错误处理机制应该更易于我们在特定语境中理解错误：</p>
 <ul>
 <li><p>逻辑清晰。一个优秀的错误信息应该表明问题是什么，问题的起因是什么，问题的源头在哪里，以及如何解决这个问题。我们可以从 <code>Foundation</code> 里面的错误处理获取灵感，并在你的错误反馈中提供错误原因和恢复方法。</p>

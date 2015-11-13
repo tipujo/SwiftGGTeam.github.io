@@ -689,7 +689,7 @@
 </blockquote>
 <h1 id="上篇">上篇</h1><p>我们习惯于使用for-in语句来遍历集合，比如数组/字典。</p>
 <p>举例来说:</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> library = [<span class="string">"The Swift Programming Language"</span>, <span class="string">"The Pragmatic Programmer"</span>, <span class="string">"Clean Code"</span>, <span class="string">"Refactoring"</span>]</span><br><span class="line"><span class="keyword">for</span> book <span class="keyword">in</span> library &#123;</span><br><span class="line">    <span class="built_in">println</span>(book)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> library = [<span class="string">"The Swift Programming Language"</span>, <span class="string">"The Pragmatic Programmer"</span>, <span class="string">"Clean Code"</span>, <span class="string">"Refactoring"</span>]</span><br><span class="line"><span class="keyword">for</span> book <span class="keyword">in</span> library &#123;</span><br><span class="line">    <span class="built_in">println</span>(book)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>我们把图书馆内容封装到一个数组当中；接着，视图层(UI layer)将从数据层(data layer)中获取一个图书馆对象。正如上面代码所示，图书馆对象是一个集合(这里为数组)，支持用<code>for-in</code>语句遍历整个馆内藏书。</p>
         
         
