@@ -4,7 +4,7 @@
   <subtitle><![CDATA[走心的 Swift 翻译组]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://swiftggteam.github.io/"/>
-  <updated>2015-11-16T10:51:21.221Z</updated>
+  <updated>2015-11-17T03:50:27.480Z</updated>
   <id>http://swiftggteam.github.io/</id>
   
   <author>
@@ -15,11 +15,52 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[Swift 中的函数式编程]]></title>
+    <link href="http://swiftggteam.github.io/2015/11/17/functional-programming-in-swift/"/>
+    <id>http://swiftggteam.github.io/2015/11/17/functional-programming-in-swift/</id>
+    <published>2015-11-17T04:00:00.000Z</published>
+    <updated>2015-11-17T03:50:27.480Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>作者：Natasha The Robot，<a href="http://natashatherobot.com/functional-programming-in-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/13<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
+</blockquote>
+<!--此处开始正文-->
+<p>Swift 一个强有力的语言特性就是能够用多样的函数式风格去编写代码。这在社区看来非常激动人心。</p>
+<p>我在去年年底花费了一些时间学习函数式编程，所以我可以写更好的 Swift 代码。因此，我非常推荐你们也花时间去学习一下！</p>
+<p>另外，我非常推荐推荐你们去看 <a href="http://2014.funswiftconf.com/" target="_blank" rel="external">Functional Swift conference</a>上的每一个视频。</p>
+<p>所以在花了这么多时间后，我想要总结一下个人有关于函数式编程在 Swift 应用的一些思考。</p>
+<h2 id="跟着概念走">跟着概念走</h2><p>函数式编程是令人生畏的，这要归咎于单子（monads）和 函数子（functors）！然而，一旦你领悟了它的核心概念，那么函数式编程的思想会超级简单：</p>
+<blockquote>
+<p>“函数式编程是一个编程范例…它把计算作为数学函数的评估，并避免改变状态和可变数据。”— <a href="https://en.wikipedia.org/wiki/Functional_programming" target="_blank" rel="external">维基百科</a></p>
+</blockquote>
+<p>所以核心就是你应该用数学的方式去编写代码。你的函数应该有清晰的输入和输出，并且不会像可变对象一样有全局副作用。这就是了！</p>
+<h2 id="避免可变状态">避免可变状态</h2><p>这和上述的注意点类似。函数式编程要编写的是没有副作用的数学代码。</p>
+<p>在 Swift 中使用结构体和协议帮助你避免可变状态。</p>
+<p>我极度推荐观看 <a href="https://twitter.com/andy_matuschak" target="_blank" rel="external">@andy_matuschak</a>的  <a href="https://realm.io/news/andy-matuschak-controlling-complexity/" target="_blank" rel="external">Controlling Complexity in Swift</a>，这可以让你理解如何去实现以及最终的代码会如何地强大。</p>
+<h2 id="可读性第一">可读性第一</h2><p>我发现很多高级的函数式代码，通常由于五个以上的习惯性编程而变得特别难以阅读。如果你遵从函数式编程的概念，有很多方法让你的代码变得更清楚。</p>
+<p>但是在今天结束之前，还要多说一句，如果你在一个团队中工作，最重要的事就是让代码可读性更强。如果一个内部或者一个新的开发者加入你们的团队，他们会不会完全迷失了？如果你专注于编写易读的代码（取代好玩和花哨的写法），他们可能会很快就有产出。</p>
+<p>记住一点，可读性的优先级永远比花哨的代码高（除非你的目标就是用一个好玩的副作用去实现好玩和花哨的程序）。</p>
+<h2 id="不要和_framework_作对">不要和 framework 作对</h2><p>当然，在 iOS 编程中，由于 Cocoa framework 的建立和用户的输入输出，没有副作用显然是不可能的（在纯粹的数学世界，确实存在完全没有外部副作用，但那不是我们生活的世界！）。</p>
+<p>例如，如果你创建了一个通用的转换器（formatter）（例如货币转换器），并用在代码中的一些地方，用单例是一个很好的方法。你还必须为UI Layer 使用 <code>UIViewControllers</code> 以及 <code>UIViews</code>。总有办法去脱离你的逻辑，进而让很好的不可变组件去帮助你可变化这些东西，但是不要过火地把 freamwork 改变为面目全非（可读，不可读）的状态。</p>
+<h2 id="深入学习函数式编程">深入学习函数式编程</h2><p>再次强调，你不应该执着于在你的 Swift 代码中使用花哨的技巧（除非你只是为了试验、或者好玩）。我非常推荐深入学习函数式编程的思想，从而理解那些高级概念，并且更好地应用在你的代码中。</p>
+<p>推荐阅读 <a href="https://www.objc.io/books/fpinswift/" target="_blank" rel="external">Functional Programming in Swift</a> ！这里有<a href="http://natashatherobot.com/reading-functional-programming/" target="_blank" rel="external">更多的资源</a>去帮助你开始学习！</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>作者：Natasha The Robot，<a href="http://natashatherobot.com/functional-programming-in-swift/" target="_blank" rel="external">原文]]>
+    </summary>
+    
+      <category term="Natasha The Robot" scheme="http://swiftggteam.github.io/tags/Natasha-The-Robot/"/>
+    
+      <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[捕获上下文信息]]></title>
     <link href="http://swiftggteam.github.io/2015/11/16/capturing-context-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/11/16/capturing-context-swiftlang/</id>
     <published>2015-11-16T01:00:00.000Z</published>
-    <updated>2015-11-16T10:51:21.221Z</updated>
+    <updated>2015-11-17T03:50:27.480Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/08/27/capturing-context-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-08-27<br>译者：<a href="https://github.com/chenmingbiao" target="_blank" rel="external">CMB</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -61,7 +102,7 @@
     <link href="http://swiftggteam.github.io/2015/11/13/swift-tutorial-for-beginners-part-1/"/>
     <id>http://swiftggteam.github.io/2015/11/13/swift-tutorial-for-beginners-part-1/</id>
     <published>2015-11-13T01:00:00.000Z</published>
-    <updated>2015-11-16T10:51:21.221Z</updated>
+    <updated>2015-11-17T03:50:27.480Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-tutorial-for-beginners-part-1/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-29<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -198,7 +239,7 @@
     <link href="http://swiftggteam.github.io/2015/11/12/naming-methods-and-functions/"/>
     <id>http://swiftggteam.github.io/2015/11/12/naming-methods-and-functions/</id>
     <published>2015-11-12T01:00:00.000Z</published>
-    <updated>2015-11-16T10:51:21.221Z</updated>
+    <updated>2015-11-17T03:50:27.480Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/08/31/naming-methods-and-functions/" target="_blank" rel="external">原文链接</a>，原文日期：2015-08-31<br>译者：<a href="http://weibo.com/u/2916092907" target="_blank" rel="external">天才175</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -240,7 +281,7 @@
     <link href="http://swiftggteam.github.io/2015/11/11/c-callbacks-in-swift/"/>
     <id>http://swiftggteam.github.io/2015/11/11/c-callbacks-in-swift/</id>
     <published>2015-11-11T01:00:00.000Z</published>
-    <updated>2015-11-16T10:51:21.221Z</updated>
+    <updated>2015-11-17T03:50:27.480Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Ole Begemann，<a href="http://oleb.net/blog/2015/06/c-callbacks-in-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-06-22<br>译者：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
 </blockquote>
@@ -319,7 +360,7 @@
     <link href="http://swiftggteam.github.io/2015/11/10/ios-undo-and-redo-with-nsundomanager/"/>
     <id>http://swiftggteam.github.io/2015/11/10/ios-undo-and-redo-with-nsundomanager/</id>
     <published>2015-11-10T01:00:00.000Z</published>
-    <updated>2015-11-16T10:51:21.221Z</updated>
+    <updated>2015-11-17T03:50:27.480Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/ios-undo-and-redo-with-nsundomanager/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-13<br>译者：<a href="http://blog.csdn.net/yake_099" target="_blank" rel="external">Yake</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="undefined"></a></p>
 </blockquote>
@@ -384,7 +425,7 @@
     <link href="http://swiftggteam.github.io/2015/11/09/what-makes-good-code/"/>
     <id>http://swiftggteam.github.io/2015/11/09/what-makes-good-code/</id>
     <published>2015-11-09T01:00:00.000Z</published>
-    <updated>2015-11-16T10:51:21.221Z</updated>
+    <updated>2015-11-17T03:50:27.480Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/10/28/what-makes-good-code/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-28<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -436,7 +477,7 @@
     <link href="http://swiftggteam.github.io/2015/11/06/if-let-assignment/"/>
     <id>http://swiftggteam.github.io/2015/11/06/if-let-assignment/</id>
     <published>2015-11-06T01:00:00.000Z</published>
-    <updated>2015-11-16T10:51:21.221Z</updated>
+    <updated>2015-11-17T03:50:27.480Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Weston Hanners，<a href="http://www.alloc-init.com/2015/10/if-let-assignment/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-29<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -480,7 +521,7 @@
     <link href="http://swiftggteam.github.io/2015/11/05/swift-playground-the-monty-hall-problem/"/>
     <id>http://swiftggteam.github.io/2015/11/05/swift-playground-the-monty-hall-problem/</id>
     <published>2015-11-05T01:00:00.000Z</published>
-    <updated>2015-11-16T10:51:21.221Z</updated>
+    <updated>2015-11-17T03:50:27.480Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-playground-the-monty-hall-problem/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-27<br>译者：<a href="https://github.com/SergioChan" target="_blank" rel="external">SergioChan</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -525,7 +566,7 @@
     <link href="http://swiftggteam.github.io/2015/11/04/swift-using-local-closures/"/>
     <id>http://swiftggteam.github.io/2015/11/04/swift-using-local-closures/</id>
     <published>2015-11-04T01:00:00.000Z</published>
-    <updated>2015-11-16T10:51:21.221Z</updated>
+    <updated>2015-11-17T03:50:27.480Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-using-local-closures/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-22<br>译者：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -562,7 +603,7 @@
     <link href="http://swiftggteam.github.io/2015/11/03/watchconnectivity-introduction-say-goodbye-to-the-spinner/"/>
     <id>http://swiftggteam.github.io/2015/11/03/watchconnectivity-introduction-say-goodbye-to-the-spinner/</id>
     <published>2015-11-03T01:00:00.000Z</published>
-    <updated>2015-11-16T10:51:21.221Z</updated>
+    <updated>2015-11-17T03:50:27.480Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/watchconnectivity-introduction-say-goodbye-to-the-spinner/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-21<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -583,13 +624,13 @@
 <p>一个例子是你可能想要在一个文本消息的应用中使用它-对于一个完整的会话和上下文环境来说，最后一条信息和第一条信息是同等重要的。如果用户更新了他们简介信息中的一小部分，Watch 简介中也应该同步这些更新。</p>
 <h3 id="文件传输">文件传输</h3><p>顾名思义，在你的 iOS 和 Watch 应用之间使用文件传输去传输文件，例如图片或者<code>plists</code>。文件传输的优点是你可以包含一个<code>meta-data</code>字典，其中包含你的文件名和数据，比如说这样你就可以排序你的图片。</p>
 <h2 id="交互式消息">交互式消息</h2><p>使用交互式消息能够实时地在你的 iOS 和 Watch 应用之间传输数据！一个绝佳的示例就是<a href="https://github.com/NilStack/WappyBird" target="_blank" rel="external">《像素鸟 Flappy Bird》应用的 Watch 版本和 iPhone 版本</a>-用户点击 Watch，但是小鸟在手机上飞。按钮点击通过交互式消息被传输到手机上了。</p>
-<p><img src="/img/articles/watchconnectivity-introduction-say-goodbye-to-the-spinner/flappybirdwatch.gif1447671073.2907457" alt="Flappy Bird"></p>
+<p><img src="/img/articles/watchconnectivity-introduction-say-goodbye-to-the-spinner/flappybirdwatch.gif1447732215.9948928" alt="Flappy Bird"></p>
 <p>一个需要注意的地方是，交互式消息需要 iPhone 开启<code>&quot;reachable&quot;</code>状态。根据 Apple 文档的解释是：</p>
 <blockquote>
 <p>Watch 应用的可达性需要配对的 iOS 设备在重启之后至少解锁一次。</p>
 </blockquote>
 <h2 id="总结">总结</h2><p>我爱死<a href="http://www.kristinathai.com/watchos-2-how-to-communicate-between-devices-using-watch-connectivity/" target="_blank" rel="external">Kristina Thai’s WatchConnectivity post</a> 里面区别传输的图解了：</p>
-<p><img src="/img/articles/watchconnectivity-introduction-say-goodbye-to-the-spinner/Screen-Shot-2015-09-21-at-8.17.29-AM.png1447671078.262336" alt="这里写图片描述"></p>
+<p><img src="/img/articles/watchconnectivity-introduction-say-goodbye-to-the-spinner/Screen-Shot-2015-09-21-at-8.17.29-AM.png1447732224.5462503" alt="这里写图片描述"></p>
 <p>同时，本文参考了 Curtis Herbert 的文章 <a href="http://blog.curtisherbert.com/data-synchronization-with-watchos/" target="_blank" rel="external">Getting Data to Your WatchOS 2 App</a> 中最后的 Watch OS 2 observations 部分。</p>
 ]]></content>
     <summary type="html">
@@ -614,7 +655,7 @@
     <link href="http://swiftggteam.github.io/2015/11/02/watchconnectivity-say-hello-to-wcsession/"/>
     <id>http://swiftggteam.github.io/2015/11/02/watchconnectivity-say-hello-to-wcsession/</id>
     <published>2015-11-01T16:00:00.000Z</published>
-    <updated>2015-11-16T10:51:21.221Z</updated>
+    <updated>2015-11-17T03:50:27.480Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/watchconnectivity-say-hello-to-wcsession/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-21<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -698,7 +739,7 @@
     <link href="http://swiftggteam.github.io/2015/10/30/lets-talk-about-monads/"/>
     <id>http://swiftggteam.github.io/2015/10/30/lets-talk-about-monads/</id>
     <published>2015-10-30T01:00:00.000Z</published>
-    <updated>2015-11-16T10:51:21.221Z</updated>
+    <updated>2015-11-17T03:50:27.480Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Olivier Halligon，<a href="http://alisoftware.github.io/swift/2015/10/17/lets-talk-about-monads/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-17<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -763,7 +804,7 @@
     <link href="http://swiftggteam.github.io/2015/10/29/list-comprehensions-and-performance-with-swift/"/>
     <id>http://swiftggteam.github.io/2015/10/29/list-comprehensions-and-performance-with-swift/</id>
     <published>2015-10-29T01:00:00.000Z</published>
-    <updated>2015-11-16T10:51:21.221Z</updated>
+    <updated>2015-11-17T03:50:27.480Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Veronica Ray，<a href="http://jamesonquave.com/blog/list-comprehensions-and-performance-with-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-08-15<br>译者：<a href="http://weibo.com/riven0951" target="_blank" rel="external">riven</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a></p>
 <p>本文写于 2015.8.15 适用于 Xcode 6 和 Swift 1.2</p>
@@ -824,7 +865,7 @@
     <link href="http://swiftggteam.github.io/2015/10/28/five-myths-about-swift/"/>
     <id>http://swiftggteam.github.io/2015/10/28/five-myths-about-swift/</id>
     <published>2015-10-28T01:00:00.000Z</published>
-    <updated>2015-11-16T10:51:21.217Z</updated>
+    <updated>2015-11-17T03:50:27.480Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/five-myths-about-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-19<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a></p>
 </blockquote>
@@ -869,7 +910,7 @@
     <link href="http://swiftggteam.github.io/2015/10/27/swift-pattern-matching-in-detail/"/>
     <id>http://swiftggteam.github.io/2015/10/27/swift-pattern-matching-in-detail/</id>
     <published>2015-10-27T01:00:00.000Z</published>
-    <updated>2015-11-16T10:51:21.217Z</updated>
+    <updated>2015-11-17T03:50:27.480Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Benedikt Terhechte，<a href="http://appventure.me/2015/08/20/swift-pattern-matching-in-detail/" target="_blank" rel="external">原文链接</a>，原文日期：2015-08-20<br>译者：<a href="http://blog.csdn.net/mmoaay" target="_blank" rel="external">mmoaay</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1092,7 +1133,7 @@
     <link href="http://swiftggteam.github.io/2015/10/26/swift-ranges-and-intervals/"/>
     <id>http://swiftggteam.github.io/2015/10/26/swift-ranges-and-intervals/</id>
     <published>2015-10-26T01:00:00.000Z</published>
-    <updated>2015-11-16T10:51:21.217Z</updated>
+    <updated>2015-11-17T03:50:27.480Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Ole Begemann，<a href="http://oleb.net/blog/2015/09/swift-ranges-and-intervals/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-24<br>译者：<a href="http://www.dianqk.org/" target="_blank" rel="external">靛青K</a>；校对：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；定稿：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a></p>
 </blockquote>
@@ -1190,7 +1231,7 @@
     <link href="http://swiftggteam.github.io/2015/10/23/3d-touch-impressions-and-thoughts/"/>
     <id>http://swiftggteam.github.io/2015/10/23/3d-touch-impressions-and-thoughts/</id>
     <published>2015-10-23T01:00:00.000Z</published>
-    <updated>2015-11-16T10:51:21.217Z</updated>
+    <updated>2015-11-17T03:50:27.480Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/3d-touch-impressions-and-thoughts" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-26<br>译者：<a href="http://www.brighttj.com" target="_blank" rel="external">saitjr</a>；校对：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1251,7 +1292,7 @@
     <link href="http://swiftggteam.github.io/2015/10/22/thinking-in-swift-4/"/>
     <id>http://swiftggteam.github.io/2015/10/22/thinking-in-swift-4/</id>
     <published>2015-10-22T01:00:00.000Z</published>
-    <updated>2015-11-16T10:51:21.217Z</updated>
+    <updated>2015-11-17T03:50:27.480Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Olivier Halligon，<a href="http://alisoftware.github.io/swift/2015/10/11/thinking-in-swift-4/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-11<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="http://www.futantan.com" target="_blank" rel="external">Prayer</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1342,7 +1383,7 @@
     <link href="http://swiftggteam.github.io/2015/10/21/reordering-collection-view-cells-tutorial/"/>
     <id>http://swiftggteam.github.io/2015/10/21/reordering-collection-view-cells-tutorial/</id>
     <published>2015-10-21T01:00:00.000Z</published>
-    <updated>2015-11-16T10:51:21.217Z</updated>
+    <updated>2015-11-17T03:50:27.480Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：ioscreator，<a href="http://www.ioscreator.com/tutorials/reordering-collection-view-cells-tutorial" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-17<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://www.dianqk.org/" target="_blank" rel="external">靛青K</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1398,69 +1439,6 @@
       <category term="ioscreator" scheme="http://swiftggteam.github.io/tags/ioscreator/"/>
     
       <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Swift编程思想第三部分：结构体和类]]></title>
-    <link href="http://swiftggteam.github.io/2015/10/20/thinking-in-swift-3/"/>
-    <id>http://swiftggteam.github.io/2015/10/20/thinking-in-swift-3/</id>
-    <published>2015-10-20T01:00:00.000Z</published>
-    <updated>2015-11-16T10:51:21.217Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>作者：Olivier Halligon，<a href="http://alisoftware.github.io/swift/2015/10/03/thinking-in-swift-3/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-03<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；定稿：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a></p>
-</blockquote>
-<p>系列文章地址：</p>
-<ul>
-<li><a href="http://swift.gg/2015/09/29/thinking-in-swift-1/" target="_blank" rel="external">Swift 编程思想，第一部分：拯救小马</a></li>
-<li><a href="http://swift.gg/2015/10/09/thinking-in-swift-2/" target="_blank" rel="external">Swift 编程思想，第二部分：数组的 Map 方法</a></li>
-</ul>
-<p>继续说咱的”Swift编程思想系列”，今天我们将会做一些小小的改动，使用 <code>struct（结构体）</code> 来使代码得到进一步的简化。</p>
-<a id="more"></a>
-<h3 id="前面的内容">前面的内容</h3><p>在<a href="http://alisoftware.github.io/swift/2015/09/20/thinking-in-swift-2/" target="_blank" rel="external">这个系列之前的一篇文章里</a>我们学到了对数组(arrays)使用 <code>map</code> 和 <code>flatMap</code>，消除了中间变量(intermediate variables)形式的状态性(statefulness)，并使用了一些函数式编程<sup>1<sup>。</sup></sup></p>
-<p>下面是我们之前收工时的代码，贴在这里回顾一下：<br><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListItem</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> icon: <span class="type">UIImage</span>?</span><br><span class="line">    <span class="keyword">var</span> title: <span class="type">String</span> = <span class="string">""</span></span><br><span class="line">    <span class="keyword">var</span> url: <span class="type">NSURL</span>!</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="func"><span class="keyword">func</span> <span class="title">listItemsFromJSONData</span><span class="params">(jsonData: NSData?)</span></span> -&gt; [<span class="type">ListItem</span>] &#123;</span><br><span class="line">        <span class="keyword">guard</span> <span class="keyword">let</span> nonNilJsonData = jsonData,</span><br><span class="line">            <span class="keyword">let</span> json = <span class="keyword">try</span>? <span class="type">NSJSONSerialization</span>.<span class="type">JSONObjectWithData</span>(nonNilJsonData, options: []),</span><br><span class="line">            <span class="keyword">let</span> jsonItems = json <span class="keyword">as</span>? <span class="type">Array</span>&lt;<span class="type">NSDictionary</span>&gt;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> []</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> jsonItems.flatMap &#123; (itemDesc: <span class="type">NSDictionary</span>) -&gt; <span class="type">ListItem</span>? <span class="keyword">in</span></span><br><span class="line">            <span class="keyword">guard</span> <span class="keyword">let</span> title = itemDesc[<span class="string">"title"</span>] <span class="keyword">as</span>? <span class="type">String</span>,</span><br><span class="line">                <span class="keyword">let</span> urlString = itemDesc[<span class="string">"url"</span>] <span class="keyword">as</span>? <span class="type">String</span>,</span><br><span class="line">                <span class="keyword">let</span> url = <span class="type">NSURL</span>(string: urlString)</span><br><span class="line">                <span class="keyword">else</span> &#123; <span class="keyword">return</span> <span class="literal">nil</span> &#125;</span><br><span class="line">            <span class="keyword">let</span> li = <span class="type">ListItem</span>()</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">let</span> icon = itemDesc[<span class="string">"icon"</span>] <span class="keyword">as</span>? <span class="type">String</span> &#123;</span><br><span class="line">                li.icon = <span class="type">UIImage</span>(named: icon)</span><br><span class="line">            &#125;</span><br><span class="line">            li.title = title</span><br><span class="line">            li.url = url</span><br><span class="line">            <span class="keyword">return</span> li</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>今天我们将对例子进行相当简单的改动，使得代码更加精简以及显得”雨燕风”(Swift-er)。</p>
-<h3 id="Struct相比Class">Struct相比Class</h3><p>正如上面代码所示，首先考虑使用类(<code>class</code>)是Swift初学者经常犯的一个错误。不过这可以理解，因为在ObjC中我们满世界的用class。</p>
-<p>使用<code>class</code>不是什么原则性错误。在Swift中当然也可以继续用。但是<code>Swift</code>的结构体(<code>struct</code>)比它 C 前身的结构体要强大很多：它们不再只是存储一系列的值。</p>
-<p>Swift的结构体(<code>structs</code>)和类(<code>Class</code>)具有相同的功能 - 除了继承 - 结构体是<strong>值类型(value-types)</strong> (所以每一次变量赋值都是通过值拷贝的形式，与<code>Int</code>类型很相像)，而类属于<strong>引用类型(reference-types)</strong>，以引用方式传递而非值拷贝，这和Objective-C(以及OC中无处不在的难看的<code>*</code>，也代表着引用)中一样。</p>
-<p>我不会在这里展开长篇论述，讨论结构体、值类型和类、引用类型相比较孰胜孰劣：我还是直接强烈建议你看一下<a href="https://realm.io/news/andy-matuschak-controlling-complexity/" target="_blank" rel="external">Andy Matuschak对此话题的精彩论述</a>。我不需要自己再解释了，Andy说的比我好。</p>
-<h3 id="把我们的class转换成struct">把我们的class转换成struct</h3><p>在我们的例子中，使用一个结构体看起来更为合适，因为它保存了一些值，并且并不会要对它们做什么改变(更适合拷贝而非引用)。案例中，我们把它用作一个菜单栏的数据源，一旦创建就不再对其更改，所以这也是使用结构体更为合理的一个场景。</p>
-<p>还有，这里把<code>class</code>迁移成<code>struct</code>的另一个优势是，如果<code>struct</code>没有定义适合一个构造器，则它会生成一个默认的隐式构造器：所以我们可以非常容易的用默认构造器<code>ListItem(icon: …, title: …, url: …)</code>去创建一个<code>ListItem</code>。</p>
-<p>最后一项要点是，由于在之前的文章中我们消除了数据损坏的问题，有问题的<code>ListItem</code>就不会被创建出来了，我们就可以把<code>title</code>的默认值<code>&quot;&quot;</code>消除掉，但更重要的是我们就能把<code>NSURL!</code>转换成<code>NSURL!</code>去<strong><a href="http://alisoftware.github.io/swift/2015/09/06/thinking-in-swift-1/" target="_blank" rel="external">拯救最后一匹小马</a></strong>🐴<sup>2<sup>。</sup></sup></p>
-<p>转换之后的代码如下：<br><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ListItem</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> icon: <span class="type">UIImage</span>?</span><br><span class="line">    <span class="keyword">var</span> title: <span class="type">String</span></span><br><span class="line">    <span class="keyword">var</span> url: <span class="type">NSURL</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="func"><span class="keyword">func</span> <span class="title">listItemsFromJSONData</span><span class="params">(jsonData: NSData?)</span></span> -&gt; [<span class="type">ListItem</span>] &#123;</span><br><span class="line">        <span class="keyword">guard</span> <span class="keyword">let</span> nonNilJsonData = jsonData,</span><br><span class="line">            <span class="keyword">let</span> json = <span class="keyword">try</span>? <span class="type">NSJSONSerialization</span>.<span class="type">JSONObjectWithData</span>(nonNilJsonData, options: []),</span><br><span class="line">            <span class="keyword">let</span> jsonItems = json <span class="keyword">as</span>? <span class="type">Array</span>&lt;<span class="type">NSDictionary</span>&gt; <span class="keyword">else</span> &#123; <span class="keyword">return</span> [] &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> jsonItems.flatMap &#123; (itemDesc: <span class="type">NSDictionary</span>) -&gt; <span class="type">ListItem</span>? <span class="keyword">in</span></span><br><span class="line">            <span class="keyword">guard</span> <span class="keyword">let</span> title = itemDesc[<span class="string">"title"</span>] <span class="keyword">as</span>? <span class="type">String</span>,</span><br><span class="line">                <span class="keyword">let</span> urlString = itemDesc[<span class="string">"url"</span>] <span class="keyword">as</span>? <span class="type">String</span>,</span><br><span class="line">                <span class="keyword">let</span> url = <span class="type">NSURL</span>(string: urlString)</span><br><span class="line">                <span class="keyword">else</span> &#123; <span class="keyword">return</span> <span class="literal">nil</span> &#125;</span><br><span class="line">            <span class="keyword">let</span> iconName = itemDesc[<span class="string">"icon"</span>] <span class="keyword">as</span>? <span class="type">String</span></span><br><span class="line">            <span class="keyword">let</span> icon = <span class="type">UIImage</span>(named: iconName ?? <span class="string">""</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="type">ListItem</span>(icon: icon, title: title, url: url)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>现在当一切都就绪之后，我们只在最后一步创建才创建出<code>ListItem</code>实例，如果你不提供任何<code>init</code>方法的话<code>struct</code>会提供一个默认的<code>init</code>方法为它自己的参数段传值。用<code>class</code>的版本可以做相同的事，但是用<code>class</code>的话我们得自己声明<code>init</code>。</p>
-<h3 id="联合操作符(Coalescing_operator)">联合操作符(Coalescing operator)</h3><p>上面的例子中我还用了一个新的小技巧，使用<code>??</code>操作符让<code>iconName</code>在是<code>nil</code>的时候给出一个默认值。</p>
-<p><code>??</code>操作符和ObjC的<code>opt ?: val</code>表达式很像，了解它的人都知道：<code>opt ?? val</code>如果在<code>opt</code>非空的时候返回它的值，如果是<code>nil</code>的话会返回<code>val</code>。这意味着如果<code>opt</code>是<code>T?</code>类型，<code>val</code>则必须是<code>T</code>类型，整个表达式的结果也会是<code>T</code>类型。</p>
-<p>那么这里的<code>iconName ?? &quot;&quot;</code>会允许我们在<code>iconName</code>为<code>nil</code>的时候使用一个空字符<code>&quot;&quot;</code>的图片名称，于是这里会有一个<code>nil</code>的<code>UIImage</code>，并且<code>icon</code>也会是<code>nil</code>。</p>
-<p>⚠️注意⚠️：将一个为<code>nil</code>的<code>iconName</code>和一个<code>nil</code>的<code>UIImage</code>作为结果来处理，这并<strong>不是</strong>最佳的、最简洁的做法。实际上使用一个假的<code>&quot;&quot;</code>名字来获得一个空图片看起来有点儿难看，还有点儿欺骗的意味。但是这是给你展示<code>??</code>操作符存在感的一个场合…嘿，我们还是为本系列文章的下一篇保留一些好东西吧(剧透：又涉及到了<code>flatMap</code>)。</p>
-<h3 id="结论">结论</h3><p>今天就到这里了。</p>
-<p>在第3部分中我们没做太多事情，仅仅就是把<code>class</code>换成了<code>struct</code>。我甚至没讲哪怕一点儿关于两者之间的区别(然而即使我最近特别忙，有段时间没在blog上发东西了，我还是不想你为新文章等待太久)。</p>
-<p>但是我们最终丢弃掉<code>NSURL!</code>，将最后一匹小马拯救🎉。在我下一篇文章发布出来前，看一下<a href="https://realm.io/news/andy-matuschak-controlling-complexity/" target="_blank" rel="external">Andy关于《和值类型交朋友》的超棒讨论</a>，你还是有很多东西要去学的。</p>
-<p>我承诺在发布第4部分之前不会让你等太久，第4部分又涉及到<code>map</code>和<code>flatMap</code>，但这一次是基于<code>Optionals</code>。</p>
-<hr>
-<ol>
-<li><p>没错，上篇文章中你确实做了一些函数式编程…你自己可能甚至都没有意识到。</p>
-</li>
-<li><p><code>NSURL!</code>一直纠缠我到现在已经有段时间了，其实我就是太懒了，没去为<code>ListItem</code>类写一个正确的<code>init</code>方法。因为知道我迟早会把它弄掉，所以处理它之前我没想收拾那段代码样本。我们拯救最后一匹小马仅仅是时间问题。</p>
-</li>
-</ol>
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>作者：Olivier Halligon，<a href="http://alisoftware.github.io/swift/2015/10/03/thinking-in-swift-3/">原文链接</a>，原文日期：2015-10-03<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles">ray16897188</a>；校对：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles">pmst</a>；定稿：<a href="http://www.swiftyper.com/">小锅</a></p>
-</blockquote>
-<p>系列文章地址：</p>
-<ul>
-<li><a href="http://swift.gg/2015/09/29/thinking-in-swift-1/">Swift 编程思想，第一部分：拯救小马</a></li>
-<li><a href="http://swift.gg/2015/10/09/thinking-in-swift-2/">Swift 编程思想，第二部分：数组的 Map 方法</a></li>
-</ul>
-<p>继续说咱的”Swift编程思想系列”，今天我们将会做一些小小的改动，使用 <code>struct（结构体）</code> 来使代码得到进一步的简化。</p>]]>
-    
-    </summary>
-    
-      <category term="Crunchy Development" scheme="http://swiftggteam.github.io/tags/Crunchy-Development/"/>
-    
-      <category term="Swift 进阶" scheme="http://swiftggteam.github.io/categories/Swift-%E8%BF%9B%E9%98%B6/"/>
     
   </entry>
   
