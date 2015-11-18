@@ -81,6 +81,78 @@
   <header class="article-info clearfix">
     <h1 itemprop="name">
       
+        <a href="/2015/11/18/watchconnectivity-user-info/" title="WatchConnectivity：通过用户信息共享所有数据" itemprop="url">WatchConnectivity：通过用户信息共享所有数据</a>
+    </h1>
+    <p class="article-time">
+      <time datetime="2015-11-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-time"></i> 2015-11-18</time>
+      <span style="margin-left: 0.5em;"><i class="icon-eye-open"></i> <span class="viewcount"></span></span>
+    </p>
+  </header>
+
+    <div class="article-content">
+        
+        <blockquote>
+<p>作者：Natasha The Robot，<a href="http://natashatherobot.com/watchconnectivity-user-info/">原文链接</a>，原文日期：2015-10-21<br>译者：<a href="http://daizi.me">小袋子</a>；校对：<a href="http://weibo.com/xiaoxxiao">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb">numbbbbb</a></p>
+</blockquote>
+<!--此处开始正文-->
+<p>在看这篇文章之前，确认你已经看过之前发布的几篇 WatchOS 2 的文章：</p>
+<ul>
+<li><a href="http://natashatherobot.com/watchos-2-hello-world/">WatchOS 2: Hello, World</a>(<a href="http://swift.gg/2015/10/15/watchos-2-hello-world/">译文链接</a>)</li>
+<li><a href="http://natashatherobot.com/watchconnectivity-introduction-say-goodbye-to-the-spinner/">WatchConnectivity Introduction: Say Goodbye To The Spinner</a>(<a href="http://swift.gg/2015/11/03/watchconnectivity-introduction-say-goodbye-to-the-spinner/">译文链接</a>)</li>
+<li><a href="http://natashatherobot.com/watchconnectivity-say-hello-to-wcsession/">WatchConnectivity: Say Hello to WCSession</a>(<a href="http://swift.gg/2015/11/02/watchconnectivity-say-hello-to-wcsession/">译文链接</a>)</li>
+</ul>
+<p>通过 User Info 实现后台数据传输应该在你确保所有数据被传输的情况下（不仅仅像<a href="http://natashatherobot.com/watchconnectivity-application-context/">Application Context</a>）。用户信息数据是在FIFO（先进先出）队列中排队传输的，所以不会有东西被重写。</p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2015/11/18/watchconnectivity-user-info/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/WatchOS-2/">WatchOS 2</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Natasha-The-Robot/">Natasha The Robot</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2015/11/18/watchconnectivity-user-info/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/11/18/watchconnectivity-user-info/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        
+  <header class="article-info clearfix">
+    <h1 itemprop="name">
+      
         <a href="/2015/11/17/functional-programming-in-swift/" title="Swift 中的函数式编程" itemprop="url">Swift 中的函数式编程</a>
     </h1>
     <p class="article-time">
@@ -679,74 +751,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        
-  <header class="article-info clearfix">
-    <h1 itemprop="name">
-      
-        <a href="/2015/11/04/swift-using-local-closures/" title="Swift：使用本地闭包" itemprop="url">Swift：使用本地闭包</a>
-    </h1>
-    <p class="article-time">
-      <time datetime="2015-11-04T01:00:00.000Z" itemprop="datePublished"><i class="icon-time"></i> 2015-11-04</time>
-      <span style="margin-left: 0.5em;"><i class="icon-eye-open"></i> <span class="viewcount"></span></span>
-    </p>
-  </header>
-
-    <div class="article-content">
-        
-        <blockquote>
-<p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-using-local-closures/">原文链接</a>，原文日期：2015-10-22<br>译者：<a href="http://www.swiftyper.com/">小锅</a>；校对：<a href="http://weibo.com/xiaoxxiao">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao">千叶知风</a></p>
-</blockquote>
-<!--此处开始正文-->
-<p>闭包一般是用来作为函数的参数。不过某些情况下，使用本地闭包也是十分方便的。</p>
-<p>假设有一个 <code>ViewController</code>，里面包含了两种 GUI 模式：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">GUIMode</span> </span>&#123;</span><br><span class="line">	<span class="keyword">case</span> <span class="type">Mode1</span></span><br><span class="line">	<span class="keyword">case</span> <span class="type">Mode2</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2015/11/04/swift-using-local-closures/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Swift-入门/">Swift 入门</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Thomas-Hanning/">Thomas Hanning</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/11/04/swift-using-local-closures/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/11/04/swift-using-local-closures/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -786,7 +790,7 @@
 		  
 		
 		  
-			<li><a href="/categories/WatchOS-2/" title="WatchOS 2">WatchOS 2<sup>3</sup></a></li>
+			<li><a href="/categories/WatchOS-2/" title="WatchOS 2">WatchOS 2<sup>4</sup></a></li>
 		  
 		
 		  
@@ -803,7 +807,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Natasha-The-Robot/" title="Natasha The Robot">Natasha The Robot<sup>12</sup></a></li>
+				<li><a href="/tags/Natasha-The-Robot/" title="Natasha The Robot">Natasha The Robot<sup>13</sup></a></li>
 			
 		
 			
