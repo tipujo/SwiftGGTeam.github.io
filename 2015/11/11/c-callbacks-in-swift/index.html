@@ -38,7 +38,7 @@
 
 2015-07-01针对 Xcode 7 beta 2 更新从 CGPathElement 创建一个 PathElement 类型">
 <meta property="og:image" content="http://swiftggteam.github.io/img/articles/c-callbacks-in-swift/uibezierpath-example.png1447203254.48282">
-<meta property="og:updated_time" content="2015-11-17T05:53:14.184Z">
+<meta property="og:updated_time" content="2015-11-18T02:20:26.402Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在 Swift 2.0 当中使用 C 语言回调">
 <meta name="twitter:description" content="作者：Ole Begemann，原文链接，原文日期：2015-06-22译者：小锅；校对：shanks；定稿：shanks
@@ -173,6 +173,9 @@
 <p>或者，我们也可以计算 path 中的闭合路径(closepath)的个数：</p>
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> closePathCount = path.<span class="built_in">filter</span> &#123;</span><br><span class="line">        element <span class="keyword">in</span> element == <span class="type">PathElement</span>.<span class="type">CloseSubpath</span></span><br><span class="line">    &#125;.<span class="built_in">count</span></span><br><span class="line"><span class="comment">// -&gt; 3</span></span><br></pre></td></tr></table></figure>
 <h2 id="总结">总结</h2><p>Swift 2 中自动地将 C 语言函数指针桥接到为闭包。这使得对大量的接收函数指针的 C 语言API 进行操作成为可能（并且相当方便）。因为 C 语言的调用约定，这种类型的闭包无法捕获外部的状态，所以我们经常需要将回调闭包中需要用到的数据通过一个外部的 <code>void</code> 类型的指针传入，而这正是很多基于C语言的 API 的做法。在 Swift 当中进行这样的操作会有点绕，不过却是完全可能的。</p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
   
 	</div>
 		<footer class="article-footer clearfix">

@@ -29,7 +29,7 @@ for var index = 5; index &amp;lt; array.co">
 Mike T. 私信我，如何让 for 循环从下标 i (比如 5 )开始，而不是从 0 开始。
 Swift 2.0 提供了一种像 C 语言那样的循环，代码如下：
 for var index = 5; index &amp;lt; array.co">
-<meta property="og:updated_time" content="2015-11-17T05:53:14.180Z">
+<meta property="og:updated_time" content="2015-11-18T02:20:26.398Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="如何在 Swift 2.0 中实现从非零下标遍历数组">
 <meta name="twitter:description" content="作者：Erica Sadun，原文链接，原文日期：2015/09/01译者：小铁匠Linus；校对：千叶知风；定稿：shanks
@@ -138,6 +138,9 @@ for var index = 5; index &amp;lt; array.co">
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> slice = array.<span class="built_in">dropFirst</span>(<span class="number">5</span>)</span><br><span class="line"><span class="keyword">while</span> !slice.isEmpty &#123;</span><br><span class="line">    <span class="keyword">let</span> value = slice.removeFirst()</span><br><span class="line">    <span class="comment">// use value here</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>另外也有很多方式可以遍历数组，包括在需要的时候才去获取数组切片的值(使用<code>lazy</code>进行延迟加载)，但是以上提到的方法已经基本够用了。</p>
 <p>感谢 <a href="http://mikeash.com/" target="_blank" rel="external">Mike Ash</a>，并且一定要去看看 <a href="https://gist.github.com/natecook1000/b6be8929451bb6f35ad4" target="_blank" rel="external">Nate Cook 的解决方案</a>。</p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
   
 	</div>
 		<footer class="article-footer clearfix">

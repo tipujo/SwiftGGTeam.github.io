@@ -25,7 +25,7 @@
 
 今天的目标是用代码处理链接 http://mywebsite.org/customers/:cid/orders/:oid，从中提取出订单号（#oid）和顾客 ID（#cid） 。  
 我们将要使用一种简单快捷的方式来实现 – 模式匹配和变量绑定。">
-<meta property="og:updated_time" content="2015-11-17T05:53:14.188Z">
+<meta property="og:updated_time" content="2015-11-18T02:20:26.406Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="用模式匹配解析 URL">
 <meta name="twitter:description" content="作者：Olivier Halligon，原文链接，原文日期：2015/08/23译者：靛青K；校对：numbbbbb；定稿：shanks
@@ -247,7 +247,10 @@
 <ol>
 <li>你可以看到代码中我用了问号符号，比如模式匹配的 <code>cases</code> 中的<code>&quot;product&quot;?</code>。那是因为我们的元组中包含可选的<code>String?</code>元素，并且模式匹配将会匹配元组相同类型，所以我们的<code>case</code>中的参数必须是可选的。我也会使用<code>let spid?</code>来保证<code>spid</code>变量不会绑定<code>nil</code>。提醒一点，<code>x?</code>是 Swift 2.0 的语法糖，相当于 <code>.Some(x)</code>。<br><a name="fn2"></a></li>
 <li>我的元组（有五个值）的长度比我要处理的路径最大长度大 1 。这样通过确保<code>let soid?</code>的非空值接下来都是<code>nil</code>，从而保证了 <code>/customers/:cid/orders/:oid/foo/bar</code>不会 <code>return .Order(customerID: …, orderID: …)</code>，这就代表了路径的终点。<br><a name="fn3"></a></li>
-<li>我使用 <code>_</code> 填充第一个 <code>nil</code> 后面的那些组件，因为我一点也不关心他们的值：考虑到我建立的元组的方法，我知道他们只能是 <code>nil</code> ，所以为什么还要管他们呢？当然在这里，你可以使用 <code>nil</code> 作为值代替这里的 <code>_</code>，但我觉得现在这样的代码更简单整洁。      </li>
+<li>我使用 <code>_</code> 填充第一个 <code>nil</code> 后面的那些组件，因为我一点也不关心他们的值：考虑到我建立的元组的方法，我知道他们只能是 <code>nil</code> ，所以为什么还要管他们呢？当然在这里，你可以使用 <code>nil</code> 作为值代替这里的 <code>_</code>，但我觉得现在这样的代码更简单整洁。      <blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
+</li>
 </ol>
   
 	</div>

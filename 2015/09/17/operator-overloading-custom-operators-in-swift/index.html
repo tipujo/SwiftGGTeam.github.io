@@ -23,7 +23,7 @@
 <meta property="og:description" content="作者：Raj Kandathi，原文链接，原文日期：2015/09/12译者：pmst；校对：千叶知风；定稿：shanks
 
 重载运算符有时候，我们会遇到需要对自定义的类(class)或结构体(struct)支持某些运算符功能，例如+,-,*,/等。以魔方收集者(Cube Collector)游戏为例，初期你怀揣一个渺小的魔方，身处一个充斥各种尺寸魔方的空间中。你的任务是找寻新的魔方,并通过”吞噬">
-<meta property="og:updated_time" content="2015-11-17T05:53:14.180Z">
+<meta property="og:updated_time" content="2015-11-18T02:20:26.398Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift 中的重载运算符和自定义运算符">
 <meta name="twitter:description" content="作者：Raj Kandathi，原文链接，原文日期：2015/09/12译者：pmst；校对：千叶知风；定稿：shanks
@@ -119,6 +119,9 @@
 <h3 id="自定义运算符">自定义运算符</h3><p>前文”Cube Collection”游戏不妨再加入一个“宝箱”玩法，每一次玩家收集到一个宝箱，他/她所拥有的魔方尺寸就放大三倍(边长<code>side * 3</code>)。为了实现这个游戏机制，我们创建一个自定义运算符。通常，我们需要为这个自定义运算符<strong>命名</strong>,<strong>指定类型</strong>，<strong>指定优先级</strong>以及<strong>结合性</strong>。想要知道更多这四个方面的知识，请参阅<a href="http://wiki.jikexueyuan.com/project/swift/chapter2/25_Advanced_Operators.html" target="_blank" rel="external">苹果官方文档</a>。既然宝箱的作用是使得魔方尺寸放大三倍，不妨我们将这个自定义运算符命名为<code>***</code>，结合性采用<strong>后缀</strong>方式(译者注:等价于<code>a++</code>中的<code>++</code>作用)。其中将传入运算符操作函数的变量类型用<code>inout</code>关键字修饰声明。代码如下:      </p>
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">postfix</span> <span class="keyword">operator</span> *** &#123;&#125;</span><br><span class="line"><span class="keyword">postfix</span> <span class="func"><span class="keyword">func</span> *** <span class="params">(<span class="keyword">inout</span> myCube: Cube)</span></span>&#123;</span><br><span class="line">  myCube.side = myCube.side * <span class="number">3</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> myCube = <span class="type">Cube</span>(side: <span class="number">10.0</span>)</span><br><span class="line">myCube***</span><br><span class="line"><span class="built_in">print</span>(myCube.side, appendNewline: <span class="literal">true</span>)<span class="comment">//swift2.0新特性 Xcode7下支持</span></span><br></pre></td></tr></table></figure>
 <p>正如你所看到的，重载已存在的运算符以及自定义运算符在<strong>Swift</strong>是如此简单。不过重载已存在运算符时，请引起足够重视，防止一些意外情况发生。</p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
   
 	</div>
 		<footer class="article-footer clearfix">

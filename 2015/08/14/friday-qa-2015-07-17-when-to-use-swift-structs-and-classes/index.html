@@ -23,7 +23,7 @@
 <meta property="og:description" content="作者：Mike Ash，原文链接，原文日期：2015/07/17译者：Yake；校对：千叶知风；定稿：numbbbbb
 
 世界上对 swift 持续不断的讨论话题中有一个就是什么时候使用结构体什么时候使用类。我想我今天要贡献一些自己的想法。">
-<meta property="og:updated_time" content="2015-11-17T05:53:14.184Z">
+<meta property="og:updated_time" content="2015-11-18T02:20:26.402Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift：什么时候使用结构体和类">
 <meta name="twitter:description" content="作者：Mike Ash，原文链接，原文日期：2015/07/17译者：Yake；校对：千叶知风；定稿：numbbbbb
@@ -169,6 +169,9 @@
 <p>这种事在 OC 中一直都在发生。每一位有些经验的 OC 程序员都会有这样的习惯，在所有地方都采用保护性的<code>copy</code>来修饰属性。由于<code>NSString</code>实际上可能是<code>NSMutableString</code>类型，你将属性设置为<code>copy</code>，或者在你自己的初始化方法中写具体的<code>copy</code>实现，来避免产生一些问题的产生。这同样适用于可变的集合类型。</p>
 <p>在 Swift 中，在这儿的结论就更简单了：使用值类型而不是引用类型。在这个例子中，将<code>name</code>作为<code>String</code>类型。那么你就不用担心不经意间共享引用了。</p>
 <h2 id="结论">结论</h2><p>无论在什么时候你移动一个值类型他都会被拷贝，而引用类型则是产生了对同样的底层对象的一个新的引用。那也就意味着引用类型的改变对所有其他的引用都是可见的，而改变值类型只影响你改变的那块内存区域。当选择使用哪种类型时，考虑你的类型是否适合被拷贝，当类型从本质上来说是可拷贝时倾向使用值类型。最后，记住如果你在值类型中嵌入引用类型，不小心的话就会出错！</p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
   
 	</div>
 		<footer class="article-footer clearfix">

@@ -25,7 +25,7 @@ Grand Central Dispatch 是过去几年中苹果推出过的许多很棒的 API �
 译者注：这篇文章的代码是用 Objective-C 完成的，不过不妨碍大家学习多线程编码的知识。
 
 Grand Central Dispatch 是过去几年中苹果推出过的许多很棒的 API 中的一员。在最新一期的 “Let’s Build” 系列中，我准备去探索 dispatch_que">
-<meta property="og:updated_time" content="2015-11-17T05:53:14.180Z">
+<meta property="og:updated_time" content="2015-11-18T02:20:26.398Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Friday Q&A 2015-09-04:让我们来自定义 dispatch_queue">
 <meta name="twitter:description" content="作者：Mike Ash，原文链接，原文日期：2015-09-04译者：Yake；校对：shanks；定稿：小锅
@@ -216,6 +216,9 @@ Grand Central Dispatch 是过去几年中苹果推出过的许多很棒的 API �
 <p>到这里，block 的执行已经完成了。大功告成！那就是<code>MADispatchQueue</code> API 中的所需要的最后一点儿内容。</p>
 <h1 id="结论">结论</h1><p>一个全局线程池可以通过一个拥有任务 block 以及能大量生产线程的队列来实现。使用一个共享的线程池，一个基本的调度队列的 API 就可以被创建，它提供了基本的串行/并行队列下同步/异步任务的调度。这次的重新实现缺少了 GCD 中许多优秀的特征，并且肯定没有 GCD 那么高效，但即便如此它让我们能够看到像这样一种机制的内部原理是怎样的，并且让我们看到那并不是什么魔法（除了<code>dispatch_once</code>，那是绝对的魔法！）。</p>
 <p>这就是今天的内容。下次回来看更多有趣的内容。”Friday Q&amp;A”是由用户的想法驱动的，所以如果你希望下次或者将来我可以在这里讨论某些内容，请<a href="mailto:mike@mikeash.com" target="_blank" rel="external">告诉我</a>！</p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
   
 	</div>
 		<footer class="article-footer clearfix">

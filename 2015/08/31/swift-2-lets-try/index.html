@@ -27,7 +27,7 @@ Xcode 7 Beta 6 发布时，我一下子就被下面这三个特性迷住了：">
 <meta property="og:image" content="http://swiftggteam.github.io/img/articles/swift-2-lets-try/2.png">
 <meta property="og:image" content="http://swiftggteam.github.io/img/articles/swift-2-lets-try/3.png">
 <meta property="og:image" content="http://swiftggteam.github.io/img/articles/swift-2-lets-try/Screen-Shot-2015-08-26-at-4.48.03-AM.png">
-<meta property="og:updated_time" content="2015-11-17T05:53:14.184Z">
+<meta property="og:updated_time" content="2015-11-18T02:20:26.402Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift 2.0 中使用 try? 关键字">
 <meta name="twitter:description" content="作者：Natasha，原文链接，原文日期：2015/08/26译者：小铁匠Linus；校对：lfb_CD；定稿：numbbbbb
@@ -143,6 +143,9 @@ Xcode 7 Beta 6 发布时，我一下子就被下面这三个特性迷住了：">
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">TodoListParser</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="class"><span class="keyword">enum</span> <span class="title">Error</span>: <span class="title">ErrorType</span> </span>&#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="type">InvalidJSON</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">parse</span><span class="params">(fromData data: NSData)</span></span> <span class="keyword">throws</span> -&gt; <span class="type">TodoList</span> &#123;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">guard</span> <span class="keyword">let</span> jsonDict = <span class="keyword">try</span>? <span class="type">NSJSONSerialization</span>.<span class="type">JSONObjectWithData</span>(data, options: .<span class="type">AllowFragments</span>) <span class="keyword">as</span>? [<span class="type">String</span> : <span class="type">AnyObject</span>],</span><br><span class="line">            <span class="comment">// Notice the extra question mark here!</span></span><br><span class="line">            todoListDict = jsonDict?[<span class="string">"todos"</span>] <span class="keyword">as</span>? [[<span class="type">String</span> : <span class="type">AnyObject</span>]] <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="type">Error</span>.<span class="type">InvalidJSON</span></span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">let</span> todoItems = todoListDict.flatMap &#123; <span class="type">TodoItemParser</span>().parse(fromData: $<span class="number">0</span>) &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> <span class="type">TodoList</span>(items: todoItems)</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>代码中唯一的不足(呵呵，双关！)就是返回的值是一个有两层的可选值。<code>guard let</code>对其中的一层可选值进行了解包，所以对<code>todoListDict</code>进行赋值的时候，只需要再进行一层解包即可。</p>
 <p>注意：我自己仍然处在学习<code>try?</code>的过程中，所以如果你有什么意见，一定要在下面留言。我会虚心接受的 :)</p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
   
 	</div>
 		<footer class="article-footer clearfix">

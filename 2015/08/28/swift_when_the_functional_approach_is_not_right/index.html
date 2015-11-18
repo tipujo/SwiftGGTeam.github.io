@@ -26,7 +26,7 @@ var minionImages = [UIImage]()for i in 1...7 &amp;#123;    if let minionImage = 
 昨天，我在代码库中找到一段我所认为的极具 Swift 风格的代码。
 var minionImages = [UIImage]()for i in 1...7 &amp;#123;    if let minionImage = UIImage(named: &quot;minionIco">
 <meta property="og:image" content="http://swiftggteam.github.io/img/articles/swift_when_the_functional_approach_is_not_right/MyPlayground_playground1.png">
-<meta property="og:updated_time" content="2015-11-17T05:53:14.188Z">
+<meta property="og:updated_time" content="2015-11-18T02:20:26.406Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift:什么时候不适合使用函数式方法">
 <meta name="twitter:description" content="作者：Natasha，原文链接，原文日期：2015/07/24译者：天才175；校对：numbbbbb；定稿：numbbbbb
@@ -126,6 +126,9 @@ var minionImages = [UIImage]()for i in 1...7 &amp;#123;    if let minionImage = 
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> minionImagesFlattened = (<span class="number">1</span>...<span class="number">7</span>).flatMap &#123; <span class="type">UIImage</span>(named: <span class="string">"minionIcon-<span class="subst">\($<span class="number">0</span>)</span>"</span>) &#125;</span><br></pre></td></tr></table></figure>
 <p>在这里，我不得不诚实的说，每次看到<code>flatMap</code>时，我都无法完全理解它做了什么或是怎么做的。它并不像<code>map</code>以及<code>filter</code>那样自然。我不懂它在这儿是怎么做的，所以必须要去搜索一下。</p>
 <p>由此，我再次得出结论：使用<code>flatmap</code>不能提高代码可读性。如果那些对 Swift 和函数式编程了解不多的人看到这段代码，他们能理解发生了神马吗？相反，我可以确定，每个人只需看一眼就能够理解for循环。</p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
   
 	</div>
 		<footer class="article-footer clearfix">

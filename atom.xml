@@ -4,7 +4,7 @@
   <subtitle><![CDATA[走心的 Swift 翻译组]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://swiftggteam.github.io/"/>
-  <updated>2015-11-17T05:53:14.184Z</updated>
+  <updated>2015-11-18T02:20:26.402Z</updated>
   <id>http://swiftggteam.github.io/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://swiftggteam.github.io/2015/11/17/functional-programming-in-swift/"/>
     <id>http://swiftggteam.github.io/2015/11/17/functional-programming-in-swift/</id>
     <published>2015-11-17T04:00:00.000Z</published>
-    <updated>2015-11-17T05:53:14.184Z</updated>
+    <updated>2015-11-18T02:20:26.402Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/functional-programming-in-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/13<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -44,6 +44,9 @@
 <p>例如，如果你创建了一个通用的转换器（formatter）（例如货币转换器），并用在代码中的一些地方，用单例是一个很好的方法。你还必须为UI Layer 使用 <code>UIViewControllers</code> 以及 <code>UIViews</code>。总有办法去脱离你的逻辑，进而让很好的不可变组件去帮助你可变化这些东西，但是不要过火地把 freamwork 改变为面目全非（可读，不可读）的状态。</p>
 <h2 id="深入学习函数式编程">深入学习函数式编程</h2><p>再次强调，你不应该执着于在你的 Swift 代码中使用花哨的技巧（除非你只是为了试验、或者好玩）。我非常推荐深入学习函数式编程的思想，从而理解那些高级概念，并且更好地应用在你的代码中。</p>
 <p>推荐阅读 <a href="https://www.objc.io/books/fpinswift/" target="_blank" rel="external">Functional Programming in Swift</a> ！这里有<a href="http://natashatherobot.com/reading-functional-programming/" target="_blank" rel="external">更多的资源</a>去帮助你开始学习！</p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
 ]]></content>
     <summary type="html">
     <![CDATA[<blockquote>
@@ -68,7 +71,7 @@
     <link href="http://swiftggteam.github.io/2015/11/16/capturing-context-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/11/16/capturing-context-swiftlang/</id>
     <published>2015-11-16T01:00:00.000Z</published>
-    <updated>2015-11-17T05:53:14.184Z</updated>
+    <updated>2015-11-18T02:20:26.402Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/08/27/capturing-context-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-08-27<br>译者：<a href="https://github.com/chenmingbiao" target="_blank" rel="external">CMB</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -89,6 +92,9 @@
 <p>更新之后，错误输出中会包含原始类型。</p>
 <p>正如读者 <code>Kametrixom</code> 所指出的，你还可以扩展 <code>Contextualizable</code> 协议并创建你自己的错误。（他还写了一个<a href="https://gist.github.com/Kametrixom/21da650bd7c7006a70e3" target="_blank" rel="external">非常棒的错误类型</a>，可以选择是否添加上下文。）</p>
 <p>本文的所有代码可以在 <a href="https://gist.github.com/erica/b6f4884ed5d70c269107" target="_blank" rel="external">这个 Gist</a> 中找到（译者注：Gist 已经被墙，需要翻墙查看）。</p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
 ]]></content>
     <summary type="html">
     <![CDATA[<blockquote>
@@ -110,7 +116,7 @@
     <link href="http://swiftggteam.github.io/2015/11/13/swift-tutorial-for-beginners-part-1/"/>
     <id>http://swiftggteam.github.io/2015/11/13/swift-tutorial-for-beginners-part-1/</id>
     <published>2015-11-13T01:00:00.000Z</published>
-    <updated>2015-11-17T05:53:14.184Z</updated>
+    <updated>2015-11-18T02:20:26.402Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-tutorial-for-beginners-part-1/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-29<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -226,6 +232,9 @@
 <li><a href="http://www.thomashanning.com/optionals-in-swift/" target="_blank" rel="external">Swift 中的可选类型</a></li>
 </ul>
 <p>在本系列的后续部分，我们会讨论更多关于 Swift 的新特性。请继续关注!</p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
 ]]></content>
     <summary type="html">
     <![CDATA[<blockquote>
@@ -247,7 +256,7 @@
     <link href="http://swiftggteam.github.io/2015/11/12/naming-methods-and-functions/"/>
     <id>http://swiftggteam.github.io/2015/11/12/naming-methods-and-functions/</id>
     <published>2015-11-12T01:00:00.000Z</published>
-    <updated>2015-11-17T05:53:14.184Z</updated>
+    <updated>2015-11-18T02:20:26.402Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/08/31/naming-methods-and-functions/" target="_blank" rel="external">原文链接</a>，原文日期：2015-08-31<br>译者：<a href="http://weibo.com/u/2916092907" target="_blank" rel="external">天才175</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -268,6 +277,9 @@
 <p><strong>在基于类型的名字后面加上<code>value</code> </strong>。请使用<code>toIntValue</code>而不是<code>toInt</code>，以及<code>withCGRectValue</code>而不是<code>withCGRect</code>。</p>
 <p><strong>使用美国标准短语</strong>。由于这些词是由 Apple 提供的，请使用 initialize 而不是 initialise 以及 color 而不是 colour。</p>
 <p><strong>有疑惑，找 Apple</strong>。使用相似的概念搜索 Apple API 接口并模仿其方法签名。尽量参考 Objective-C  命名，因为 Swift 中的 Apple API 并没有全部通过人工审查。自动转换过来的 API 可能并不是一个好例子。</p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
 ]]></content>
     <summary type="html">
     <![CDATA[<blockquote>
@@ -289,7 +301,7 @@
     <link href="http://swiftggteam.github.io/2015/11/11/c-callbacks-in-swift/"/>
     <id>http://swiftggteam.github.io/2015/11/11/c-callbacks-in-swift/</id>
     <published>2015-11-11T01:00:00.000Z</published>
-    <updated>2015-11-17T05:53:14.184Z</updated>
+    <updated>2015-11-18T02:20:26.402Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Ole Begemann，<a href="http://oleb.net/blog/2015/06/c-callbacks-in-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-06-22<br>译者：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
 </blockquote>
@@ -338,6 +350,9 @@
 <p>或者，我们也可以计算 path 中的闭合路径(closepath)的个数：</p>
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> closePathCount = path.<span class="built_in">filter</span> &#123;</span><br><span class="line">        element <span class="keyword">in</span> element == <span class="type">PathElement</span>.<span class="type">CloseSubpath</span></span><br><span class="line">    &#125;.<span class="built_in">count</span></span><br><span class="line"><span class="comment">// -&gt; 3</span></span><br></pre></td></tr></table></figure>
 <h2 id="总结">总结</h2><p>Swift 2 中自动地将 C 语言函数指针桥接到为闭包。这使得对大量的接收函数指针的 C 语言API 进行操作成为可能（并且相当方便）。因为 C 语言的调用约定，这种类型的闭包无法捕获外部的状态，所以我们经常需要将回调闭包中需要用到的数据通过一个外部的 <code>void</code> 类型的指针传入，而这正是很多基于C语言的 API 的做法。在 Swift 当中进行这样的操作会有点绕，不过却是完全可能的。</p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
 ]]></content>
     <summary type="html">
     <![CDATA[<blockquote>
@@ -368,7 +383,7 @@
     <link href="http://swiftggteam.github.io/2015/11/10/ios-undo-and-redo-with-nsundomanager/"/>
     <id>http://swiftggteam.github.io/2015/11/10/ios-undo-and-redo-with-nsundomanager/</id>
     <published>2015-11-10T01:00:00.000Z</published>
-    <updated>2015-11-17T05:53:14.184Z</updated>
+    <updated>2015-11-18T02:20:26.402Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/ios-undo-and-redo-with-nsundomanager/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-13<br>译者：<a href="http://blog.csdn.net/yake_099" target="_blank" rel="external">Yake</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="undefined"></a></p>
 </blockquote>
@@ -413,6 +428,9 @@
 <p>不过，当你需要设置属性时可能要用带<code>Selector</code>的方法。</p>
 <p>你需要直接调用想要记录的方法，但是这样做不能设置属性（因为只能调用方法）。有两种解决方法：第一种是添加类似<code>setPropertyName(_:)</code>的方法，第二种是使用<code>registerUndoWithTarget(_:selector:object:)</code>方法并将<code>Selector</code>设置为<code>setPropertyName:</code>，作为参数传入。</p>
 <h2 id="结论">结论</h2><p><code>NSUndoManager</code>是一种强大的机制，我们可以简单地向应用中加入<code>undo</code>和<code>redo</code>方法。它需要你谨慎地设计应用的结构，因为你需要使用“具有唯一目的性”的方法来将用户的操作设置为<code>undo</code>或者是<code>redo</code>。但是总体来说这是个好事，不是吗？这会改善代码设计。</p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
 ]]></content>
     <summary type="html">
     <![CDATA[<blockquote>
@@ -433,7 +451,7 @@
     <link href="http://swiftggteam.github.io/2015/11/09/what-makes-good-code/"/>
     <id>http://swiftggteam.github.io/2015/11/09/what-makes-good-code/</id>
     <published>2015-11-09T01:00:00.000Z</published>
-    <updated>2015-11-17T05:53:14.184Z</updated>
+    <updated>2015-11-18T02:20:26.402Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/10/28/what-makes-good-code/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-28<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -464,6 +482,9 @@
 <p>Dave DeLong 建议添加：好代码会让读的人产生敬畏，并使读的人受到启发从而也去写自己的好代码。</p>
 <p>Paul Cantrell 建议添加：好代码会注意权衡。它会根据工程来权衡,而不是按照绝对的教条。它也不会让工具或技术成为组内状态标记(in-group status markers)。</p>
 <p>Rainer Brockerhoff 建议添加：好代码可以被很轻松的重用（即使是在几年之后），也能只用几行代码来进行扩展或改编。</p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
 ]]></content>
     <summary type="html">
     <![CDATA[<blockquote>
@@ -485,7 +506,7 @@
     <link href="http://swiftggteam.github.io/2015/11/06/if-let-assignment/"/>
     <id>http://swiftggteam.github.io/2015/11/06/if-let-assignment/</id>
     <published>2015-11-06T01:00:00.000Z</published>
-    <updated>2015-11-17T05:53:14.184Z</updated>
+    <updated>2015-11-18T02:20:26.402Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Weston Hanners，<a href="http://www.alloc-init.com/2015/10/if-let-assignment/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-29<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -507,6 +528,9 @@
 <p><strong>更新日志 11/01/2015:</strong></p>
 <p>twitter上有人提醒我: ruby中<code>||=</code>等价于<code>left = left || right</code>，与我想要实现的<code>left = right || left</code>不同。我对这种用法不是很了解，为了避免混淆，我可能使用另外一个操作符<code>?=</code>替代。</p>
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">infix</span> <span class="keyword">operator</span> ?= &#123; <span class="keyword">associativity</span> <span class="keyword">right</span> <span class="keyword">precedence</span> <span class="number">90</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="func"><span class="keyword">func</span> ?=<span class="generics">&lt;T&gt;</span><span class="params">(<span class="keyword">inout</span> <span class="keyword">left</span>: T, <span class="keyword">right</span>: T?)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">let</span> value = <span class="keyword">right</span> &#123;</span><br><span class="line">        <span class="keyword">left</span> = value</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="func"><span class="keyword">func</span> ?=<span class="generics">&lt;T&gt;</span><span class="params">(<span class="keyword">inout</span> <span class="keyword">left</span>: T?, <span class="keyword">right</span>: T?)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">let</span> value = <span class="keyword">right</span> &#123;</span><br><span class="line">        <span class="keyword">left</span> = value</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
 ]]></content>
     <summary type="html">
     <![CDATA[<blockquote>
@@ -529,7 +553,7 @@
     <link href="http://swiftggteam.github.io/2015/11/05/swift-playground-the-monty-hall-problem/"/>
     <id>http://swiftggteam.github.io/2015/11/05/swift-playground-the-monty-hall-problem/</id>
     <published>2015-11-05T01:00:00.000Z</published>
-    <updated>2015-11-17T05:53:14.184Z</updated>
+    <updated>2015-11-18T02:20:26.402Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-playground-the-monty-hall-problem/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-27<br>译者：<a href="https://github.com/SergioChan" target="_blank" rel="external">SergioChan</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -554,6 +578,9 @@
 <h2 id="结论">结论</h2><p>在 Playground 中做实验是十分有趣的。在这种情况下，我们可以验证那些乍一看摸不着头脑的理论。</p>
 <h2 id="引用">引用</h2><p>图片: @ Lim ChewHow / shutterstock.com</p>
 <p>维基百科: <a href="https://en.wikipedia.org/wiki/Monty_Hall_problem" target="_blank" rel="external">Monty Hall Problem</a></p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
 ]]></content>
     <summary type="html">
     <![CDATA[<blockquote>
@@ -574,7 +601,7 @@
     <link href="http://swiftggteam.github.io/2015/11/04/swift-using-local-closures/"/>
     <id>http://swiftggteam.github.io/2015/11/04/swift-using-local-closures/</id>
     <published>2015-11-04T01:00:00.000Z</published>
-    <updated>2015-11-17T05:53:14.184Z</updated>
+    <updated>2015-11-18T02:20:26.402Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-using-local-closures/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-22<br>译者：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -588,6 +615,9 @@
 <p>这里有很多重复的代码。你可以创建一个函数，在函数里对一个 label 的属性进行设置，但是这个函数我们基本不会在别的地方再次使用。因此，在这种情况下使用闭包就是一个相当不错的解决方案：</p>
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> guiMode: <span class="type">GUIMode</span> = .<span class="type">Mode1</span> &#123;</span><br><span class="line">    <span class="keyword">didSet</span> &#123;      </span><br><span class="line">        <span class="keyword">let</span> styleLabel: (label:<span class="type">UILabel</span>,text:<span class="type">String</span>,color:<span class="type">UIColor</span>,size:<span class="type">CGFloat</span>) -&gt; () = &#123; (label,text,color,size) <span class="keyword">in</span></span><br><span class="line">            label.text = text</span><br><span class="line">            label.textColor = color</span><br><span class="line">            label.font = <span class="type">UIFont</span>(name: <span class="string">"HelveticaNeue"</span>, size:size)</span><br><span class="line">        &#125;</span><br><span class="line">                        </span><br><span class="line">        <span class="keyword">switch</span> guiMode &#123;</span><br><span class="line">        <span class="keyword">case</span> .<span class="type">Mode1</span>:</span><br><span class="line">            styleLabel(label: label1, text: <span class="string">"1"</span>, color: <span class="type">UIColor</span>.redColor(), size:<span class="number">10</span>)</span><br><span class="line">            styleLabel(label: label2, text: <span class="string">"2"</span>, color: <span class="type">UIColor</span>.blueColor(), size:<span class="number">12</span>)</span><br><span class="line">            styleLabel(label: label3, text: <span class="string">"3"</span>, color: <span class="type">UIColor</span>.yellowColor(), size:<span class="number">11</span>)</span><br><span class="line">        <span class="keyword">case</span> .<span class="type">Mode2</span>:</span><br><span class="line">            styleLabel(label: label1, text: <span class="string">"4"</span>, color: <span class="type">UIColor</span>.yellowColor(), size:<span class="number">11</span>)</span><br><span class="line">            styleLabel(label: label2, text: <span class="string">"5"</span>, color: <span class="type">UIColor</span>.blackColor(), size:<span class="number">9</span>)</span><br><span class="line">            styleLabel(label: label3, text: <span class="string">"6"</span>, color: <span class="type">UIColor</span>.brownColor(), size:<span class="number">10</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这样一来，代码就少了很多，看起来也更加简洁了。</p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
 ]]></content>
     <summary type="html">
     <![CDATA[<blockquote>
@@ -611,7 +641,7 @@
     <link href="http://swiftggteam.github.io/2015/11/03/watchconnectivity-introduction-say-goodbye-to-the-spinner/"/>
     <id>http://swiftggteam.github.io/2015/11/03/watchconnectivity-introduction-say-goodbye-to-the-spinner/</id>
     <published>2015-11-03T01:00:00.000Z</published>
-    <updated>2015-11-17T05:53:14.184Z</updated>
+    <updated>2015-11-18T02:20:26.402Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/watchconnectivity-introduction-say-goodbye-to-the-spinner/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-21<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -640,6 +670,9 @@
 <h2 id="总结">总结</h2><p>我爱死<a href="http://www.kristinathai.com/watchos-2-how-to-communicate-between-devices-using-watch-connectivity/" target="_blank" rel="external">Kristina Thai’s WatchConnectivity post</a> 里面区别传输的图解了：</p>
 <p><img src="/img/articles/watchconnectivity-introduction-say-goodbye-to-the-spinner/Screen-Shot-2015-09-21-at-8.17.29-AM.png1447732460.5724132" alt="这里写图片描述"></p>
 <p>同时，本文参考了 Curtis Herbert 的文章 <a href="http://blog.curtisherbert.com/data-synchronization-with-watchos/" target="_blank" rel="external">Getting Data to Your WatchOS 2 App</a> 中最后的 Watch OS 2 observations 部分。</p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
 ]]></content>
     <summary type="html">
     <![CDATA[<blockquote>
@@ -663,7 +696,7 @@
     <link href="http://swiftggteam.github.io/2015/11/02/watchconnectivity-say-hello-to-wcsession/"/>
     <id>http://swiftggteam.github.io/2015/11/02/watchconnectivity-say-hello-to-wcsession/</id>
     <published>2015-11-01T16:00:00.000Z</published>
-    <updated>2015-11-17T05:53:14.184Z</updated>
+    <updated>2015-11-18T02:20:26.402Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/watchconnectivity-say-hello-to-wcsession/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-21<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -719,6 +752,9 @@
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">sessionReachabilityDidChange</span><span class="params">(session: WCSession)</span></span> &#123;</span><br><span class="line">    <span class="comment">// handle session reachability change</span></span><br><span class="line">    <span class="keyword">if</span> session.reachable &#123;</span><br><span class="line">        <span class="comment">// great! continue on with Interactive Messaging</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 😥 prompt the user to unlock their iOS device</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>以上！现在你应该已经知道了<code>WCSession</code>的一些要领，所以我们将会学习更加好玩的部分 —— 真正使用它在 iOS 和 Watch 之间接收和发送收据！</p>
 <p>你可以在 GitHub 查看完整的<a href="https://gist.github.com/NatashaTheRobot/6bcbe79afd7e9572edf6" target="_blank" rel="external">WatchSessionManager单例</a>。</p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
 ]]></content>
     <summary type="html">
     <![CDATA[<blockquote>
@@ -747,7 +783,7 @@
     <link href="http://swiftggteam.github.io/2015/10/30/lets-talk-about-monads/"/>
     <id>http://swiftggteam.github.io/2015/10/30/lets-talk-about-monads/</id>
     <published>2015-10-30T01:00:00.000Z</published>
-    <updated>2015-11-17T05:53:14.184Z</updated>
+    <updated>2015-11-18T02:20:26.402Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Olivier Halligon，<a href="http://alisoftware.github.io/swift/2015/10/17/lets-talk-about-monads/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-17<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -791,6 +827,9 @@
 <p>但实际上，你怎么叫它们都没关系。只要你知道如果你想把一种封装类型转换成另一种，而某些类型的<code>map</code>和<code>flatMap</code>方法着实能帮到你，这就够了。</p>
 <hr>
 <p>这篇文章是”Swift编程思想”系列的后记。别担心，我还会写很多文章，论述 Swift 在其他应用场景下的美妙之处，不过我不会再拿这些和 ObjC 比较了（因为 Swift 真的好太多了，你现在应该完全把 ObjC 忘掉了 😄）。</p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
 ]]></content>
     <summary type="html">
     <![CDATA[<blockquote>
@@ -812,7 +851,7 @@
     <link href="http://swiftggteam.github.io/2015/10/29/list-comprehensions-and-performance-with-swift/"/>
     <id>http://swiftggteam.github.io/2015/10/29/list-comprehensions-and-performance-with-swift/</id>
     <published>2015-10-29T01:00:00.000Z</published>
-    <updated>2015-11-17T05:53:14.184Z</updated>
+    <updated>2015-11-18T02:20:26.402Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Veronica Ray，<a href="http://jamesonquave.com/blog/list-comprehensions-and-performance-with-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-08-15<br>译者：<a href="http://weibo.com/riven0951" target="_blank" rel="external">riven</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a></p>
 <p>本文写于 2015.8.15 适用于 Xcode 6 和 Swift 1.2</p>
@@ -852,6 +891,9 @@
 <hr>
 <p>我见过最酷的列表解析的应用便是拼写检查。Airspeed Velocity 针对 <a href="http://norvig.com/spell-correct.html" target="_blank" rel="external">Peter Norvig 的  Python 版本的拼写检查</a>，<a href="http://airspeedvelocity.net/2015/05/02/spelling/" target="_blank" rel="external">改写了一个 Swift 版本</a>。</p>
 <p>在 Swift 中使用类列表解析的操作的主要优点就是简洁性。 <a href="http://www.paulgraham.com/power.html" target="_blank" rel="external">Paul Graham 写了一大篇关于在编程语言中简洁是多么重要的文章。</a> 因为每个程序员每天只能写一定行数的代码，如果你以同样数量的代码行数完成更多功能，那你每天便可以完成更多的工作任务。这种力量也会让你重新思考编写什么样的程序是可能的。在一些更繁琐的语言中，这个拼写检查的例子可能就是一个巨大的项目。我喜欢像拼写检查这种充满技术复杂性和神秘感的事物，并且在 Swift 中可以只用几行代码便能解决。</p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
 ]]></content>
     <summary type="html">
     <![CDATA[<blockquote>
@@ -873,7 +915,7 @@
     <link href="http://swiftggteam.github.io/2015/10/28/five-myths-about-swift/"/>
     <id>http://swiftggteam.github.io/2015/10/28/five-myths-about-swift/</id>
     <published>2015-10-28T01:00:00.000Z</published>
-    <updated>2015-11-17T05:53:14.184Z</updated>
+    <updated>2015-11-18T02:20:26.402Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/five-myths-about-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-19<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a></p>
 </blockquote>
@@ -897,6 +939,9 @@
 <h2 id="误区_5_：“Swift_还不能用在生产环境”">误区 5 ：“Swift 还不能用在生产环境”</h2><p>很多人认为 Swift 还不能用在生产环境。其中一个原因就是，引进 Swift 到工程中时会有一些问题出现，尤其是 Xcode 会有一些 bug。如果知道一些变通方法的话，还是可以在生产环境使用 Swift 的。</p>
 <p>Swift 1.2 和 Swift 2.0 的引进都有对语言的语法进行修改。因此，把现存的 Swift 代码迁移到新的语法上是必要的。当然，这也没什么可指责的，毕竟每个 iOS 版本都有代码在变更。而且，这也是 Swift 在尝试改善的重要标志，特别是在 Swift 发布不久的现阶段。</p>
 <h2 id="接下来做什么">接下来做什么</h2><p>如果你想学习更多有关 Swift 的知识，学习<a href="https://itunes.apple.com/us/book/the-swift-programming-language/id881256329?mt=11" target="_blank" rel="external">苹果的Swift文档</a>是一个非常好的开始。如果想了解其它的资源，可以关注一下我的博客<a href="http://www.thomashanning.com/how-to-stay-up-to-date-on-ios-development/" target="_blank" rel="external"> “How To Stay Up-To-Date On iOS Development”</a>。</p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
 ]]></content>
     <summary type="html">
     <![CDATA[<blockquote>
@@ -918,7 +963,7 @@
     <link href="http://swiftggteam.github.io/2015/10/27/swift-pattern-matching-in-detail/"/>
     <id>http://swiftggteam.github.io/2015/10/27/swift-pattern-matching-in-detail/</id>
     <published>2015-10-27T01:00:00.000Z</published>
-    <updated>2015-11-17T05:53:14.184Z</updated>
+    <updated>2015-11-18T02:20:26.402Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Benedikt Terhechte，<a href="http://appventure.me/2015/08/20/swift-pattern-matching-in-detail/" target="_blank" rel="external">原文链接</a>，原文日期：2015-08-20<br>译者：<a href="http://blog.csdn.net/mmoaay" target="_blank" rel="external">mmoaay</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1120,6 +1165,9 @@
 <p><a name="2">2.我不清楚编译器是否在对这点进行了优化，但理论上来说，它应该能计算出所需数据的正确位置，然后忽略 <code>enum</code> 的其他情况并内联这个地址</a></p>
 <p><a name="3">3.当然，不是 Haskell实现的对手：<br>fib 0 = 0<br>fib 1 = 1<br>fib n = fib (n-1) + fib (n-2)<br></a></p>
 <p><a name="4">4.比如：switch [1, 2, 4, 3] {<br>case [<em>, 2, </em>, 3]:<br>}</a></p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
 ]]></content>
     <summary type="html">
     <![CDATA[<blockquote>
@@ -1141,7 +1189,7 @@
     <link href="http://swiftggteam.github.io/2015/10/26/swift-ranges-and-intervals/"/>
     <id>http://swiftggteam.github.io/2015/10/26/swift-ranges-and-intervals/</id>
     <published>2015-10-26T01:00:00.000Z</published>
-    <updated>2015-11-17T05:53:14.184Z</updated>
+    <updated>2015-11-18T02:20:26.402Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Ole Begemann，<a href="http://oleb.net/blog/2015/09/swift-ranges-and-intervals/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-24<br>译者：<a href="http://www.dianqk.org/" target="_blank" rel="external">靛青K</a>；校对：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；定稿：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a></p>
 </blockquote>
@@ -1212,6 +1260,9 @@
 <p>虽然我们应该对自定义操作符持谨慎的态度，但我认为在这个特定的例子中，他们可以明显地提高可读性而没有降低可理解性–这个前缀和后缀操作符非常接近他们原本的意思，甚至是不熟悉这段代码的读者在理解它的时候也不会有多大的困难。</p>
 <p>即便如此，我还是认为在这个特定的例子中，使用自定义操作符来替代标准的 Swift 句法（case _ where x &gt; 0）所得到的好处是很小的，因此在实战代码中还是不值得使用。把这个方法暂时视为思考上的实践，而非推荐使用。</p>
 <p>如果你喜欢这篇文章，你可能也会喜欢 Chris Eidhof 和 Airspeed Velocity 的即将出版的书，<a href="https://www.objc.io/books/advanced-swift/" target="_blank" rel="external">Swift 进阶</a>。他们对于相同的在区间下标上下文中的开闭区间主题讨论了很多其它的东西。我是这本书的技术审校，所以我的意见偏向的，但是如果你对 Swift 很感兴趣，我还是非常推荐这本书给你。这本书当前是 beta 状态，但是现在已经可以买到它的早期预览版了。</p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
 ]]></content>
     <summary type="html">
     <![CDATA[<blockquote>
@@ -1239,7 +1290,7 @@
     <link href="http://swiftggteam.github.io/2015/10/23/3d-touch-impressions-and-thoughts/"/>
     <id>http://swiftggteam.github.io/2015/10/23/3d-touch-impressions-and-thoughts/</id>
     <published>2015-10-23T01:00:00.000Z</published>
-    <updated>2015-11-17T05:53:14.184Z</updated>
+    <updated>2015-11-18T02:20:26.402Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/3d-touch-impressions-and-thoughts" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-26<br>译者：<a href="http://www.brighttj.com" target="_blank" rel="external">saitjr</a>；校对：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1278,6 +1329,9 @@
 <h2 id="总结">总结</h2><p>3D Touch是一个非常爽的特性，它提供了全新的交互方式。设备中包含了一个线性振动器(Taptic Engine)，所以按压屏幕时，设备能有一定响应——太好了，迫不及待想要试试。</p>
 <p>非常遗憾，苹果没有在最新的Xcode 7 beta 2中解决无法模拟的问题，还是希望他们尽快搞定吧——或许他们不修复是为了增加销量，因为用户已经迫不及待的想要试试这个新特性了，而最简单粗暴的方式，就是买个新设备 :D。</p>
 <p>我已经迫不及待的想要尝试基于3D Touch的应用了，如游戏和画图，还有一些我想象不到的应用。或许还可以看到计量重量的应用，比如称一个水果的重量，或是一个放置在屏幕上的物体的重量等等 :&gt;。</p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
 ]]></content>
     <summary type="html">
     <![CDATA[<blockquote>
@@ -1300,7 +1354,7 @@
     <link href="http://swiftggteam.github.io/2015/10/22/thinking-in-swift-4/"/>
     <id>http://swiftggteam.github.io/2015/10/22/thinking-in-swift-4/</id>
     <published>2015-10-22T01:00:00.000Z</published>
-    <updated>2015-11-17T05:53:14.180Z</updated>
+    <updated>2015-11-18T02:20:26.402Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Olivier Halligon，<a href="http://alisoftware.github.io/swift/2015/10/11/thinking-in-swift-4/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-11<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="http://www.futantan.com" target="_blank" rel="external">Prayer</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1365,6 +1419,9 @@
 <li>Lines of Codes，指有多少行代码</li>
 <li>我会马上发布一个收尾文章，留一个关于<em>Monads</em>的口风，并把这个系列真正完结。别愁，之后还有很多关于 Swift 的文章会陆续发布。</li>
 </ol>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
 ]]></content>
     <summary type="html">
     <![CDATA[<blockquote>
@@ -1391,7 +1448,7 @@
     <link href="http://swiftggteam.github.io/2015/10/21/reordering-collection-view-cells-tutorial/"/>
     <id>http://swiftggteam.github.io/2015/10/21/reordering-collection-view-cells-tutorial/</id>
     <published>2015-10-21T01:00:00.000Z</published>
-    <updated>2015-11-17T05:53:14.180Z</updated>
+    <updated>2015-11-18T02:20:26.402Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：ioscreator，<a href="http://www.ioscreator.com/tutorials/reordering-collection-view-cells-tutorial" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-17<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://www.dianqk.org/" target="_blank" rel="external">靛青K</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1434,6 +1491,9 @@
 <p>构建并运行项目，长按某个单元格后拖动调整它的位置。</p>
 <p><img src="/img/articles/reordering-collection-view-cells-tutorial/format=1500w1445389588.5267599" alt=""></p>
 <p>你可以从<a href="https://github.com/ioscreator/ioscreator" target="_blank" rel="external">github</a>上下载 IOS9ReorderingCollectionViewTutorial 的源代码。</p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
 ]]></content>
     <summary type="html">
     <![CDATA[<blockquote>

@@ -29,7 +29,7 @@ enum GUIMode &amp;#123;	case Mode1	case Mode2&amp;#125;">
 闭包一般是用来作为函数的参数。不过某些情况下，使用本地闭包也是十分方便的。
 假设有一个 ViewController，里面包含了两种 GUI 模式：
 enum GUIMode &amp;#123;	case Mode1	case Mode2&amp;#125;">
-<meta property="og:updated_time" content="2015-11-17T05:53:14.184Z">
+<meta property="og:updated_time" content="2015-11-18T02:20:26.402Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift：使用本地闭包">
 <meta name="twitter:description" content="作者：Thomas Hanning，原文链接，原文日期：2015-10-22译者：小锅；校对：千叶知风；定稿：千叶知风
@@ -125,6 +125,9 @@ enum GUIMode &amp;#123;	case Mode1	case Mode2&amp;#125;">
 <p>这里有很多重复的代码。你可以创建一个函数，在函数里对一个 label 的属性进行设置，但是这个函数我们基本不会在别的地方再次使用。因此，在这种情况下使用闭包就是一个相当不错的解决方案：</p>
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> guiMode: <span class="type">GUIMode</span> = .<span class="type">Mode1</span> &#123;</span><br><span class="line">    <span class="keyword">didSet</span> &#123;      </span><br><span class="line">        <span class="keyword">let</span> styleLabel: (label:<span class="type">UILabel</span>,text:<span class="type">String</span>,color:<span class="type">UIColor</span>,size:<span class="type">CGFloat</span>) -&gt; () = &#123; (label,text,color,size) <span class="keyword">in</span></span><br><span class="line">            label.text = text</span><br><span class="line">            label.textColor = color</span><br><span class="line">            label.font = <span class="type">UIFont</span>(name: <span class="string">"HelveticaNeue"</span>, size:size)</span><br><span class="line">        &#125;</span><br><span class="line">                        </span><br><span class="line">        <span class="keyword">switch</span> guiMode &#123;</span><br><span class="line">        <span class="keyword">case</span> .<span class="type">Mode1</span>:</span><br><span class="line">            styleLabel(label: label1, text: <span class="string">"1"</span>, color: <span class="type">UIColor</span>.redColor(), size:<span class="number">10</span>)</span><br><span class="line">            styleLabel(label: label2, text: <span class="string">"2"</span>, color: <span class="type">UIColor</span>.blueColor(), size:<span class="number">12</span>)</span><br><span class="line">            styleLabel(label: label3, text: <span class="string">"3"</span>, color: <span class="type">UIColor</span>.yellowColor(), size:<span class="number">11</span>)</span><br><span class="line">        <span class="keyword">case</span> .<span class="type">Mode2</span>:</span><br><span class="line">            styleLabel(label: label1, text: <span class="string">"4"</span>, color: <span class="type">UIColor</span>.yellowColor(), size:<span class="number">11</span>)</span><br><span class="line">            styleLabel(label: label2, text: <span class="string">"5"</span>, color: <span class="type">UIColor</span>.blackColor(), size:<span class="number">9</span>)</span><br><span class="line">            styleLabel(label: label3, text: <span class="string">"6"</span>, color: <span class="type">UIColor</span>.brownColor(), size:<span class="number">10</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这样一来，代码就少了很多，看起来也更加简洁了。</p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
   
 	</div>
 		<footer class="article-footer clearfix">

@@ -29,7 +29,7 @@
 
 #Swift小贴士: 在IBOutlets的didSet中设置视图,而不是将代码塞满viewDidLoad。这样更清晰，同样只被调用一次.
 – Jesse Squires (@jesse_squires) 2015 年 7 月">
-<meta property="og:updated_time" content="2015-11-17T05:53:14.188Z">
+<meta property="og:updated_time" content="2015-11-18T02:20:26.406Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift 小贴士: 优雅地设置 IBOutlets">
 <meta name="twitter:description" content="作者：Natasha，原文链接，原文日期：2015/07/29译者：Channe；校对：numbbbbb；定稿：小锅
@@ -125,6 +125,9 @@
 <p>然而,我真的很喜欢 Jesse 方案的可读性和简洁性:</p>
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> UIKit</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ViewController</span>: <span class="title">UIViewController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="preprocessor">@IBOutlet</span> <span class="keyword">weak</span> <span class="keyword">var</span> myLabel: <span class="type">UILabel</span>! &#123;</span><br><span class="line">        <span class="keyword">didSet</span> &#123;</span><br><span class="line">            myLabel.textColor = <span class="type">UIColor</span>.purpleColor()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="preprocessor">@IBOutlet</span> <span class="keyword">weak</span> <span class="keyword">var</span> myOtherLabel: <span class="type">UILabel</span>! &#123;</span><br><span class="line">        <span class="keyword">didSet</span> &#123;</span><br><span class="line">            myOtherLabel.textColor = <span class="type">UIColor</span>.yellowColor()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="preprocessor">@IBOutlet</span> <span class="keyword">weak</span> <span class="keyword">var</span> myButton: <span class="type">UIButton</span>! &#123;</span><br><span class="line">        <span class="keyword">didSet</span> &#123;</span><br><span class="line">            myButton.tintColor = <span class="type">UIColor</span>.magentaColor()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.viewDidLoad()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>是时候去重构代码了!</p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
   
 	</div>
 		<footer class="article-footer clearfix">

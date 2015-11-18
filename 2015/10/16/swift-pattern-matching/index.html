@@ -25,7 +25,7 @@ Swift中的模式匹配更新:2015.9.19: 添加了一些关于Swift语法问题�
 
 &amp;lt;!--此处开始正文--&amp;gt;
 Swift中的模式匹配更新:2015.9.19: 添加了一些关于Swift语法问题的笔记。把自定义操作符的符号改为了一个我认为更加适合的。在总结中添加了一些对函数式编程的想法。2015.9.25: 添加了关于标准库中已经存在的~&amp;gt;操作符的笔">
-<meta property="og:updated_time" content="2015-11-17T05:53:14.180Z">
+<meta property="og:updated_time" content="2015-11-18T02:20:26.398Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift中的模式匹配">
 <meta name="twitter:description" content="作者：Ole Begemann，原文链接，原文日期：2015-09-18译者：lfb-CD；校对：pmst；定稿：千叶知风
@@ -169,6 +169,9 @@ Swift中的模式匹配更新:2015.9.19: 添加了一些关于Swift语法问题�
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> str = <span class="string">"ABCDEFGHIJKLMNOPQRSTUVWXYZ"</span></span><br><span class="line"><span class="keyword">switch</span> str &#123;</span><br><span class="line"><span class="keyword">case</span> hasPrefix(<span class="string">"B"</span>), hasPrefix(<span class="string">"C"</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"Starts with B or C"</span>)</span><br><span class="line"><span class="keyword">case</span> hasPrefix(<span class="string">"D"</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"Starts with D"</span>)</span><br><span class="line"><span class="keyword">case</span> hasSuffix(<span class="string">"Z"</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"Ends with Z"</span>)</span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"Something else"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="总结">总结</h2><p>针对我们最初问题的一个通用的解决方案，我们提出了可以应用于很多不同的问题的解决方案。我发现这种情况很普遍：当你将函数作为值时可以到处传递并且通常用于你不想使用它们的地方。函数式编程提高了代码的可组合性，这是在参数使用的一个核心理念。</p>
 <p>在内置的数据类型或者是你自定义的数据类型的基础上，可以给Swift的模式匹配系统扩展出可以非常强大的新功能。但是，请不要过度地去扩展。虽然它看起来比原始的解决方案更加清晰，但是对那些不熟悉它的人来说，自定义的语法会使你的代码可读性变差。</p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
   
 	</div>
 		<footer class="article-footer clearfix">

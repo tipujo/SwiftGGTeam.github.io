@@ -24,7 +24,7 @@
 
 我常看见 Swift 的新手尝试着把它们的 ObjC 代码翻译成 Swift。但是开始用 Swift 写代码的时候最难的事情并不是语法，而是思维方式的转变，去用那些 ObjC 里并没有的 Swift 新概念。">
 <meta property="og:image" content="http://swiftggteam.github.io/img/articles/thinking-in-swift-1/the-cake-is-a-lie.png1444269942.805689">
-<meta property="og:updated_time" content="2015-11-17T05:53:14.180Z">
+<meta property="og:updated_time" content="2015-11-18T02:20:26.398Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift 编程思想，第一部分：拯救小马">
 <meta name="twitter:description" content="作者：Olivier Halligon，原文链接，原文日期：2015/09/06译者：ray16897188；校对：shanks；定稿：千叶知风
@@ -151,7 +151,10 @@
 <hr>
 <ol>
 <li>注意这个<code>try?</code>默默的将<code>error</code>丢弃了：用它的时候你不会知道<em>为什么</em>代码出错的原因。所以通常来说如果可能的话用<code>do { try ... } catch { }</code>替换掉<code>try?</code>会更好。但是在我们的例子中，因为我们希望在 JSON 因某种原因序列化失败时返回一个空数组，这里用<code>try?</code>是 OK 的。<a href="http://alisoftware.github.io/swift/2015/09/06/thinking-in-swift-1/#fnref1" target="_blank" rel="external">↩</a></li>
-<li>如你所见，我在代码的最后保留了一个<code>as!</code>(<code>items.copy() as! NSArray</code>)。有时<del>杀死小马</del>强制转型是 OK 的，如果你真的，真的知道返回的类型不是其他任何东西，就像这里的<code>mutableArray.copy()</code>。可是这种例外十分罕见，只有在你一开始的时候就认真思考过这个用例的情况下才可以接受（当心，如果那匹小马🐴死了，你将会受到良心的谴责）。<a href="http://alisoftware.github.io/swift/2015/09/06/thinking-in-swift-1/#fnref2" target="_blank" rel="external">↩</a></li>
+<li>如你所见，我在代码的最后保留了一个<code>as!</code>(<code>items.copy() as! NSArray</code>)。有时<del>杀死小马</del>强制转型是 OK 的，如果你真的，真的知道返回的类型不是其他任何东西，就像这里的<code>mutableArray.copy()</code>。可是这种例外十分罕见，只有在你一开始的时候就认真思考过这个用例的情况下才可以接受（当心，如果那匹小马🐴死了，你将会受到良心的谴责）。<a href="http://alisoftware.github.io/swift/2015/09/06/thinking-in-swift-1/#fnref2" target="_blank" rel="external">↩</a><blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
+</li>
 </ol>
   
 	</div>

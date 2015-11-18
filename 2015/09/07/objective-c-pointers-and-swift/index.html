@@ -27,7 +27,7 @@
 
 在 Swift 中读 C 指针下面这个 Objective-C 方法会返回一个 int 指针，或者说 C 术语里面的 (int *)：
 @interface Po">
-<meta property="og:updated_time" content="2015-11-17T05:53:14.184Z">
+<meta property="og:updated_time" content="2015-11-18T02:20:26.402Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅谈 Swift 2 中的 Objective-C 指针">
 <meta name="twitter:description" content="作者：Jameson Quave，原文链接，原文日期：2015/08/23译者：mmoaay；校对：numbbbbb；定稿：shanks
@@ -144,6 +144,9 @@
 <h2 id="总结">总结</h2><p><code>UnsafeMutablePointer&lt;T&gt;</code> 类型的兄弟类型 <code>UnsafePointer&lt;T&gt;</code> 从根本上说只是 C 指针的一个抽象。你可以把它们看作 Swift 的可选类型，这样更容易理解。它们不是直接等于一个确切的值，而是在一个确切的值上面做了一层抽象。它们的类型是泛型，这样就可以允许其使用其他的值，而不单单是 <code>Int32</code>。比如你需要传入一个 <code>Float</code> 对象那么你可能需要 <code>UnsafeMutablePointer&lt;Float&gt;</code>。</p>
 <p>重点是：你不是把一个 <code>Int</code> <em>强转</em> 为 <code>UnsafeMutablePointer&lt;Int&gt;</code>，因为指针不是简单地一个 <code>Int</code> 值。所以，如果需要创建一个新的对象，你需要调用构造方法 <code>UnsafeMutablePointer&lt;Int&gt;(count: Int)</code>。</p>
 <p>在本文之后我们会继续深入研究函数指针的一些细节，然后学习如何利用这些特性的优势去更好地与 C 和 Objective-C 的 API 进行交互。一定要注册我们的 <a href="http://jamesonquave.us6.list-manage1.com/subscribe?u=1d2576bf288fe2fd7fa71bd20&amp;id=6c787ed58a" target="_blank" rel="external">Newsletter</a> ，这样你才不会错过这些精彩的内容！</p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
   
 	</div>
 		<footer class="article-footer clearfix">

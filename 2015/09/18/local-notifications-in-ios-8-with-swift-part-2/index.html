@@ -40,7 +40,7 @@
 <meta property="og:image" content="http://swiftggteam.github.io/img/articles/local-notifications-in-ios-8-with-swift-part-2/iOS-Simulator-Screen-Shot-Feb-6-2015-12.41.20-AM.png1444269939.116427">
 <meta property="og:image" content="http://swiftggteam.github.io/img/articles/local-notifications-in-ios-8-with-swift-part-2/iOS-Simulator-Screen-Shot-Feb-6-2015-12.06.33-AM.png1444269939.455359">
 <meta property="og:image" content="http://swiftggteam.github.io/img/articles/local-notifications-in-ios-8-with-swift-part-2/iOS-Simulator-Screen-Shot-Feb-6-2015-1.25.36-AM.png1444269939.847281">
-<meta property="og:updated_time" content="2015-11-17T05:53:14.180Z">
+<meta property="og:updated_time" content="2015-11-18T02:20:26.398Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="如何在 iOS 8 中使用 Swift 实现本地通知（下）">
 <meta name="twitter:description" content="作者：Jason Newell，原文链接，原文日期：2015/03/04译者：小铁匠Linus；校对：shanks；定稿：numbbbbb
@@ -168,6 +168,9 @@
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">application</span><span class="params">(application: UIApplication, handleActionWithIdentifier identifier: String?, forLocalNotification notification: UILocalNotification, completionHandler: <span class="params">()</span></span></span> -&gt; <span class="type">Void</span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> item = <span class="type">TodoItem</span>(deadline: notification.fireDate!, title: notification.userInfo![<span class="string">"title"</span>] <span class="keyword">as</span> <span class="type">String</span>, <span class="type">UU</span>  notification.userInfo![<span class="string">"UUID"</span>] <span class="keyword">as</span> <span class="type">String</span>!)</span><br><span class="line">  <span class="keyword">switch</span> (identifier!) &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="string">"COMPLETE_TODO"</span>:</span><br><span class="line">      <span class="type">TodoList</span>.sharedInstance.removeItem(item)</span><br><span class="line">  <span class="keyword">case</span> <span class="string">"REMIND"</span>:</span><br><span class="line">      <span class="type">TodoList</span>.sharedInstance.scheduleReminderforItem(item)</span><br><span class="line">  <span class="keyword">default</span>:</span><br><span class="line">      <span class="built_in">println</span>(<span class="string">"Error: unexpected notification action identifier!"</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  completionHandler()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>终于可以试着运行这个应用了（为了测试方便，建议将<code>dateByAddingTimeInterval:</code>设置一个较小的值）。</p>
 <p><div style="max-width:300px;"><br><img src="/img/articles/local-notifications-in-ios-8-with-swift-part-2/iOS-Simulator-Screen-Shot-Feb-6-2015-1.25.36-AM.png1444269939.847281" alt=""><br></div><br>我们讨论了所有的非地理上（注：上一集讲到的用户进入和离开某个地理区域时，可以触发本地通知的功能）的 UILocalNotification 功能，现在已经有一个功能较全的待办项应用了，所以本系列教程到此结束。你可以在<a href="https://github.com/jasonbnewell/LocalNotificationTutorials/tree/part2_simplified" target="_blank" rel="external">这里</a>下载工程的源代码。</p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
   
 	</div>
 		<footer class="article-footer clearfix">

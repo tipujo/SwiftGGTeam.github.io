@@ -23,7 +23,7 @@ Objective-C缺乏一个重要特性:不支持泛型。幸运地是，Swift拥有
 <meta property="og:description" content="作者：Thomas Hanning，原文链接，原文日期：2015/09/09译者：pmst；校对：numbbbbb；定稿：shanks
 
 Objective-C缺乏一个重要特性:不支持泛型。幸运地是，Swift拥有这一特性。泛型允许你声明的函数、类以及结构体支持不同的数据类型。">
-<meta property="og:updated_time" content="2015-11-17T05:53:14.188Z">
+<meta property="og:updated_time" content="2015-11-18T02:20:26.406Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅谈 Swift 中的泛型">
 <meta name="twitter:description" content="作者：Thomas Hanning，原文链接，原文日期：2015/09/09译者：pmst；校对：numbbbbb；定稿：shanks
@@ -123,6 +123,9 @@ Objective-C缺乏一个重要特性:不支持泛型。幸运地是，Swift拥有
 <p>注意到函数<code>isItemInSatck(item:T)</code>中，我们得到了一个编译错误，因为两个参数没有实现<code>Equtable</code>协议的话，类型值是不能进行比较的。实际上我们可以为泛型增加约束条件来解决这个问题。在本例中，通过对第一行进行修改，我们让泛型<code>T</code>遵循<code>Equatable</code>协议:      </p>
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Stack</span>&lt;<span class="title">T</span>:<span class="title">Equatable</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">var</span> stackItems: [<span class="type">T</span>] = []</span><br><span class="line"></span><br><span class="line">  <span class="func"><span class="keyword">func</span> <span class="title">pushItem</span><span class="params">(item:T)</span></span> &#123;</span><br><span class="line">    .append(item)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="func"><span class="keyword">func</span> <span class="title">popItem</span><span class="params">()</span></span> -&gt; <span class="type">T</span>? &#123;</span><br><span class="line">    <span class="keyword">let</span> lastItem = stackItems.last</span><br><span class="line">    stackItems.removeLast()</span><br><span class="line">    <span class="keyword">return</span> lastItem</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="func"><span class="keyword">func</span> <span class="title">isItemInStack</span><span class="params">(item:T)</span></span> -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> found = <span class="literal">false</span></span><br><span class="line">    <span class="keyword">for</span> stackItem <span class="keyword">in</span> stackItems &#123;</span><br><span class="line">      <span class="keyword">if</span> stackItem == item &#123;</span><br><span class="line">        ound = <span class="literal">true</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> found</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="总结">总结</h3><p>就像众多其他编程语言一样，你也能够在<code>Swift</code>中利用泛型这一特性。倘若你想要写一个库，泛型是非常好用的特性。</p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
   
 	</div>
 		<footer class="article-footer clearfix">

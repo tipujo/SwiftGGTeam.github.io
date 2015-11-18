@@ -27,7 +27,7 @@
 &amp;lt;!--此处开始正文--&amp;gt;
 (AKA：你希望使用一个自定义操作符)
 有多少次你是以这种匹配模式实现的呢？">
-<meta property="og:updated_time" content="2015-11-17T05:53:14.184Z">
+<meta property="og:updated_time" content="2015-11-18T02:20:26.402Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="If-Let 赋值运算符">
 <meta name="twitter:description" content="作者：Weston Hanners，原文链接，原文日期：2015-10-29译者：pmst；校对：千叶知风；定稿：千叶知风
@@ -130,6 +130,9 @@
 <p><strong>更新日志 11/01/2015:</strong></p>
 <p>twitter上有人提醒我: ruby中<code>||=</code>等价于<code>left = left || right</code>，与我想要实现的<code>left = right || left</code>不同。我对这种用法不是很了解，为了避免混淆，我可能使用另外一个操作符<code>?=</code>替代。</p>
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">infix</span> <span class="keyword">operator</span> ?= &#123; <span class="keyword">associativity</span> <span class="keyword">right</span> <span class="keyword">precedence</span> <span class="number">90</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="func"><span class="keyword">func</span> ?=<span class="generics">&lt;T&gt;</span><span class="params">(<span class="keyword">inout</span> <span class="keyword">left</span>: T, <span class="keyword">right</span>: T?)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">let</span> value = <span class="keyword">right</span> &#123;</span><br><span class="line">        <span class="keyword">left</span> = value</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="func"><span class="keyword">func</span> ?=<span class="generics">&lt;T&gt;</span><span class="params">(<span class="keyword">inout</span> <span class="keyword">left</span>: T?, <span class="keyword">right</span>: T?)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">let</span> value = <span class="keyword">right</span> &#123;</span><br><span class="line">        <span class="keyword">left</span> = value</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
   
 	</div>
 		<footer class="article-footer clearfix">
