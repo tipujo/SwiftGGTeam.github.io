@@ -27,7 +27,7 @@
 &amp;lt;!--此处开始正文--&amp;gt;
 
 译者注：作为一个走心且有逼格的翻译组，我们对本篇文章中的代码都进行了验证，并且写了将代码分为上下两篇做成了 playground，代码中有详尽的注释。可以到这个github地址上进行下载，这个代码由翻译组的另一位小伙伴 ppt 提供">
-<meta property="og:updated_time" content="2015-11-20T03:50:16.625Z">
+<meta property="og:updated_time" content="2015-11-20T03:54:15.046Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift 中枚举高级用法及实践">
 <meta name="twitter:description" content="作者：Benedikt Terhechte，原文链接，原文日期：2015-10-17译者：小锅；校对：shanks；定稿：shanks
@@ -263,11 +263,13 @@
 <p>枚举通常都是一个字节长度。[…]如果你真的很傻很天真，你当然可以定义一个有成百上千个 case 的枚举，在这种情况下，取决于最少所需要的比特数，枚举可能占据两个字节或者更多。</p>
 </blockquote>
 <h2 id="Swift_标准库中的枚举">Swift 标准库中的枚举</h2><p>在我们准备继续探索枚举在项目中的不同用例之前，先看一下在 Swift 标准库当中是如何使用枚举可能会更诱人，所以现在让我们先来看看。</p>
-<p><a href="https://developer.apple.com/library/watchos/documentation/Swift/Reference/Swift_Bit_Enumeration/index.html#//apple_ref/swift/enum/s:OSs3Bit" target="_blank" rel="external">Bit</a> 这个枚举有两个值，<strong>One</strong> 和 <strong>Zero</strong>。它被作为 <code>CollectionOfOne&lt;T&gt;</code> 中的 <code>Index</code> 类型。</p>
-<p><a href="https://developer.apple.com/library/watchos/documentation/Swift/Reference/Swift_FloatingPointClassification_Enumeration/index.html#//apple_ref/swift/enumelt/FloatingPointClassification/s:FOSs27FloatingPointClassification12SignalingNaNFMS_S_" target="_blank" rel="external">FloatingPointClassification</a> 这个枚举定义了一系列 IEEE 754 可能的类别，比如 <code>NegativeInfinity</code>, <code>PositiveZero</code> 或 <code>SignalingNaN</code>。</p>
-<p><a href="https://developer.apple.com/library/watchos/documentation/Swift/Reference/Swift_Mirror-AncestorRepresentation_Enumeration/index.html#//apple_ref/swift/enum/s:OVSs6Mirror22AncestorRepresentation" target="_blank" rel="external">Mirror.AncestorRepresentation</a> 和 <a href="https://developer.apple.com/library/watchos/documentation/Swift/Reference/Swift_Mirror-DisplayStyle_Enumeration/index.html#//apple_ref/swift/enum/s:OVSs6Mirror12DisplayStyle" target="_blank" rel="external">Mirror.DisplayStyle</a> 这两个枚举被用在 Swift 反射 API 的上下文当中。</p>
-<p><a href="https://developer.apple.com/library/watchos/documentation/Swift/Reference/Swift_Optional_Enumeration/index.html#//apple_ref/swift/enum/s:Sq" target="_blank" rel="external">Optional</a> 这个就不用多说了</p>
-<p><a href="https://developer.apple.com/library/watchos/documentation/Swift/Reference/Swift_Process_Enumeration/index.html#//apple_ref/swift/enum/s:OSs7Process" target="_blank" rel="external">Process</a> 这个枚举包含了当前进程的命令行参数(<code>Process.argc</code>, <code>Process.arguments</code>)。这是一个相当有趣的枚举类型，因为在 Swift 1.0 当中，它是被作为一个结构体来实现的。</p>
+<ul>
+<li><a href="https://developer.apple.com/library/watchos/documentation/Swift/Reference/Swift_Bit_Enumeration/index.html#//apple_ref/swift/enum/s:OSs3Bit" target="_blank" rel="external">Bit</a> 这个枚举有两个值，<strong>One</strong> 和 <strong>Zero</strong>。它被作为 <code>CollectionOfOne&lt;T&gt;</code> 中的 <code>Index</code> 类型。</li>
+<li><a href="https://developer.apple.com/library/watchos/documentation/Swift/Reference/Swift_FloatingPointClassification_Enumeration/index.html#//apple_ref/swift/enumelt/FloatingPointClassification/s:FOSs27FloatingPointClassification12SignalingNaNFMS_S_" target="_blank" rel="external">FloatingPointClassification</a> 这个枚举定义了一系列 IEEE 754 可能的类别，比如 <code>NegativeInfinity</code>, <code>PositiveZero</code> 或 <code>SignalingNaN</code>。</li>
+<li><a href="https://developer.apple.com/library/watchos/documentation/Swift/Reference/Swift_Mirror-AncestorRepresentation_Enumeration/index.html#//apple_ref/swift/enum/s:OVSs6Mirror22AncestorRepresentation" target="_blank" rel="external">Mirror.AncestorRepresentation</a> 和 <a href="https://developer.apple.com/library/watchos/documentation/Swift/Reference/Swift_Mirror-DisplayStyle_Enumeration/index.html#//apple_ref/swift/enum/s:OVSs6Mirror12DisplayStyle" target="_blank" rel="external">Mirror.DisplayStyle</a> 这两个枚举被用在 Swift 反射 API 的上下文当中。</li>
+<li><a href="https://developer.apple.com/library/watchos/documentation/Swift/Reference/Swift_Optional_Enumeration/index.html#//apple_ref/swift/enum/s:Sq" target="_blank" rel="external">Optional</a> 这个就不用多说了</li>
+<li><a href="https://developer.apple.com/library/watchos/documentation/Swift/Reference/Swift_Process_Enumeration/index.html#//apple_ref/swift/enum/s:OSs7Process" target="_blank" rel="external">Process</a> 这个枚举包含了当前进程的命令行参数(<code>Process.argc</code>, <code>Process.arguments</code>)。这是一个相当有趣的枚举类型，因为在 Swift 1.0 当中，它是被作为一个结构体来实现的。</li>
+</ul>
 <h2 id="实践用例">实践用例</h2><p>我们已经在前面几个小节当中看过了许多有用的枚举类型。包括 <code>Optional</code>，<code>Either</code>, <code>FileNode</code> 还有二叉树。然而，还存在很多场合，使用枚举要胜过使用结构体和类。一般来讲，如果问题可以被分解为有限的不同类别，则使用枚举应该就是正确的选择。即使只有两种 case，这也是一个使用枚举的完美场景，正如 Optional 和 Either 类型所展示的。</p>
 <p>以下列举了一些枚举类型在实战中的使用示例，可以用来点燃你的创造力。</p>
 <h3 id="错误处理">错误处理</h3><p>说到枚举的实践使用，当然少不了在 Swift 2.0 当中新推出的错误处理。标记为可抛出的函数可以抛出任何遵守了 <code>ErrorType</code> 空协议的类型。正如 Swift 官方文档中所写的：</p>
