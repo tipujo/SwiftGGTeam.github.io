@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="baidu-site-verification" content="vqJV77bZM6" />
   
-    <title>如何在 Swift 中使用字典树 | SwiftGG 翻译组 - 高质量的 Swift 译文网站</title>
+    <title>如何使用闭包初始化来加速 Swift 的 playground | SwiftGG 翻译组 - 高质量的 Swift 译文网站</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="SwiftGG">
@@ -13,28 +13,25 @@
     <meta name="keywords" content="swift语言,swift翻译,swift学习" /> 
 
     
-    <meta name="description" content="作者：bigonotetaker，原文链接，原文日期：2015/08/11译者：小铁匠Linus；校对：numbbbbb；定稿：numbbbbb
+    <meta name="description" content="作者：Erica Sadun，原文链接，原文日期：2015-11-15译者：JackAlan；校对：小铁匠Linus；定稿：千叶知风
 
-抱歉，由于没有拿到作者授权，我们无法继续提供这个内容。
-如果你真的很需要查看中文译文，可以去阅读译者文章。
-你也可以去首页看看我们的其他文章！">
+&amp;lt;!--此处开始正文--&amp;gt;
+Swift 的 Playground 可能会莫名其妙地变慢，尤其当你使用 SpriteKit 或 SceneKit 时。尽可能的把代码迁移到外部资源文件中，可以优化编译并获得更好的运行时速度。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="如何在 Swift 中使用字典树">
-<meta property="og:url" content="http://swiftggteam.github.io/2015/09/06/a-trie-in-swift/index.html">
+<meta property="og:title" content="如何使用闭包初始化来加速 Swift 的 playground">
+<meta property="og:url" content="http://swiftggteam.github.io/2015/11/24/speeding-up-swift-playgrounds-with-closure-initialization-swiftlang/index.html">
 <meta property="og:site_name" content="SwiftGG">
-<meta property="og:description" content="作者：bigonotetaker，原文链接，原文日期：2015/08/11译者：小铁匠Linus；校对：numbbbbb；定稿：numbbbbb
+<meta property="og:description" content="作者：Erica Sadun，原文链接，原文日期：2015-11-15译者：JackAlan；校对：小铁匠Linus；定稿：千叶知风
 
-抱歉，由于没有拿到作者授权，我们无法继续提供这个内容。
-如果你真的很需要查看中文译文，可以去阅读译者文章。
-你也可以去首页看看我们的其他文章！">
-<meta property="og:updated_time" content="2015-11-24T01:01:16.725Z">
+&amp;lt;!--此处开始正文--&amp;gt;
+Swift 的 Playground 可能会莫名其妙地变慢，尤其当你使用 SpriteKit 或 SceneKit 时。尽可能的把代码迁移到外部资源文件中，可以优化编译并获得更好的运行时速度。">
+<meta property="og:updated_time" content="2015-11-24T01:01:16.729Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="如何在 Swift 中使用字典树">
-<meta name="twitter:description" content="作者：bigonotetaker，原文链接，原文日期：2015/08/11译者：小铁匠Linus；校对：numbbbbb；定稿：numbbbbb
+<meta name="twitter:title" content="如何使用闭包初始化来加速 Swift 的 playground">
+<meta name="twitter:description" content="作者：Erica Sadun，原文链接，原文日期：2015-11-15译者：JackAlan；校对：小铁匠Linus；定稿：千叶知风
 
-抱歉，由于没有拿到作者授权，我们无法继续提供这个内容。
-如果你真的很需要查看中文译文，可以去阅读译者文章。
-你也可以去首页看看我们的其他文章！">
+&amp;lt;!--此处开始正文--&amp;gt;
+Swift 的 Playground 可能会莫名其妙地变慢，尤其当你使用 SpriteKit 或 SceneKit 时。尽可能的把代码迁移到外部资源文件中，可以优化编译并获得更好的运行时速度。">
 
     
     <link rel="alternative" href="/atom.xml" title="SwiftGG" type="application/atom+xml">
@@ -92,10 +89,10 @@
   <header class="article-info clearfix">
     <h1 itemprop="name">
       
-        <a href="/2015/09/06/a-trie-in-swift/" title="如何在 Swift 中使用字典树" itemprop="url">如何在 Swift 中使用字典树</a>
+        <a href="/2015/11/24/speeding-up-swift-playgrounds-with-closure-initialization-swiftlang/" title="如何使用闭包初始化来加速 Swift 的 playground" itemprop="url">如何使用闭包初始化来加速 Swift 的 playground</a>
     </h1>
     <p class="article-time">
-      <time datetime="2015-09-06T01:15:00.000Z" itemprop="datePublished"><i class="icon-time"></i> 2015-09-06</time>
+      <time datetime="2015-11-23T16:00:00.000Z" itemprop="datePublished"><i class="icon-time"></i> 2015-11-24</time>
       <span style="margin-left: 0.5em;"><i class="icon-eye-open"></i> <span class="viewcount"></span></span>
     </p>
   </header>
@@ -110,16 +107,44 @@
 		</div>
 		
 		<blockquote>
-<p>作者：bigonotetaker，<a href="https://bigonotetaking.wordpress.com/2015/08/11/a-trie-in-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015/08/11<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
+<p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/11/15/speeding-up-swift-playgrounds-with-closure-initialization-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-15<br>译者：<a href="undefined">JackAlan</a>；校对：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
-<p>抱歉，由于没有拿到作者授权，我们无法继续提供这个内容。</p>
-<p>如果你真的很需要查看中文译文，可以去阅读<a href="https://github.com/kevin833752/MyTranslationSet/blob/master/TranslationSet/%E5%A6%82%E4%BD%95%E5%9C%A8%20Swift%20%E4%B8%AD%E4%BD%BF%E7%94%A8%E5%AD%97%E5%85%B8%E6%A0%91%28A%20Trie%20in%20Swift%29.md" target="_blank" rel="external">译者文章</a>。</p>
-<p>你也可以去<a href="http://swift.gg" target="_blank" rel="external">首页</a>看看我们的其他文章！</p>
+<!--此处开始正文-->
+<p>Swift 的 Playground 可能会莫名其妙地变慢，尤其当你使用 SpriteKit 或 SceneKit 时。尽可能的把代码迁移到外部资源文件中，可以优化编译并获得更好的运行时速度。</p>
+<a id="more"></a>
+<p>这种方法的最大问题在于，你会因此失去在 Playground 中的线性流 <code>linear flow</code>。模块编译不支持修改变量的顶层指令。比如，你有类似如下的代码：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">let</span> lightNode = <span class="type">SCNNode</span>()</span><br><span class="line">lightNode.light = <span class="type">SCNLight</span>()</span><br><span class="line">lightNode.light!.type = <span class="type">SCNLightTypeOmni</span></span><br><span class="line">lightNode.position = <span class="type">SCNVector3</span>(x: <span class="number">0</span>, y: <span class="number">10</span>, z: <span class="number">10</span>)</span><br><span class="line">scnscene.rootNode.addChildNode(lightNode)</span><br></pre></td></tr></table></figure>
+<p>(我很抱歉使用强制解包，但是这是来自苹果的示例代码。)</p>
+<p>你不能将这些代码直接移到一个模块文件中，因为你使用的是顶级调用，这些代码不会在外部 Swift 文件中被编译。你可能会把这些代码放在一个函数里，来作为一种变通的方法，例如：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">internal</span> <span class="func"><span class="keyword">func</span> <span class="title">setupLightNode</span><span class="params">()</span></span> -&gt; <span class="type">SCNNode</span> &#123;</span><br><span class="line"><span class="keyword">let</span> theLight = <span class="type">SCNNode</span>()</span><br><span class="line">theLight.light = <span class="type">SCNLight</span>()</span><br><span class="line">theLight.light!.type = <span class="type">SCNLightTypeOmni</span></span><br><span class="line">theLight.position = <span class="type">SCNVector3</span>(x: <span class="number">0</span>, y: <span class="number">10</span>, z: <span class="number">10</span>)</span><br><span class="line">scnscene.rootNode.addChildNode(theLight)</span><br><span class="line"><span class="keyword">return</span> theLight</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后你可以在声明后调用该函数：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> lightNode = setupLightNode()</span><br></pre></td></tr></table></figure>
+<p>这挫爆了，这种方式创建了一个不必要的额外函数，而且它强制让你在一个新的实例被声明前去处理这个实例。</p>
+<p>闭包提供了一种更吸引人、相对轻量的解决方案。正如下面你将看到的样例。在这里，将初始化的代码打包在一个单独的组中，执行并最终返回完全初始化的实例。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// create and add a light to the scene</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">let</span> lightNode: <span class="type">SCNNode</span> = &#123;</span><br><span class="line">  <span class="keyword">let</span> theLight = <span class="type">SCNNode</span>()</span><br><span class="line">  theLight.light = <span class="type">SCNLight</span>()</span><br><span class="line">  theLight.light!.type = <span class="type">SCNLightTypeOmni</span></span><br><span class="line">  theLight.position = <span class="type">SCNVector3</span>(x: <span class="number">0</span>, y: <span class="number">10</span>, z: <span class="number">10</span>)</span><br><span class="line">  scnscene.rootNode.addChildNode(theLight)</span><br><span class="line">  <span class="keyword">return</span> theLight</span><br><span class="line">&#125;()</span><br></pre></td></tr></table></figure>
+<p>这种方法使你可以使用单独的语句来创建和初始化一个对象，保留你在 Playground 中声明的流动性和可读性，而且运行的会更快一点。</p>
+<p>这个<a href="https://vid.me/BrPC" target="_blank" rel="external">视频</a>包含了这次 lightNode 的代码与其他设置操作。在点击 Playground 的 “运行” 按钮后，只花了 3-4 秒，而不像此前的数分钟。这种加速方法对于建立以 SpriteKit 和 SceneKit 为元素的原型，在部署到实际的应用前，变得更有实际意义。</p>
+<p><strong>更新</strong>：如下是另外一种可以建立类实例的方法：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">infix</span> <span class="keyword">operator</span> •-&gt; &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// prepare class instance</span></span><br><span class="line"><span class="func"><span class="keyword">func</span> •-&gt; <span class="generics">&lt;T&gt;</span><span class="params">(object: T, f: <span class="params">(T)</span></span></span> -&gt; <span class="type">Void</span>) -&gt; <span class="type">T</span> &#123;</span><br><span class="line">  f(object)</span><br><span class="line">  <span class="keyword">return</span> object</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;<span class="keyword">var</span> (x, y, z) = (<span class="string">"x"</span>, <span class="string">"y"</span>, <span class="string">"z"</span>)&#125;</span><br><span class="line"><span class="keyword">let</span> myInstance = <span class="type">MyClass</span>() •-&gt; &#123;</span><br><span class="line"> $<span class="number">0</span>.x = <span class="string">"NewX"</span></span><br><span class="line"> $<span class="number">0</span>.y = <span class="string">"NewY"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不知你意下如何？</p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
   
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Swift-入门/">Swift 入门</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Erica-Sadun/">Erica Sadun</a>
+  </div>
 
 </div>
 
@@ -127,7 +152,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://swiftggteam.github.io/2015/09/06/a-trie-in-swift/" data-title="如何在 Swift 中使用字典树 | SwiftGG" data-tsina="null" class="share clearfix">
+	  <div data-url="http://swiftggteam.github.io/2015/11/24/speeding-up-swift-playgrounds-with-closure-initialization-swiftlang/" data-title="如何使用闭包初始化来加速 Swift 的 playground | SwiftGG" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -140,19 +165,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/09/06/commoncrypto-in-swift/" title="如何在 Swift 中使用 CommonCrypto 类进行加密(I)">
-  <strong>上一篇：</strong><br/>
-  <span>
-  如何在 Swift 中使用 CommonCrypto 类进行加密(I)</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2015/09/04/swift-functional-programming-intro/"  title="Swift 函数式编程实践">
+<a href="/2015/11/23/swift-reflection-api-what-you-can-do/"  title="Swift 反射 API 及用法">
  <strong>下一篇：</strong><br/> 
- <span>Swift 函数式编程实践
+ <span>Swift 反射 API 及用法
 </span>
 </a>
 </div>
@@ -161,7 +178,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/09/06/a-trie-in-swift/" data-title="如何在 Swift 中使用字典树" data-url="http://swiftggteam.github.io/2015/09/06/a-trie-in-swift/"></div>
+	<div class="ds-thread" data-thread-key="2015/11/24/speeding-up-swift-playgrounds-with-closure-initialization-swiftlang/" data-title="如何使用闭包初始化来加速 Swift 的 playground" data-url="http://swiftggteam.github.io/2015/11/24/speeding-up-swift-playgrounds-with-closure-initialization-swiftlang/"></div>
 </section>
 
 
