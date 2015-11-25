@@ -4,7 +4,7 @@
   <subtitle><![CDATA[走心的 Swift 翻译组]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://swiftggteam.github.io/"/>
-  <updated>2015-11-24T01:01:16.729Z</updated>
+  <updated>2015-11-25T00:57:18.775Z</updated>
   <id>http://swiftggteam.github.io/</id>
   
   <author>
@@ -15,11 +15,157 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[tvOS 入门：开发你的第一个 tvOS 应用]]></title>
+    <link href="http://swiftggteam.github.io/2015/11/25/tvos-introduction/"/>
+    <id>http://swiftggteam.github.io/2015/11/25/tvos-introduction/</id>
+    <published>2015-11-24T16:00:00.000Z</published>
+    <updated>2015-11-25T00:57:18.775Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>作者：gregg mojica，<a href="http://www.appcoda.com/tvos-introduction/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-02<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
+</blockquote>
+<p>上月在旧金山举办的苹果发布会中,苹果公司发布了第四代苹果电视。然而，此次更新不同于以往任何版本，苹果新电视将允许用户从 App Store 下载应用和游戏。</p>
+<p>这样的声明无疑给开发者打了一剂鸡血。新苹果电视中，位于 Cupertino(译者注:苹果电脑的全球总公司所在地，位于美国旧金山)的巨人介绍了一个新的操作系统，有别于 iOS 系统，新系统名为 tvOS。tvOS 基于 iOS 开发，有少许改动。 我们将使用通用框架和你最喜欢编程语言(当然是 Swift 喽，毫无疑问！)来编写几个简单应用，初步了解 tvOS。</p>
+<a id="more"></a>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/10/IMG_3302-1024x683.jpg" alt="image"></p>
+<h2 id="了解_tvOS">了解 tvOS</h2><p>tvOS 基于 iOS 系统开发而成。你使用的许多框架可能都适用于 tvOS。然而，苹果删除了几个 iOS 框架，使得 tvOS 独一无二 (最有名的就是 WebKit)。</p>
+<p>苹果支持两种类型的 tvOS 应用程序。第一个是传统的应用程序-这类应用程序会打包代码和图片等等资源。这基本上与 iOS 或 OS X 应用程序一样。tvOS 新增对<strong>client-server(客户端-服务器)</strong>应用的支持，即第二种类型。<strong>client-server</strong>应用程序简单地把服务器请求和网络开发过程集中到应用中来。换句话说，这些应用可以同常见的数据库，服务器等交互。例如，如果你使用 Node.js(一款基于 Chrome V8 引擎开发的 JavaScript 框架)实现了后端，接着你可以考虑使用<strong>client-server</strong>技术，使它更易于管理应用程序(即我们的客户端)和后端(又称之为服务器)。<strong>client-server</strong>应用程序可以直接与 JavaScript 进行交互。然而，由于这些应用程序比较特别，在本教程中我们将不讨论<strong>client-server</strong>应用程序，重点介绍传统应用的开发。</p>
+<p>请将这些概念牢记于心，开始我们的教程!</p>
+<h2 id="必备条件">必备条件</h2><p>在本教程中，我假设你已经了解常见的 iOS 框架、术语和网络知识。 我将在整个教程中使用 storyboard 进行讲解，希望你知道如何使用 storyboard。同样，我不会对 storyboard 中一些常见的操作做详细深入地讲解(例如改变背景颜色，修改对象尺寸等等)。如果你对 storyboard 还不太了解或者还只是个 iOS 的初学者，我建议你去 AppCoda 教程网站先学习下，再回过头来学习本教程。</p>
+<p>开发环境为 Xcode7.1 以上。当然最好还是在苹果电视真机上进行调试(译者表示呵呵)，当然模拟器也足够了。</p>
+<h2 id="创建一个新的_tvOS_工程">创建一个新的 tvOS 工程</h2><p>为了开发 tvOS 应用，你必须在你的 Mac 上安装 Xcode7.1。Xcode7.1 内置了 tvOS SDK,除此之外还有 iOS9.1 以及 Swift2.1。</p>
+<p>启动 Xcode,创建一个新工程，选中一个新的 tvOS 应用。在右侧面板，选中击 Single View Application 并点击 next。</p>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/10/Screen-Shot-2015-10-31-at-11.07.02-PM-1024x732.png" alt="image2"></p>
+<p>接着为新应用命名。对于第一个应用来说，我们习惯以一个 Hello World App 作为教程的开始。命名该工程为 HelloWorld，接着点击创建并选择项目存储位置。</p>
+<h2 id="Hello,_tvOS">Hello, tvOS</h2><p>由于 tvOS 继承自 iOS，许多你熟悉的 iOS 开发基本概念在 tvOS 中都适用。</p>
+<p>在你的 Main.storyboard 文件中，添加一个 button，将 title 修改为“Click Me!”，接着在其下方添加一个标签 label,如下所示：</p>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/10/Screen-Shot-2015-10-31-at-11.26.45-PM-1024x558.png" alt="image3"></p>
+<p>注意到 tvOS 中的按钮与 iOS 的按钮稍有不同。此外，当你添加多个按钮时，苹果已经允许用户在按钮间无缝切换，比如向右，向左，向上或向下滑动。开发者只需要在 storyboard 中为按钮布局来利用该特性(稍后详述)。</p>
+<p>和 iOS 一样，我们通过 control-drag 标签(label)和按钮(button)来创建 IBOutlet 以及 IBAction。这里分别命名 outlet 为 myLabel，IBAction 为 buttonPressed。</p>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/10/Screen-Shot-2015-10-31-at-11.32.31-PM-1024x647.png" alt=""></p>
+<p>在 buttonPressed 动作中，请键入如下代码行:</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">self</span>.myLabel.text = <span class="string">"Hello,World"</span></span><br></pre></td></tr></table></figure>
+<p>你应该很熟悉这行代码了。如果你不熟悉，上述代码实现了点击按钮，为标签(label)的 text 字段赋值”Hello,World”字符串值。</p>
+<p>请在模拟器中运行应用。</p>
+<p>你可能想要通过鼠标来点击按钮，但与模拟器中的 iOS 应用不同，苹果电视未配备触摸屏，仅仅依靠一个遥控器罢了。因此，单击Hardware &gt;Show Apple TV Remote 或者 Command + Shift + R 快捷键显示遥控器。通过遥控器实现按钮的点击，你的第一个 tvOS 应用就此完成了！<br><img src="http://www.appcoda.com/wp-content/uploads/2015/10/Screen-Shot-2015-10-31-at-11.58.52-PM-1024x575.png" alt=""></p>
+<h2 id="猜谜游戏_App">猜谜游戏 App</h2><p>接下来,我们将使用现有的 tvOS 知识开发一款简单的猜谜应用。这将是一个非常基本的猜谜应用(只有一个问题),这个迷你项目主要是像你展示按钮和遥控器之间是如何交互的。在接下来的项目中，我们将探索更多有关控制 tvOS 的知识。</p>
+<p>再次启动 Xcode，依葫芦画瓢创建一个新的 tvOS 项目。不过请重新命名项目名称。</p>
+<p>模仿我下面的布局做一些 storyboard 的基础操作。</p>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/10/Screen-Shot-2015-11-01-at-12.14.40-AM-1024x564.png" alt=""></p>
+<p>如果你不确定我是如何实现的，下面是我使用的组件的列表:</p>
+<ol>
+<li>4 个 UIButton，尺寸为 960 X 325</li>
+<li>1 个 UILabel，尺寸为 1400 X 120</li>
+</ol>
+<p>接着为 4 个按钮添加 text 并更改它们的背景颜色，均在 storyboard 完成(任何 iOS 应用都可以这么实现)。</p>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/10/Screen-Shot-2015-11-01-at-12.21.16-AM-1024x564.png" alt=""></p>
+<p>像以前一样,让我们将这些按钮绑定到代码中。为了代码简洁和易于理解,我将创建 4 个 IBAction(虽然这并不一定是最优雅的解决方案,但它是最简单的)。</p>
+<p>将这些按钮逐一连接到 ViewController.swift 文件中(通过拖拉方式创建 IBAction)，暂且命名为 :button0Tapped、button1Tapped、button2Tapped 和 button3Tapped，你可以随时修改这些名称。</p>
+<p>上面图片中显示的 label 内容是询问加州的首府是哪个。给出四个选项供你选择(有关加州首都的知识)，答案是 Sacramento。其中 button1Pressed 动作响应 Sacramento 按钮的点击事件。</p>
+<p>根据点击的按钮,我们想向用户显示一个警告信息,告知他们选择了正确还是错误的按钮。接着我们创建一个名为 showAlert 的函数来处理这件事,让我们的代码 DRY(DRY 是 Don’t Repeat YourSelf 的缩写，对于软件工程师来说这是惯例用法，确保代码可重用性和可维护性)。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">showAlert</span><span class="params">(status: String, title:String)</span></span> &#123; <span class="comment">// 1</span></span><br><span class="line">        <span class="keyword">let</span> alertController = <span class="type">UIAlertController</span>(title: status, message: title, preferredStyle: .<span class="type">Alert</span>) <span class="comment">// 2</span></span><br><span class="line">        <span class="keyword">let</span> cancelAction = <span class="type">UIAlertAction</span>(title: <span class="string">"Cancel"</span>, style: .<span class="type">Cancel</span>) &#123; (action) <span class="keyword">in</span> <span class="comment">//3 </span></span><br><span class="line">        &#125;</span><br><span class="line">        alertController.addAction(cancelAction)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">let</span> ok = <span class="type">UIAlertAction</span>(title: <span class="string">"OK"</span>, style: .<span class="type">Default</span>) &#123; (action) <span class="keyword">in</span></span><br><span class="line">        &#125; <span class="comment">// 4</span></span><br><span class="line">        alertController.addAction(ok)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">self</span>.presentViewController(alertController, animated: <span class="literal">true</span>) &#123; <span class="comment">// 5</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>上述函数接受两个参数，一个是用户的输入状态(表面他们回答问题的正确或者错误)，以及警告提示框中要显示的信息或者标题。</p>
+<p>第二行创建并初始化一个新的 UIAlertController 对象。第三和第四行代码为 alert 警告框添加一个 cancel 取消按钮和 ok 确认按钮，第五行代码用于呈现这些内容。</p>
+<p>如果你不确定这段代码是如何工作的,我强烈建议你先看看<a href="http://www.appcoda.com/uialertcontroller-swift-closures-enum/" target="_blank" rel="external">UIAlertController</a>教程,这里提供了有关该类的详细信息。</p>
+<p>现在，请在不同的 IBActions 中调用这个方法。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="preprocessor">@IBAction</span> <span class="func"><span class="keyword">func</span> <span class="title">button0Tapped</span><span class="params">(sender: AnyObject)</span></span> &#123;</span><br><span class="line">        showAlert(<span class="string">"Wrong!"</span>, title: <span class="string">"Bummer, you got it wrong!"</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 这是唯一正确的</span></span><br><span class="line"><span class="preprocessor">@IBAction</span> <span class="func"><span class="keyword">func</span> <span class="title">button1Tapped</span><span class="params">(sender: AnyObject)</span></span> &#123;</span><br><span class="line">    showAlert(<span class="string">"Correct!"</span>, title: <span class="string">"Whoo! That is the correct response"</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="preprocessor">@IBAction</span> <span class="func"><span class="keyword">func</span> <span class="title">button2Tapped</span><span class="params">(sender: AnyObject)</span></span> &#123;</span><br><span class="line">    showAlert(<span class="string">"Wrong!"</span>, title: <span class="string">"Bummer, you got it wrong!"</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="preprocessor">@IBAction</span> <span class="func"><span class="keyword">func</span> <span class="title">button3Tapped</span><span class="params">(sender: AnyObject)</span></span> &#123;</span><br><span class="line">    showAlert(<span class="string">"Wrong!"</span>, title: <span class="string">"Bummer, you got it wrong!"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>正如你所看到的，仅在 button1Tapped 函数中传入“Correct”的标题，剩下都传入“Wrong”。</p>
+<p>你的代码应该看起来和下面的代码一样。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> UIKit</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ViewController</span>: <span class="title">UIViewController</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.viewDidLoad()</span><br><span class="line">        <span class="comment">// Do any additional setup after loading the view, typically from a nib.</span></span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">didReceiveMemoryWarning</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.didReceiveMemoryWarning()</span><br><span class="line">        <span class="comment">// Dispose of any resources that can be recreated.</span></span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="preprocessor">@IBAction</span> <span class="func"><span class="keyword">func</span> <span class="title">button0Tapped</span><span class="params">(sender: AnyObject)</span></span> &#123;</span><br><span class="line">        showAlert(<span class="string">"Wrong!"</span>, title: <span class="string">"Bummer, you got it wrong!"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="preprocessor">@IBAction</span> <span class="func"><span class="keyword">func</span> <span class="title">button1Tapped</span><span class="params">(sender: AnyObject)</span></span> &#123;</span><br><span class="line">        showAlert(<span class="string">"Correct!"</span>, title: <span class="string">"Whoo! That is the correct response"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="preprocessor">@IBAction</span> <span class="func"><span class="keyword">func</span> <span class="title">button2Tapped</span><span class="params">(sender: AnyObject)</span></span> &#123;</span><br><span class="line">        showAlert(<span class="string">"Wrong!"</span>, title: <span class="string">"Bummer, you got it wrong!"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="preprocessor">@IBAction</span> <span class="func"><span class="keyword">func</span> <span class="title">button3Tapped</span><span class="params">(sender: AnyObject)</span></span> &#123;</span><br><span class="line">        showAlert(<span class="string">"Wrong!"</span>, title: <span class="string">"Bummer, you got it wrong!"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">showAlert</span><span class="params">(status: String, title:String)</span></span> &#123;</span><br><span class="line">        <span class="keyword">let</span> alertController = <span class="type">UIAlertController</span>(title: status, message: title, preferredStyle: .<span class="type">Alert</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">let</span> cancelAction = <span class="type">UIAlertAction</span>(title: <span class="string">"Cancel"</span>, style: .<span class="type">Cancel</span>) &#123; (action) <span class="keyword">in</span></span><br><span class="line">        </span><br><span class="line">        &#125;</span><br><span class="line">        alertController.addAction(cancelAction)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">let</span> ok = <span class="type">UIAlertAction</span>(title: <span class="string">"OK"</span>, style: .<span class="type">Default</span>) &#123; (action) <span class="keyword">in</span></span><br><span class="line">        &#125;</span><br><span class="line">        alertController.addAction(ok)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">self</span>.presentViewController(alertController, animated: <span class="literal">true</span>) &#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在模拟器中运行你的应用。如果一切顺利，你应当会看到类似下面的截图。</p>
+<p>单机遥控器，选中 Cupertino 选项</p>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/10/Screen-Shot-2015-11-01-at-12.49.37-AM-1024x552.png" alt=""></p>
+<p>你应该看到弹出一个 UIAlertController。</p>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/10/Screen-Shot-2015-11-01-at-12.49.27-AM-1024x557.png" alt=""></p>
+<p>不幸的是，模拟器并不支持 swiping，因此你可能需要在真机中测试成功的 alert 警告框。不过，你可以在模拟器(遥控)中通过按住 option 键 swipe 选项。在 Apple TV 真机中，你能够在所有按钮中无缝切换。</p>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/10/Screen-Shot-2015-11-01-at-12.53.00-AM-1024x575.png" alt=""></p>
+<p>恭喜！ 你已经完成了第二个项目。</p>
+<h2 id="在_tvOS_中使用_TableViews">在 tvOS 中使用 TableViews</h2><p>在 iOS 操作系统中，苹果大量使用 tableview。事实上，苹果在许多自家应用(包括信息、联系人等)都使用了它。随着 watchOS SDK 的发布，tableview 可用于 Apple Watch 开发。自然地，新的苹果电视和 tvOS 同样支持这个流行的 API。</p>
+<p>依葫芦画瓢创建一个新的工程项目，命名为 TableViewPractice。</p>
+<p>和先前创建的工程一样，Xcode 默认自动生成 ViewController.swift 文件。请在文件的第 11 行代码处添加如下声明(译者注:就是让 ViewController 遵循两个 tableView 的协议)：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">UITableViewDataSource</span>, <span class="type">UITableViewDelegate</span></span><br></pre></td></tr></table></figure>
+<p>第 11 行的代码应该看起来这样:</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ViewController</span>: <span class="title">UIViewController</span>, <span class="title">UITableViewDataSource</span>, <span class="title">UITableViewDelegate</span> </span>&#123;</span><br></pre></td></tr></table></figure>
+<p>由于 Swift 是一门注重安全的语言，编译器会报告说没有遵循 UITableView 的 Datasource 和 Delegate 协议。我们会很快解决这个问题。</p>
+<p>接着在 storyboard 中添加一个 tableView 视图并拖拽到 ViewController 文件中生成一个 IBOutlet，将其命名为 tableView。同时在这个 IBOutlet 声明下方新增一个数组。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> dataArray = [<span class="string">"San Francisco"</span>, <span class="string">"San Diego"</span>, <span class="string">"Los Angeles"</span>, <span class="string">"San Jose"</span>, <span class="string">"Mountain View"</span>, <span class="string">"Sacramento"</span>]</span><br></pre></td></tr></table></figure>
+<p>数组囊括了所有我们要在 tableView 显示的元素。</p>
+<p>现在请在v iewDidLoad 方法的下方添加如下代码：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// section数量</span></span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">numberOfSectionsInTableView</span><span class="params">(tableView: UITableView)</span></span> -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 每个section的cell数量    </span></span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(tableView: UITableView, numberOfRowsInSection section: Int)</span></span> -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>.dataArray.<span class="built_in">count</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 填充每个cell的内容    </span></span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath)</span></span> -&gt; <span class="type">UITableViewCell</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> cell = <span class="type">UITableViewCell</span>(style: .<span class="type">Subtitle</span>, reuseIdentifier: <span class="literal">nil</span>)</span><br><span class="line">        </span><br><span class="line">    cell.textLabel?.text = <span class="string">"<span class="subst">\(<span class="keyword">self</span>.dataArray[indexPath.row])</span>"</span></span><br><span class="line">    cell.detailTextLabel?.text = <span class="string">"Hello from sub title <span class="subst">\(indexPath.row + <span class="number">1</span>)</span>"</span></span><br><span class="line">        </span><br><span class="line">    <span class="keyword">return</span> cell</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>你可能发现了，tvOS 中的 tableview 和 iOS 中的 tableView 非常相似。在上面的代码片段中，我们告诉 tableview 有多少行(rows),多少个部分(section)，以及每个单元格要显示的内容。</p>
+<p>在 viewDidLoad 方法中，确保你把 tableview 的 delegate 和 datasource 设置为自身 self。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">self</span>.tableView.dataSource = <span class="keyword">self</span></span><br><span class="line"><span class="keyword">self</span>.tableView.delegate = <span class="keyword">self</span></span><br></pre></td></tr></table></figure>
+<p>在模拟器中运行应用。</p>
+<p>不出意外，你应该看到一个 tableview 出现在界面中。</p>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/10/Screen-Shot-2015-11-01-at-9.21.21-AM-1024x567.png" alt=""></p>
+<p>现在，我们将在 tableView 的右侧添加一个按钮(UIButton)。在模拟或者真机上构建并运行，Whoo<br>！我们现在可以在按钮和 tableview 之间无缝切换了。</p>
+<h2 id="创建一个天气_App">创建一个天气 App</h2><p>在下一个小项目中，我们将开发一个简单的天气应用程序，显示当前的天气预报。在这个项目中，我们将使用非常稳定的天气 API：<strong>forecast.io</strong>，它为包括 Dark Sky 在内许多 iOS 应用提供 API 支持。</p>
+<p>首先你需要在 developer.forecast.io 注册一个开发者账号。我们只是测试，免费的 API 调用(1000 次/天)应该足够使用了。</p>
+<p>注意下面 url:<br><a href="https://api.forecast.io/forecast/d3250bf407f0579c8355cd39cdd4f9e1/37.7833,122.4167" target="_blank" rel="external">https://api.forecast.io/forecast/d3250bf407f0579c8355cd39cdd4f9e1/37.7833,122.4167</a></p>
+<p><strong>forecast/</strong>之后的一串数字(即 d3250bf40…)是 API Key 键值(千万不要将项目的 API Key 透露给别人)；紧跟着 API Key 字符串后的是你想要解析天气数据位置的经度和纬度坐标。我选择 San Francisco，但是你可以通过简单修改经纬坐标值来显示其他地方的天气。</p>
+<p>倘若在浏览器中打开该链接，你将注意到反馈数据为 JSON 格式。这是一个 Get请求。在 HTTP 世界中，GET 用于获取和下载数据。</p>
+<p>为了理解数据并将其显示到应用中,我们需要解析它。解析 JSON 在 Swift 中一直是一个热议话题。目前有各种各样的 JSON 解析库，诸如 SwiftyJSON、Alamofire 等。它们都是很棒的资源，我强烈建议你先看看。然而，在本教程中我们将使用 NSJSONSerialization，一个 iOS 内置的类。首先，打开 ViewController.swift 文件。<code>didRecieveMemory</code>警告函数在本项目中没有存在的意义，所以删除它吧！</p>
+<p>现在，在 ViewDidLoad 中键入如下代码:</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> url = <span class="type">NSURL</span>(string: <span class="string">"https://api.forecast.io/forecast/d3250bf407f0579c8355cd39cdd4f9e1/37.7833,122.4167"</span>) &#123; &#125;</span><br></pre></td></tr></table></figure>
+<p>这里我们使用可选类型声明一个 url 变量。</p>
+<p>NSJSONSerialization 需要传入 NSData 进行解析。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> data = <span class="type">NSData</span>(contentsOfURL: url)&#123; &#125;</span><br></pre></td></tr></table></figure>
+<p>接着，在上面 data 花括号作用域中键入如下代码：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">      <span class="keyword">let</span> parsed = <span class="keyword">try</span> <span class="type">NSJSONSerialization</span>.<span class="type">JSONObjectWithData</span>(data, options: <span class="type">NSJSONReadingOptions</span>.<span class="type">AllowFragments</span>) <span class="comment">// 1</span></span><br><span class="line">                    </span><br><span class="line">     <span class="keyword">let</span> newDict = parsed <span class="keyword">as</span>? <span class="type">NSDictionary</span> <span class="comment">// 2</span></span><br><span class="line">     <span class="built_in">print</span>(newDict![<span class="string">"currently"</span>]![<span class="string">"summary"</span>])</span><br><span class="line">   &#125;</span><br><span class="line"><span class="keyword">catch</span> <span class="keyword">let</span> error <span class="keyword">as</span> <span class="type">NSError</span> &#123;</span><br><span class="line">     <span class="built_in">print</span>(<span class="string">"A JSON parsing error occurred, here are the details:\n <span class="subst">\(error)</span>"</span>) <span class="comment">// 3</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们把 NSJSONSerialization 对象包裹在 do-catch 语句中。你可能对 do 语句不太了解，这是 Swift 2 中的新特性。Do-Catch 语句是一个新的改进性错误处理机制。Do-Catch 语句的使用方式如下：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> expression <span class="comment">// 不是必要的内容</span></span><br><span class="line">    statements</span><br><span class="line">&#125; <span class="keyword">catch</span> pattern <span class="number">1</span> &#123;</span><br><span class="line">    statements</span><br><span class="line">&#125; <span class="keyword">catch</span> pattern <span class="number">2</span> <span class="keyword">where</span> condition &#123;</span><br><span class="line">    statements</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在第一行代码中，我们设定了一个 NSJSONSerialization 对象，并传入 data 对象。注意，对象(parsed)在使用之前必须先转换成一个 NSDictionary 字典。</p>
+<p>接着，在第二行代码中，我们指定一个名为 newDict 的变量并使用<code>as</code>关键字将其转换 NSDictionary。</p>
+<p>最后，在第三行代码中，我们捕获任何错误并打印到终端中。</p>
+<p>你的整个 ViewController 文件应该类似于下面的代码。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> UIKit</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ViewController</span>: <span class="title">UIViewController</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.viewDidLoad()</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">let</span> url = <span class="type">NSURL</span>(string: <span class="string">"https://api.forecast.io/forecast/d3250bf407f0579c8355cd39cdd4f9e1/37.7833,122.4167"</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">let</span> data = <span class="type">NSData</span>(contentsOfURL: url)&#123;</span><br><span class="line">                <span class="keyword">do</span> &#123;</span><br><span class="line">                    <span class="keyword">let</span> parsed = <span class="keyword">try</span> <span class="type">NSJSONSerialization</span>.<span class="type">JSONObjectWithData</span>(data, options: <span class="type">NSJSONReadingOptions</span>.<span class="type">AllowFragments</span>)</span><br><span class="line">                    </span><br><span class="line">                    <span class="keyword">let</span> newDict = parsed <span class="keyword">as</span>? <span class="type">NSDictionary</span></span><br><span class="line">                    <span class="built_in">print</span>(newDict![<span class="string">"currently"</span>]![<span class="string">"summary"</span>])</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">catch</span> <span class="keyword">let</span> error <span class="keyword">as</span> <span class="type">NSError</span> &#123;</span><br><span class="line">                    <span class="built_in">print</span>(<span class="string">"A JSON parsithng error occurred, here are the details:\n <span class="subst">\(error)</span>"</span>)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>检查终端输出。你应该看到一个包裹了值的可选类型(你得到的值应该稍有不同，会根据不同的地理位置和天气来显示)。</p>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/10/Screen-Shot-2015-11-01-at-11.21.02-AM1.png" alt=""></p>
+<p>现在我们将一些 UILabel 链接到应用中。拖拽两个 UILabel，一个叫 currentTemp，另一个叫 currentSummary。仔细看下 forecast 的 API，你会注意到它返回当前天气温度以及天气的概况(当然还有其他数据)。</p>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/10/Screen-Shot-2015-11-01-at-12.26.11-PM-1024x565.png" alt=""></p>
+<p>在 newDict 变量下面放置如下代码：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">self</span>.currentTemp.text = <span class="string">"<span class="subst">\(newDict!["currently"]!["temperature"]!!)</span>"</span></span><br><span class="line"><span class="keyword">self</span>.currentSummary.text = <span class="string">"<span class="subst">\(newDict!["currently"]!["summary"]!!)</span>"</span></span><br></pre></td></tr></table></figure>
+<p>代码实现了获取天气数据并正确显示到界面。每一行语句最后都使用了双重叹号符号(!!)，用于强制解包 JSON 数据(否则它将被包裹到 Optional 中)。</p>
+<p>在模拟器中构建并运行。</p>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/10/Screen-Shot-2015-11-01-at-11.41.44-AM-1024x549.png" alt=""></p>
+<p>干的不错！你已经完成了天气预报项目！</p>
+<h2 id="其他_tvOS_特性">其他 tvOS 特性</h2><p>我们只不过接触了点 tvOS 的皮毛。正如你所知道的，tvOS 建立在各种 iOS API 之上。但是，许多框架已经从 tvOS 中移除了。完整列表请看这篇<a href="https://developer.apple.com/library/prerelease/tvos/releasenotes/General/tvOS90APIDiffs/" target="_blank" rel="external">文章</a>。</p>
+<p>除此之外，tvOS 的基础是焦点事件(按钮、单元格、标签等在选中状态时会凸显出来，此时为聚焦状态)。幸运的是，系统自动处理大多数聚焦事件。只要你使用了 storyboard，默认会自动聚焦。你可以在谷歌中找到一些聚焦<a href="https://www.google.com/search?sourceid=chrome-psyapi2&amp;ion=1&amp;espv=2&amp;ie=UTF-8&amp;q=tvOS%20focus&amp;oq=tvOS%20focus&amp;aqs=chrome..69i57j0l4j69i60.2140j0j7" target="_blank" rel="external">API</a>。</p>
+<p>正如教程开始所提到的，苹果支持 client-server 应用。这些应用使用 TVML、TVJS 以及 TVMLKit，它们的基础是当下最为流行的 web 技术(HTML、JavaScript 等)。</p>
+<p>当前需要考虑的最大挑战是创建的 tvOS 应用中，SDK 并不支持数据持久化存储。这是和 iOS 不同，你不能保存任何大小超过 1MB 的照片、图标等内容。因此你必须配备一个后端服务，如 CloudKit、Parse、iCloud 等。建议你先了解下 tvOS 中对资源的需求(之前我写的<a href="http://www.appcoda.com/app-thinning/" target="_blank" rel="external">App 瘦包教程</a>)。此外，应用大小限制在 200MB 以内。</p>
+<p>显然，tvOS 应用中有太多限制条件，我们需要多加小心。</p>
+<p>###总结</p>
+<p>在本教程中我们大致了解了 tvOS 以及它的各种特性。通过四个例子项目我们看到了 tvOS 的强大之处，当然还有局限性。tvOS 与 iOS 共享许多相似之处，但一些iOS框架却已经被移除了。</p>
+<p><a href="https://www.dropbox.com/sh/83i9ahb3nabc698/AAAJ00LBMDEnbJWPy2gF3Iyza?dl=0" target="_blank" rel="external">这里</a>提供了完整的项目文件。</p>
+<p>在项目一中，我们实现了一个 hello，world 应用程序；随后项目二中实现了简单的猜谜游戏应用，向你展示聚焦引擎；项目三详细介绍了在 tvOS 中如何使用 tableView；最后，我们结合已有知识在项目四中构建了一个简单的天气应用程序，可以从互联网上下载天气数据。</p>
+<p>苹果的 tvOS 应用商店于上周推出，授权世界各地的开发者分享他们的作品。</p>
+<p>你将作为见证者，看到 tvOS 和新的苹果电视永久性地改变 TV 行业！</p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>作者：gregg mojica，<a href="http://www.appcoda.com/tvos-introduction/">原文链接</a>，原文日期：2015-11-02<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles">pmst</a>；校对：<a href="https://github.com/numbbbbb">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb">numbbbbb</a></p>
+</blockquote>
+<p>上月在旧金山举办的苹果发布会中,苹果公司发布了第四代苹果电视。然而，此次更新不同于以往任何版本，苹果新电视将允许用户从 App Store 下载应用和游戏。</p>
+<p>这样的声明无疑给开发者打了一剂鸡血。新苹果电视中，位于 Cupertino(译者注:苹果电脑的全球总公司所在地，位于美国旧金山)的巨人介绍了一个新的操作系统，有别于 iOS 系统，新系统名为 tvOS。tvOS 基于 iOS 开发，有少许改动。 我们将使用通用框架和你最喜欢编程语言(当然是 Swift 喽，毫无疑问！)来编写几个简单应用，初步了解 tvOS。</p>]]>
+    
+    </summary>
+    
+      <category term="AppCoda" scheme="http://swiftggteam.github.io/tags/AppCoda/"/>
+    
+      <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
+    
+      <category term="Apple TV 开发" scheme="http://swiftggteam.github.io/categories/Apple-TV-%E5%BC%80%E5%8F%91/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[如何使用闭包初始化来加速 Swift 的 playground]]></title>
     <link href="http://swiftggteam.github.io/2015/11/24/speeding-up-swift-playgrounds-with-closure-initialization-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/11/24/speeding-up-swift-playgrounds-with-closure-initialization-swiftlang/</id>
     <published>2015-11-23T16:00:00.000Z</published>
-    <updated>2015-11-24T01:01:16.729Z</updated>
+    <updated>2015-11-25T00:57:18.775Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/11/15/speeding-up-swift-playgrounds-with-closure-initialization-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-15<br>译者：<a href="undefined">JackAlan</a>；校对：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -65,7 +211,7 @@
     <link href="http://swiftggteam.github.io/2015/11/23/swift-reflection-api-what-you-can-do/"/>
     <id>http://swiftggteam.github.io/2015/11/23/swift-reflection-api-what-you-can-do/</id>
     <published>2015-11-22T16:00:00.000Z</published>
-    <updated>2015-11-24T01:01:16.729Z</updated>
+    <updated>2015-11-25T00:57:18.775Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Benedikt Terhechte，<a href="http://appventure.me/2015/10/24/swift-reflection-api-what-you-can-do/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-24<br>译者：<a href="http://blog.csdn.net/mmoaay" target="_blank" rel="external">mmoaay</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -223,7 +369,7 @@
     <link href="http://swiftggteam.github.io/2015/11/20/advanced-practical-enum-examples/"/>
     <id>http://swiftggteam.github.io/2015/11/20/advanced-practical-enum-examples/</id>
     <published>2015-11-19T16:00:00.000Z</published>
-    <updated>2015-11-24T01:01:16.729Z</updated>
+    <updated>2015-11-25T00:57:18.775Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Benedikt Terhechte，<a href="http://appventure.me/2015/10/17/advanced-practical-enum-examples/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-17<br>译者：<a href="http://www.jianshu.com/users/3b40e55ec6d5/latest_articles" target="_blank" rel="external">小锅</a>，<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
 </blockquote>
@@ -508,7 +654,7 @@
     <link href="http://swiftggteam.github.io/2015/11/19/3d-touch-tutorial/"/>
     <id>http://swiftggteam.github.io/2015/11/19/3d-touch-tutorial/</id>
     <published>2015-11-19T02:31:00.000Z</published>
-    <updated>2015-11-24T01:01:16.729Z</updated>
+    <updated>2015-11-25T00:57:18.775Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Maxime Defauw，<a href="http://www.appcoda.com/3d-touch-tutorial/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/09<br>译者：<a href="http://www.brighttj.com" target="_blank" rel="external">saitjr</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -596,7 +742,7 @@
     <link href="http://swiftggteam.github.io/2015/11/18/watchconnectivity-user-info/"/>
     <id>http://swiftggteam.github.io/2015/11/18/watchconnectivity-user-info/</id>
     <published>2015-11-17T16:00:00.000Z</published>
-    <updated>2015-11-24T01:01:16.729Z</updated>
+    <updated>2015-11-25T00:57:18.775Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/watchconnectivity-user-info/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-21<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -674,7 +820,7 @@
     <link href="http://swiftggteam.github.io/2015/11/17/functional-programming-in-swift/"/>
     <id>http://swiftggteam.github.io/2015/11/17/functional-programming-in-swift/</id>
     <published>2015-11-17T04:00:00.000Z</published>
-    <updated>2015-11-24T01:01:16.729Z</updated>
+    <updated>2015-11-25T00:57:18.775Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/functional-programming-in-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/13<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -726,7 +872,7 @@
     <link href="http://swiftggteam.github.io/2015/11/16/capturing-context-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/11/16/capturing-context-swiftlang/</id>
     <published>2015-11-16T01:00:00.000Z</published>
-    <updated>2015-11-24T01:01:16.729Z</updated>
+    <updated>2015-11-25T00:57:18.775Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/08/27/capturing-context-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-08-27<br>译者：<a href="https://github.com/chenmingbiao" target="_blank" rel="external">CMB</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -771,7 +917,7 @@
     <link href="http://swiftggteam.github.io/2015/11/13/swift-tutorial-for-beginners-part-1/"/>
     <id>http://swiftggteam.github.io/2015/11/13/swift-tutorial-for-beginners-part-1/</id>
     <published>2015-11-13T01:00:00.000Z</published>
-    <updated>2015-11-24T01:01:16.729Z</updated>
+    <updated>2015-11-25T00:57:18.775Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-tutorial-for-beginners-part-1/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-29<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -911,7 +1057,7 @@
     <link href="http://swiftggteam.github.io/2015/11/12/naming-methods-and-functions/"/>
     <id>http://swiftggteam.github.io/2015/11/12/naming-methods-and-functions/</id>
     <published>2015-11-12T01:00:00.000Z</published>
-    <updated>2015-11-24T01:01:16.729Z</updated>
+    <updated>2015-11-25T00:57:18.775Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/08/31/naming-methods-and-functions/" target="_blank" rel="external">原文链接</a>，原文日期：2015-08-31<br>译者：<a href="http://weibo.com/u/2916092907" target="_blank" rel="external">天才175</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -956,7 +1102,7 @@
     <link href="http://swiftggteam.github.io/2015/11/11/c-callbacks-in-swift/"/>
     <id>http://swiftggteam.github.io/2015/11/11/c-callbacks-in-swift/</id>
     <published>2015-11-11T01:00:00.000Z</published>
-    <updated>2015-11-24T01:01:16.729Z</updated>
+    <updated>2015-11-25T00:57:18.775Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Ole Begemann，<a href="http://oleb.net/blog/2015/06/c-callbacks-in-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-06-22<br>译者：<a href="http://www.jianshu.com/users/3b40e55ec6d5/latest_articles" target="_blank" rel="external">小锅</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
 </blockquote>
@@ -1038,7 +1184,7 @@
     <link href="http://swiftggteam.github.io/2015/11/10/ios-undo-and-redo-with-nsundomanager/"/>
     <id>http://swiftggteam.github.io/2015/11/10/ios-undo-and-redo-with-nsundomanager/</id>
     <published>2015-11-10T01:00:00.000Z</published>
-    <updated>2015-11-24T01:01:16.729Z</updated>
+    <updated>2015-11-25T00:57:18.775Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/ios-undo-and-redo-with-nsundomanager/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-13<br>译者：<a href="http://blog.csdn.net/yake_099" target="_blank" rel="external">Yake</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="undefined"></a></p>
 </blockquote>
@@ -1106,7 +1252,7 @@
     <link href="http://swiftggteam.github.io/2015/11/09/what-makes-good-code/"/>
     <id>http://swiftggteam.github.io/2015/11/09/what-makes-good-code/</id>
     <published>2015-11-09T01:00:00.000Z</published>
-    <updated>2015-11-24T01:01:16.729Z</updated>
+    <updated>2015-11-25T00:57:18.775Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/10/28/what-makes-good-code/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-28<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1161,7 +1307,7 @@
     <link href="http://swiftggteam.github.io/2015/11/06/if-let-assignment/"/>
     <id>http://swiftggteam.github.io/2015/11/06/if-let-assignment/</id>
     <published>2015-11-06T01:00:00.000Z</published>
-    <updated>2015-11-24T01:01:16.729Z</updated>
+    <updated>2015-11-25T00:57:18.775Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Weston Hanners，<a href="http://www.alloc-init.com/2015/10/if-let-assignment/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-29<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1208,7 +1354,7 @@
     <link href="http://swiftggteam.github.io/2015/11/05/swift-playground-the-monty-hall-problem/"/>
     <id>http://swiftggteam.github.io/2015/11/05/swift-playground-the-monty-hall-problem/</id>
     <published>2015-11-05T01:00:00.000Z</published>
-    <updated>2015-11-24T01:01:16.729Z</updated>
+    <updated>2015-11-25T00:57:18.775Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-playground-the-monty-hall-problem/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-27<br>译者：<a href="https://github.com/SergioChan" target="_blank" rel="external">SergioChan</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1256,7 +1402,7 @@
     <link href="http://swiftggteam.github.io/2015/11/04/swift-using-local-closures/"/>
     <id>http://swiftggteam.github.io/2015/11/04/swift-using-local-closures/</id>
     <published>2015-11-04T01:00:00.000Z</published>
-    <updated>2015-11-24T01:01:16.729Z</updated>
+    <updated>2015-11-25T00:57:18.775Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-using-local-closures/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-22<br>译者：<a href="http://www.jianshu.com/users/3b40e55ec6d5/latest_articles" target="_blank" rel="external">小锅</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1296,7 +1442,7 @@
     <link href="http://swiftggteam.github.io/2015/11/03/watchconnectivity-introduction-say-goodbye-to-the-spinner/"/>
     <id>http://swiftggteam.github.io/2015/11/03/watchconnectivity-introduction-say-goodbye-to-the-spinner/</id>
     <published>2015-11-03T01:00:00.000Z</published>
-    <updated>2015-11-24T01:01:16.729Z</updated>
+    <updated>2015-11-25T00:57:18.775Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/watchconnectivity-introduction-say-goodbye-to-the-spinner/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-21<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1351,7 +1497,7 @@
     <link href="http://swiftggteam.github.io/2015/11/02/watchconnectivity-say-hello-to-wcsession/"/>
     <id>http://swiftggteam.github.io/2015/11/02/watchconnectivity-say-hello-to-wcsession/</id>
     <published>2015-11-01T16:00:00.000Z</published>
-    <updated>2015-11-24T01:01:16.729Z</updated>
+    <updated>2015-11-25T00:57:18.775Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/watchconnectivity-say-hello-to-wcsession/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-21<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1438,7 +1584,7 @@
     <link href="http://swiftggteam.github.io/2015/10/30/lets-talk-about-monads/"/>
     <id>http://swiftggteam.github.io/2015/10/30/lets-talk-about-monads/</id>
     <published>2015-10-30T01:00:00.000Z</published>
-    <updated>2015-11-24T01:01:16.729Z</updated>
+    <updated>2015-11-25T00:57:18.775Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Olivier Halligon，<a href="http://alisoftware.github.io/swift/2015/10/17/lets-talk-about-monads/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-17<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1506,7 +1652,7 @@
     <link href="http://swiftggteam.github.io/2015/10/29/list-comprehensions-and-performance-with-swift/"/>
     <id>http://swiftggteam.github.io/2015/10/29/list-comprehensions-and-performance-with-swift/</id>
     <published>2015-10-29T01:00:00.000Z</published>
-    <updated>2015-11-24T01:01:16.729Z</updated>
+    <updated>2015-11-25T00:57:18.775Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Veronica Ray，<a href="http://jamesonquave.com/blog/list-comprehensions-and-performance-with-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-08-15<br>译者：<a href="http://weibo.com/riven0951" target="_blank" rel="external">riven</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a></p>
 <p>本文写于 2015.8.15 适用于 Xcode 6 和 Swift 1.2</p>
@@ -1562,54 +1708,6 @@
       <category term="Jameson Quave" scheme="http://swiftggteam.github.io/tags/Jameson-Quave/"/>
     
       <category term="Swift 进阶" scheme="http://swiftggteam.github.io/categories/Swift-%E8%BF%9B%E9%98%B6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[关于 Swift 的 5 个误区]]></title>
-    <link href="http://swiftggteam.github.io/2015/10/28/five-myths-about-swift/"/>
-    <id>http://swiftggteam.github.io/2015/10/28/five-myths-about-swift/</id>
-    <published>2015-10-28T01:00:00.000Z</published>
-    <updated>2015-11-24T01:01:16.729Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/five-myths-about-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-19<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://www.jianshu.com/users/3b40e55ec6d5/latest_articles" target="_blank" rel="external">小锅</a></p>
-</blockquote>
-<!--此处开始正文-->
-<p>Swift 虽然是一门比较新的技术语言，却已经有了很多关于 Swift 的误区。</p>
-<a id="more"></a>
-<h2 id="误区_1_：“Swift_是弱类型的语言”">误区 1 ：“Swift 是弱类型的语言”</h2><p>很多人认为 Swift 是一种弱类型的语言。他们这么说的原因主要是可以隐式声明一个值，而不管类型是什么：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> i = <span class="number">5</span></span><br></pre></td></tr></table></figure>
-<p>这代码看上去好像<code>i</code>没有类型，其实并不是这样的。因为 5 是一个整型，所以编译器就会让<code>i</code>成为整型变量。之后，整型变量<code>i</code>不会再被改变，也就是说<code>i</code>永远是整型变量。</p>
-<p>当然，我们也可以明确的指定变量的类型：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> i: <span class="type">Int</span> = <span class="number">5</span></span><br></pre></td></tr></table></figure>
-<p>虽然这种方式不是必要的，但它可以提高代码的可读性。</p>
-<h2 id="误区_2_：“Swift_和_Objective-C_协作性差”">误区 2 ：“Swift 和 Objective-C 协作性差”</h2><p>很多人不想开始尝试使用 Swift，因为他们认为 Swift 不能兼容现存的 Objective-C 代码和类库。其实并不是这样的。在同一个工程中，同时使用 Swift 和 Objective-C 也是可行的。并且，在 Swift 代码中也可以使用 Objective-C 的第三方库。</p>
-<p>可以在所谓的桥接文件中声明 Objective-C 的头文件，然后，所有头文件的内容都会被翻译成 Swfit 的语法，这样在调用 Objective-C 的 API 的时候就不会感觉到什么区别了。甚至 Objective-C 错误处理也被转换成 Swift 的<code>do-try-catch</code>语法了。</p>
-<p>苹果的框架仍然是用 Objective-C 写的，如果Swift 和 Objective-C 协作性差的话事情就会变得很糟。</p>
-<h2 id="误区_3_：“必须在新的项目中使用_Swift”">误区 3 ：“必须在新的项目中使用 Swift”</h2><p>我觉得在新项目中使用 Swift 是个很好的想法，而且每个 iOS 开发者都应该学 Swift。</p>
-<p>但是，你没必要一定要在新项目中开始使用 Swift。现在苹果官方还在支持 Objective-C，至少近几年不会改变。但是，我认为苹果未来对 Objective-C 的支持会越来越少。</p>
-<p>可以去我发布的另一篇文章 <a href="http://www.thomashanning.com/should-you-use-objective-c-or-swift/" target="_blank" rel="external">Should You Use Objective-C or Swift?</a> 里看看关于本误区的其他详情。</p>
-<h2 id="误区_4_：“只学_Swift_就够用了”">误区 4 ：“只学 Swift 就够用了”</h2><p>Swift 是门很棒的编程语言，它也可以用在生产环境，但是仅仅学 Swift 是不够的。原因大致如下：Swift 和 Objective-C 有很好的协作性，而且项目中也经常会有 Objective-C 的代码，同时，许多的示例代码和教程是用 Objective-C 写的。</p>
-<p>因此，为了成为一个优秀的 iOS 开发者，最好能同时学会 Swift 和 Objective-C。</p>
-<h2 id="误区_5_：“Swift_还不能用在生产环境”">误区 5 ：“Swift 还不能用在生产环境”</h2><p>很多人认为 Swift 还不能用在生产环境。其中一个原因就是，引进 Swift 到工程中时会有一些问题出现，尤其是 Xcode 会有一些 bug。如果知道一些变通方法的话，还是可以在生产环境使用 Swift 的。</p>
-<p>Swift 1.2 和 Swift 2.0 的引进都有对语言的语法进行修改。因此，把现存的 Swift 代码迁移到新的语法上是必要的。当然，这也没什么可指责的，毕竟每个 iOS 版本都有代码在变更。而且，这也是 Swift 在尝试改善的重要标志，特别是在 Swift 发布不久的现阶段。</p>
-<h2 id="接下来做什么">接下来做什么</h2><p>如果你想学习更多有关 Swift 的知识，学习<a href="https://itunes.apple.com/us/book/the-swift-programming-language/id881256329?mt=11" target="_blank" rel="external">苹果的Swift文档</a>是一个非常好的开始。如果想了解其它的资源，可以关注一下我的博客<a href="http://www.thomashanning.com/how-to-stay-up-to-date-on-ios-development/" target="_blank" rel="external"> “How To Stay Up-To-Date On iOS Development”</a>。</p>
-<blockquote>
-<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
-</blockquote>
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/five-myths-about-swift/">原文链接</a>，原文日期：2015-10-19<br>译者：<a href="http://weibo.com/linusling">小铁匠Linus</a>；校对：<a href="https://github.com/numbbbbb">numbbbbb</a>；定稿：<a href="http://www.jianshu.com/users/3b40e55ec6d5/latest_articles">小锅</a></p>
-</blockquote>
-<!--此处开始正文-->
-<p>Swift 虽然是一门比较新的技术语言，却已经有了很多关于 Swift 的误区。</p>]]>
-    
-    </summary>
-    
-      <category term="Thomas Hanning" scheme="http://swiftggteam.github.io/tags/Thomas-Hanning/"/>
-    
-      <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
     
   </entry>
   
