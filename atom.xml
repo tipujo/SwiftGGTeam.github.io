@@ -4,7 +4,7 @@
   <subtitle><![CDATA[走心的 Swift 翻译组]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://swiftggteam.github.io/"/>
-  <updated>2015-11-25T02:18:19.444Z</updated>
+  <updated>2015-11-26T00:59:19.378Z</updated>
   <id>http://swiftggteam.github.io/</id>
   
   <author>
@@ -15,11 +15,51 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[Swift：map 和 flatMap 基础入门]]></title>
+    <link href="http://swiftggteam.github.io/2015/11/26/swift-map-and-flatmap/"/>
+    <id>http://swiftggteam.github.io/2015/11/26/swift-map-and-flatmap/</id>
+    <published>2015-11-25T16:00:00.000Z</published>
+    <updated>2015-11-26T00:59:19.378Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-map-and-flatmap/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-16<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
+</blockquote>
+<!--此处开始正文-->
+<p>借助于 map和flapMap 函数能够很轻易地将数组转换成另外一个新数组。</p>
+<a id="more"></a>
+<h1 id="Map">Map</h1><p><code>map</code>函数能够被数组调用，它接受一个闭包作为参数，作用于数组中的每个元素。闭包返回一个变换后的元素，接着将所有这些变换后的元素组成一个新的数组。</p>
+<p>这听起来有些复杂，但它是相当简单的。想象你拥有一个string类型的数组:</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> testArray = [<span class="string">"test1"</span>,<span class="string">"test1234"</span>,<span class="string">""</span>,<span class="string">"test56"</span>]</span><br></pre></td></tr></table></figure>
+<p><code>map</code>函数的闭包接收一个字符串(类型为<code>string</code>)作为参数，原因在于我们调用函数处理的数组元素类型为<code>String</code>。本例中，我们想要返回一个整型数组，逐个对应字符串元素成员的字符长度。因此闭包的返回类型为<code>Int?</code>.</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> anotherArray = testArray.<span class="built_in">map</span> &#123; (string:<span class="type">String</span>) -&gt; <span class="type">Int</span>? <span class="keyword">in</span></span><br><span class="line">     </span><br><span class="line">     <span class="keyword">let</span> length = string.characters.<span class="built_in">count</span></span><br><span class="line">     </span><br><span class="line">     <span class="keyword">guard</span> length &gt; <span class="number">0</span> <span class="keyword">else</span> &#123;</span><br><span class="line">         <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">     &#125;</span><br><span class="line"> </span><br><span class="line">     <span class="keyword">return</span> string.characters.<span class="built_in">count</span></span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="built_in">print</span>(anotherArray) <span class="comment">//[Optional(5), Optional(8), nil, Optional(6)]</span></span><br></pre></td></tr></table></figure>
+<h1 id="FlatMap">FlatMap</h1><p><code>flatMap</code>很像<code>map</code>函数，但是它摒弃了那些值为<code>nil</code>的元素。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> anotherArray2 = testArray.flatMap &#123; (string:<span class="type">String</span>) -&gt; <span class="type">Int</span>? <span class="keyword">in</span></span><br><span class="line"> </span><br><span class="line">     <span class="keyword">let</span> length = string.characters.<span class="built_in">count</span></span><br><span class="line"> </span><br><span class="line">     <span class="keyword">guard</span> length &gt; <span class="number">0</span> <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">     &#125;</span><br><span class="line"> </span><br><span class="line">     <span class="keyword">return</span> string.characters.<span class="built_in">count</span></span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="built_in">print</span>(anotherArray2) <span class="comment">//[5, 8, 6]</span></span><br></pre></td></tr></table></figure>
+<p>另外一个与<code>map</code>函数不同之处在于：倘若元素值不为nil情况下，<code>flapMap</code>函数能够将可选类型(<code>optional</code>)转换为非可选类型(<code>non-optionals</code>)。</p>
+<h1 id="引用">引用</h1><p>Image:@ Fly_dragonfly / shutterstock.com</p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-map-and-flatmap/">原文链接</a>，原文日期：2015-11-16<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao">千叶知风</a></p>
+</blockquote>
+<!--此处开始正文-->
+<p>借助于 map和flapMap 函数能够很轻易地将数组转换成另外一个新数组。</p>]]>
+    
+    </summary>
+    
+      <category term="Thomas Hanning" scheme="http://swiftggteam.github.io/tags/Thomas-Hanning/"/>
+    
+      <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[tvOS 入门：开发你的第一个 tvOS 应用]]></title>
     <link href="http://swiftggteam.github.io/2015/11/25/tvos-introduction/"/>
     <id>http://swiftggteam.github.io/2015/11/25/tvos-introduction/</id>
     <published>2015-11-24T16:00:00.000Z</published>
-    <updated>2015-11-25T02:18:19.444Z</updated>
+    <updated>2015-11-26T00:59:19.378Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：gregg mojica，<a href="http://www.appcoda.com/tvos-introduction/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-02<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -164,7 +204,7 @@
     <link href="http://swiftggteam.github.io/2015/11/24/speeding-up-swift-playgrounds-with-closure-initialization-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/11/24/speeding-up-swift-playgrounds-with-closure-initialization-swiftlang/</id>
     <published>2015-11-23T16:00:00.000Z</published>
-    <updated>2015-11-25T02:18:19.440Z</updated>
+    <updated>2015-11-26T00:59:19.378Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/11/15/speeding-up-swift-playgrounds-with-closure-initialization-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-15<br>译者：<a href="undefined">JackAlan</a>；校对：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -210,7 +250,7 @@
     <link href="http://swiftggteam.github.io/2015/11/23/swift-reflection-api-what-you-can-do/"/>
     <id>http://swiftggteam.github.io/2015/11/23/swift-reflection-api-what-you-can-do/</id>
     <published>2015-11-22T16:00:00.000Z</published>
-    <updated>2015-11-25T02:18:19.440Z</updated>
+    <updated>2015-11-26T00:59:19.378Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Benedikt Terhechte，<a href="http://appventure.me/2015/10/24/swift-reflection-api-what-you-can-do/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-24<br>译者：<a href="http://blog.csdn.net/mmoaay" target="_blank" rel="external">mmoaay</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -368,7 +408,7 @@
     <link href="http://swiftggteam.github.io/2015/11/20/advanced-practical-enum-examples/"/>
     <id>http://swiftggteam.github.io/2015/11/20/advanced-practical-enum-examples/</id>
     <published>2015-11-19T16:00:00.000Z</published>
-    <updated>2015-11-25T02:18:19.440Z</updated>
+    <updated>2015-11-26T00:59:19.378Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Benedikt Terhechte，<a href="http://appventure.me/2015/10/17/advanced-practical-enum-examples/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-17<br>译者：<a href="http://www.jianshu.com/users/3b40e55ec6d5/latest_articles" target="_blank" rel="external">小锅</a>，<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
 </blockquote>
@@ -653,7 +693,7 @@
     <link href="http://swiftggteam.github.io/2015/11/19/3d-touch-tutorial/"/>
     <id>http://swiftggteam.github.io/2015/11/19/3d-touch-tutorial/</id>
     <published>2015-11-19T02:31:00.000Z</published>
-    <updated>2015-11-25T02:18:19.440Z</updated>
+    <updated>2015-11-26T00:59:19.378Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Maxime Defauw，<a href="http://www.appcoda.com/3d-touch-tutorial/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/09<br>译者：<a href="http://www.brighttj.com" target="_blank" rel="external">saitjr</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -741,7 +781,7 @@
     <link href="http://swiftggteam.github.io/2015/11/18/watchconnectivity-user-info/"/>
     <id>http://swiftggteam.github.io/2015/11/18/watchconnectivity-user-info/</id>
     <published>2015-11-17T16:00:00.000Z</published>
-    <updated>2015-11-25T02:18:19.440Z</updated>
+    <updated>2015-11-26T00:59:19.378Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/watchconnectivity-user-info/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-21<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -819,7 +859,7 @@
     <link href="http://swiftggteam.github.io/2015/11/17/functional-programming-in-swift/"/>
     <id>http://swiftggteam.github.io/2015/11/17/functional-programming-in-swift/</id>
     <published>2015-11-17T04:00:00.000Z</published>
-    <updated>2015-11-25T02:18:19.440Z</updated>
+    <updated>2015-11-26T00:59:19.378Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/functional-programming-in-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/13<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -871,7 +911,7 @@
     <link href="http://swiftggteam.github.io/2015/11/16/capturing-context-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/11/16/capturing-context-swiftlang/</id>
     <published>2015-11-16T01:00:00.000Z</published>
-    <updated>2015-11-25T02:18:19.440Z</updated>
+    <updated>2015-11-26T00:59:19.378Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/08/27/capturing-context-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-08-27<br>译者：<a href="https://github.com/chenmingbiao" target="_blank" rel="external">CMB</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -916,7 +956,7 @@
     <link href="http://swiftggteam.github.io/2015/11/13/swift-tutorial-for-beginners-part-1/"/>
     <id>http://swiftggteam.github.io/2015/11/13/swift-tutorial-for-beginners-part-1/</id>
     <published>2015-11-13T01:00:00.000Z</published>
-    <updated>2015-11-25T02:18:19.440Z</updated>
+    <updated>2015-11-26T00:59:19.378Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-tutorial-for-beginners-part-1/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-29<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1056,7 +1096,7 @@
     <link href="http://swiftggteam.github.io/2015/11/12/naming-methods-and-functions/"/>
     <id>http://swiftggteam.github.io/2015/11/12/naming-methods-and-functions/</id>
     <published>2015-11-12T01:00:00.000Z</published>
-    <updated>2015-11-25T02:18:19.440Z</updated>
+    <updated>2015-11-26T00:59:19.378Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/08/31/naming-methods-and-functions/" target="_blank" rel="external">原文链接</a>，原文日期：2015-08-31<br>译者：<a href="http://weibo.com/u/2916092907" target="_blank" rel="external">天才175</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1101,7 +1141,7 @@
     <link href="http://swiftggteam.github.io/2015/11/11/c-callbacks-in-swift/"/>
     <id>http://swiftggteam.github.io/2015/11/11/c-callbacks-in-swift/</id>
     <published>2015-11-11T01:00:00.000Z</published>
-    <updated>2015-11-25T02:18:19.440Z</updated>
+    <updated>2015-11-26T00:59:19.378Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Ole Begemann，<a href="http://oleb.net/blog/2015/06/c-callbacks-in-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-06-22<br>译者：<a href="http://www.jianshu.com/users/3b40e55ec6d5/latest_articles" target="_blank" rel="external">小锅</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
 </blockquote>
@@ -1183,7 +1223,7 @@
     <link href="http://swiftggteam.github.io/2015/11/10/ios-undo-and-redo-with-nsundomanager/"/>
     <id>http://swiftggteam.github.io/2015/11/10/ios-undo-and-redo-with-nsundomanager/</id>
     <published>2015-11-10T01:00:00.000Z</published>
-    <updated>2015-11-25T02:18:19.440Z</updated>
+    <updated>2015-11-26T00:59:19.378Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/ios-undo-and-redo-with-nsundomanager/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-13<br>译者：<a href="http://blog.csdn.net/yake_099" target="_blank" rel="external">Yake</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="undefined"></a></p>
 </blockquote>
@@ -1251,7 +1291,7 @@
     <link href="http://swiftggteam.github.io/2015/11/09/what-makes-good-code/"/>
     <id>http://swiftggteam.github.io/2015/11/09/what-makes-good-code/</id>
     <published>2015-11-09T01:00:00.000Z</published>
-    <updated>2015-11-25T02:18:19.440Z</updated>
+    <updated>2015-11-26T00:59:19.378Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/10/28/what-makes-good-code/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-28<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1306,7 +1346,7 @@
     <link href="http://swiftggteam.github.io/2015/11/06/if-let-assignment/"/>
     <id>http://swiftggteam.github.io/2015/11/06/if-let-assignment/</id>
     <published>2015-11-06T01:00:00.000Z</published>
-    <updated>2015-11-25T02:18:19.440Z</updated>
+    <updated>2015-11-26T00:59:19.378Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Weston Hanners，<a href="http://www.alloc-init.com/2015/10/if-let-assignment/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-29<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1353,7 +1393,7 @@
     <link href="http://swiftggteam.github.io/2015/11/05/swift-playground-the-monty-hall-problem/"/>
     <id>http://swiftggteam.github.io/2015/11/05/swift-playground-the-monty-hall-problem/</id>
     <published>2015-11-05T01:00:00.000Z</published>
-    <updated>2015-11-25T02:18:19.440Z</updated>
+    <updated>2015-11-26T00:59:19.374Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-playground-the-monty-hall-problem/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-27<br>译者：<a href="https://github.com/SergioChan" target="_blank" rel="external">SergioChan</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1401,7 +1441,7 @@
     <link href="http://swiftggteam.github.io/2015/11/04/swift-using-local-closures/"/>
     <id>http://swiftggteam.github.io/2015/11/04/swift-using-local-closures/</id>
     <published>2015-11-04T01:00:00.000Z</published>
-    <updated>2015-11-25T02:18:19.440Z</updated>
+    <updated>2015-11-26T00:59:19.374Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-using-local-closures/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-22<br>译者：<a href="http://www.jianshu.com/users/3b40e55ec6d5/latest_articles" target="_blank" rel="external">小锅</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1441,7 +1481,7 @@
     <link href="http://swiftggteam.github.io/2015/11/03/watchconnectivity-introduction-say-goodbye-to-the-spinner/"/>
     <id>http://swiftggteam.github.io/2015/11/03/watchconnectivity-introduction-say-goodbye-to-the-spinner/</id>
     <published>2015-11-03T01:00:00.000Z</published>
-    <updated>2015-11-25T02:18:19.440Z</updated>
+    <updated>2015-11-26T00:59:19.374Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/watchconnectivity-introduction-say-goodbye-to-the-spinner/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-21<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1496,7 +1536,7 @@
     <link href="http://swiftggteam.github.io/2015/11/02/watchconnectivity-say-hello-to-wcsession/"/>
     <id>http://swiftggteam.github.io/2015/11/02/watchconnectivity-say-hello-to-wcsession/</id>
     <published>2015-11-01T16:00:00.000Z</published>
-    <updated>2015-11-25T02:18:19.440Z</updated>
+    <updated>2015-11-26T00:59:19.374Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/watchconnectivity-say-hello-to-wcsession/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-21<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1583,7 +1623,7 @@
     <link href="http://swiftggteam.github.io/2015/10/30/lets-talk-about-monads/"/>
     <id>http://swiftggteam.github.io/2015/10/30/lets-talk-about-monads/</id>
     <published>2015-10-30T01:00:00.000Z</published>
-    <updated>2015-11-25T02:18:19.440Z</updated>
+    <updated>2015-11-26T00:59:19.374Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Olivier Halligon，<a href="http://alisoftware.github.io/swift/2015/10/17/lets-talk-about-monads/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-17<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1641,70 +1681,6 @@
     </summary>
     
       <category term="Crunchy Development" scheme="http://swiftggteam.github.io/tags/Crunchy-Development/"/>
-    
-      <category term="Swift 进阶" scheme="http://swiftggteam.github.io/categories/Swift-%E8%BF%9B%E9%98%B6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[用 Swift 进行列表解析及其性能问题]]></title>
-    <link href="http://swiftggteam.github.io/2015/10/29/list-comprehensions-and-performance-with-swift/"/>
-    <id>http://swiftggteam.github.io/2015/10/29/list-comprehensions-and-performance-with-swift/</id>
-    <published>2015-10-29T01:00:00.000Z</published>
-    <updated>2015-11-25T02:18:19.440Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>作者：Veronica Ray，<a href="http://jamesonquave.com/blog/list-comprehensions-and-performance-with-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-08-15<br>译者：<a href="http://weibo.com/riven0951" target="_blank" rel="external">riven</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a></p>
-<p>本文写于 2015.8.15 适用于 Xcode 6 和 Swift 1.2</p>
-</blockquote>
-<p>列表解析可以让你用更简洁的方式来创建列表。尽管列表解析没有在 Swift 的语言指南中提及，但你也可以在 Swift 中实现类似列表解析的一些操作。</p>
-<a id="more"></a>
-<p>如果你想创建一个对元素求平方的列表，像这样:</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> squares = [<span class="type">Int</span>]()</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> <span class="number">1</span>..&lt;<span class="number">10</span> &#123;</span><br><span class="line">    squares.append(x*x)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在 Python 中，使用列表解析是这样的：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">squares = [x**<span class="number">2</span> <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">10</span>)]</span><br></pre></td></tr></table></figure>
-<p>在 Swift 中，你可以这样做：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> squares = <span class="type">Array</span>(<span class="built_in">map</span>(<span class="number">1</span>..&lt;<span class="number">10</span>) &#123; $<span class="number">0</span> * $<span class="number">0</span> &#125;)</span><br></pre></td></tr></table></figure>
-<p>对列表中所有元素进行求和你可以这样做：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> sum = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> square <span class="keyword">in</span> squares &#123;</span><br><span class="line">    sum = sum + square</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>或者使用 reduce 函数</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> sum = squares.<span class="built_in">reduce</span>(<span class="number">0</span>, &#123; $<span class="number">0</span> + $<span class="number">1</span> &#125;)</span><br></pre></td></tr></table></figure>
-<p>对于其它语言中的列表解析，你可以使用任意的序列或者集合作为输入，而不仅仅是一个区间值。</p>
-<p><a href="http://stackoverflow.com/questions/24003584/list-comprehension-in-swift" target="_blank" rel="external">你可以使用 map/reduce/filter/stride 函数创建你想要的列表类型</a></p>
-<p>列表解析的两个主要优点是让代码变的更简洁和生成更快的二进制码。</p>
-<p>我刚刚模拟的列表解析看起来很简洁吧。但我很好奇是否它也能产生更快的二进制码。</p>
-<p><a href="https://medium.com/swift-programming/secret-of-swift-performance-fcc5d2a437a8" target="_blank" rel="external">这篇文章</a> 介绍了如何使用 Hopper 来分析 Swift 的汇编代码，Hopper 是一个 OS X 和 Linux 反编译程序。 你可以免费使用 Hopper ，不需要付任何费用。</p>
-<p>没有使用列表解析的代码片段和模拟列表解析的代码片段都产生了同样的汇编代码.</p>
-<p><img src="/img/articles/list-comprehensions-and-performance-with-swift/asm.png1446426438.2465854" alt="The assembly code from Hopper"></p>
-<p>因为两个代码片段产生的汇编代码是一样的，所以我可以认为它们的执行时间是一样的。我们可以使用 XCTest 来测试我们程序的执行时间并证明这一点。</p>
-<p>测试没有使用列表解析的代码片段</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">testNoListComprehensionPerformance</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">self</span>.measureBlock() &#123;</span><br><span class="line">        <span class="keyword">var</span> squares = [<span class="type">Int</span>]()</span><br><span class="line">        <span class="keyword">for</span> x <span class="keyword">in</span> <span class="number">1</span>...<span class="number">5</span> &#123;</span><br><span class="line">            squares.append(x)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>相关的输出是：</p>
-<p>Test Case ‘-[speedTestTests.speedTestTests testNoListComprehensionPerformance]’ started.</p>
-<p>:0: Test Case ‘-[speedTestTests.speedTestTests testNoListComprehensionPerformance]’ measured [Time, seconds] average: 0.000, relative standard deviation: 236.965%, values: [0.000154, 0.000005, 0.000004, 0.000004, 0.000004, 0.000004, 0.000004, 0.000004, 0.000004, 0.000004], performanceMetricID:com.apple.XCTPerformanceMetric_WallClockTime, baselineName: “”, baselineAverage: , maxPercentRegression: 10.000%, maxPercentRelativeStandardDeviation: 10.000%, maxRegression: 0.100, maxStandardDeviation: 0.100</p>
-<p>Test Case ‘-[speedTestTests.speedTestTests testNoListComprehensionPerformance]’ passed (0.262 seconds).</p>
-<p>测试模拟列表解析的代码片段</p>
-<p>Test Case ‘-[speedTestTests.speedTestTests testSortaListComprehensionPerformance]’ started.</p>
-<p>:0: Test Case ‘-[speedTestTests.speedTestTests testSortaListComprehensionPerformance]’ measured [Time, seconds] average: 0.000, relative standard deviation: 160.077%, values: [0.000045, 0.000005, 0.000004, 0.000003, 0.000003, 0.000003, 0.000003, 0.000004, 0.000003, 0.000003], performanceMetricID:com.apple.XCTPerformanceMetric_WallClockTime, baselineName: “”, baselineAverage: , maxPercentRegression: 10.000%, maxPercentRelativeStandardDeviation: 10.000%, maxRegression: 0.100, maxStandardDeviation: 0.100</p>
-<p>Test Case ‘-[speedTestTests.speedTestTests testSortaListComprehensionPerformance]’ passed (0.255 seconds).</p>
-<hr>
-<p><strong>他们平均只相差 0.007 秒</strong></p>
-<hr>
-<p>我见过最酷的列表解析的应用便是拼写检查。Airspeed Velocity 针对 <a href="http://norvig.com/spell-correct.html" target="_blank" rel="external">Peter Norvig 的  Python 版本的拼写检查</a>，<a href="http://airspeedvelocity.net/2015/05/02/spelling/" target="_blank" rel="external">改写了一个 Swift 版本</a>。</p>
-<p>在 Swift 中使用类列表解析的操作的主要优点就是简洁性。 <a href="http://www.paulgraham.com/power.html" target="_blank" rel="external">Paul Graham 写了一大篇关于在编程语言中简洁是多么重要的文章。</a> 因为每个程序员每天只能写一定行数的代码，如果你以同样数量的代码行数完成更多功能，那你每天便可以完成更多的工作任务。这种力量也会让你重新思考编写什么样的程序是可能的。在一些更繁琐的语言中，这个拼写检查的例子可能就是一个巨大的项目。我喜欢像拼写检查这种充满技术复杂性和神秘感的事物，并且在 Swift 中可以只用几行代码便能解决。</p>
-<blockquote>
-<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
-</blockquote>
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>作者：Veronica Ray，<a href="http://jamesonquave.com/blog/list-comprehensions-and-performance-with-swift/">原文链接</a>，原文日期：2015-08-15<br>译者：<a href="http://weibo.com/riven0951">riven</a>；校对：<a href="https://github.com/numbbbbb">numbbbbb</a>；定稿：<a href="http://weibo.com/linusling">小铁匠Linus</a></p>
-<p>本文写于 2015.8.15 适用于 Xcode 6 和 Swift 1.2</p>
-</blockquote>
-<p>列表解析可以让你用更简洁的方式来创建列表。尽管列表解析没有在 Swift 的语言指南中提及，但你也可以在 Swift 中实现类似列表解析的一些操作。</p>]]>
-    
-    </summary>
-    
-      <category term="Jameson Quave" scheme="http://swiftggteam.github.io/tags/Jameson-Quave/"/>
     
       <category term="Swift 进阶" scheme="http://swiftggteam.github.io/categories/Swift-%E8%BF%9B%E9%98%B6/"/>
     

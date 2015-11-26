@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="baidu-site-verification" content="vqJV77bZM6" />
   
-    <title>Swift:什么时候不适合使用函数式方法 | SwiftGG 翻译组 - 高质量的 Swift 译文网站</title>
+    <title>Swift：map 和 flatMap 基础入门 | SwiftGG 翻译组 - 高质量的 Swift 译文网站</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="SwiftGG">
@@ -13,26 +13,25 @@
     <meta name="keywords" content="swift语言,swift翻译,swift学习" /> 
 
     
-    <meta name="description" content="作者：Natasha，原文链接，原文日期：2015/07/24译者：天才175；校对：numbbbbb；定稿：numbbbbb
+    <meta name="description" content="作者：Thomas Hanning，原文链接，原文日期：2015-11-16译者：pmst；校对：千叶知风；定稿：千叶知风
 
-昨天，我在代码库中找到一段我所认为的极具 Swift 风格的代码。
-var minionImages = [UIImage]()for i in 1...7 &amp;#123;    if let minionImage = UIImage(named: &quot;minionIco">
+&amp;lt;!--此处开始正文--&amp;gt;
+借助于 map和flapMap 函数能够很轻易地将数组转换成另外一个新数组。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Swift:什么时候不适合使用函数式方法">
-<meta property="og:url" content="http://swiftggteam.github.io/2015/08/28/swift_when_the_functional_approach_is_not_right/index.html">
+<meta property="og:title" content="Swift：map 和 flatMap 基础入门">
+<meta property="og:url" content="http://swiftggteam.github.io/2015/11/26/swift-map-and-flatmap/index.html">
 <meta property="og:site_name" content="SwiftGG">
-<meta property="og:description" content="作者：Natasha，原文链接，原文日期：2015/07/24译者：天才175；校对：numbbbbb；定稿：numbbbbb
+<meta property="og:description" content="作者：Thomas Hanning，原文链接，原文日期：2015-11-16译者：pmst；校对：千叶知风；定稿：千叶知风
 
-昨天，我在代码库中找到一段我所认为的极具 Swift 风格的代码。
-var minionImages = [UIImage]()for i in 1...7 &amp;#123;    if let minionImage = UIImage(named: &quot;minionIco">
-<meta property="og:image" content="http://swiftggteam.github.io/img/articles/swift_when_the_functional_approach_is_not_right/MyPlayground_playground1.png">
-<meta property="og:updated_time" content="2015-11-26T00:59:19.382Z">
+&amp;lt;!--此处开始正文--&amp;gt;
+借助于 map和flapMap 函数能够很轻易地将数组转换成另外一个新数组。">
+<meta property="og:updated_time" content="2015-11-26T00:59:19.378Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Swift:什么时候不适合使用函数式方法">
-<meta name="twitter:description" content="作者：Natasha，原文链接，原文日期：2015/07/24译者：天才175；校对：numbbbbb；定稿：numbbbbb
+<meta name="twitter:title" content="Swift：map 和 flatMap 基础入门">
+<meta name="twitter:description" content="作者：Thomas Hanning，原文链接，原文日期：2015-11-16译者：pmst；校对：千叶知风；定稿：千叶知风
 
-昨天，我在代码库中找到一段我所认为的极具 Swift 风格的代码。
-var minionImages = [UIImage]()for i in 1...7 &amp;#123;    if let minionImage = UIImage(named: &quot;minionIco">
+&amp;lt;!--此处开始正文--&amp;gt;
+借助于 map和flapMap 函数能够很轻易地将数组转换成另外一个新数组。">
 
     
     <link rel="alternative" href="/atom.xml" title="SwiftGG" type="application/atom+xml">
@@ -90,10 +89,10 @@ var minionImages = [UIImage]()for i in 1...7 &amp;#123;    if let minionImage = 
   <header class="article-info clearfix">
     <h1 itemprop="name">
       
-        <a href="/2015/08/28/swift_when_the_functional_approach_is_not_right/" title="Swift:什么时候不适合使用函数式方法" itemprop="url">Swift:什么时候不适合使用函数式方法</a>
+        <a href="/2015/11/26/swift-map-and-flatmap/" title="Swift：map 和 flatMap 基础入门" itemprop="url">Swift：map 和 flatMap 基础入门</a>
     </h1>
     <p class="article-time">
-      <time datetime="2015-08-27T16:00:00.000Z" itemprop="datePublished"><i class="icon-time"></i> 2015-08-28</time>
+      <time datetime="2015-11-25T16:00:00.000Z" itemprop="datePublished"><i class="icon-time"></i> 2015-11-26</time>
       <span style="margin-left: 0.5em;"><i class="icon-eye-open"></i> <span class="viewcount"></span></span>
     </p>
   </header>
@@ -103,29 +102,25 @@ var minionImages = [UIImage]()for i in 1...7 &amp;#123;    if let minionImage = 
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#升级"><span class="toc-number">1.</span> <span class="toc-text">升级</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Map"><span class="toc-number">1.</span> <span class="toc-text">Map</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#FlatMap"><span class="toc-number">2.</span> <span class="toc-text">FlatMap</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#引用"><span class="toc-number">3.</span> <span class="toc-text">引用</span></a></li></ol>
 		
 		</div>
 		
 		<blockquote>
-<p>作者：Natasha，<a href="http://natashatherobot.com/swift-when-the-functional-approach-is-not-right/" target="_blank" rel="external">原文链接</a>，原文日期：2015/07/24<br>译者：<a href="http://weibo.com/u/2916092907" target="_blank" rel="external">天才175</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
+<p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-map-and-flatmap/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-16<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
-<p>昨天，我在代码库中找到一段我所认为的极具 Swift 风格的代码。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> minionImages = [<span class="type">UIImage</span>]()</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">1</span>...<span class="number">7</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">let</span> minionImage = <span class="type">UIImage</span>(named: <span class="string">"minionIcon-<span class="subst">\(i)</span>"</span>) &#123;</span><br><span class="line">        minionImages.append(minionImage)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这真是使用函数式编程进行重构的绝佳机会，哦吼吼！我可以做函数式编程了！！！是的，我非常激动。</p>
+<!--此处开始正文-->
+<p>借助于 map和flapMap 函数能够很轻易地将数组转换成另外一个新数组。</p>
 <a id="more"></a>
-<p>那么，明显的解决方案是在这儿使用 map：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> minionImagesMapped = (<span class="number">1</span>...<span class="number">7</span>)</span><br><span class="line">    .<span class="built_in">map</span> &#123; <span class="type">UIImage</span>(named: <span class="string">"minionIcon-<span class="subst">\($<span class="number">0</span>)</span>"</span>) &#125;</span><br></pre></td></tr></table></figure>
-<p>我对自己感到很满意，这段代码只有一行。但这样做无法满足之前的一个必要条件 - 我需要<code>[UIImage]</code>数组，但是这段代码返回的是可选类型<code>[UIImage?]</code>数组。</p>
-<p>所以我 google 了下，为了得到非可选类型的<code>UIImages</code>数组，可以使用如下方法：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> minionImagesFiltered = (<span class="number">1</span>...<span class="number">7</span>)</span><br><span class="line">    .<span class="built_in">map</span> &#123; <span class="type">UIImage</span>(named: <span class="string">"minionIcon-<span class="subst">\($<span class="number">0</span>)</span>"</span>) &#125;</span><br><span class="line">    .<span class="built_in">filter</span> &#123; $<span class="number">0</span> != <span class="literal">nil</span>&#125;</span><br><span class="line">    .<span class="built_in">map</span> &#123; $<span class="number">0</span>! &#125;</span><br></pre></td></tr></table></figure>
-<p>这样的确有用，但是我并不开森。这段代码又长又拙笨，而且我讨厌强制解包可选类型，虽然这里不会出错。不过这都是小事，主要的原因是这样看起来并不像原生for循环那样简单有效。如下图所示：</p>
-<p><img src="/img/articles/swift_when_the_functional_approach_is_not_right/MyPlayground_playground1.png" alt=""></p>
-<p>可能这样做是错的，但是我最后还是选择了<code>for</code>循环。我的结论是：在 Swift 中偶尔使用<code>for</code>循环是可以的。当然我可能遗漏了一些东西，如果有，请在评论中告诉我！</p>
-<h2 id="升级">升级</h2><p>由于有些童鞋在下面的评论中以及<a href="https://twitter.com/NatashaTheRobot/status/624609007043391488" target="_blank" rel="external">Twitter</a>上指出，可以在这里使用 Swift 2.0 的<code>flatMap</code>，我进行了修改：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> minionImagesFlattened = (<span class="number">1</span>...<span class="number">7</span>).flatMap &#123; <span class="type">UIImage</span>(named: <span class="string">"minionIcon-<span class="subst">\($<span class="number">0</span>)</span>"</span>) &#125;</span><br></pre></td></tr></table></figure>
-<p>在这里，我不得不诚实的说，每次看到<code>flatMap</code>时，我都无法完全理解它做了什么或是怎么做的。它并不像<code>map</code>以及<code>filter</code>那样自然。我不懂它在这儿是怎么做的，所以必须要去搜索一下。</p>
-<p>由此，我再次得出结论：使用<code>flatmap</code>不能提高代码可读性。如果那些对 Swift 和函数式编程了解不多的人看到这段代码，他们能理解发生了神马吗？相反，我可以确定，每个人只需看一眼就能够理解for循环。</p>
+<h1 id="Map">Map</h1><p><code>map</code>函数能够被数组调用，它接受一个闭包作为参数，作用于数组中的每个元素。闭包返回一个变换后的元素，接着将所有这些变换后的元素组成一个新的数组。</p>
+<p>这听起来有些复杂，但它是相当简单的。想象你拥有一个string类型的数组:</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> testArray = [<span class="string">"test1"</span>,<span class="string">"test1234"</span>,<span class="string">""</span>,<span class="string">"test56"</span>]</span><br></pre></td></tr></table></figure>
+<p><code>map</code>函数的闭包接收一个字符串(类型为<code>string</code>)作为参数，原因在于我们调用函数处理的数组元素类型为<code>String</code>。本例中，我们想要返回一个整型数组，逐个对应字符串元素成员的字符长度。因此闭包的返回类型为<code>Int?</code>.</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> anotherArray = testArray.<span class="built_in">map</span> &#123; (string:<span class="type">String</span>) -&gt; <span class="type">Int</span>? <span class="keyword">in</span></span><br><span class="line">     </span><br><span class="line">     <span class="keyword">let</span> length = string.characters.<span class="built_in">count</span></span><br><span class="line">     </span><br><span class="line">     <span class="keyword">guard</span> length &gt; <span class="number">0</span> <span class="keyword">else</span> &#123;</span><br><span class="line">         <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">     &#125;</span><br><span class="line"> </span><br><span class="line">     <span class="keyword">return</span> string.characters.<span class="built_in">count</span></span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="built_in">print</span>(anotherArray) <span class="comment">//[Optional(5), Optional(8), nil, Optional(6)]</span></span><br></pre></td></tr></table></figure>
+<h1 id="FlatMap">FlatMap</h1><p><code>flatMap</code>很像<code>map</code>函数，但是它摒弃了那些值为<code>nil</code>的元素。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> anotherArray2 = testArray.flatMap &#123; (string:<span class="type">String</span>) -&gt; <span class="type">Int</span>? <span class="keyword">in</span></span><br><span class="line"> </span><br><span class="line">     <span class="keyword">let</span> length = string.characters.<span class="built_in">count</span></span><br><span class="line"> </span><br><span class="line">     <span class="keyword">guard</span> length &gt; <span class="number">0</span> <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">     &#125;</span><br><span class="line"> </span><br><span class="line">     <span class="keyword">return</span> string.characters.<span class="built_in">count</span></span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="built_in">print</span>(anotherArray2) <span class="comment">//[5, 8, 6]</span></span><br></pre></td></tr></table></figure>
+<p>另外一个与<code>map</code>函数不同之处在于：倘若元素值不为nil情况下，<code>flapMap</code>函数能够将可选类型(<code>optional</code>)转换为非可选类型(<code>non-optionals</code>)。</p>
+<h1 id="引用">引用</h1><p>Image:@ Fly_dragonfly / shutterstock.com</p>
 <blockquote>
 <p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
 </blockquote>
@@ -142,7 +137,7 @@ var minionImages = [UIImage]()for i in 1...7 &amp;#123;    if let minionImage = 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Natasha-The-Robot/">Natasha The Robot</a>
+  <span></span> <a href="/tags/Thomas-Hanning/">Thomas Hanning</a>
   </div>
 
 </div>
@@ -151,7 +146,7 @@ var minionImages = [UIImage]()for i in 1...7 &amp;#123;    if let minionImage = 
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://swiftggteam.github.io/2015/08/28/swift_when_the_functional_approach_is_not_right/" data-title="Swift:什么时候不适合使用函数式方法 | SwiftGG" data-tsina="null" class="share clearfix">
+	  <div data-url="http://swiftggteam.github.io/2015/11/26/swift-map-and-flatmap/" data-title="Swift：map 和 flatMap 基础入门 | SwiftGG" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -164,19 +159,11 @@ var minionImages = [UIImage]()for i in 1...7 &amp;#123;    if let minionImage = 
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/08/29/swift_interview_questions_and_answers/" title="Swift面试题及答案">
-  <strong>上一篇：</strong><br/>
-  <span>
-  Swift面试题及答案</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2015/08/27/nscoding_and_swift_structs/"  title="Swift 中的结构体与 NSCoding">
+<a href="/2015/11/25/tvos-introduction/"  title="tvOS 入门：开发你的第一个 tvOS 应用">
  <strong>下一篇：</strong><br/> 
- <span>Swift 中的结构体与 NSCoding
+ <span>tvOS 入门：开发你的第一个 tvOS 应用
 </span>
 </a>
 </div>
@@ -185,7 +172,7 @@ var minionImages = [UIImage]()for i in 1...7 &amp;#123;    if let minionImage = 
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/08/28/swift_when_the_functional_approach_is_not_right/" data-title="Swift:什么时候不适合使用函数式方法" data-url="http://swiftggteam.github.io/2015/08/28/swift_when_the_functional_approach_is_not_right/"></div>
+	<div class="ds-thread" data-thread-key="2015/11/26/swift-map-and-flatmap/" data-title="Swift：map 和 flatMap 基础入门" data-url="http://swiftggteam.github.io/2015/11/26/swift-map-and-flatmap/"></div>
 </section>
 
 
@@ -195,7 +182,7 @@ var minionImages = [UIImage]()for i in 1...7 &amp;#123;    if let minionImage = 
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#升级"><span class="toc-number">1.</span> <span class="toc-text">升级</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Map"><span class="toc-number">1.</span> <span class="toc-text">Map</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#FlatMap"><span class="toc-number">2.</span> <span class="toc-text">FlatMap</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#引用"><span class="toc-number">3.</span> <span class="toc-text">引用</span></a></li></ol>
  
   </div>
 
