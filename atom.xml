@@ -4,7 +4,7 @@
   <subtitle><![CDATA[走心的 Swift 翻译组]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://swiftggteam.github.io/"/>
-  <updated>2015-11-26T00:59:19.378Z</updated>
+  <updated>2015-11-27T01:11:21.334Z</updated>
   <id>http://swiftggteam.github.io/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://swiftggteam.github.io/2015/11/26/swift-map-and-flatmap/"/>
     <id>http://swiftggteam.github.io/2015/11/26/swift-map-and-flatmap/</id>
     <published>2015-11-25T16:00:00.000Z</published>
-    <updated>2015-11-26T00:59:19.378Z</updated>
+    <updated>2015-11-27T01:11:21.334Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-map-and-flatmap/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-16<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -59,7 +59,7 @@
     <link href="http://swiftggteam.github.io/2015/11/25/tvos-introduction/"/>
     <id>http://swiftggteam.github.io/2015/11/25/tvos-introduction/</id>
     <published>2015-11-24T16:00:00.000Z</published>
-    <updated>2015-11-26T00:59:19.378Z</updated>
+    <updated>2015-11-27T01:11:21.334Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：gregg mojica，<a href="http://www.appcoda.com/tvos-introduction/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-02<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -204,7 +204,7 @@
     <link href="http://swiftggteam.github.io/2015/11/24/speeding-up-swift-playgrounds-with-closure-initialization-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/11/24/speeding-up-swift-playgrounds-with-closure-initialization-swiftlang/</id>
     <published>2015-11-23T16:00:00.000Z</published>
-    <updated>2015-11-26T00:59:19.378Z</updated>
+    <updated>2015-11-27T01:11:21.334Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/11/15/speeding-up-swift-playgrounds-with-closure-initialization-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-15<br>译者：<a href="undefined">JackAlan</a>；校对：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -250,7 +250,7 @@
     <link href="http://swiftggteam.github.io/2015/11/23/swift-reflection-api-what-you-can-do/"/>
     <id>http://swiftggteam.github.io/2015/11/23/swift-reflection-api-what-you-can-do/</id>
     <published>2015-11-22T16:00:00.000Z</published>
-    <updated>2015-11-26T00:59:19.378Z</updated>
+    <updated>2015-11-27T01:11:21.334Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Benedikt Terhechte，<a href="http://appventure.me/2015/10/24/swift-reflection-api-what-you-can-do/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-24<br>译者：<a href="http://blog.csdn.net/mmoaay" target="_blank" rel="external">mmoaay</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -408,7 +408,7 @@
     <link href="http://swiftggteam.github.io/2015/11/20/advanced-practical-enum-examples/"/>
     <id>http://swiftggteam.github.io/2015/11/20/advanced-practical-enum-examples/</id>
     <published>2015-11-19T16:00:00.000Z</published>
-    <updated>2015-11-26T00:59:19.378Z</updated>
+    <updated>2015-11-27T01:11:21.334Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Benedikt Terhechte，<a href="http://appventure.me/2015/10/17/advanced-practical-enum-examples/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-17<br>译者：<a href="http://www.jianshu.com/users/3b40e55ec6d5/latest_articles" target="_blank" rel="external">小锅</a>，<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
 </blockquote>
@@ -693,7 +693,7 @@
     <link href="http://swiftggteam.github.io/2015/11/19/3d-touch-tutorial/"/>
     <id>http://swiftggteam.github.io/2015/11/19/3d-touch-tutorial/</id>
     <published>2015-11-19T02:31:00.000Z</published>
-    <updated>2015-11-26T00:59:19.378Z</updated>
+    <updated>2015-11-27T01:11:21.334Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Maxime Defauw，<a href="http://www.appcoda.com/3d-touch-tutorial/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/09<br>译者：<a href="http://www.brighttj.com" target="_blank" rel="external">saitjr</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -781,7 +781,7 @@
     <link href="http://swiftggteam.github.io/2015/11/18/watchconnectivity-user-info/"/>
     <id>http://swiftggteam.github.io/2015/11/18/watchconnectivity-user-info/</id>
     <published>2015-11-17T16:00:00.000Z</published>
-    <updated>2015-11-26T00:59:19.378Z</updated>
+    <updated>2015-11-27T01:11:21.334Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/watchconnectivity-user-info/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-21<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -859,7 +859,7 @@
     <link href="http://swiftggteam.github.io/2015/11/17/functional-programming-in-swift/"/>
     <id>http://swiftggteam.github.io/2015/11/17/functional-programming-in-swift/</id>
     <published>2015-11-17T04:00:00.000Z</published>
-    <updated>2015-11-26T00:59:19.378Z</updated>
+    <updated>2015-11-27T01:11:21.330Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/functional-programming-in-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/13<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -911,7 +911,7 @@
     <link href="http://swiftggteam.github.io/2015/11/16/capturing-context-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/11/16/capturing-context-swiftlang/</id>
     <published>2015-11-16T01:00:00.000Z</published>
-    <updated>2015-11-26T00:59:19.378Z</updated>
+    <updated>2015-11-27T01:11:21.330Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/08/27/capturing-context-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-08-27<br>译者：<a href="https://github.com/chenmingbiao" target="_blank" rel="external">CMB</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -956,7 +956,7 @@
     <link href="http://swiftggteam.github.io/2015/11/13/swift-tutorial-for-beginners-part-1/"/>
     <id>http://swiftggteam.github.io/2015/11/13/swift-tutorial-for-beginners-part-1/</id>
     <published>2015-11-13T01:00:00.000Z</published>
-    <updated>2015-11-26T00:59:19.378Z</updated>
+    <updated>2015-11-27T01:11:21.330Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-tutorial-for-beginners-part-1/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-29<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1096,7 +1096,7 @@
     <link href="http://swiftggteam.github.io/2015/11/12/naming-methods-and-functions/"/>
     <id>http://swiftggteam.github.io/2015/11/12/naming-methods-and-functions/</id>
     <published>2015-11-12T01:00:00.000Z</published>
-    <updated>2015-11-26T00:59:19.378Z</updated>
+    <updated>2015-11-27T01:11:21.330Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/08/31/naming-methods-and-functions/" target="_blank" rel="external">原文链接</a>，原文日期：2015-08-31<br>译者：<a href="http://weibo.com/u/2916092907" target="_blank" rel="external">天才175</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1141,7 +1141,7 @@
     <link href="http://swiftggteam.github.io/2015/11/11/c-callbacks-in-swift/"/>
     <id>http://swiftggteam.github.io/2015/11/11/c-callbacks-in-swift/</id>
     <published>2015-11-11T01:00:00.000Z</published>
-    <updated>2015-11-26T00:59:19.378Z</updated>
+    <updated>2015-11-27T01:11:21.330Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Ole Begemann，<a href="http://oleb.net/blog/2015/06/c-callbacks-in-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-06-22<br>译者：<a href="http://www.jianshu.com/users/3b40e55ec6d5/latest_articles" target="_blank" rel="external">小锅</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
 </blockquote>
@@ -1223,7 +1223,7 @@
     <link href="http://swiftggteam.github.io/2015/11/10/ios-undo-and-redo-with-nsundomanager/"/>
     <id>http://swiftggteam.github.io/2015/11/10/ios-undo-and-redo-with-nsundomanager/</id>
     <published>2015-11-10T01:00:00.000Z</published>
-    <updated>2015-11-26T00:59:19.378Z</updated>
+    <updated>2015-11-27T01:11:21.330Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/ios-undo-and-redo-with-nsundomanager/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-13<br>译者：<a href="http://blog.csdn.net/yake_099" target="_blank" rel="external">Yake</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="undefined"></a></p>
 </blockquote>
@@ -1291,7 +1291,7 @@
     <link href="http://swiftggteam.github.io/2015/11/09/what-makes-good-code/"/>
     <id>http://swiftggteam.github.io/2015/11/09/what-makes-good-code/</id>
     <published>2015-11-09T01:00:00.000Z</published>
-    <updated>2015-11-26T00:59:19.378Z</updated>
+    <updated>2015-11-27T01:11:21.330Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/10/28/what-makes-good-code/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-28<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1346,7 +1346,7 @@
     <link href="http://swiftggteam.github.io/2015/11/06/if-let-assignment/"/>
     <id>http://swiftggteam.github.io/2015/11/06/if-let-assignment/</id>
     <published>2015-11-06T01:00:00.000Z</published>
-    <updated>2015-11-26T00:59:19.378Z</updated>
+    <updated>2015-11-27T01:11:21.330Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Weston Hanners，<a href="http://www.alloc-init.com/2015/10/if-let-assignment/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-29<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1393,7 +1393,7 @@
     <link href="http://swiftggteam.github.io/2015/11/05/swift-playground-the-monty-hall-problem/"/>
     <id>http://swiftggteam.github.io/2015/11/05/swift-playground-the-monty-hall-problem/</id>
     <published>2015-11-05T01:00:00.000Z</published>
-    <updated>2015-11-26T00:59:19.374Z</updated>
+    <updated>2015-11-27T01:11:21.330Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-playground-the-monty-hall-problem/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-27<br>译者：<a href="https://github.com/SergioChan" target="_blank" rel="external">SergioChan</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1441,7 +1441,7 @@
     <link href="http://swiftggteam.github.io/2015/11/04/swift-using-local-closures/"/>
     <id>http://swiftggteam.github.io/2015/11/04/swift-using-local-closures/</id>
     <published>2015-11-04T01:00:00.000Z</published>
-    <updated>2015-11-26T00:59:19.374Z</updated>
+    <updated>2015-11-27T01:11:21.330Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-using-local-closures/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-22<br>译者：<a href="http://www.jianshu.com/users/3b40e55ec6d5/latest_articles" target="_blank" rel="external">小锅</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1481,7 +1481,7 @@
     <link href="http://swiftggteam.github.io/2015/11/03/watchconnectivity-introduction-say-goodbye-to-the-spinner/"/>
     <id>http://swiftggteam.github.io/2015/11/03/watchconnectivity-introduction-say-goodbye-to-the-spinner/</id>
     <published>2015-11-03T01:00:00.000Z</published>
-    <updated>2015-11-26T00:59:19.374Z</updated>
+    <updated>2015-11-27T01:11:21.330Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/watchconnectivity-introduction-say-goodbye-to-the-spinner/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-21<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1536,7 +1536,7 @@
     <link href="http://swiftggteam.github.io/2015/11/02/watchconnectivity-say-hello-to-wcsession/"/>
     <id>http://swiftggteam.github.io/2015/11/02/watchconnectivity-say-hello-to-wcsession/</id>
     <published>2015-11-01T16:00:00.000Z</published>
-    <updated>2015-11-26T00:59:19.374Z</updated>
+    <updated>2015-11-27T01:11:21.330Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/watchconnectivity-say-hello-to-wcsession/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-21<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1623,7 +1623,7 @@
     <link href="http://swiftggteam.github.io/2015/10/30/lets-talk-about-monads/"/>
     <id>http://swiftggteam.github.io/2015/10/30/lets-talk-about-monads/</id>
     <published>2015-10-30T01:00:00.000Z</published>
-    <updated>2015-11-26T00:59:19.374Z</updated>
+    <updated>2015-11-27T01:11:21.330Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Olivier Halligon，<a href="http://alisoftware.github.io/swift/2015/10/17/lets-talk-about-monads/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-17<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
