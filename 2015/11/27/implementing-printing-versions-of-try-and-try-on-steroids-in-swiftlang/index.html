@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="baidu-site-verification" content="vqJV77bZM6" />
   
-    <title>If-Let 赋值运算符 | SwiftGG 翻译组 - 高质量的 Swift 译文网站</title>
+    <title>Implementing printing versions of try? and try! | SwiftGG 翻译组 - 高质量的 Swift 译文网站</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="SwiftGG">
@@ -13,28 +13,25 @@
     <meta name="keywords" content="swift语言,swift翻译,swift学习" /> 
 
     
-    <meta name="description" content="作者：Weston Hanners，原文链接，原文日期：2015-10-29译者：pmst；校对：千叶知风；定稿：千叶知风
+    <meta name="description" content="作者：Erica Sadun，原文链接，原文日期：2015/11/5译者：pmst；校对：千叶知风；定稿：numbbbbb
 
 &amp;lt;!--此处开始正文--&amp;gt;
-(AKA：你希望使用一个自定义操作符)
-有多少次你是以这种匹配模式实现的呢？">
+Implementing printing versions of “try?” and “try!” - on steroids!Swift 2 中的try?运算符在可选类型(optionals)和错误处理机制中抛出 error 转换为输出 n">
 <meta property="og:type" content="article">
-<meta property="og:title" content="If-Let 赋值运算符">
-<meta property="og:url" content="http://swiftggteam.github.io/2015/11/06/if-let-assignment/index.html">
+<meta property="og:title" content="Implementing printing versions of try? and try!">
+<meta property="og:url" content="http://swiftggteam.github.io/2015/11/27/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/index.html">
 <meta property="og:site_name" content="SwiftGG">
-<meta property="og:description" content="作者：Weston Hanners，原文链接，原文日期：2015-10-29译者：pmst；校对：千叶知风；定稿：千叶知风
+<meta property="og:description" content="作者：Erica Sadun，原文链接，原文日期：2015/11/5译者：pmst；校对：千叶知风；定稿：numbbbbb
 
 &amp;lt;!--此处开始正文--&amp;gt;
-(AKA：你希望使用一个自定义操作符)
-有多少次你是以这种匹配模式实现的呢？">
+Implementing printing versions of “try?” and “try!” - on steroids!Swift 2 中的try?运算符在可选类型(optionals)和错误处理机制中抛出 error 转换为输出 n">
 <meta property="og:updated_time" content="2015-11-27T01:30:18.108Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="If-Let 赋值运算符">
-<meta name="twitter:description" content="作者：Weston Hanners，原文链接，原文日期：2015-10-29译者：pmst；校对：千叶知风；定稿：千叶知风
+<meta name="twitter:title" content="Implementing printing versions of try? and try!">
+<meta name="twitter:description" content="作者：Erica Sadun，原文链接，原文日期：2015/11/5译者：pmst；校对：千叶知风；定稿：numbbbbb
 
 &amp;lt;!--此处开始正文--&amp;gt;
-(AKA：你希望使用一个自定义操作符)
-有多少次你是以这种匹配模式实现的呢？">
+Implementing printing versions of “try?” and “try!” - on steroids!Swift 2 中的try?运算符在可选类型(optionals)和错误处理机制中抛出 error 转换为输出 n">
 
     
     <link rel="alternative" href="/atom.xml" title="SwiftGG" type="application/atom+xml">
@@ -92,10 +89,10 @@
   <header class="article-info clearfix">
     <h1 itemprop="name">
       
-        <a href="/2015/11/06/if-let-assignment/" title="If-Let 赋值运算符" itemprop="url">If-Let 赋值运算符</a>
+        <a href="/2015/11/27/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/" title="Implementing printing versions of try? and try!" itemprop="url">Implementing printing versions of try? and try!</a>
     </h1>
     <p class="article-time">
-      <time datetime="2015-11-06T01:00:00.000Z" itemprop="datePublished"><i class="icon-time"></i> 2015-11-06</time>
+      <time datetime="2015-11-27T01:20:00.000Z" itemprop="datePublished"><i class="icon-time"></i> 2015-11-27</time>
       <span style="margin-left: 0.5em;"><i class="icon-eye-open"></i> <span class="viewcount"></span></span>
     </p>
   </header>
@@ -105,31 +102,28 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Implementing_printing_versions_of_“try?”_and_“try!”_-_on_steroids!"><span class="toc-number">1.</span> <span class="toc-text">Implementing printing versions of “try?” and “try!” - on steroids!</span></a></li></ol>
 		
 		</div>
 		
 		<blockquote>
-<p>作者：Weston Hanners，<a href="http://www.alloc-init.com/2015/10/if-let-assignment/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-29<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
+<p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/11/05/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/5<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
 <!--此处开始正文-->
-<p>(AKA：你希望使用一个自定义操作符)</p>
-<p>有多少次你是以这种匹配模式实现的呢？</p>
-<a id="more"></a>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> value = someOptionalValue <span class="keyword">as</span>? <span class="type">String</span> &#123;</span><br><span class="line">  <span class="keyword">self</span>.value = value</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>我一直使用这种方式进行JSON数据解析或者NSCoding的实现。但我觉得这对于Swift来说有点啰嗦，坚信肯定存在某种更好的方式。</p>
-<p><a href="http://nshipster.com/swift-operators/" target="_blank" rel="external">NSHipster</a>提出自定义逻辑或赋值运算符(<code>||=</code>)，这看起来很不错。不管怎样，它似乎还未为泛型实现(作者:如果这里我理解错了，请告诉我).我想我可以先试一试…</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">infix</span> <span class="keyword">operator</span> ||= &#123; <span class="keyword">associativity</span> <span class="keyword">right</span> <span class="keyword">precedence</span> <span class="number">90</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 译者注: 测试只有加上&lt;T&gt;才能正常运行</span></span><br><span class="line"><span class="func"><span class="keyword">func</span> ||= <span class="generics">&lt;T&gt;</span><span class="params">(<span class="keyword">inout</span> <span class="keyword">left</span>: T, <span class="keyword">right</span>: T?)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">let</span> <span class="keyword">right</span> = <span class="keyword">right</span> &#123;</span><br><span class="line">        <span class="keyword">left</span> = <span class="keyword">right</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>实际上它能够很好地工作，我将原代码简化如下:</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">self</span>.value ||= someOptionalValue <span class="keyword">as</span>? <span class="type">String</span></span><br></pre></td></tr></table></figure>
-<p>或许这有点微不足道，但是当你需要连续处理一系列任务时，这节省了大量代码，变得更具可读性。</p>
-<p>还有件事…我依然尝试去弄清楚这是怎么回事，但我最终定义了第二个方法用于可选类型赋值。而唯一的不同是现在左侧参数类型为<code>T?</code></p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> ||= <span class="generics">&lt;T&gt;</span><span class="params">(<span class="keyword">inout</span> <span class="keyword">left</span>: T?, <span class="keyword">right</span>: T?)</span></span> &#123; <span class="comment">// The left param is now Optional</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">let</span> <span class="keyword">right</span> = <span class="keyword">right</span> &#123;</span><br><span class="line">        <span class="keyword">left</span> = <span class="keyword">right</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> someOptionalString: <span class="type">String</span>?</span><br><span class="line"></span><br><span class="line">someOptionalString ||= newValue <span class="comment">// Will assign when newValue is not optional</span></span><br></pre></td></tr></table></figure>
-<p>如果你有兴趣看看这个，请点击<a href="http://www.alloc-init.com/wp-content/uploads/2015/10/if-let-operator.playground.zip" target="_blank" rel="external">Playground</a>下载。</p>
-<p>温馨提示: 文章测试环境是Swift2.0。</p>
-<p><strong>更新日志 11/01/2015:</strong></p>
-<p>twitter上有人提醒我: ruby中<code>||=</code>等价于<code>left = left || right</code>，与我想要实现的<code>left = right || left</code>不同。我对这种用法不是很了解，为了避免混淆，我可能使用另外一个操作符<code>?=</code>替代。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">infix</span> <span class="keyword">operator</span> ?= &#123; <span class="keyword">associativity</span> <span class="keyword">right</span> <span class="keyword">precedence</span> <span class="number">90</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="func"><span class="keyword">func</span> ?=<span class="generics">&lt;T&gt;</span><span class="params">(<span class="keyword">inout</span> <span class="keyword">left</span>: T, <span class="keyword">right</span>: T?)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">let</span> value = <span class="keyword">right</span> &#123;</span><br><span class="line">        <span class="keyword">left</span> = value</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="func"><span class="keyword">func</span> ?=<span class="generics">&lt;T&gt;</span><span class="params">(<span class="keyword">inout</span> <span class="keyword">left</span>: T?, <span class="keyword">right</span>: T?)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">let</span> value = <span class="keyword">right</span> &#123;</span><br><span class="line">        <span class="keyword">left</span> = value</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Implementing_printing_versions_of_“try?”_and_“try!”_-_on_steroids!">Implementing printing versions of “try?” and “try!” - on steroids!</h3><p>Swift 2 中的<code>try?</code>运算符在可选类型(optionals)和错误处理机制中抛出 error 转换为输出 nil 结果值之间建立了桥接。这样你就可以使用 guard 语句和条件绑定，只关注处理成功的用例(case)。<br><a id="more"></a></p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">/// try? 没有错误输出正确结果值</span></span><br><span class="line"><span class="comment">///      有错误发生，输出nil值</span></span><br><span class="line"><span class="keyword">guard</span> <span class="keyword">let</span> foo = <span class="keyword">try</span>? somethingThatMayThrow <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">//处理错误情况并退出作用域</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>倘若你使用这种方式进行错误处理，需要注意，它并不会返回 error 信息。本文想说的是：抛弃错误信息是一件让人郁闷的事情！为什么不有选择地使用<code>try?</code>和<code>try!</code>来自动建立上下文并打印错误信息呢？</p>
+<p>前阵子，我分享了一个模仿<code>try?</code>语句的基础实现，可以保留错误信息。下面的实现首先打印返回的错误，接着继续返回你想要得到的<code>try?</code>的处理结果：结果是一个值或 nil。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">attempt</span><span class="generics">&lt;T&gt;</span><span class="params">(block: <span class="params">()</span></span></span> <span class="keyword">throws</span> -&gt; <span class="type">T</span>) -&gt; <span class="type">Optional</span>&lt;<span class="type">T</span>&gt;&#123; </span><br><span class="line">    <span class="keyword">do</span> &#123; <span class="keyword">return</span> <span class="keyword">try</span> block() &#125; </span><br><span class="line">    <span class="keyword">catch</span> &#123; <span class="built_in">print</span>(error); <span class="keyword">return</span> <span class="literal">nil</span> &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这很有效，尤其是当你想要进一步使用返回值却发现 guard 语句在失败时无法返回错误信息。使用 attemp 函数就可以打印错误信息。举个例子，如果我们要使用 NSFileManager 来删除文件。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">NSFileManager</span>.defaultManager().removeItemAtURL(someURL)</span><br></pre></td></tr></table></figure>
+<p>你应该这样做：将上述代码包裹到<code>do-catch</code>的 block 中(略显冗长)，在 attempt 函数中使用<code>try?</code>，接着处理返回 nil 值的情况，或者使用<code>try!</code>忽视所有错误信息(译者注:倘若实际有错误发生，程序会直接崩溃，使用它之前你必须确保不会有错误产生)。</p>
+<p>当然这里还有另外一种方式。在文章的最后，我构建了一个 attemptFailable 函数，它把 throwing 声明封装到 guard/try 的迷你打印系统中，后者会返回一个布尔类型值。下面是使用方法：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="type">NSFileManager</span>.defaultManager().fileExistsAtPath(myPath) &#123;</span><br><span class="line">    <span class="keyword">guard</span> (attemptFailable&#123;<span class="keyword">try</span> <span class="type">NSFileManager</span>.defaultManager()</span><br><span class="line">         .removeItemAtURL(myURL)&#125;) <span class="keyword">else</span> &#123;abort()&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>显然不是很理想，但是在 playground 中写一些小东西时相当方便，最近我经常使用。(Playground 相当不错，作者书籍<a href="https://itunes.apple.com/us/book/playground-secrets-power-tips/id982838034?mt=11" target="_blank" rel="external">购买链接</a>)。</p>
+<p>你可以使用类似的方式增强<code>try!</code>。相比 Swift 的可选值，<code>doOrDie</code>函数提供了更多信息。就像<code>attemp</code>和<code>attemptFailable</code>函数一样，它能够捕获上下文，在继续使用标准<code>try!</code>终止执行前抛出并打印错误。</p>
+<p>以下是完整代码：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> Foundation</span><br><span class="line"></span><br><span class="line"><span class="comment">// 错误泛型</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">struct</span> <span class="title">Error</span>: <span class="title">ErrorType</span> </span>&#123;<span class="keyword">let</span> reason: <span class="type">String</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> Printing version of try? Call either with standard or autoclosure approach</span><br><span class="line"> </span><br><span class="line"> let contents = attempt&#123;try NSFileManager.defaultManager().contentsOfDirectoryAtPath(fakePath)&#125;</span><br><span class="line"> let contents = attempt&#123;try NSFileManager.defaultManager().contentsOfDirectoryAtPath(XCPlaygroundSharedDataDirectoryURL.path!)&#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> - Returns: Optional that is nil when the called closure throws</span><br><span class="line"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="func"><span class="keyword">func</span> <span class="title">attempt</span><span class="generics">&lt;T&gt;</span><span class="params">(source source: String = <span class="keyword">__FUNCTION__</span>, file: String = <span class="keyword">__FILE__</span>, line: Int = <span class="keyword">__LINE__</span>, closure: <span class="params">()</span></span></span> <span class="keyword">throws</span> -&gt; <span class="type">T</span>) -&gt; <span class="type">Optional</span>&lt;<span class="type">T</span>&gt;&#123;</span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">try</span> closure()</span><br><span class="line">    &#125; <span class="keyword">catch</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> fileName = (file <span class="keyword">as</span> <span class="type">NSString</span>).lastPathComponent</span><br><span class="line">        <span class="keyword">let</span> report = <span class="string">"Error <span class="subst">\(fileName)</span>:<span class="subst">\(source)</span>:<span class="subst">\(line)</span>:\n    <span class="subst">\(error)</span>"</span></span><br><span class="line">        <span class="built_in">print</span>(report)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> 可以打印内容并返回布尔值的 try? 可选实现</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> let success = attemptFailable&#123;try "Test".writeToFile(fakePath, atomically: true, encoding: NSUTF8StringEncoding)&#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> - Returns: Boolean 值，如果被调用的闭包抛出错误返回 false，否则返回 true</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="func"><span class="keyword">func</span> <span class="title">attemptFailable</span><span class="params">(source source: String = <span class="keyword">__FUNCTION__</span>, file: String = <span class="keyword">__FILE__</span>, line: Int = <span class="keyword">__LINE__</span>, closure: <span class="params">()</span></span></span> <span class="keyword">throws</span> -&gt; <span class="type">Void</span>) -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> closure()</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">    &#125; <span class="keyword">catch</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> fileName = (file <span class="keyword">as</span> <span class="type">NSString</span>).lastPathComponent</span><br><span class="line">        <span class="keyword">let</span> report = <span class="string">"Error <span class="subst">\(fileName)</span>:<span class="subst">\(source)</span>:<span class="subst">\(line)</span>:\n    <span class="subst">\(error)</span>"</span></span><br><span class="line">        <span class="built_in">print</span>(report)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> 另外一个包含更多信息的 try! 版本。shouldCrash 是 false 时，即使有错误抛出，也会继续执行</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> doOrDie(shouldCrash: false, closure: &#123;try "Test".writeToFile(fakePath, atomically: true, encoding: NSUTF8StringEncoding)&#125;)</span><br><span class="line"> // 或</span><br><span class="line"> doOrDie(shouldCrash:false)&#123;try NSFileManager.defaultManager().removeItemAtURL(fakeURL)&#125;</span><br><span class="line"> // 或</span><br><span class="line"> doOrDie&#123;try "Test".writeToFile(fakePath, atomically: true, encoding: NSUTF8StringEncoding)&#125;</span><br><span class="line"> </span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="func"><span class="keyword">func</span> <span class="title">doOrDie</span><span class="params">(source: String = <span class="keyword">__FUNCTION__</span>,</span><br><span class="line">    file: String = <span class="keyword">__FILE__</span>, line: Int = <span class="keyword">__LINE__</span>, shouldCrash: Bool = <span class="literal">true</span>, closure: <span class="params">()</span></span></span> <span class="keyword">throws</span> -&gt; <span class="type">Void</span>) &#123;</span><br><span class="line">        <span class="keyword">let</span> success = attemptFailable(source: source, file: file, line: line, closure: closure)</span><br><span class="line">        <span class="keyword">if</span> shouldCrash &amp;&amp; !success &#123;<span class="built_in">fatalError</span>(<span class="string">"Goodbye cruel world"</span>)&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
 </blockquote>
@@ -146,7 +140,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Weston-Hanners/">Weston Hanners</a>
+  <span></span> <a href="/tags/Erica-Sadun/">Erica Sadun</a>
   </div>
 
 </div>
@@ -155,7 +149,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://swiftggteam.github.io/2015/11/06/if-let-assignment/" data-title="If-Let 赋值运算符 | SwiftGG" data-tsina="null" class="share clearfix">
+	  <div data-url="http://swiftggteam.github.io/2015/11/27/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/" data-title="Implementing printing versions of try? and try! | SwiftGG" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -168,19 +162,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/11/09/what-makes-good-code/" title="好代码是怎样炼成的">
-  <strong>上一篇：</strong><br/>
-  <span>
-  好代码是怎样炼成的</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2015/11/05/swift-playground-the-monty-hall-problem/"  title="Swift Playground: 三门问题的解法">
+<a href="/2015/11/26/swift-map-and-flatmap/"  title="Swift：map 和 flatMap 基础入门">
  <strong>下一篇：</strong><br/> 
- <span>Swift Playground: 三门问题的解法
+ <span>Swift：map 和 flatMap 基础入门
 </span>
 </a>
 </div>
@@ -189,7 +175,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/11/06/if-let-assignment/" data-title="If-Let 赋值运算符" data-url="http://swiftggteam.github.io/2015/11/06/if-let-assignment/"></div>
+	<div class="ds-thread" data-thread-key="2015/11/27/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/" data-title="Implementing printing versions of try? and try!" data-url="http://swiftggteam.github.io/2015/11/27/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/"></div>
 </section>
 
 
@@ -199,7 +185,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Implementing_printing_versions_of_“try?”_and_“try!”_-_on_steroids!"><span class="toc-number">1.</span> <span class="toc-text">Implementing printing versions of “try?” and “try!” - on steroids!</span></a></li></ol>
  
   </div>
 

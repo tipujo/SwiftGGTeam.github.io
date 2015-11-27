@@ -4,7 +4,7 @@
   <subtitle><![CDATA[走心的 Swift 翻译组]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://swiftggteam.github.io/"/>
-  <updated>2015-11-27T01:11:21.334Z</updated>
+  <updated>2015-11-27T01:30:18.108Z</updated>
   <id>http://swiftggteam.github.io/</id>
   
   <author>
@@ -15,11 +15,54 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[Implementing printing versions of try? and try!]]></title>
+    <link href="http://swiftggteam.github.io/2015/11/27/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/"/>
+    <id>http://swiftggteam.github.io/2015/11/27/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/</id>
+    <published>2015-11-27T01:20:00.000Z</published>
+    <updated>2015-11-27T01:30:18.108Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/11/05/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/5<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
+</blockquote>
+<!--此处开始正文-->
+<h3 id="Implementing_printing_versions_of_“try?”_and_“try!”_-_on_steroids!">Implementing printing versions of “try?” and “try!” - on steroids!</h3><p>Swift 2 中的<code>try?</code>运算符在可选类型(optionals)和错误处理机制中抛出 error 转换为输出 nil 结果值之间建立了桥接。这样你就可以使用 guard 语句和条件绑定，只关注处理成功的用例(case)。<br><a id="more"></a></p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">/// try? 没有错误输出正确结果值</span></span><br><span class="line"><span class="comment">///      有错误发生，输出nil值</span></span><br><span class="line"><span class="keyword">guard</span> <span class="keyword">let</span> foo = <span class="keyword">try</span>? somethingThatMayThrow <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">//处理错误情况并退出作用域</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>倘若你使用这种方式进行错误处理，需要注意，它并不会返回 error 信息。本文想说的是：抛弃错误信息是一件让人郁闷的事情！为什么不有选择地使用<code>try?</code>和<code>try!</code>来自动建立上下文并打印错误信息呢？</p>
+<p>前阵子，我分享了一个模仿<code>try?</code>语句的基础实现，可以保留错误信息。下面的实现首先打印返回的错误，接着继续返回你想要得到的<code>try?</code>的处理结果：结果是一个值或 nil。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">attempt</span><span class="generics">&lt;T&gt;</span><span class="params">(block: <span class="params">()</span></span></span> <span class="keyword">throws</span> -&gt; <span class="type">T</span>) -&gt; <span class="type">Optional</span>&lt;<span class="type">T</span>&gt;&#123; </span><br><span class="line">    <span class="keyword">do</span> &#123; <span class="keyword">return</span> <span class="keyword">try</span> block() &#125; </span><br><span class="line">    <span class="keyword">catch</span> &#123; <span class="built_in">print</span>(error); <span class="keyword">return</span> <span class="literal">nil</span> &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这很有效，尤其是当你想要进一步使用返回值却发现 guard 语句在失败时无法返回错误信息。使用 attemp 函数就可以打印错误信息。举个例子，如果我们要使用 NSFileManager 来删除文件。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">NSFileManager</span>.defaultManager().removeItemAtURL(someURL)</span><br></pre></td></tr></table></figure>
+<p>你应该这样做：将上述代码包裹到<code>do-catch</code>的 block 中(略显冗长)，在 attempt 函数中使用<code>try?</code>，接着处理返回 nil 值的情况，或者使用<code>try!</code>忽视所有错误信息(译者注:倘若实际有错误发生，程序会直接崩溃，使用它之前你必须确保不会有错误产生)。</p>
+<p>当然这里还有另外一种方式。在文章的最后，我构建了一个 attemptFailable 函数，它把 throwing 声明封装到 guard/try 的迷你打印系统中，后者会返回一个布尔类型值。下面是使用方法：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="type">NSFileManager</span>.defaultManager().fileExistsAtPath(myPath) &#123;</span><br><span class="line">    <span class="keyword">guard</span> (attemptFailable&#123;<span class="keyword">try</span> <span class="type">NSFileManager</span>.defaultManager()</span><br><span class="line">         .removeItemAtURL(myURL)&#125;) <span class="keyword">else</span> &#123;abort()&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>显然不是很理想，但是在 playground 中写一些小东西时相当方便，最近我经常使用。(Playground 相当不错，作者书籍<a href="https://itunes.apple.com/us/book/playground-secrets-power-tips/id982838034?mt=11" target="_blank" rel="external">购买链接</a>)。</p>
+<p>你可以使用类似的方式增强<code>try!</code>。相比 Swift 的可选值，<code>doOrDie</code>函数提供了更多信息。就像<code>attemp</code>和<code>attemptFailable</code>函数一样，它能够捕获上下文，在继续使用标准<code>try!</code>终止执行前抛出并打印错误。</p>
+<p>以下是完整代码：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> Foundation</span><br><span class="line"></span><br><span class="line"><span class="comment">// 错误泛型</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">struct</span> <span class="title">Error</span>: <span class="title">ErrorType</span> </span>&#123;<span class="keyword">let</span> reason: <span class="type">String</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> Printing version of try? Call either with standard or autoclosure approach</span><br><span class="line"> </span><br><span class="line"> let contents = attempt&#123;try NSFileManager.defaultManager().contentsOfDirectoryAtPath(fakePath)&#125;</span><br><span class="line"> let contents = attempt&#123;try NSFileManager.defaultManager().contentsOfDirectoryAtPath(XCPlaygroundSharedDataDirectoryURL.path!)&#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> - Returns: Optional that is nil when the called closure throws</span><br><span class="line"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="func"><span class="keyword">func</span> <span class="title">attempt</span><span class="generics">&lt;T&gt;</span><span class="params">(source source: String = <span class="keyword">__FUNCTION__</span>, file: String = <span class="keyword">__FILE__</span>, line: Int = <span class="keyword">__LINE__</span>, closure: <span class="params">()</span></span></span> <span class="keyword">throws</span> -&gt; <span class="type">T</span>) -&gt; <span class="type">Optional</span>&lt;<span class="type">T</span>&gt;&#123;</span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">try</span> closure()</span><br><span class="line">    &#125; <span class="keyword">catch</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> fileName = (file <span class="keyword">as</span> <span class="type">NSString</span>).lastPathComponent</span><br><span class="line">        <span class="keyword">let</span> report = <span class="string">"Error <span class="subst">\(fileName)</span>:<span class="subst">\(source)</span>:<span class="subst">\(line)</span>:\n    <span class="subst">\(error)</span>"</span></span><br><span class="line">        <span class="built_in">print</span>(report)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> 可以打印内容并返回布尔值的 try? 可选实现</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> let success = attemptFailable&#123;try "Test".writeToFile(fakePath, atomically: true, encoding: NSUTF8StringEncoding)&#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> - Returns: Boolean 值，如果被调用的闭包抛出错误返回 false，否则返回 true</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="func"><span class="keyword">func</span> <span class="title">attemptFailable</span><span class="params">(source source: String = <span class="keyword">__FUNCTION__</span>, file: String = <span class="keyword">__FILE__</span>, line: Int = <span class="keyword">__LINE__</span>, closure: <span class="params">()</span></span></span> <span class="keyword">throws</span> -&gt; <span class="type">Void</span>) -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> closure()</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">    &#125; <span class="keyword">catch</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> fileName = (file <span class="keyword">as</span> <span class="type">NSString</span>).lastPathComponent</span><br><span class="line">        <span class="keyword">let</span> report = <span class="string">"Error <span class="subst">\(fileName)</span>:<span class="subst">\(source)</span>:<span class="subst">\(line)</span>:\n    <span class="subst">\(error)</span>"</span></span><br><span class="line">        <span class="built_in">print</span>(report)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> 另外一个包含更多信息的 try! 版本。shouldCrash 是 false 时，即使有错误抛出，也会继续执行</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> doOrDie(shouldCrash: false, closure: &#123;try "Test".writeToFile(fakePath, atomically: true, encoding: NSUTF8StringEncoding)&#125;)</span><br><span class="line"> // 或</span><br><span class="line"> doOrDie(shouldCrash:false)&#123;try NSFileManager.defaultManager().removeItemAtURL(fakeURL)&#125;</span><br><span class="line"> // 或</span><br><span class="line"> doOrDie&#123;try "Test".writeToFile(fakePath, atomically: true, encoding: NSUTF8StringEncoding)&#125;</span><br><span class="line"> </span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="func"><span class="keyword">func</span> <span class="title">doOrDie</span><span class="params">(source: String = <span class="keyword">__FUNCTION__</span>,</span><br><span class="line">    file: String = <span class="keyword">__FILE__</span>, line: Int = <span class="keyword">__LINE__</span>, shouldCrash: Bool = <span class="literal">true</span>, closure: <span class="params">()</span></span></span> <span class="keyword">throws</span> -&gt; <span class="type">Void</span>) &#123;</span><br><span class="line">        <span class="keyword">let</span> success = attemptFailable(source: source, file: file, line: line, closure: closure)</span><br><span class="line">        <span class="keyword">if</span> shouldCrash &amp;&amp; !success &#123;<span class="built_in">fatalError</span>(<span class="string">"Goodbye cruel world"</span>)&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/11/05/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/">原文链接</a>，原文日期：2015/11/5<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb">numbbbbb</a></p>
+</blockquote>
+<!--此处开始正文-->
+<h3 id="Implementing_printing_versions_of_“try?”_and_“try!”_-_on_steroids!">Implementing printing versions of “try?” and “try!” - on steroids!</h3><p>Swift 2 中的<code>try?</code>运算符在可选类型(optionals)和错误处理机制中抛出 error 转换为输出 nil 结果值之间建立了桥接。这样你就可以使用 guard 语句和条件绑定，只关注处理成功的用例(case)。<br>]]>
+    
+    </summary>
+    
+      <category term="Erica Sadun" scheme="http://swiftggteam.github.io/tags/Erica-Sadun/"/>
+    
+      <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[Swift：map 和 flatMap 基础入门]]></title>
     <link href="http://swiftggteam.github.io/2015/11/26/swift-map-and-flatmap/"/>
     <id>http://swiftggteam.github.io/2015/11/26/swift-map-and-flatmap/</id>
     <published>2015-11-25T16:00:00.000Z</published>
-    <updated>2015-11-27T01:11:21.334Z</updated>
+    <updated>2015-11-27T01:30:18.108Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-map-and-flatmap/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-16<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -59,7 +102,7 @@
     <link href="http://swiftggteam.github.io/2015/11/25/tvos-introduction/"/>
     <id>http://swiftggteam.github.io/2015/11/25/tvos-introduction/</id>
     <published>2015-11-24T16:00:00.000Z</published>
-    <updated>2015-11-27T01:11:21.334Z</updated>
+    <updated>2015-11-27T01:30:18.108Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：gregg mojica，<a href="http://www.appcoda.com/tvos-introduction/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-02<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -204,7 +247,7 @@
     <link href="http://swiftggteam.github.io/2015/11/24/speeding-up-swift-playgrounds-with-closure-initialization-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/11/24/speeding-up-swift-playgrounds-with-closure-initialization-swiftlang/</id>
     <published>2015-11-23T16:00:00.000Z</published>
-    <updated>2015-11-27T01:11:21.334Z</updated>
+    <updated>2015-11-27T01:30:18.108Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/11/15/speeding-up-swift-playgrounds-with-closure-initialization-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-15<br>译者：<a href="undefined">JackAlan</a>；校对：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -250,7 +293,7 @@
     <link href="http://swiftggteam.github.io/2015/11/23/swift-reflection-api-what-you-can-do/"/>
     <id>http://swiftggteam.github.io/2015/11/23/swift-reflection-api-what-you-can-do/</id>
     <published>2015-11-22T16:00:00.000Z</published>
-    <updated>2015-11-27T01:11:21.334Z</updated>
+    <updated>2015-11-27T01:30:18.108Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Benedikt Terhechte，<a href="http://appventure.me/2015/10/24/swift-reflection-api-what-you-can-do/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-24<br>译者：<a href="http://blog.csdn.net/mmoaay" target="_blank" rel="external">mmoaay</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -408,7 +451,7 @@
     <link href="http://swiftggteam.github.io/2015/11/20/advanced-practical-enum-examples/"/>
     <id>http://swiftggteam.github.io/2015/11/20/advanced-practical-enum-examples/</id>
     <published>2015-11-19T16:00:00.000Z</published>
-    <updated>2015-11-27T01:11:21.334Z</updated>
+    <updated>2015-11-27T01:30:18.108Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Benedikt Terhechte，<a href="http://appventure.me/2015/10/17/advanced-practical-enum-examples/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-17<br>译者：<a href="http://www.jianshu.com/users/3b40e55ec6d5/latest_articles" target="_blank" rel="external">小锅</a>，<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
 </blockquote>
@@ -693,7 +736,7 @@
     <link href="http://swiftggteam.github.io/2015/11/19/3d-touch-tutorial/"/>
     <id>http://swiftggteam.github.io/2015/11/19/3d-touch-tutorial/</id>
     <published>2015-11-19T02:31:00.000Z</published>
-    <updated>2015-11-27T01:11:21.334Z</updated>
+    <updated>2015-11-27T01:30:18.108Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Maxime Defauw，<a href="http://www.appcoda.com/3d-touch-tutorial/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/09<br>译者：<a href="http://www.brighttj.com" target="_blank" rel="external">saitjr</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -781,7 +824,7 @@
     <link href="http://swiftggteam.github.io/2015/11/18/watchconnectivity-user-info/"/>
     <id>http://swiftggteam.github.io/2015/11/18/watchconnectivity-user-info/</id>
     <published>2015-11-17T16:00:00.000Z</published>
-    <updated>2015-11-27T01:11:21.334Z</updated>
+    <updated>2015-11-27T01:30:18.108Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/watchconnectivity-user-info/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-21<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -859,7 +902,7 @@
     <link href="http://swiftggteam.github.io/2015/11/17/functional-programming-in-swift/"/>
     <id>http://swiftggteam.github.io/2015/11/17/functional-programming-in-swift/</id>
     <published>2015-11-17T04:00:00.000Z</published>
-    <updated>2015-11-27T01:11:21.330Z</updated>
+    <updated>2015-11-27T01:30:18.108Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/functional-programming-in-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/13<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -911,7 +954,7 @@
     <link href="http://swiftggteam.github.io/2015/11/16/capturing-context-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/11/16/capturing-context-swiftlang/</id>
     <published>2015-11-16T01:00:00.000Z</published>
-    <updated>2015-11-27T01:11:21.330Z</updated>
+    <updated>2015-11-27T01:30:18.108Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/08/27/capturing-context-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-08-27<br>译者：<a href="https://github.com/chenmingbiao" target="_blank" rel="external">CMB</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -956,7 +999,7 @@
     <link href="http://swiftggteam.github.io/2015/11/13/swift-tutorial-for-beginners-part-1/"/>
     <id>http://swiftggteam.github.io/2015/11/13/swift-tutorial-for-beginners-part-1/</id>
     <published>2015-11-13T01:00:00.000Z</published>
-    <updated>2015-11-27T01:11:21.330Z</updated>
+    <updated>2015-11-27T01:30:18.108Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-tutorial-for-beginners-part-1/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-29<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1096,7 +1139,7 @@
     <link href="http://swiftggteam.github.io/2015/11/12/naming-methods-and-functions/"/>
     <id>http://swiftggteam.github.io/2015/11/12/naming-methods-and-functions/</id>
     <published>2015-11-12T01:00:00.000Z</published>
-    <updated>2015-11-27T01:11:21.330Z</updated>
+    <updated>2015-11-27T01:30:18.108Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/08/31/naming-methods-and-functions/" target="_blank" rel="external">原文链接</a>，原文日期：2015-08-31<br>译者：<a href="http://weibo.com/u/2916092907" target="_blank" rel="external">天才175</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1141,7 +1184,7 @@
     <link href="http://swiftggteam.github.io/2015/11/11/c-callbacks-in-swift/"/>
     <id>http://swiftggteam.github.io/2015/11/11/c-callbacks-in-swift/</id>
     <published>2015-11-11T01:00:00.000Z</published>
-    <updated>2015-11-27T01:11:21.330Z</updated>
+    <updated>2015-11-27T01:30:18.108Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Ole Begemann，<a href="http://oleb.net/blog/2015/06/c-callbacks-in-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-06-22<br>译者：<a href="http://www.jianshu.com/users/3b40e55ec6d5/latest_articles" target="_blank" rel="external">小锅</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
 </blockquote>
@@ -1223,7 +1266,7 @@
     <link href="http://swiftggteam.github.io/2015/11/10/ios-undo-and-redo-with-nsundomanager/"/>
     <id>http://swiftggteam.github.io/2015/11/10/ios-undo-and-redo-with-nsundomanager/</id>
     <published>2015-11-10T01:00:00.000Z</published>
-    <updated>2015-11-27T01:11:21.330Z</updated>
+    <updated>2015-11-27T01:30:18.108Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/ios-undo-and-redo-with-nsundomanager/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-13<br>译者：<a href="http://blog.csdn.net/yake_099" target="_blank" rel="external">Yake</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="undefined"></a></p>
 </blockquote>
@@ -1291,7 +1334,7 @@
     <link href="http://swiftggteam.github.io/2015/11/09/what-makes-good-code/"/>
     <id>http://swiftggteam.github.io/2015/11/09/what-makes-good-code/</id>
     <published>2015-11-09T01:00:00.000Z</published>
-    <updated>2015-11-27T01:11:21.330Z</updated>
+    <updated>2015-11-27T01:30:18.108Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/10/28/what-makes-good-code/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-28<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1346,7 +1389,7 @@
     <link href="http://swiftggteam.github.io/2015/11/06/if-let-assignment/"/>
     <id>http://swiftggteam.github.io/2015/11/06/if-let-assignment/</id>
     <published>2015-11-06T01:00:00.000Z</published>
-    <updated>2015-11-27T01:11:21.330Z</updated>
+    <updated>2015-11-27T01:30:18.108Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Weston Hanners，<a href="http://www.alloc-init.com/2015/10/if-let-assignment/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-29<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1393,7 +1436,7 @@
     <link href="http://swiftggteam.github.io/2015/11/05/swift-playground-the-monty-hall-problem/"/>
     <id>http://swiftggteam.github.io/2015/11/05/swift-playground-the-monty-hall-problem/</id>
     <published>2015-11-05T01:00:00.000Z</published>
-    <updated>2015-11-27T01:11:21.330Z</updated>
+    <updated>2015-11-27T01:30:18.108Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-playground-the-monty-hall-problem/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-27<br>译者：<a href="https://github.com/SergioChan" target="_blank" rel="external">SergioChan</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1441,7 +1484,7 @@
     <link href="http://swiftggteam.github.io/2015/11/04/swift-using-local-closures/"/>
     <id>http://swiftggteam.github.io/2015/11/04/swift-using-local-closures/</id>
     <published>2015-11-04T01:00:00.000Z</published>
-    <updated>2015-11-27T01:11:21.330Z</updated>
+    <updated>2015-11-27T01:30:18.108Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-using-local-closures/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-22<br>译者：<a href="http://www.jianshu.com/users/3b40e55ec6d5/latest_articles" target="_blank" rel="external">小锅</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1481,7 +1524,7 @@
     <link href="http://swiftggteam.github.io/2015/11/03/watchconnectivity-introduction-say-goodbye-to-the-spinner/"/>
     <id>http://swiftggteam.github.io/2015/11/03/watchconnectivity-introduction-say-goodbye-to-the-spinner/</id>
     <published>2015-11-03T01:00:00.000Z</published>
-    <updated>2015-11-27T01:11:21.330Z</updated>
+    <updated>2015-11-27T01:30:18.108Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/watchconnectivity-introduction-say-goodbye-to-the-spinner/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-21<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1536,7 +1579,7 @@
     <link href="http://swiftggteam.github.io/2015/11/02/watchconnectivity-say-hello-to-wcsession/"/>
     <id>http://swiftggteam.github.io/2015/11/02/watchconnectivity-say-hello-to-wcsession/</id>
     <published>2015-11-01T16:00:00.000Z</published>
-    <updated>2015-11-27T01:11:21.330Z</updated>
+    <updated>2015-11-27T01:30:18.108Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/watchconnectivity-say-hello-to-wcsession/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-21<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1615,74 +1658,6 @@
       <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
     
       <category term="WatchOS 2" scheme="http://swiftggteam.github.io/categories/WatchOS-2/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[聊一聊单子（Monad）]]></title>
-    <link href="http://swiftggteam.github.io/2015/10/30/lets-talk-about-monads/"/>
-    <id>http://swiftggteam.github.io/2015/10/30/lets-talk-about-monads/</id>
-    <published>2015-10-30T01:00:00.000Z</published>
-    <updated>2015-11-27T01:11:21.330Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>作者：Olivier Halligon，<a href="http://alisoftware.github.io/swift/2015/10/17/lets-talk-about-monads/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-17<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
-</blockquote>
-<!--此处开始正文-->
-<p><a href="http://alisoftware.github.io/swift/2015/10/11/thinking-in-swift-4/" target="_blank" rel="external">之前的一篇文章</a>中，我们用<code>map</code>、<code>flatMap</code>这两种基于<code>Optional</code>和<code>Array</code>类型的方法做了很多好玩儿的事情。但你可能并没有意识到，你已经在不自知的情况下使用了单子<em>(单子，即 Monad：一个函数式编程的术语 - 译者注)</em>。那么什么是单子？</p>
-<a id="more"></a>
-<h3 id="什么是函子（Functors）和单子">什么是函子（Functors）和单子</h3><p>我们在<a href="http://alisoftware.github.io/swift/2015/10/11/thinking-in-swift-4/" target="_blank" rel="external">之前的一篇文章</a>中得知了<code>map</code>和<code>flatMap</code>对于<code>Array</code>和<code>Optional</code>来说有着相似的作用，甚至连函数签名都十分相似。</p>
-<p>实际上这并不是一个特例：很多类型都有类似<code>map</code>和<code>flatMap</code>的方法，而这些方法都有那种类型的签名。这是一种十分常见的模式，这种模式的名字叫做<em>单子</em>。</p>
-<p>你可能之前在网上看过单子这个术语(也可能叫做函子)，还看过尝试解释该术语的各种比喻。但是大部分比喻都让它更加复杂难懂。</p>
-<p><strong>事实上，单子和函子是非常简单的概念。</strong>它可以最终归结为：</p>
-<p><strong>一个函子</strong>是一种表示为<code>Type&lt;T&gt;</code>的类型，它：</p>
-<ul>
-<li>封装了另一种类型（类似于封装了某个<code>T</code>类型的<code>Array&lt;T&gt;</code>或<code>Optional&lt;T&gt;</code>）</li>
-<li>有一个具有<code>(T-&gt;U) -&gt; Type&lt;U&gt;</code>签名的<code>map</code>方法</li>
-</ul>
-<p><strong>一个单子</strong>是一种类型，它：</p>
-<ul>
-<li>是一个函子（所以它封装了一个<code>T</code>类型，拥有一个<code>map</code>方法）</li>
-<li>还有一个具有<code>(T-&gt;Type&lt;U&gt;) -&gt; Type&lt;U&gt;</code>签名的<code>flatMap</code>方法</li>
-</ul>
-<p>这就是对<em>单子</em>和<em>函子</em>所需要了解的一切！<strong>一个<em>单子</em>就是一种带有<code>flatMap</code>方法的类型，一个<em>函子</em>就是一种带有一个<code>map</code>方法的类型。</strong>很简单，不是么？</p>
-<h3 id="各种类型的单子">各种类型的单子</h3><p>你已经学过两种既是<em>函子</em>又是<em>单子</em>的类型，它们是：<code>Array&lt;T&gt;</code>和<code>Optional&lt;T&gt;</code>。当然，这样的类型还有很多。</p>
-<p>实际上这些类型的方法会有其他的名字，不限于<code>map</code>和<code>flatMap</code>。例如一个<a href="http://promisekit.org/" target="_blank" rel="external">Promise</a>也是一个单子，而它的相对应的<code>map</code>和<code>flatMap</code>方法叫做<code>then</code>。</p>
-<p>仔细看一下<code>Promise&lt;T&gt;</code>的<code>then</code>方法签名，思考一下：它拿到未来返回的值<code>T</code>，进行处理，然后要么返回一个新类型<code>U</code>，要么返回一个封装了这个新类型的、新的<code>Promise&lt;U&gt;</code>… 没错，我们又一次得到了相同的方法签名，所以<code>Promise</code>实际上也是一个<code>单子</code>！</p>
-<p>有很多类型都符合单子的定义。比如<code>Result</code>，<code>Signal</code>，… 你还可以想到更多（如果需要的话你甚至可以创建你自己的单子）。</p>
-<p>看出相似性了吗？（为方便对比加了空格）</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Array, Optional, Promise, Result 都是函子</span></span><br><span class="line">   anArray     .<span class="built_in">map</span>( transform: <span class="type">T</span> -&gt;          <span class="type">U</span>  ) -&gt;    <span class="type">Array</span>&lt;<span class="type">U</span>&gt;</span><br><span class="line">anOptional     .<span class="built_in">map</span>( transform: <span class="type">T</span> -&gt;          <span class="type">U</span>  ) -&gt; <span class="type">Optional</span>&lt;<span class="type">U</span>&gt;</span><br><span class="line"> aPromise     .then( transform: <span class="type">T</span> -&gt;          <span class="type">U</span>  ) -&gt;  <span class="type">Promise</span>&lt;<span class="type">U</span>&gt;</span><br><span class="line">   aResult     .<span class="built_in">map</span>( transform: <span class="type">T</span> -&gt;          <span class="type">U</span>  ) -&gt;   <span class="type">Result</span>&lt;<span class="type">U</span>&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Array, Optional, Promise, Result 都是单子</span></span><br><span class="line">   anArray .flatMap( transform: <span class="type">T</span> -&gt;    <span class="type">Array</span>&lt;<span class="type">U</span>&gt; ) -&gt;    <span class="type">Array</span>&lt;<span class="type">U</span>&gt;</span><br><span class="line">anOptional .flatMap( transform: <span class="type">T</span> -&gt; <span class="type">Optional</span>&lt;<span class="type">U</span>&gt; ) -&gt; <span class="type">Optional</span>&lt;<span class="type">U</span>&gt;</span><br><span class="line">  aPromise    .then( transform: <span class="type">T</span> -&gt;  <span class="type">Promise</span>&lt;<span class="type">U</span>&gt; ) -&gt;  <span class="type">Promise</span>&lt;<span class="type">U</span>&gt;</span><br><span class="line">   aResult .flatMap( transform: <span class="type">T</span> -&gt;   <span class="type">Result</span>&lt;<span class="type">U</span>&gt; ) -&gt;   <span class="type">Result</span>&lt;<span class="type">U</span>&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="把map()和flatMap()级联起来">把<code>map()</code>和<code>flatMap()</code>级联起来</h3><p>通常你还可以把这两个方法级联，这会使它们更加强大。例如，最开始你有一个<code>Array&lt;T&gt;</code>，通过使用<code>map</code>来对它做<code>转换</code>操作，得到一个<code>Array&lt;U&gt;</code>，然后对这个<code>Array&lt;U&gt;</code>再级联上一个<code>map</code>，对它做另一个<code>转换</code>操作将其转换成一个<code>Array&lt;Z&gt;</code>，等等。这会让你的代码看起来就像是在生产线上一样：把一个初始值拿来，让他经过一系列的黑盒子处理，然后得到一个最终的结果。这时你就可以说你实际上是在做<em>函数式编程</em>了！</p>
-<p>下面是一个示范如何将<code>map</code>和<code>flatMap</code>的调用级联起来去做多次转换的例子。我们从一个字符串开始，把它按单词分开，然后依次做如下转换：</p>
-<ol>
-<li>统计每个单词的字符个数，做计数</li>
-<li>把每个计数转换成一个相对应的单词</li>
-<li>给每个结果加个后缀</li>
-<li>对每个字符串结果做%转义</li>
-<li>把每个字符串结果转换成一个<code>NSURL</code></li>
-</ol>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> formatter = <span class="type">NSNumberFormatter</span>()</span><br><span class="line">formatter.numberStyle = .<span class="type">SpellOutStyle</span></span><br><span class="line"><span class="keyword">let</span> string = <span class="string">"This is Functional Programming"</span></span><br><span class="line"><span class="keyword">let</span> translateURLs = string</span><br><span class="line">    <span class="comment">// Split the characters into words</span></span><br><span class="line">    .characters.<span class="built_in">split</span>(<span class="string">" "</span>)</span><br><span class="line">    <span class="comment">// Count the number of characters on each word</span></span><br><span class="line">    .<span class="built_in">map</span> &#123; $<span class="number">0</span>.<span class="built_in">count</span> &#125;</span><br><span class="line">     <span class="comment">// Spell out this number of chars (`stringFromNumber` can return nil)</span></span><br><span class="line">    .flatMap &#123; (n: <span class="type">Int</span>) -&gt; <span class="type">String</span>? <span class="keyword">in</span> formatter.stringFromNumber(n) &#125;</span><br><span class="line">     <span class="comment">// add " letters" suffix</span></span><br><span class="line">    .<span class="built_in">map</span> &#123; <span class="string">"<span class="subst">\($<span class="number">0</span>)</span> letters"</span> &#125;</span><br><span class="line">    <span class="comment">// encode the string so it can be used in an NSURL framgment after the # (the stringByAdding… method can return nil)</span></span><br><span class="line">    .flatMap &#123; $<span class="number">0</span>.stringByAddingPercentEncodingWithAllowedCharacters(.<span class="type">URLFragmentAllowedCharacterSet</span>()) &#125;</span><br><span class="line">    <span class="comment">// Build an NSURL using that string (`NSURL(string: …)` is failable: it can return nil)</span></span><br><span class="line">    .flatMap &#123; <span class="type">NSURL</span>(string: <span class="string">"https://translate.google.com/#auto/fr/<span class="subst">\($<span class="number">0</span>)</span>"</span>) &#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(translateURLs)</span><br><span class="line"><span class="comment">// [https://translate.google.com/#auto/fr/four%20letters, https://translate.google.com/#auto/fr/two%20letters, https://translate.google.com/#auto/fr/ten%20letters, https://translate.google.com/#auto/fr/eleven%20letters]</span></span><br></pre></td></tr></table></figure>
-<p>上面这段代码可能需要你研究一会儿，尝试去理解每一个中间阶段的<code>map</code>和<code>flatMap</code>的签名是什么，并搞清楚每一步都发生了什么事。</p>
-<p>但无论如何，你能看出来对于描述一系列处理流程来说，这是一种很好的方式。这种方式可以被看做是一条生产线，从<code>原材料</code>开始，然后对它做多种<code>转换</code>，最终在生产线的尽头拿到<code>成品</code>。</p>
-<h3 id="结论">结论</h3><p>尽管看起来很吓人，但单子很简单。</p>
-<p>但实际上，你怎么叫它们都没关系。只要你知道如果你想把一种封装类型转换成另一种，而某些类型的<code>map</code>和<code>flatMap</code>方法着实能帮到你，这就够了。</p>
-<hr>
-<p>这篇文章是”Swift编程思想”系列的后记。别担心，我还会写很多文章，论述 Swift 在其他应用场景下的美妙之处，不过我不会再拿这些和 ObjC 比较了（因为 Swift 真的好太多了，你现在应该完全把 ObjC 忘掉了 😄）。</p>
-<blockquote>
-<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
-</blockquote>
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>作者：Olivier Halligon，<a href="http://alisoftware.github.io/swift/2015/10/17/lets-talk-about-monads/">原文链接</a>，原文日期：2015-10-17<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles">ray16897188</a>；校对：<a href="http://daizi.me">小袋子</a>；定稿：<a href="https://github.com/numbbbbb">numbbbbb</a></p>
-</blockquote>
-<!--此处开始正文-->
-<p><a href="http://alisoftware.github.io/swift/2015/10/11/thinking-in-swift-4/">之前的一篇文章</a>中，我们用<code>map</code>、<code>flatMap</code>这两种基于<code>Optional</code>和<code>Array</code>类型的方法做了很多好玩儿的事情。但你可能并没有意识到，你已经在不自知的情况下使用了单子<em>(单子，即 Monad：一个函数式编程的术语 - 译者注)</em>。那么什么是单子？</p>]]>
-    
-    </summary>
-    
-      <category term="Crunchy Development" scheme="http://swiftggteam.github.io/tags/Crunchy-Development/"/>
-    
-      <category term="Swift 进阶" scheme="http://swiftggteam.github.io/categories/Swift-%E8%BF%9B%E9%98%B6/"/>
     
   </entry>
   
