@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="baidu-site-verification" content="vqJV77bZM6" />
   
-    <title>Implementing printing versions of try? and try! | SwiftGG 翻译组 - 高质量的 Swift 译文网站</title>
+    <title>实现可打印内容的 try? 和 try! | SwiftGG 翻译组 - 高质量的 Swift 译文网站</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="SwiftGG">
@@ -16,22 +16,22 @@
     <meta name="description" content="作者：Erica Sadun，原文链接，原文日期：2015/11/5译者：pmst；校对：千叶知风；定稿：numbbbbb
 
 &amp;lt;!--此处开始正文--&amp;gt;
-Implementing printing versions of “try?” and “try!” - on steroids!Swift 2 中的try?运算符在可选类型(optionals)和错误处理机制中抛出 error 转换为输出 n">
+Swift 2 中的try?运算符在可选类型(optionals)和错误处理机制中抛出 error 转换为输出 nil 结果值之间建立了桥接。这样你就可以使用 guard 语句和条件绑定，只关注处理成功的用例(case)。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Implementing printing versions of try? and try!">
+<meta property="og:title" content="实现可打印内容的 try? 和 try!">
 <meta property="og:url" content="http://swiftggteam.github.io/2015/11/27/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/index.html">
 <meta property="og:site_name" content="SwiftGG">
 <meta property="og:description" content="作者：Erica Sadun，原文链接，原文日期：2015/11/5译者：pmst；校对：千叶知风；定稿：numbbbbb
 
 &amp;lt;!--此处开始正文--&amp;gt;
-Implementing printing versions of “try?” and “try!” - on steroids!Swift 2 中的try?运算符在可选类型(optionals)和错误处理机制中抛出 error 转换为输出 n">
-<meta property="og:updated_time" content="2015-11-27T01:30:18.108Z">
+Swift 2 中的try?运算符在可选类型(optionals)和错误处理机制中抛出 error 转换为输出 nil 结果值之间建立了桥接。这样你就可以使用 guard 语句和条件绑定，只关注处理成功的用例(case)。">
+<meta property="og:updated_time" content="2015-11-27T01:40:18.868Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Implementing printing versions of try? and try!">
+<meta name="twitter:title" content="实现可打印内容的 try? 和 try!">
 <meta name="twitter:description" content="作者：Erica Sadun，原文链接，原文日期：2015/11/5译者：pmst；校对：千叶知风；定稿：numbbbbb
 
 &amp;lt;!--此处开始正文--&amp;gt;
-Implementing printing versions of “try?” and “try!” - on steroids!Swift 2 中的try?运算符在可选类型(optionals)和错误处理机制中抛出 error 转换为输出 n">
+Swift 2 中的try?运算符在可选类型(optionals)和错误处理机制中抛出 error 转换为输出 nil 结果值之间建立了桥接。这样你就可以使用 guard 语句和条件绑定，只关注处理成功的用例(case)。">
 
     
     <link rel="alternative" href="/atom.xml" title="SwiftGG" type="application/atom+xml">
@@ -89,7 +89,7 @@ Implementing printing versions of “try?” and “try!” - on steroids!Swift 
   <header class="article-info clearfix">
     <h1 itemprop="name">
       
-        <a href="/2015/11/27/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/" title="Implementing printing versions of try? and try!" itemprop="url">Implementing printing versions of try? and try!</a>
+        <a href="/2015/11/27/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/" title="实现可打印内容的 try? 和 try!" itemprop="url">实现可打印内容的 try? 和 try!</a>
     </h1>
     <p class="article-time">
       <time datetime="2015-11-27T01:20:00.000Z" itemprop="datePublished"><i class="icon-time"></i> 2015-11-27</time>
@@ -102,7 +102,7 @@ Implementing printing versions of “try?” and “try!” - on steroids!Swift 
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Implementing_printing_versions_of_“try?”_and_“try!”_-_on_steroids!"><span class="toc-number">1.</span> <span class="toc-text">Implementing printing versions of “try?” and “try!” - on steroids!</span></a></li></ol>
+			
 		
 		</div>
 		
@@ -110,7 +110,7 @@ Implementing printing versions of “try?” and “try!” - on steroids!Swift 
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/11/05/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/5<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
 <!--此处开始正文-->
-<h3 id="Implementing_printing_versions_of_“try?”_and_“try!”_-_on_steroids!">Implementing printing versions of “try?” and “try!” - on steroids!</h3><p>Swift 2 中的<code>try?</code>运算符在可选类型(optionals)和错误处理机制中抛出 error 转换为输出 nil 结果值之间建立了桥接。这样你就可以使用 guard 语句和条件绑定，只关注处理成功的用例(case)。<br><a id="more"></a></p>
+<p>Swift 2 中的<code>try?</code>运算符在可选类型(optionals)和错误处理机制中抛出 error 转换为输出 nil 结果值之间建立了桥接。这样你就可以使用 guard 语句和条件绑定，只关注处理成功的用例(case)。<br><a id="more"></a></p>
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">/// try? 没有错误输出正确结果值</span></span><br><span class="line"><span class="comment">///      有错误发生，输出nil值</span></span><br><span class="line"><span class="keyword">guard</span> <span class="keyword">let</span> foo = <span class="keyword">try</span>? somethingThatMayThrow <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">//处理错误情况并退出作用域</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>倘若你使用这种方式进行错误处理，需要注意，它并不会返回 error 信息。本文想说的是：抛弃错误信息是一件让人郁闷的事情！为什么不有选择地使用<code>try?</code>和<code>try!</code>来自动建立上下文并打印错误信息呢？</p>
 <p>前阵子，我分享了一个模仿<code>try?</code>语句的基础实现，可以保留错误信息。下面的实现首先打印返回的错误，接着继续返回你想要得到的<code>try?</code>的处理结果：结果是一个值或 nil。</p>
@@ -149,7 +149,7 @@ Implementing printing versions of “try?” and “try!” - on steroids!Swift 
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://swiftggteam.github.io/2015/11/27/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/" data-title="Implementing printing versions of try? and try! | SwiftGG" data-tsina="null" class="share clearfix">
+	  <div data-url="http://swiftggteam.github.io/2015/11/27/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/" data-title="实现可打印内容的 try? 和 try! | SwiftGG" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -175,7 +175,7 @@ Implementing printing versions of “try?” and “try!” - on steroids!Swift 
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/11/27/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/" data-title="Implementing printing versions of try? and try!" data-url="http://swiftggteam.github.io/2015/11/27/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/"></div>
+	<div class="ds-thread" data-thread-key="2015/11/27/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/" data-title="实现可打印内容的 try? 和 try!" data-url="http://swiftggteam.github.io/2015/11/27/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/"></div>
 </section>
 
 
@@ -185,7 +185,7 @@ Implementing printing versions of “try?” and “try!” - on steroids!Swift 
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Implementing_printing_versions_of_“try?”_and_“try!”_-_on_steroids!"><span class="toc-number">1.</span> <span class="toc-text">Implementing printing versions of “try?” and “try!” - on steroids!</span></a></li></ol>
+ 
  
   </div>
 
