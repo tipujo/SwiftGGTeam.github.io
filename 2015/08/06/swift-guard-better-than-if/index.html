@@ -27,7 +27,7 @@ Swift 2.0 带来了令人激动的guard语句。但很多人还是不太理解gu
 这是个有意思的问题，所以到底为什么guard就是比if要好呢？让我们来好好分析一下……">
 <meta property="og:image" content="http://swiftggteam.github.io/img/articles/swift-guard-better-than-if/Screen-Shot-2015-07-16-at-5.47.01-AM.png">
 <meta property="og:image" content="http://swiftggteam.github.io/img/articles/swift-guard-better-than-if/Recipe_Railway_Transparent.png">
-<meta property="og:updated_time" content="2015-12-04T01:04:22.997Z">
+<meta property="og:updated_time" content="2015-12-04T01:47:28.470Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="为什么 guard 比 if 好">
 <meta name="twitter:description" content="作者：Natasha，原文链接，原文日期：2015/07/16译者：靛青K；校对：numbbbbb；定稿：numbbbbb
@@ -322,6 +322,10 @@ Swift 2.0 带来了令人激动的guard语句。但很多人还是不太理解gu
 		  
 		
 		  
+			<li><a href="/categories/Jacob-Bandes-Storch/" title="Jacob Bandes-Storch">Jacob Bandes-Storch<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/Swift-入门/" title="Swift 入门">Swift 入门<sup>47</sup></a></li>
 		  
 		
@@ -371,19 +375,11 @@ Swift 2.0 带来了令人激动的guard语句。但很多人还是不太理解gu
 			
 		
 			
-				<li><a href="/tags/Tomasz-Szulc/" title="Tomasz Szulc">Tomasz Szulc<sup>4</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/IOSCREATOR/" title="IOSCREATOR">IOSCREATOR<sup>4</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/AppCoda/" title="AppCoda">AppCoda<sup>4</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Ole-Begemann/" title="Ole Begemann">Ole Begemann<sup>4</sup></a></li>
+				<li><a href="/tags/IOSCREATOR/" title="IOSCREATOR">IOSCREATOR<sup>4</sup></a></li>
 			
 		
 			
@@ -392,6 +388,14 @@ Swift 2.0 带来了令人激动的guard语句。但很多人还是不太理解gu
 		
 			
 				<li><a href="/tags/APPVENTURE/" title="APPVENTURE">APPVENTURE<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ole-Begemann/" title="Ole Begemann">Ole Begemann<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Tomasz-Szulc/" title="Tomasz Szulc">Tomasz Szulc<sup>4</sup></a></li>
 			
 		
 			
@@ -411,7 +415,11 @@ Swift 2.0 带来了令人激动的guard语句。但很多人还是不太理解gu
 			
 		
 			
-				<li><a href="/tags/Benedikt-Terhechte/" title="Benedikt Terhechte">Benedikt Terhechte<sup>1</sup></a></li>
+				<li><a href="/tags/Swift-进阶/" title="Swift 进阶">Swift 进阶<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Big-O-Note-Taking/" title="Big O Note-Taking">Big O Note-Taking<sup>1</sup></a></li>
 			
 		
 			
@@ -427,7 +435,7 @@ Swift 2.0 带来了令人激动的guard语句。但很多人还是不太理解gu
 			
 		
 			
-				<li><a href="/tags/Big-O-Note-Taking/" title="Big O Note-Taking">Big O Note-Taking<sup>1</sup></a></li>
+				<li><a href="/tags/Benedikt-Terhechte/" title="Benedikt Terhechte">Benedikt Terhechte<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -753,6 +761,35 @@ $(document).ready(function(){
 
 <!-- MathJax Begin -->
 <!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
 
 
 <!-- MathJax End -->

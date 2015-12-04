@@ -4,7 +4,7 @@
   <subtitle><![CDATA[走心的 Swift 翻译组]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://swiftggteam.github.io/"/>
-  <updated>2015-12-04T01:04:22.993Z</updated>
+  <updated>2015-12-04T01:47:28.470Z</updated>
   <id>http://swiftggteam.github.io/</id>
   
   <author>
@@ -15,11 +15,151 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[斐波那契数列型-从数学角度学习 Swift 序列]]></title>
+    <link href="http://swiftggteam.github.io/2015/12/04/the-fibonacci-sequencetype/"/>
+    <id>http://swiftggteam.github.io/2015/12/04/the-fibonacci-sequencetype/</id>
+    <published>2015-12-03T16:00:00.000Z</published>
+    <updated>2015-12-04T01:47:28.470Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>作者：Jacob Bandes-Storch，<a href="http://bandes-stor.ch/blog/2015/08/05/the-fibonacci-sequencetype/" target="_blank" rel="external">原文链接</a>，原文日期：2015/08/05<br>译者：<a href="undefined">Lou</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
+<p>这篇博文启发自<a href="http://codereview.stackexchange.com/questions/60875/project-euler-2-even-fibonacci-numbers-in-swift" target="_blank" rel="external">Code Review.SE</a>上的一个讨论，同时<a href="https://xkcd.com/356/" target="_blank" rel="external">nerd-sniped</a>上的关于数学的有趣的学习。让我对数学和 Swift 的结合有了兴趣。所以我花了一段时间来把这些知识整理成一篇博文，特别是自从我完成了对我网站重建的第一步以后。更重要的是，我希望我能更勤勉的更新我的博客，这8年我只写了一篇而已，希望大家能对我的博客感兴趣。<br>这篇博文的目标对于初学者来讲，比较容易理解，同时也提供给那些已经对这个概念熟悉的人一些有用的细节和例子。希望大家能给我反馈。</p>
+</blockquote>
+<a id="more"></a> 
+<p>假设你第一次学习 Swift，你实在是太兴奋了，花了一天时间反复练习，等到第二天就成了专家。于是第二天你就开始传授课程来教别人。</p>
+<p>当然，我很愿意成为你的第一个学生。我也学的很快，一天学下来，我也可以教别人 Swift 了。我俩继续教别人，其他的学生也学的很快，马上跟上进度，都可以第二天就去教别人。</p>
+<p>这是个多么让人兴奋的世界呀。但是问题来了，照这样的进度下去，Swift 学习者将大量涌入城市，基础设施将无法支撑庞大的人口。</p>
+<p>市长叫来最好的科学家们：“我们需要精确的数学模型！<strong>每天到底有多少人会使用 Swift？什么时候这种疯狂会终止？</strong>”</p>
+<h3 id="搭建数学模型">搭建数学模型</h3><p>为了方便理解问题，让我们画一副图来表示最初几天发生的事：<br><img src="/content/images/2015/08/Screen-Shot-2015-08-29-at-08-30-16.png" alt=""></p>
+<p>仔细观察我们发现，特定的一天总的 Swifters 数量（我们用 \(S_{今天}\) 来表示）等于前一天的数量加上每个老师可以所教的学生。</p>
+<p>$$ S_{今天} = S_{昨天} + 老师数 $$</p>
+<p>那么老师数目是多少呢？记住，一个人需要花一天时间学习才能变成 Swift 专家，所以前天的每一个人都能成为老师，都可以教一个学生：\(S_{今天} = S_{昨天} + S_{前天}\)。</p>
+<p>这下公式就简单了！我们可以用手算了：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="number">0</span> + <span class="number">1</span> = <span class="number">1</span></span><br><span class="line">    <span class="number">1</span> + <span class="number">1</span> = <span class="number">2</span></span><br><span class="line">        <span class="number">1</span> + <span class="number">2</span> = <span class="number">3</span></span><br><span class="line">            <span class="number">2</span> + <span class="number">3</span> = <span class="number">5</span></span><br><span class="line">                <span class="number">3</span> + <span class="number">5</span> = <span class="number">8</span></span><br><span class="line">                	   ...</span><br></pre></td></tr></table></figure>
+<p>如果这个数列看上去有点熟悉，那是因为这是<strong>斐波纳契数列</strong>。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">8</span>,<span class="number">13</span>,<span class="number">21</span>,<span class="number">34</span>,<span class="number">55</span>,<span class="number">89</span>,<span class="number">144</span>,<span class="number">233</span>,<span class="number">377</span>,<span class="number">610</span>,...</span><br></pre></td></tr></table></figure>
+<p>不管你是否喜欢，我们的世界里处处都有斐波那契数的存在：<a href="http://www.maths.surrey.ac.uk/hosted-sites/R.Knott/Fibonacci/fibnat.html" target="_blank" rel="external">花瓣</a>的生长遵循斐波那契数列，大树的枝丫是斐波那契树丫，当然也有人吐槽说这不过是<a href="http://www.lhup.edu/~dsimanek/pseudo/fibonacc.htm" target="_blank" rel="external">确认偏误</a>罢了。我们发现，这个数列是基于非常简单的形式的，非常容易计算：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> i = <span class="number">0</span></span><br><span class="line"><span class="keyword">var</span> j = <span class="number">1</span></span><br><span class="line"><span class="keyword">while</span> <span class="literal">true</span> &#123;</span><br><span class="line">    (i, j) = (j, i + j)</span><br><span class="line">    <span class="built_in">print</span>(i) <span class="comment">// 打印1, 然后打印1, 继续打印2, 3, 5, 8, 13, 21, 34, 55...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>大功告成！</p>
+<p>哈哈，骗你的。我们才刚刚开始。计算机美妙的地方就在于可以帮助我们快速的解决用手算很麻烦的问题。让我们尝试几个例子。</p>
+<h4 id="42天后有多少个_Swifter？">42天后有多少个 Swifter？</h4><p>前面我们已经差不多解决了这个问题，只要在42那边停止循环即可。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> i = <span class="number">0</span></span><br><span class="line"><span class="keyword">var</span> j = <span class="number">1</span></span><br><span class="line"><span class="keyword">for</span> <span class="number">_</span> <span class="keyword">in</span> <span class="number">0</span>..&lt;<span class="number">42</span> &#123;</span><br><span class="line">    (i, j) = (j, i + j)</span><br><span class="line">&#125;</span><br><span class="line">i <span class="comment">// returns 267914296</span></span><br></pre></td></tr></table></figure>
+<h4 id="那么第_n_天呢？">那么第 n 天呢？</h4><p>和之前的问题类似，我们可以将其抽象成一个函数。用 n 来代替 42。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">nthFibonacci</span><span class="params">(n: Int)</span></span> -&gt; <span class="type">Int</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">var</span> i = <span class="number">0</span></span><br><span class="line">    <span class="keyword">var</span> j = <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> <span class="number">_</span> <span class="keyword">in</span> <span class="number">0</span>..&lt;n &#123;</span><br><span class="line">        (i, j) = (j, i + j)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> i</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">nthFibonacci(<span class="number">42</span>) <span class="comment">// 返回 267914296</span></span><br><span class="line">nthFibonacci(<span class="number">64</span>) <span class="comment">// 返回 10610209857723</span></span><br></pre></td></tr></table></figure>
+<h4 id="第一周到底写了多少_Swift？">第一周到底写了多少 Swift？</h4><p>为了简化问题，假定每个人写代码的速度是一样的。知道每个人每天写的代码量后，我们只需要把斐波那契数加起来即可。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">fibonacciSumUpTo</span><span class="params">(n: Int)</span></span> -&gt; <span class="type">Int</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">var</span> sum = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span>..&lt;n &#123;</span><br><span class="line">        sum += nthFibonacci(i) </span><br><span class="line">        <span class="comment">// 第 i 天 使用 Swift 写代码的人数</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sum</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fibonacciSumUpTo(<span class="number">7</span>) <span class="comment">// 返回 33</span></span><br></pre></td></tr></table></figure>
+<h4 id="逐步简化">逐步简化</h4><p>不要急，Swift 的标准库里面已经有了一个函数叫做 <a href="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Reference/Swift_SequenceType_Protocol/index.html#//apple_ref/swift/intfm/SequenceType/s:FeRq_Ss12SequenceType_SsS_6reduceu__Rq_S__Fq_FTqd__7combineFTqd__qqq_S_9GeneratorSs13GeneratorType7Element_qd___qd__" target="_blank" rel="external">reduce</a>，可以将数字加在一起。我们该怎么写呢?</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">[<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">8</span>, <span class="number">13</span>].<span class="built_in">reduce</span>(<span class="number">0</span>, combine: +) <span class="comment">// 返回 33</span></span><br></pre></td></tr></table></figure>
+<p>这样可行，但是我们需要把每个数字都写出来。要是能用 nthFibonacci() 就好了。</p>
+<p>既然这些是连续的斐波那契数，我们可以简单的使用1到7的范围：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>].<span class="built_in">map</span>(nthFibonacci) </span><br><span class="line"><span class="comment">// 返回 [1, 1, 2, 3, 5, 8, 13]</span></span><br><span class="line"></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>].<span class="built_in">map</span>(nthFibonacci).<span class="built_in">reduce</span>(<span class="number">0</span>, combine: +)</span><br><span class="line"> <span class="comment">// 返回 33</span></span><br></pre></td></tr></table></figure>
+<p>或者我们可以更简单，用 Swift 的<a href="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Reference/Swift_StandardLibrary_Operators/index.html" target="_blank" rel="external">range operator</a>(…):</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">(<span class="number">1</span>...<span class="number">7</span>).<span class="built_in">map</span>(nthFibonacci).<span class="built_in">reduce</span>(<span class="number">0</span>, combine: +) <span class="comment">// 返回 33</span></span><br></pre></td></tr></table></figure>
+<p>这等同于 <code>fibonacciSumUpTo</code></p>
+<h4 id="性能优化">性能优化</h4><p>看上去很不错，但是不要忘了 nthFibonacci(i) 从0开始加到 i，所需的工作量将随着i线性增加。</p>
+<p>而且我们所写的 <code>(1...n).map(nthFibonacci).reduce(0, combine: +)</code> 从1到n每次凑要运行 nthFibonacci， 这将大大增加运算量。</p>
+<blockquote>
+<p>注意：计算越简单的斐波那契数，真实耗费每一步的时间几乎可以忽略不计（开启性能优化）。这篇文章之前的草稿版本包括了时间消耗的表格，但是我把表格去掉了，怕误导大家。取而代之的是，我们讨论的是一个相对的时间/性能的复杂度。</p>
+</blockquote>
+<p>让我们将 <code>nthFibonacci</code> 和 <code>fibonacciSumUpTo</code> 两个函数结合来减少一点运算量：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">fastFibonacciSumUpTo</span><span class="params">(n: Int)</span></span> -&gt; <span class="type">Int</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">var</span> sum = <span class="number">0</span></span><br><span class="line">    <span class="keyword">var</span> i = <span class="number">0</span></span><br><span class="line">    <span class="keyword">var</span> j = <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> <span class="number">_</span> <span class="keyword">in</span> <span class="number">0</span>..&lt;n &#123;</span><br><span class="line">        (i, j) = (j, i + j) <span class="comment">// 计算下一个数</span></span><br><span class="line">        sum += i <span class="comment">// 更新总数</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sum</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fastFibonacciSumUpTo(<span class="number">7</span>) <span class="comment">// 返回 33</span></span><br></pre></td></tr></table></figure>
+<p>现在我们已经将 <code>fastFibonacciSumUpTo</code> 的复杂度从二次降为线性了。</p>
+<p>但是为了实现这个，我们不得不写了一个更加复杂的方程。我们在分离相关度(把计算斐波那契数和求和分为2步) 和优化性能之间进行了权衡。</p>
+<p>我们的计划是用 Swift 的标准库来简化和解开我们的代码。首先我们来总结一些我们要做什么。</p>
+<ol>
+<li>将前n个斐波那契数用线性时间(linear time)和常量空间(constant space)的方式<strong>加起来</strong>。</li>
+<li>将<strong>前</strong>n个斐波那契数用<strong>线性时间(linear time)和常量空间(constant space)的方式</strong>加起来。</li>
+<li>将前n个<strong>斐波那契数</strong>用线性时间(linear time)和常量空间(constant space)的方式加起来。</li>
+</ol>
+<p>幸运的是，Swift 正好有我们需要的功能！</p>
+<p>1、 <code>reduce</code> 函数，用 <code>+</code> 操作符来结合。</p>
+<p>2、 <code>prefix</code> 函数和<a href="https://zh.wikipedia.org/wiki/%E6%83%B0%E6%80%A7%E6%B1%82%E5%80%BC" target="_blank" rel="external">惰性求值</a>(Lazy Evaluation)</p>
+<blockquote>
+<p>注意：prefix只有在 Xcode 7 beta 4中可用，作为 CollectionTypes 的一个全局函数使用，但其实已经在 OS X 10.11 beta 5 API 作为 SequenceType 的扩展出现了。我期望在下一个 Xcode beta 有一个延迟实现的版本；现在这里有一个<a href="https://gist.github.com/jtbandes/d8a600c51fa7e93162fa" target="_blank" rel="external">自定义的实现</a>。</p>
+</blockquote>
+<p>3、 定制数列，使用数列型协议(<a href="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Reference/Swift_SequenceType_Protocol/index.html" target="_blank" rel="external">SequenceType protocol</a>)</p>
+<h3 id="定制数列">定制数列</h3><p>Swift 的 <code>for-in</code> 循环的基础是 <code>SequenceType</code> 协议。所有遵循这个协议的可以循环。</p>
+<p>想要成为一个 SequenceType 只有一个要求，就是提供一个创建器( <code>Generator</code> )：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">SequenceType</span> </span>&#123;</span><br><span class="line">    <span class="keyword">typealias</span> <span class="type">Generator</span>: <span class="type">GeneratorType</span></span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">generate</span><span class="params">()</span></span> -&gt; <span class="type">Generator</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>而成为一个 <code>GeneratorType</code> 只有一个要求，就是生产元素( <code>Elements</code> )</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">GeneratorType</span> </span>&#123;</span><br><span class="line">    <span class="keyword">typealias</span> <span class="type">Element</span></span><br><span class="line">    <span class="keyword">mutating</span> <span class="func"><span class="keyword">func</span> <span class="title">next</span><span class="params">()</span></span> -&gt; <span class="type">Element</span>?</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>所以一个数列就是一个可以提供元素创建器的东西。</p>
+<p>最快创建定制数列的方法就是用<code>AnySequence</code>。这是一个内建的结构体，可以响应<code>generate()</code>，去调用一个你在初始化时所给的闭包。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">AnySequence</span>&lt;<span class="title">Element</span>&gt;: <span class="title">SequenceType</span> </span>&#123;</span><br><span class="line">    <span class="keyword">init</span>&lt;<span class="type">G</span>: <span class="type">GeneratorType</span> <span class="keyword">where</span> <span class="type">G</span>.<span class="type">Element</span> == <span class="type">Element</span>&gt;</span><br><span class="line">    (<span class="number">_</span> makeUnderlyingGenerator: () -&gt; <span class="type">G</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>类似的，我们可以用 <code>AnyGenerator</code> 和 <code>anyGenerator</code> 函数来造创建器。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">anyGenerator</span><span class="generics">&lt;Element&gt;</span><span class="params">(body: <span class="params">()</span></span></span> -&gt; <span class="type">Element</span>?) -&gt; </span><br><span class="line"><span class="type">AnyGenerator</span>&lt;<span class="type">Element</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>所以写一个斐波那契数列就相当简单了：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> fibonacciNumbers = <span class="type">AnySequence</span> &#123; () -&gt; <span class="type">AnyGenerator</span>&lt;<span class="type">Int</span>&gt; <span class="keyword">in</span></span><br><span class="line">    <span class="comment">// 为了创建一个生成器，我们首先需要建立一些状态...</span></span><br><span class="line">    <span class="keyword">var</span> i = <span class="number">0</span></span><br><span class="line">    <span class="keyword">var</span> j = <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">anyGenerator</span> &#123;</span><br><span class="line">        <span class="comment">// ... 然后生成器进行改变</span></span><br><span class="line">        <span class="comment">// 调用 next() 一次获取每一项</span></span><br><span class="line">        <span class="comment">// (代码看起来是不是很熟悉？)</span></span><br><span class="line">        (i, j) = (j, i + j)</span><br><span class="line">        <span class="keyword">return</span> i</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在 <code>fibonacciNumbers</code> 是一个 <code>SequenceType</code>，我们可以使用 <code>for</code> 循环：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> f <span class="keyword">in</span> fibonacciNumbers &#123;</span><br><span class="line">    <span class="built_in">print</span>(f) <span class="comment">// 打印 1, 然后打印 1, 继续打印 2, 3, 5, 8, 13, 21, 34, 55...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>而且我们可以自由的使用 <code>prefix</code>:</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> f <span class="keyword">in</span> fibonacciNumbers.<span class="keyword">prefix</span>(<span class="number">7</span>) &#123;</span><br><span class="line">    <span class="built_in">print</span>(f) <span class="comment">// 打印 1, 1, 2, 3, 5, 8, 13, 然后停止.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后我们可以用 <code>reduce</code> 来加起来：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">fibonacciNumbers.<span class="keyword">prefix</span>(<span class="number">7</span>).<span class="built_in">reduce</span>(<span class="number">0</span>, combine: +) <span class="comment">// 返回 33</span></span><br></pre></td></tr></table></figure>
+<p>太棒了！这是线性时间的，常量空间的，最重要的是这非常清晰的展示了我们所要做的，而不需要使用 <code>...</code> 和 <code>map</code>。</p>
+<blockquote>
+<p>说明：如果你在playground里运行这段代码，可能会发现这个版本比之前的要慢。这个版本只改变了常数部分，复杂度本身没有变化，但是性能却有明显下降。和 fastFibonacciSumUpTo 进行对比可以发现，这段代码把单一的循环改成了函数调用，这可能就是性能降低的原因。没错，我们又需要进行权衡。</p>
+</blockquote>
+<h3 id="灵活度">灵活度</h3><p>目前的目标只是给了我们一个更好给工具去解答有关斐波那契数的问题。深入钻研来看，我们可能会问：为什么我要先研究斐波那契数？这不过是这个数列恰好符合我们所发现的规律：</p>
+<p>$$S_{今天} = S_{昨天} + S_{前天}$$</p>
+<p>这个公式在我们代码中表现为 <code>(i, j) = (j, i + j)</code>。但是这深藏了 <code>AnySequence</code> 和 <code>anyGenerator</code>。如果我们要写更加清晰的代码 — 可以描述我们想要解决的问题、不需要仔细分析 — 我们最好写的更加明显点。</p>
+<p>斐波那契数列常写成这种形式：</p>
+<p>$$F_{n} = F_{n-1} + F_{n-2}$$</p>
+<p>这是类似的形式，但是最重要的是这表现出递推关系。这种数学关系指的是数列里某一个数的值取决于前面几个数的值。</p>
+<p>定义递推关系的时候，首先要定义初始项。我们不能简单的利用 <code>(i, j) = (j, i + j)</code> 来计算斐波那契数如果我们不知道什么是 i 什么是 j。在我们的例子里，我们的初始项为 <code>i = 0</code> 和 <code>j = 1</code> —— 或者，我们可以把初始值定为1和1，因为我们是等第一个值返回以后才进行计算的。</p>
+<p>递推关系的<strong>阶数</strong>(order)是指每一步所需的前面项的个数，而且初始项数目必须等于阶数（不然的话我们就没有足够的信息来计算下一项）。</p>
+<p>现在我们可以来设计API了！你只需提供初始项和递推就可以创建递推关系了：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">RecurrenceRelation</span>&lt;<span class="title">Element</span>&gt;</span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="comment">/// - Parameter initialTerms: The first terms of the sequence.</span></span><br><span class="line">    <span class="comment">///     The `count` of this array is </span></span><br><span class="line">    <span class="comment">///     the **order** of the recurrence.</span></span><br><span class="line">    <span class="comment">/// - Parameter recurrence: </span></span><br><span class="line">    			<span class="type">Produces</span> the `n`th term from the previous terms.</span><br><span class="line">    			</span><br><span class="line">    <span class="comment">/// - 参数 initialTerms: 序列的第一个元素集合.</span></span><br><span class="line">    <span class="comment">/// 数组的个数也就代表这个递推的排序。</span></span><br><span class="line">   	<span class="comment">/// - 参数 recurrence：根据前面的元素推算出第 n 个元素</span></span><br><span class="line">    <span class="keyword">init</span>(<span class="number">_</span> initialTerms: [<span class="type">Element</span>], <span class="number">_</span> recurrence: </span><br><span class="line">    (<span class="type">T</span>: <span class="type">UnsafePointer</span>&lt;<span class="type">Element</span>&gt;, n: <span class="type">Int</span>) -&gt; <span class="type">Element</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>（我们在使用 <code>UnsafePointer&lt;Element&gt;</code> 而不是 <code>[Element]</code>，这样我们就可以使用 <code>T[n]</code> 而不需要存储先前计算的项）。</p>
+<p>现在，我们的初始任务变得更加简单了。<strong>多少人在使用Swift？</strong> 只要用这个公式即可：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> peopleWritingSwift = <span class="type">RecurrenceRelation</span>([<span class="number">1</span>, <span class="number">1</span>]) </span><br><span class="line">&#123; <span class="type">T</span>, n <span class="keyword">in</span> <span class="type">T</span>[n-<span class="number">1</span>] + <span class="type">T</span>[n-<span class="number">2</span>] &#125;</span><br><span class="line"></span><br><span class="line">peopleWritingSwift.<span class="keyword">prefix</span>(<span class="number">7</span>).<span class="built_in">reduce</span>(<span class="number">0</span>, combine: +) <span class="comment">// 返回 33</span></span><br></pre></td></tr></table></figure>
+<h4 id="那么，如何来实现这个API呢?">那么，如何来实现这个API呢?</h4><p>我们来做吧。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">RecurrenceRelation</span>&lt;<span class="title">Element</span>&gt;: <span class="title">SequenceType</span>, <span class="title">GeneratorType</span></span><br><span class="line"></span>&#123;</span><br></pre></td></tr></table></figure>
+<p>首先我们需要一些内存来存储元素，还需要一个引用来链接到我们所要传递的闭包。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">let</span> recurrence: (<span class="type">T</span>: <span class="type">UnsafePointer</span>&lt;<span class="type">Element</span>&gt;, n: <span class="type">Int</span>) -&gt; <span class="type">Element</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">var</span> storage: [<span class="type">Element</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">/// - 参数 initialTerms: 序列的第一个元素集合.</span></span><br><span class="line"><span class="comment">/// 数组的个数也就代表这个递推的排序。</span></span><br><span class="line"><span class="comment">/// - 参数 recurrence：根据前面的元素推算出第 n 个元素</span></span><br><span class="line"><span class="keyword">init</span>(<span class="number">_</span> initialTerms: [<span class="type">Element</span>], <span class="number">_</span> recurrence: (<span class="type">T</span>: <span class="type">UnsafePointer</span>&lt;<span class="type">Element</span>&gt;, n: <span class="type">Int</span>) -&gt; <span class="type">Element</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">self</span>.recurrence = recurrence</span><br><span class="line">    storage = initialTerms</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>为了简单点，我们同时采用 <code>SequenceType</code> and <code>GeneratorType</code>。对于 <code>generate()</code>，我们只返回 <code>self</code>。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// SequenceType requirement</span></span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">generate</span><span class="params">()</span></span> -&gt; <span class="type">RecurrenceRelation</span>&lt;<span class="type">Element</span>&gt; &#123; <span class="keyword">return</span> <span class="keyword">self</span> &#125;</span><br></pre></td></tr></table></figure>
+<p>接下来，每次调用 <code>next()</code>，我们调用 <code>recurrence</code> 来产生下一个值， 并且将其存在 <code>storage</code> 里。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">    <span class="comment">// GeneratorType requirement</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> iteration = <span class="number">0</span></span><br><span class="line">    <span class="keyword">mutating</span> <span class="func"><span class="keyword">func</span> <span class="title">next</span><span class="params">()</span></span> -&gt; <span class="type">Element</span>?</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 首先推算出所有的初始元素值</span></span><br><span class="line">        <span class="keyword">if</span> iteration &lt; storage.<span class="built_in">count</span> &#123; <span class="keyword">return</span> storage[iteration++] &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">let</span> newValue = storage.withUnsafeBufferPointer &#123; buf <span class="keyword">in</span></span><br><span class="line">            <span class="comment">// 调用闭包，传入内存地址中的指针的偏移量，知道 T[n-1] 是数组中最后一个元素</span></span><br><span class="line">            <span class="keyword">return</span> recurrence(<span class="type">T</span>: buf.baseAddress + </span><br><span class="line">            storage.<span class="built_in">count</span> - iteration, n: iteration)</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 存储下一个的值，丢弃到最旧的值</span></span><br><span class="line">        storage.removeAtIndex(<span class="number">0</span>)</span><br><span class="line">        storage.append(newValue)</span><br><span class="line">        iteration++</span><br><span class="line">        <span class="keyword">return</span> newValue</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>更新：<a href="https://twitter.com/oisdk/status/629296752538066945" target="_blank" rel="external">@oisdk</a>指出 <code>UnsafePointer</code> 不是必须的。在原来的版本中，我使用它是为了让 n 的值在 recurrence 中更加精确 - 但是自从 recurrence 只依赖与前一项，而不是 n 本身时，n 的值不再改变时，这是ok的。 所以这个版本运行良好。不使用 <code>UnsafePointer</code> 感觉更加安全了! </p>
+</blockquote>
+<p>记住：有许多种方法可以定义自定义数列。<code>CollectionType</code>，<code>SequenceType</code>，和 <code>GeneratorType</code> 只是协议，你可以按照自己所需的方式来遵循它们。也就是说，在实践中也许你很少需要这么做 —— Swift 的标准库里有大多数你所需的。不过如果你觉得需要自定义的数据结构，你可以使用 <code>CollectionType</code> 和 <code>SequenceType</code>。</p>
+<h4 id="更多的例子">更多的例子</h4><p>现在我们已经归纳了递推关系，我们可以轻松地计算许多东西了。比如说卢卡斯数（<a href="https://en.wikipedia.org/wiki/Lucas_number" target="_blank" rel="external">Lucas Number</a>）。和斐波那契数类似，只不过初始项不同：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 2, 1, 3, 4, 7, 11, 18, 29, 47, 76, 123, 199, 322, 521...</span></span><br><span class="line"><span class="keyword">let</span> lucasNumbers = <span class="type">RecurrenceRelation</span>([<span class="number">2</span>, <span class="number">1</span>]) &#123; <span class="type">T</span>, n <span class="keyword">in</span> <span class="type">T</span>[n-<span class="number">1</span>] + <span class="type">T</span>[n-<span class="number">2</span>] &#125;</span><br></pre></td></tr></table></figure>
+<p>或者”Tribonacci Numbers“，一个拥有<a href="http://math.stackexchange.com/a/1128994/21666" target="_blank" rel="external">有趣性质</a>的三阶递推：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 1, 1, 2, 4, 7, 13, 24, 44, 81, 149, 274, 504...</span></span><br><span class="line"><span class="keyword">let</span> tribonacciNumbers = <span class="type">RecurrenceRelation</span>([<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>]) </span><br><span class="line">&#123; <span class="type">T</span>, n <span class="keyword">in</span> </span><br><span class="line">	<span class="type">T</span>[n-<span class="number">1</span>] + <span class="type">T</span>[n-<span class="number">2</span>] + <span class="type">T</span>[n-<span class="number">3</span>] </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>花一些额外的功夫，我们可以视觉化<a href="https://en.wikipedia.org/wiki/Logistic_map#Chaos_and_the_logistic_map" target="_blank" rel="external">单峰映像的混沌二根分支</a>。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">logisticMap</span><span class="params">(r: Double)</span></span> -&gt; <span class="type">RecurrenceRelation</span>&lt;<span class="type">Double</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="type">RecurrenceRelation</span>([<span class="number">0.5</span>]) &#123; x, n <span class="keyword">in</span> </span><br><span class="line">    	r * x[n-<span class="number">1</span>] * (<span class="number">1</span> - x[n-<span class="number">1</span>]) </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> r <span class="keyword">in</span> <span class="built_in">stride</span>(from: <span class="number">2.5</span>, to: <span class="number">4</span>, by: <span class="number">0.005</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> <span class="built_in">map</span> = logisticMap(r)</span><br><span class="line">    <span class="keyword">for</span> <span class="number">_</span> <span class="keyword">in</span> <span class="number">1</span>...<span class="number">50</span> &#123; <span class="built_in">map</span>.next() &#125; </span><br><span class="line">    <span class="comment">// 处理一些得到的值</span></span><br><span class="line"></span><br><span class="line">    <span class="type">Array</span>(<span class="built_in">map</span>.<span class="keyword">prefix</span>(<span class="number">10</span>))[<span class="type">Int</span>(arc4random_uniform(<span class="number">10</span>))] </span><br><span class="line">    <span class="comment">// 随机选择接下来 10 个值当中的一个</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/content/images/2015/08/QQ20150831-1-2x.png" alt=""><br>是不是很有数学的简洁性呀？</p>
+<h4 id="相关推荐">相关推荐</h4><ul>
+<li>TED 演讲，<a href="https://www.ted.com/talks/arthur_benjamin_the_magic_of_fibonacci_numbers" target="_blank" rel="external">The magic of Fibonacci numbers</a>, 演讲者，Arthur Benjamin.</li>
+<li><a href="http://mathworld.wolfram.com/BinetsFibonacciNumberFormula.html" target="_blank" rel="external">Binet’s Formula</a>, 使用一个几乎常量时间的公式来计算斐波那契数。</li>
+<li><a href="http://airspeedvelocity.net/2015/08/03/arrays-linked-lists-and-performance/" target="_blank" rel="external">Arrays, Linked Lists, and Performance</a>，作者 Airspeed Velocity, 对序列使用其他有意思的方法，包括对ManagedBuffer的讨论。<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
+</li>
+</ul>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>作者：Jacob Bandes-Storch，<a href="http://bandes-stor.ch/blog/2015/08/05/the-fibonacci-sequencetype/">原文链接</a>，原文日期：2015/08/05<br>译者：<a href="undefined">Lou</a>；校对：<a href="http://codebuild.me/">shanks</a>；定稿：<a href="http://codebuild.me/">shanks</a></p>
+<p>这篇博文启发自<a href="http://codereview.stackexchange.com/questions/60875/project-euler-2-even-fibonacci-numbers-in-swift">Code Review.SE</a>上的一个讨论，同时<a href="https://xkcd.com/356/">nerd-sniped</a>上的关于数学的有趣的学习。让我对数学和 Swift 的结合有了兴趣。所以我花了一段时间来把这些知识整理成一篇博文，特别是自从我完成了对我网站重建的第一步以后。更重要的是，我希望我能更勤勉的更新我的博客，这8年我只写了一篇而已，希望大家能对我的博客感兴趣。<br>这篇博文的目标对于初学者来讲，比较容易理解，同时也提供给那些已经对这个概念熟悉的人一些有用的细节和例子。希望大家能给我反馈。</p>
+</blockquote>]]>
+    
+    </summary>
+    
+      <category term="Swift 进阶" scheme="http://swiftggteam.github.io/tags/Swift-%E8%BF%9B%E9%98%B6/"/>
+    
+      <category term="Jacob Bandes-Storch" scheme="http://swiftggteam.github.io/categories/Jacob-Bandes-Storch/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[如何在 iOS 中实现一个可展开的 Table View]]></title>
     <link href="http://swiftggteam.github.io/2015/12/03/expandable-table-view/"/>
     <id>http://swiftggteam.github.io/2015/12/03/expandable-table-view/</id>
     <published>2015-12-02T16:00:00.000Z</published>
-    <updated>2015-12-04T01:04:22.993Z</updated>
+    <updated>2015-12-04T01:47:28.470Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：AppCoda，<a href="http://www.appcoda.com/expandable-table-view/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-16<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -197,7 +337,7 @@
     <link href="http://swiftggteam.github.io/2015/12/02/swift-weak-and-unowned/"/>
     <id>http://swiftggteam.github.io/2015/12/02/swift-weak-and-unowned/</id>
     <published>2015-12-01T16:00:00.000Z</published>
-    <updated>2015-12-04T01:04:22.993Z</updated>
+    <updated>2015-12-04T01:47:28.466Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-weak-and-unowned/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-30<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a></p>
 </blockquote>
@@ -209,14 +349,14 @@
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ModelObject 类内容</span></span><br><span class="line"><span class="keyword">import</span> Foundation</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">ModelObjectDelegate</span>: <span class="title">class</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ModelObject</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> delegate: <span class="type">ModelObjectDelegate</span>?</span><br><span class="line">       </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// SecondViewController 类内容</span></span><br><span class="line"><span class="keyword">import</span> UIKit</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SecondViewController</span>: <span class="title">UIViewController</span>, <span class="title">ModelObjectDelegate</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> modelObject: <span class="type">ModelObject</span>?</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.viewDidLoad()</span><br><span class="line">        modelObject = <span class="type">ModelObject</span>()</span><br><span class="line">        modelObject!.delegate = <span class="keyword">self</span></span><br><span class="line">    &#125;</span><br><span class="line">        </span><br><span class="line">    <span class="preprocessor">@IBAction</span> <span class="func"><span class="keyword">func</span> <span class="title">closeButtonPressed</span><span class="params">(sender: UIButton)</span></span> &#123;</span><br><span class="line">        dismissViewControllerAnimated(<span class="literal">true</span>, completion: <span class="literal">nil</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>准备工作完毕，现在来测试下内存管理：首先我们释放掉（dismiss）<code>SecondViewController</code> 视图控制器，你会发现使用内存并未有所下降。这是为什么呢？按照期望应该是释放掉 <code>SecondViewController</code> 对象,内存被释放才对。让我们首先来了解下对象之间的关系。假设 <code>SecondViewController</code> 加载完毕，对象之间关系应该看起来这样：</p>
-<p><img src="/img/articles/swift-weak-and-unowned/retainc1.jpg1449191055.7250454" alt=""></p>
+<p><img src="http://thomashanningcom.c.presscdn.com/wp-content/uploads/2015/11/retainc1.jpg" alt=""></p>
 <p>现在，释放掉 <code>SecondViewController</code>，看起来应该这样：</p>
-<p><img src="/img/articles/swift-weak-and-unowned/retain2c.jpg1449191056.657866" alt=""></p>
+<p><img src="http://thomashanningcom.c.presscdn.com/wp-content/uploads/2015/11/retain2c.jpg" alt=""></p>
 <p>如图所示：<code>RootViewController</code> 不再对 <code>SecondViewController</code> 拥有强引用关系。但是 <code>SecondViewController</code> 和 <code>ModelObject</code> 对象之间始终保持相互强引用。所以它们不会被释放掉。</p>
 <h3 id="Weak">Weak</h3><p>为了避免这种情况发生，我们可以将引用关系声明为 <code>weak</code> ，它不会阻止 ARC 释放内存。</p>
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> Foundation</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">ModelObjectDelegate</span>: <span class="title">class</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ModelObject</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">weak</span> <span class="keyword">var</span> delegate: <span class="type">ModelObjectDelegate</span>?</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>现在对象关系图应该看起来这样：</p>
-<p><img src="/img/articles/swift-weak-and-unowned/retainc3.jpg1449191057.2619567" alt=""></p>
+<p><img src="http://thomashanningcom.c.presscdn.com/wp-content/uploads/2015/11/retainc3.jpg" alt=""></p>
 <p>由于 <code>SecondViewController</code> 和 <code>ModelObject</code> 对象之间仅存一个强引用关系，毫无疑问可以成功释放内存。</p>
 <h3 id="Unowned">Unowned</h3><p>此外你还可以使用 <code>unowned</code> 关键字替换掉 <code>weak</code>,那么两者的区别在哪里？倘若你使用 <code>weak</code>,属性可以是可选类型，即允许有 <code>nil</code> 值的情况。另一方面，倘若你使用 <code>unowned</code>，它不允许设为可选类型。因为一个 unowned 属性不能为可选类型，那么它必须在 init 方法中初始化值：</p>
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> Foundation</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">ModelObjectDelegate</span>: <span class="title">class</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ModelObject</span> </span>&#123;</span><br><span class="line">    <span class="comment">//译者注：swift 要求变量一定要有初始值</span></span><br><span class="line">    <span class="comment">//        可选类型默认初始值为 nil</span></span><br><span class="line">    <span class="keyword">unowned</span> <span class="keyword">var</span> delegate: <span class="type">ModelObjectDelegate</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">init</span>(delegate:<span class="type">ModelObjectDelegate</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.delegate = delegate</span><br><span class="line">    &#125;</span><br><span class="line">        </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -246,7 +386,7 @@
     <link href="http://swiftggteam.github.io/2015/12/01/xcode-xcconfig-files-for-managing-targets-configurations/"/>
     <id>http://swiftggteam.github.io/2015/12/01/xcode-xcconfig-files-for-managing-targets-configurations/</id>
     <published>2015-11-30T16:00:00.000Z</published>
-    <updated>2015-12-04T01:04:22.993Z</updated>
+    <updated>2015-12-04T01:47:28.466Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/xcode-xcconfig-files-for-managing-targets-configurations/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-14<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -258,7 +398,7 @@
 <p>项目由十个应用 target 组成，2个总的 target 做些业务，以及一个测试 target 。每一个 target 使用不同的尾部和不同的 “api keys”，以及其他像用于 hockeyapp（HockeyApp 是一个用来分发你的程序并收集应用的崩溃报告的收集框架，类似友盟） token 的键（key）。每一个 target 有自己的预处理宏，如：“TARGET_A”, “TARGET_B”等…（虚构的名字）。然后，token，api keys，后端的 url 被存储在 plist 文件中。因此很自然需要一些类来封装这个文件，并且有语法分析程序以及可以提供给我们适当的键。这个类有超过200行的代码，对我来说仅仅阅读这些数据就要花费很多时间。</p>
 <p>因此，我想或许可以使用 XCConfig 文件来简化和替代，而不是使用语法分析程序和十个个预处理宏（一个 target）去决定从 plist 文件应该返回什么值。你可以在下面找到我的解决方案。可能不是最好的方案，但是此刻应该是最好的。如果你有更好的方案，我很愿意去拜读 :)</p>
 <h3 id="概述">概述</h3><p>核心思想是使用一些有层级的配置文件。第一层是用于存储最普通的数据，第二层用于区分 debug 和 release 模式，最后一层用于关联特殊 target 的设置。</p>
-<p><img src="/img/articles/xcode-xcconfig-files-for-managing-targets-configurations/diagram_1.png1449191059.3372931" alt=""></p>
+<p><img src="http://szulctomasz.com/wp-content/uploads/2015/11/diagram_1.png" alt=""></p>
 <h3 id="Common-xcconfig">Common.xcconfig</h3><p>这个文件存储着类似应用名称，应用版本，bundle version，以及其他 debug和 release target 中通用的常见配置。</p>
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  Common.xcconfig</span></span><br><span class="line"><span class="comment">//  &lt;truncated&gt;</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="type">APP_NAME</span> = <span class="type">App</span></span><br><span class="line"><span class="type">APP_VERSION</span> = <span class="number">1.6</span></span><br><span class="line"><span class="type">APP_BUNDLE_ID</span> = <span class="number">153</span></span><br></pre></td></tr></table></figure>
 <p>考虑到为十个 target 改变相应的应用版本和 bundle 可能会消耗很多时间。其他的选项可能会创建聚合的 target ，这样可以在每次 Cmd+B的时候更新Info-plist 文件，但是我会避免这样的情况并且让项目不会比现在更复杂。</p>
@@ -300,7 +440,7 @@
     <link href="http://swiftggteam.github.io/2015/11/30/should-you-migrate-objective-c-code-to-swift/"/>
     <id>http://swiftggteam.github.io/2015/11/30/should-you-migrate-objective-c-code-to-swift/</id>
     <published>2015-11-29T16:00:00.000Z</published>
-    <updated>2015-12-04T01:04:22.993Z</updated>
+    <updated>2015-12-04T01:47:28.466Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/should-you-migrate-objective-c-code-to-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-23<br>译者：<a href="http://blog.csdn.net/yake_099" target="_blank" rel="external">Yake</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -341,7 +481,7 @@
     <link href="http://swiftggteam.github.io/2015/11/27/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/11/27/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/</id>
     <published>2015-11-27T01:20:00.000Z</published>
-    <updated>2015-12-04T01:04:22.993Z</updated>
+    <updated>2015-12-04T01:47:28.466Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/11/05/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/5<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -384,7 +524,7 @@
     <link href="http://swiftggteam.github.io/2015/11/26/swift-map-and-flatmap/"/>
     <id>http://swiftggteam.github.io/2015/11/26/swift-map-and-flatmap/</id>
     <published>2015-11-25T16:00:00.000Z</published>
-    <updated>2015-12-04T01:04:22.993Z</updated>
+    <updated>2015-12-04T01:47:28.466Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-map-and-flatmap/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-16<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -424,7 +564,7 @@
     <link href="http://swiftggteam.github.io/2015/11/25/tvos-introduction/"/>
     <id>http://swiftggteam.github.io/2015/11/25/tvos-introduction/</id>
     <published>2015-11-24T16:00:00.000Z</published>
-    <updated>2015-12-04T01:04:22.993Z</updated>
+    <updated>2015-12-04T01:47:28.466Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：gregg mojica，<a href="http://www.appcoda.com/tvos-introduction/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-02<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -569,7 +709,7 @@
     <link href="http://swiftggteam.github.io/2015/11/24/speeding-up-swift-playgrounds-with-closure-initialization-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/11/24/speeding-up-swift-playgrounds-with-closure-initialization-swiftlang/</id>
     <published>2015-11-23T16:00:00.000Z</published>
-    <updated>2015-12-04T01:04:22.993Z</updated>
+    <updated>2015-12-04T01:47:28.466Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/11/15/speeding-up-swift-playgrounds-with-closure-initialization-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-15<br>译者：<a href="undefined">JackAlan</a>；校对：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -615,7 +755,7 @@
     <link href="http://swiftggteam.github.io/2015/11/23/swift-reflection-api-what-you-can-do/"/>
     <id>http://swiftggteam.github.io/2015/11/23/swift-reflection-api-what-you-can-do/</id>
     <published>2015-11-22T16:00:00.000Z</published>
-    <updated>2015-12-04T01:04:22.993Z</updated>
+    <updated>2015-12-04T01:47:28.466Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Benedikt Terhechte，<a href="http://appventure.me/2015/10/24/swift-reflection-api-what-you-can-do/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-24<br>译者：<a href="http://blog.csdn.net/mmoaay" target="_blank" rel="external">mmoaay</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -773,7 +913,7 @@
     <link href="http://swiftggteam.github.io/2015/11/20/advanced-practical-enum-examples/"/>
     <id>http://swiftggteam.github.io/2015/11/20/advanced-practical-enum-examples/</id>
     <published>2015-11-19T16:00:00.000Z</published>
-    <updated>2015-12-04T01:04:22.993Z</updated>
+    <updated>2015-12-04T01:47:28.466Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Benedikt Terhechte，<a href="http://appventure.me/2015/10/17/advanced-practical-enum-examples/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-17<br>译者：<a href="http://www.jianshu.com/users/3b40e55ec6d5/latest_articles" target="_blank" rel="external">小锅</a>，<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
 </blockquote>
@@ -1058,7 +1198,7 @@
     <link href="http://swiftggteam.github.io/2015/11/19/3d-touch-tutorial/"/>
     <id>http://swiftggteam.github.io/2015/11/19/3d-touch-tutorial/</id>
     <published>2015-11-19T02:31:00.000Z</published>
-    <updated>2015-12-04T01:04:22.993Z</updated>
+    <updated>2015-12-04T01:47:28.466Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Maxime Defauw，<a href="http://www.appcoda.com/3d-touch-tutorial/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/09<br>译者：<a href="http://www.brighttj.com" target="_blank" rel="external">saitjr</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1146,7 +1286,7 @@
     <link href="http://swiftggteam.github.io/2015/11/18/watchconnectivity-user-info/"/>
     <id>http://swiftggteam.github.io/2015/11/18/watchconnectivity-user-info/</id>
     <published>2015-11-17T16:00:00.000Z</published>
-    <updated>2015-12-04T01:04:22.993Z</updated>
+    <updated>2015-12-04T01:47:28.466Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/watchconnectivity-user-info/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-21<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1224,7 +1364,7 @@
     <link href="http://swiftggteam.github.io/2015/11/17/functional-programming-in-swift/"/>
     <id>http://swiftggteam.github.io/2015/11/17/functional-programming-in-swift/</id>
     <published>2015-11-17T04:00:00.000Z</published>
-    <updated>2015-12-04T01:04:22.993Z</updated>
+    <updated>2015-12-04T01:47:28.466Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/functional-programming-in-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/13<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1276,7 +1416,7 @@
     <link href="http://swiftggteam.github.io/2015/11/16/capturing-context-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/11/16/capturing-context-swiftlang/</id>
     <published>2015-11-16T01:00:00.000Z</published>
-    <updated>2015-12-04T01:04:22.993Z</updated>
+    <updated>2015-12-04T01:47:28.466Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/08/27/capturing-context-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-08-27<br>译者：<a href="https://github.com/chenmingbiao" target="_blank" rel="external">CMB</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1321,7 +1461,7 @@
     <link href="http://swiftggteam.github.io/2015/11/13/swift-tutorial-for-beginners-part-1/"/>
     <id>http://swiftggteam.github.io/2015/11/13/swift-tutorial-for-beginners-part-1/</id>
     <published>2015-11-13T01:00:00.000Z</published>
-    <updated>2015-12-04T01:04:22.993Z</updated>
+    <updated>2015-12-04T01:47:28.466Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-tutorial-for-beginners-part-1/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-29<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1461,7 +1601,7 @@
     <link href="http://swiftggteam.github.io/2015/11/12/naming-methods-and-functions/"/>
     <id>http://swiftggteam.github.io/2015/11/12/naming-methods-and-functions/</id>
     <published>2015-11-12T01:00:00.000Z</published>
-    <updated>2015-12-04T01:04:22.993Z</updated>
+    <updated>2015-12-04T01:47:28.466Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/08/31/naming-methods-and-functions/" target="_blank" rel="external">原文链接</a>，原文日期：2015-08-31<br>译者：<a href="http://weibo.com/u/2916092907" target="_blank" rel="external">天才175</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1506,7 +1646,7 @@
     <link href="http://swiftggteam.github.io/2015/11/11/c-callbacks-in-swift/"/>
     <id>http://swiftggteam.github.io/2015/11/11/c-callbacks-in-swift/</id>
     <published>2015-11-11T01:00:00.000Z</published>
-    <updated>2015-12-04T01:04:22.993Z</updated>
+    <updated>2015-12-04T01:47:28.466Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Ole Begemann，<a href="http://oleb.net/blog/2015/06/c-callbacks-in-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-06-22<br>译者：<a href="http://www.jianshu.com/users/3b40e55ec6d5/latest_articles" target="_blank" rel="external">小锅</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
 </blockquote>
@@ -1588,7 +1728,7 @@
     <link href="http://swiftggteam.github.io/2015/11/10/ios-undo-and-redo-with-nsundomanager/"/>
     <id>http://swiftggteam.github.io/2015/11/10/ios-undo-and-redo-with-nsundomanager/</id>
     <published>2015-11-10T01:00:00.000Z</published>
-    <updated>2015-12-04T01:04:22.993Z</updated>
+    <updated>2015-12-04T01:47:28.466Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/ios-undo-and-redo-with-nsundomanager/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-13<br>译者：<a href="http://blog.csdn.net/yake_099" target="_blank" rel="external">Yake</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="undefined"></a></p>
 </blockquote>
@@ -1656,7 +1796,7 @@
     <link href="http://swiftggteam.github.io/2015/11/09/what-makes-good-code/"/>
     <id>http://swiftggteam.github.io/2015/11/09/what-makes-good-code/</id>
     <published>2015-11-09T01:00:00.000Z</published>
-    <updated>2015-12-04T01:04:22.989Z</updated>
+    <updated>2015-12-04T01:47:28.466Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/10/28/what-makes-good-code/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-28<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1701,53 +1841,6 @@
     </summary>
     
       <category term="Erica Sadun" scheme="http://swiftggteam.github.io/tags/Erica-Sadun/"/>
-    
-      <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[If-Let 赋值运算符]]></title>
-    <link href="http://swiftggteam.github.io/2015/11/06/if-let-assignment/"/>
-    <id>http://swiftggteam.github.io/2015/11/06/if-let-assignment/</id>
-    <published>2015-11-06T01:00:00.000Z</published>
-    <updated>2015-12-04T01:04:22.989Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>作者：Weston Hanners，<a href="http://www.alloc-init.com/2015/10/if-let-assignment/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-29<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
-</blockquote>
-<!--此处开始正文-->
-<p>(AKA：你希望使用一个自定义操作符)</p>
-<p>有多少次你是以这种匹配模式实现的呢？</p>
-<a id="more"></a>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> value = someOptionalValue <span class="keyword">as</span>? <span class="type">String</span> &#123;</span><br><span class="line">  <span class="keyword">self</span>.value = value</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>我一直使用这种方式进行JSON数据解析或者NSCoding的实现。但我觉得这对于Swift来说有点啰嗦，坚信肯定存在某种更好的方式。</p>
-<p><a href="http://nshipster.com/swift-operators/" target="_blank" rel="external">NSHipster</a>提出自定义逻辑或赋值运算符(<code>||=</code>)，这看起来很不错。不管怎样，它似乎还未为泛型实现(作者:如果这里我理解错了，请告诉我).我想我可以先试一试…</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">infix</span> <span class="keyword">operator</span> ||= &#123; <span class="keyword">associativity</span> <span class="keyword">right</span> <span class="keyword">precedence</span> <span class="number">90</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 译者注: 测试只有加上&lt;T&gt;才能正常运行</span></span><br><span class="line"><span class="func"><span class="keyword">func</span> ||= <span class="generics">&lt;T&gt;</span><span class="params">(<span class="keyword">inout</span> <span class="keyword">left</span>: T, <span class="keyword">right</span>: T?)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">let</span> <span class="keyword">right</span> = <span class="keyword">right</span> &#123;</span><br><span class="line">        <span class="keyword">left</span> = <span class="keyword">right</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>实际上它能够很好地工作，我将原代码简化如下:</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">self</span>.value ||= someOptionalValue <span class="keyword">as</span>? <span class="type">String</span></span><br></pre></td></tr></table></figure>
-<p>或许这有点微不足道，但是当你需要连续处理一系列任务时，这节省了大量代码，变得更具可读性。</p>
-<p>还有件事…我依然尝试去弄清楚这是怎么回事，但我最终定义了第二个方法用于可选类型赋值。而唯一的不同是现在左侧参数类型为<code>T?</code></p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> ||= <span class="generics">&lt;T&gt;</span><span class="params">(<span class="keyword">inout</span> <span class="keyword">left</span>: T?, <span class="keyword">right</span>: T?)</span></span> &#123; <span class="comment">// The left param is now Optional</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">let</span> <span class="keyword">right</span> = <span class="keyword">right</span> &#123;</span><br><span class="line">        <span class="keyword">left</span> = <span class="keyword">right</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> someOptionalString: <span class="type">String</span>?</span><br><span class="line"></span><br><span class="line">someOptionalString ||= newValue <span class="comment">// Will assign when newValue is not optional</span></span><br></pre></td></tr></table></figure>
-<p>如果你有兴趣看看这个，请点击<a href="http://www.alloc-init.com/wp-content/uploads/2015/10/if-let-operator.playground.zip" target="_blank" rel="external">Playground</a>下载。</p>
-<p>温馨提示: 文章测试环境是Swift2.0。</p>
-<p><strong>更新日志 11/01/2015:</strong></p>
-<p>twitter上有人提醒我: ruby中<code>||=</code>等价于<code>left = left || right</code>，与我想要实现的<code>left = right || left</code>不同。我对这种用法不是很了解，为了避免混淆，我可能使用另外一个操作符<code>?=</code>替代。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">infix</span> <span class="keyword">operator</span> ?= &#123; <span class="keyword">associativity</span> <span class="keyword">right</span> <span class="keyword">precedence</span> <span class="number">90</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="func"><span class="keyword">func</span> ?=<span class="generics">&lt;T&gt;</span><span class="params">(<span class="keyword">inout</span> <span class="keyword">left</span>: T, <span class="keyword">right</span>: T?)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">let</span> value = <span class="keyword">right</span> &#123;</span><br><span class="line">        <span class="keyword">left</span> = value</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="func"><span class="keyword">func</span> ?=<span class="generics">&lt;T&gt;</span><span class="params">(<span class="keyword">inout</span> <span class="keyword">left</span>: T?, <span class="keyword">right</span>: T?)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">let</span> value = <span class="keyword">right</span> &#123;</span><br><span class="line">        <span class="keyword">left</span> = value</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
-</blockquote>
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>作者：Weston Hanners，<a href="http://www.alloc-init.com/2015/10/if-let-assignment/">原文链接</a>，原文日期：2015-10-29<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao">千叶知风</a></p>
-</blockquote>
-<!--此处开始正文-->
-<p>(AKA：你希望使用一个自定义操作符)</p>
-<p>有多少次你是以这种匹配模式实现的呢？</p>]]>
-    
-    </summary>
-    
-      <category term="Weston Hanners" scheme="http://swiftggteam.github.io/tags/Weston-Hanners/"/>
     
       <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
     

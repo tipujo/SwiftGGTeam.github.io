@@ -25,10 +25,10 @@
 
 &amp;lt;!--此处开始正文--&amp;gt;
 使用 weak 和 unowned 关键字，我们可以避免所谓的循环引用。在这篇文章中，我们将讨论两者之间的差异。">
-<meta property="og:image" content="http://swiftggteam.github.io/img/articles/swift-weak-and-unowned/retainc1.jpg1449191055.7250454">
-<meta property="og:image" content="http://swiftggteam.github.io/img/articles/swift-weak-and-unowned/retain2c.jpg1449191056.657866">
-<meta property="og:image" content="http://swiftggteam.github.io/img/articles/swift-weak-and-unowned/retainc3.jpg1449191057.2619567">
-<meta property="og:updated_time" content="2015-12-04T01:04:22.993Z">
+<meta property="og:image" content="http://thomashanningcom.c.presscdn.com/wp-content/uploads/2015/11/retainc1.jpg">
+<meta property="og:image" content="http://thomashanningcom.c.presscdn.com/wp-content/uploads/2015/11/retain2c.jpg">
+<meta property="og:image" content="http://thomashanningcom.c.presscdn.com/wp-content/uploads/2015/11/retainc3.jpg">
+<meta property="og:updated_time" content="2015-12-04T01:47:28.466Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift 中的 weak 和 unowned">
 <meta name="twitter:description" content="作者：Thomas Hanning，原文链接，原文日期：2015-11-30译者：pmst；校对：Cee；定稿：Cee
@@ -120,14 +120,14 @@
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ModelObject 类内容</span></span><br><span class="line"><span class="keyword">import</span> Foundation</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">ModelObjectDelegate</span>: <span class="title">class</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ModelObject</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> delegate: <span class="type">ModelObjectDelegate</span>?</span><br><span class="line">       </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// SecondViewController 类内容</span></span><br><span class="line"><span class="keyword">import</span> UIKit</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SecondViewController</span>: <span class="title">UIViewController</span>, <span class="title">ModelObjectDelegate</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> modelObject: <span class="type">ModelObject</span>?</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.viewDidLoad()</span><br><span class="line">        modelObject = <span class="type">ModelObject</span>()</span><br><span class="line">        modelObject!.delegate = <span class="keyword">self</span></span><br><span class="line">    &#125;</span><br><span class="line">        </span><br><span class="line">    <span class="preprocessor">@IBAction</span> <span class="func"><span class="keyword">func</span> <span class="title">closeButtonPressed</span><span class="params">(sender: UIButton)</span></span> &#123;</span><br><span class="line">        dismissViewControllerAnimated(<span class="literal">true</span>, completion: <span class="literal">nil</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>准备工作完毕，现在来测试下内存管理：首先我们释放掉（dismiss）<code>SecondViewController</code> 视图控制器，你会发现使用内存并未有所下降。这是为什么呢？按照期望应该是释放掉 <code>SecondViewController</code> 对象,内存被释放才对。让我们首先来了解下对象之间的关系。假设 <code>SecondViewController</code> 加载完毕，对象之间关系应该看起来这样：</p>
-<p><img src="/img/articles/swift-weak-and-unowned/retainc1.jpg1449191055.7250454" alt=""></p>
+<p><img src="http://thomashanningcom.c.presscdn.com/wp-content/uploads/2015/11/retainc1.jpg" alt=""></p>
 <p>现在，释放掉 <code>SecondViewController</code>，看起来应该这样：</p>
-<p><img src="/img/articles/swift-weak-and-unowned/retain2c.jpg1449191056.657866" alt=""></p>
+<p><img src="http://thomashanningcom.c.presscdn.com/wp-content/uploads/2015/11/retain2c.jpg" alt=""></p>
 <p>如图所示：<code>RootViewController</code> 不再对 <code>SecondViewController</code> 拥有强引用关系。但是 <code>SecondViewController</code> 和 <code>ModelObject</code> 对象之间始终保持相互强引用。所以它们不会被释放掉。</p>
 <h3 id="Weak">Weak</h3><p>为了避免这种情况发生，我们可以将引用关系声明为 <code>weak</code> ，它不会阻止 ARC 释放内存。</p>
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> Foundation</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">ModelObjectDelegate</span>: <span class="title">class</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ModelObject</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">weak</span> <span class="keyword">var</span> delegate: <span class="type">ModelObjectDelegate</span>?</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>现在对象关系图应该看起来这样：</p>
-<p><img src="/img/articles/swift-weak-and-unowned/retainc3.jpg1449191057.2619567" alt=""></p>
+<p><img src="http://thomashanningcom.c.presscdn.com/wp-content/uploads/2015/11/retainc3.jpg" alt=""></p>
 <p>由于 <code>SecondViewController</code> 和 <code>ModelObject</code> 对象之间仅存一个强引用关系，毫无疑问可以成功释放内存。</p>
 <h3 id="Unowned">Unowned</h3><p>此外你还可以使用 <code>unowned</code> 关键字替换掉 <code>weak</code>,那么两者的区别在哪里？倘若你使用 <code>weak</code>,属性可以是可选类型，即允许有 <code>nil</code> 值的情况。另一方面，倘若你使用 <code>unowned</code>，它不允许设为可选类型。因为一个 unowned 属性不能为可选类型，那么它必须在 init 方法中初始化值：</p>
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> Foundation</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">ModelObjectDelegate</span>: <span class="title">class</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ModelObject</span> </span>&#123;</span><br><span class="line">    <span class="comment">//译者注：swift 要求变量一定要有初始值</span></span><br><span class="line">    <span class="comment">//        可选类型默认初始值为 nil</span></span><br><span class="line">    <span class="keyword">unowned</span> <span class="keyword">var</span> delegate: <span class="type">ModelObjectDelegate</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">init</span>(delegate:<span class="type">ModelObjectDelegate</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.delegate = delegate</span><br><span class="line">    &#125;</span><br><span class="line">        </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -224,6 +224,10 @@
 		  
 		
 		  
+			<li><a href="/categories/Jacob-Bandes-Storch/" title="Jacob Bandes-Storch">Jacob Bandes-Storch<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/Swift-入门/" title="Swift 入门">Swift 入门<sup>47</sup></a></li>
 		  
 		
@@ -273,19 +277,11 @@
 			
 		
 			
-				<li><a href="/tags/Tomasz-Szulc/" title="Tomasz Szulc">Tomasz Szulc<sup>4</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/IOSCREATOR/" title="IOSCREATOR">IOSCREATOR<sup>4</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/AppCoda/" title="AppCoda">AppCoda<sup>4</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Ole-Begemann/" title="Ole Begemann">Ole Begemann<sup>4</sup></a></li>
+				<li><a href="/tags/IOSCREATOR/" title="IOSCREATOR">IOSCREATOR<sup>4</sup></a></li>
 			
 		
 			
@@ -294,6 +290,14 @@
 		
 			
 				<li><a href="/tags/APPVENTURE/" title="APPVENTURE">APPVENTURE<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ole-Begemann/" title="Ole Begemann">Ole Begemann<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Tomasz-Szulc/" title="Tomasz Szulc">Tomasz Szulc<sup>4</sup></a></li>
 			
 		
 			
@@ -313,7 +317,11 @@
 			
 		
 			
-				<li><a href="/tags/Benedikt-Terhechte/" title="Benedikt Terhechte">Benedikt Terhechte<sup>1</sup></a></li>
+				<li><a href="/tags/Swift-进阶/" title="Swift 进阶">Swift 进阶<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Big-O-Note-Taking/" title="Big O Note-Taking">Big O Note-Taking<sup>1</sup></a></li>
 			
 		
 			
@@ -329,7 +337,7 @@
 			
 		
 			
-				<li><a href="/tags/Big-O-Note-Taking/" title="Big O Note-Taking">Big O Note-Taking<sup>1</sup></a></li>
+				<li><a href="/tags/Benedikt-Terhechte/" title="Benedikt Terhechte">Benedikt Terhechte<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -655,6 +663,35 @@ $(document).ready(function(){
 
 <!-- MathJax Begin -->
 <!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
 
 
 <!-- MathJax End -->
