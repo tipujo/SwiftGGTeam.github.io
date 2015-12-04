@@ -2060,12 +2060,17 @@ header nav ul li a:hover {
   filter: alpha(opacity=65);
 }
 #swiftweekly #sw_slogan {
+  display: block;
+  float: left;
+  line-height: 40px;
+  margin-left: 10%;
   letter-spacing: 0.08em;
   font-size: 1em;
   color: #fbfbfb;
 }
 #swiftweekly #content {
-  display: inline-block;
+  display: block;
+  float: left;
   line-height: 1.6rem;
   height: 40px;
   font-size: 1rem;
@@ -2073,6 +2078,7 @@ header nav ul li a:hover {
   text-align: center;
 }
 #swiftweekly #content #sw_email {
+  float: left;
   -webkit-box-shadow: inset 0 0 2px #b63f17;
   box-shadow: inset 0 0 2px #b63f17;
   border: none;
@@ -2085,6 +2091,7 @@ header nav ul li a:hover {
   padding: 12px 16px;
   color: #000;
   font-size: 12px;
+  height: 100%;
   width: 66%;
 }
 #swiftweekly #content #sw_email::-webkit-input-placeholder {
@@ -2114,6 +2121,10 @@ header nav ul li a:hover {
   color: #7d706d;
 }
 #swiftweekly #content .sw_sub {
+  float: left;
+  display: block;
+  line-height: 40px;
+  height: 100%;
   -webkit-box-shadow: none;
   box-shadow: none;
   background-color: #f36d40;
@@ -2136,22 +2147,19 @@ header nav ul li a:hover {
 @media only screen and (min-width: 320px) {
   #swiftweekly {
     padding: 0.4em;
-    height: 60px;
+    height: 100px;
   }
   #swiftweekly #sw_slogan {
     margin-bottom: 0.3em;
-    font-size: 0.6em;
     width: 100%;
-    display: block;
+    margin-left: 0px;
   }
   #swiftweekly #content {
-    width: 90%;
+    width: 80%;
+    margin-left: 10%;
   }
   #swiftweekly #sw_email {
     font-size: 12px;
-  }
-  #swiftweekly .sw_sub {
-    padding: 5px 24px 8px 24px;
   }
 }
 @media only screen and (min-width: 768px) {
@@ -2161,14 +2169,10 @@ header nav ul li a:hover {
   }
   #swiftweekly #sw_slogan {
     font-size: 1em;
-    display: inline-block;
-    width: 30%;
+    width: 40%;
   }
   #swiftweekly #content {
     width: 40%;
-  }
-  #swiftweekly .sw_sub {
-    padding: 5px 24px 8px 24px;
   }
 }
 @media only screen and (min-width: 1280px) {
@@ -2176,14 +2180,10 @@ header nav ul li a:hover {
     padding: 0.5em;
   }
   #swiftweekly #sw_slogan {
-    display: inline-block;
     width: 40%;
   }
   #swiftweekly #content {
     width: 40%;
-  }
-  #swiftweekly .sw_sub {
-    padding: 7px 24px 7px 24px;
   }
   #swiftweekly #sw_email::-webkit-input-placeholder {
 /* WebKit, Blink, Edge */
