@@ -4,7 +4,7 @@
   <subtitle><![CDATA[走心的 Swift 翻译组]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://swiftggteam.github.io/"/>
-  <updated>2015-12-03T01:13:25.758Z</updated>
+  <updated>2015-12-04T01:04:22.993Z</updated>
   <id>http://swiftggteam.github.io/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://swiftggteam.github.io/2015/12/03/expandable-table-view/"/>
     <id>http://swiftggteam.github.io/2015/12/03/expandable-table-view/</id>
     <published>2015-12-02T16:00:00.000Z</published>
-    <updated>2015-12-03T01:13:25.758Z</updated>
+    <updated>2015-12-04T01:04:22.993Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：AppCoda，<a href="http://www.appcoda.com/expandable-table-view/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-16<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -197,7 +197,7 @@
     <link href="http://swiftggteam.github.io/2015/12/02/swift-weak-and-unowned/"/>
     <id>http://swiftggteam.github.io/2015/12/02/swift-weak-and-unowned/</id>
     <published>2015-12-01T16:00:00.000Z</published>
-    <updated>2015-12-03T01:13:25.758Z</updated>
+    <updated>2015-12-04T01:04:22.993Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-weak-and-unowned/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-30<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a></p>
 </blockquote>
@@ -209,14 +209,14 @@
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ModelObject 类内容</span></span><br><span class="line"><span class="keyword">import</span> Foundation</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">ModelObjectDelegate</span>: <span class="title">class</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ModelObject</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> delegate: <span class="type">ModelObjectDelegate</span>?</span><br><span class="line">       </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// SecondViewController 类内容</span></span><br><span class="line"><span class="keyword">import</span> UIKit</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SecondViewController</span>: <span class="title">UIViewController</span>, <span class="title">ModelObjectDelegate</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> modelObject: <span class="type">ModelObject</span>?</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.viewDidLoad()</span><br><span class="line">        modelObject = <span class="type">ModelObject</span>()</span><br><span class="line">        modelObject!.delegate = <span class="keyword">self</span></span><br><span class="line">    &#125;</span><br><span class="line">        </span><br><span class="line">    <span class="preprocessor">@IBAction</span> <span class="func"><span class="keyword">func</span> <span class="title">closeButtonPressed</span><span class="params">(sender: UIButton)</span></span> &#123;</span><br><span class="line">        dismissViewControllerAnimated(<span class="literal">true</span>, completion: <span class="literal">nil</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>准备工作完毕，现在来测试下内存管理：首先我们释放掉（dismiss）<code>SecondViewController</code> 视图控制器，你会发现使用内存并未有所下降。这是为什么呢？按照期望应该是释放掉 <code>SecondViewController</code> 对象,内存被释放才对。让我们首先来了解下对象之间的关系。假设 <code>SecondViewController</code> 加载完毕，对象之间关系应该看起来这样：</p>
-<p><img src="/img/articles/swift-weak-and-unowned/retainc1.jpg1449105197.6630447" alt=""></p>
+<p><img src="/img/articles/swift-weak-and-unowned/retainc1.jpg1449191055.7250454" alt=""></p>
 <p>现在，释放掉 <code>SecondViewController</code>，看起来应该这样：</p>
-<p><img src="/img/articles/swift-weak-and-unowned/retain2c.jpg1449105198.6437657" alt=""></p>
+<p><img src="/img/articles/swift-weak-and-unowned/retain2c.jpg1449191056.657866" alt=""></p>
 <p>如图所示：<code>RootViewController</code> 不再对 <code>SecondViewController</code> 拥有强引用关系。但是 <code>SecondViewController</code> 和 <code>ModelObject</code> 对象之间始终保持相互强引用。所以它们不会被释放掉。</p>
 <h3 id="Weak">Weak</h3><p>为了避免这种情况发生，我们可以将引用关系声明为 <code>weak</code> ，它不会阻止 ARC 释放内存。</p>
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> Foundation</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">ModelObjectDelegate</span>: <span class="title">class</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ModelObject</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">weak</span> <span class="keyword">var</span> delegate: <span class="type">ModelObjectDelegate</span>?</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>现在对象关系图应该看起来这样：</p>
-<p><img src="/img/articles/swift-weak-and-unowned/retainc3.jpg1449105199.6256988" alt=""></p>
+<p><img src="/img/articles/swift-weak-and-unowned/retainc3.jpg1449191057.2619567" alt=""></p>
 <p>由于 <code>SecondViewController</code> 和 <code>ModelObject</code> 对象之间仅存一个强引用关系，毫无疑问可以成功释放内存。</p>
 <h3 id="Unowned">Unowned</h3><p>此外你还可以使用 <code>unowned</code> 关键字替换掉 <code>weak</code>,那么两者的区别在哪里？倘若你使用 <code>weak</code>,属性可以是可选类型，即允许有 <code>nil</code> 值的情况。另一方面，倘若你使用 <code>unowned</code>，它不允许设为可选类型。因为一个 unowned 属性不能为可选类型，那么它必须在 init 方法中初始化值：</p>
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> Foundation</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">ModelObjectDelegate</span>: <span class="title">class</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ModelObject</span> </span>&#123;</span><br><span class="line">    <span class="comment">//译者注：swift 要求变量一定要有初始值</span></span><br><span class="line">    <span class="comment">//        可选类型默认初始值为 nil</span></span><br><span class="line">    <span class="keyword">unowned</span> <span class="keyword">var</span> delegate: <span class="type">ModelObjectDelegate</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">init</span>(delegate:<span class="type">ModelObjectDelegate</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.delegate = delegate</span><br><span class="line">    &#125;</span><br><span class="line">        </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -246,7 +246,7 @@
     <link href="http://swiftggteam.github.io/2015/12/01/xcode-xcconfig-files-for-managing-targets-configurations/"/>
     <id>http://swiftggteam.github.io/2015/12/01/xcode-xcconfig-files-for-managing-targets-configurations/</id>
     <published>2015-11-30T16:00:00.000Z</published>
-    <updated>2015-12-03T01:13:25.758Z</updated>
+    <updated>2015-12-04T01:04:22.993Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/xcode-xcconfig-files-for-managing-targets-configurations/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-14<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -258,7 +258,7 @@
 <p>项目由十个应用 target 组成，2个总的 target 做些业务，以及一个测试 target 。每一个 target 使用不同的尾部和不同的 “api keys”，以及其他像用于 hockeyapp（HockeyApp 是一个用来分发你的程序并收集应用的崩溃报告的收集框架，类似友盟） token 的键（key）。每一个 target 有自己的预处理宏，如：“TARGET_A”, “TARGET_B”等…（虚构的名字）。然后，token，api keys，后端的 url 被存储在 plist 文件中。因此很自然需要一些类来封装这个文件，并且有语法分析程序以及可以提供给我们适当的键。这个类有超过200行的代码，对我来说仅仅阅读这些数据就要花费很多时间。</p>
 <p>因此，我想或许可以使用 XCConfig 文件来简化和替代，而不是使用语法分析程序和十个个预处理宏（一个 target）去决定从 plist 文件应该返回什么值。你可以在下面找到我的解决方案。可能不是最好的方案，但是此刻应该是最好的。如果你有更好的方案，我很愿意去拜读 :)</p>
 <h3 id="概述">概述</h3><p>核心思想是使用一些有层级的配置文件。第一层是用于存储最普通的数据，第二层用于区分 debug 和 release 模式，最后一层用于关联特殊 target 的设置。</p>
-<p><img src="/img/articles/xcode-xcconfig-files-for-managing-targets-configurations/diagram_1.png1449105201.9321837" alt=""></p>
+<p><img src="/img/articles/xcode-xcconfig-files-for-managing-targets-configurations/diagram_1.png1449191059.3372931" alt=""></p>
 <h3 id="Common-xcconfig">Common.xcconfig</h3><p>这个文件存储着类似应用名称，应用版本，bundle version，以及其他 debug和 release target 中通用的常见配置。</p>
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  Common.xcconfig</span></span><br><span class="line"><span class="comment">//  &lt;truncated&gt;</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="type">APP_NAME</span> = <span class="type">App</span></span><br><span class="line"><span class="type">APP_VERSION</span> = <span class="number">1.6</span></span><br><span class="line"><span class="type">APP_BUNDLE_ID</span> = <span class="number">153</span></span><br></pre></td></tr></table></figure>
 <p>考虑到为十个 target 改变相应的应用版本和 bundle 可能会消耗很多时间。其他的选项可能会创建聚合的 target ，这样可以在每次 Cmd+B的时候更新Info-plist 文件，但是我会避免这样的情况并且让项目不会比现在更复杂。</p>
@@ -300,7 +300,7 @@
     <link href="http://swiftggteam.github.io/2015/11/30/should-you-migrate-objective-c-code-to-swift/"/>
     <id>http://swiftggteam.github.io/2015/11/30/should-you-migrate-objective-c-code-to-swift/</id>
     <published>2015-11-29T16:00:00.000Z</published>
-    <updated>2015-12-03T01:13:25.758Z</updated>
+    <updated>2015-12-04T01:04:22.993Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/should-you-migrate-objective-c-code-to-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-23<br>译者：<a href="http://blog.csdn.net/yake_099" target="_blank" rel="external">Yake</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -341,7 +341,7 @@
     <link href="http://swiftggteam.github.io/2015/11/27/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/11/27/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/</id>
     <published>2015-11-27T01:20:00.000Z</published>
-    <updated>2015-12-03T01:13:25.758Z</updated>
+    <updated>2015-12-04T01:04:22.993Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/11/05/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/5<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -384,7 +384,7 @@
     <link href="http://swiftggteam.github.io/2015/11/26/swift-map-and-flatmap/"/>
     <id>http://swiftggteam.github.io/2015/11/26/swift-map-and-flatmap/</id>
     <published>2015-11-25T16:00:00.000Z</published>
-    <updated>2015-12-03T01:13:25.758Z</updated>
+    <updated>2015-12-04T01:04:22.993Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-map-and-flatmap/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-16<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -424,7 +424,7 @@
     <link href="http://swiftggteam.github.io/2015/11/25/tvos-introduction/"/>
     <id>http://swiftggteam.github.io/2015/11/25/tvos-introduction/</id>
     <published>2015-11-24T16:00:00.000Z</published>
-    <updated>2015-12-03T01:13:25.758Z</updated>
+    <updated>2015-12-04T01:04:22.993Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：gregg mojica，<a href="http://www.appcoda.com/tvos-introduction/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-02<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -569,7 +569,7 @@
     <link href="http://swiftggteam.github.io/2015/11/24/speeding-up-swift-playgrounds-with-closure-initialization-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/11/24/speeding-up-swift-playgrounds-with-closure-initialization-swiftlang/</id>
     <published>2015-11-23T16:00:00.000Z</published>
-    <updated>2015-12-03T01:13:25.758Z</updated>
+    <updated>2015-12-04T01:04:22.993Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/11/15/speeding-up-swift-playgrounds-with-closure-initialization-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-15<br>译者：<a href="undefined">JackAlan</a>；校对：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -615,7 +615,7 @@
     <link href="http://swiftggteam.github.io/2015/11/23/swift-reflection-api-what-you-can-do/"/>
     <id>http://swiftggteam.github.io/2015/11/23/swift-reflection-api-what-you-can-do/</id>
     <published>2015-11-22T16:00:00.000Z</published>
-    <updated>2015-12-03T01:13:25.758Z</updated>
+    <updated>2015-12-04T01:04:22.993Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Benedikt Terhechte，<a href="http://appventure.me/2015/10/24/swift-reflection-api-what-you-can-do/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-24<br>译者：<a href="http://blog.csdn.net/mmoaay" target="_blank" rel="external">mmoaay</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -773,7 +773,7 @@
     <link href="http://swiftggteam.github.io/2015/11/20/advanced-practical-enum-examples/"/>
     <id>http://swiftggteam.github.io/2015/11/20/advanced-practical-enum-examples/</id>
     <published>2015-11-19T16:00:00.000Z</published>
-    <updated>2015-12-03T01:13:25.758Z</updated>
+    <updated>2015-12-04T01:04:22.993Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Benedikt Terhechte，<a href="http://appventure.me/2015/10/17/advanced-practical-enum-examples/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-17<br>译者：<a href="http://www.jianshu.com/users/3b40e55ec6d5/latest_articles" target="_blank" rel="external">小锅</a>，<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
 </blockquote>
@@ -1058,7 +1058,7 @@
     <link href="http://swiftggteam.github.io/2015/11/19/3d-touch-tutorial/"/>
     <id>http://swiftggteam.github.io/2015/11/19/3d-touch-tutorial/</id>
     <published>2015-11-19T02:31:00.000Z</published>
-    <updated>2015-12-03T01:13:25.758Z</updated>
+    <updated>2015-12-04T01:04:22.993Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Maxime Defauw，<a href="http://www.appcoda.com/3d-touch-tutorial/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/09<br>译者：<a href="http://www.brighttj.com" target="_blank" rel="external">saitjr</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1146,7 +1146,7 @@
     <link href="http://swiftggteam.github.io/2015/11/18/watchconnectivity-user-info/"/>
     <id>http://swiftggteam.github.io/2015/11/18/watchconnectivity-user-info/</id>
     <published>2015-11-17T16:00:00.000Z</published>
-    <updated>2015-12-03T01:13:25.758Z</updated>
+    <updated>2015-12-04T01:04:22.993Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/watchconnectivity-user-info/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-21<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1224,7 +1224,7 @@
     <link href="http://swiftggteam.github.io/2015/11/17/functional-programming-in-swift/"/>
     <id>http://swiftggteam.github.io/2015/11/17/functional-programming-in-swift/</id>
     <published>2015-11-17T04:00:00.000Z</published>
-    <updated>2015-12-03T01:13:25.758Z</updated>
+    <updated>2015-12-04T01:04:22.993Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/functional-programming-in-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/13<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1276,7 +1276,7 @@
     <link href="http://swiftggteam.github.io/2015/11/16/capturing-context-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/11/16/capturing-context-swiftlang/</id>
     <published>2015-11-16T01:00:00.000Z</published>
-    <updated>2015-12-03T01:13:25.758Z</updated>
+    <updated>2015-12-04T01:04:22.993Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/08/27/capturing-context-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-08-27<br>译者：<a href="https://github.com/chenmingbiao" target="_blank" rel="external">CMB</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1321,7 +1321,7 @@
     <link href="http://swiftggteam.github.io/2015/11/13/swift-tutorial-for-beginners-part-1/"/>
     <id>http://swiftggteam.github.io/2015/11/13/swift-tutorial-for-beginners-part-1/</id>
     <published>2015-11-13T01:00:00.000Z</published>
-    <updated>2015-12-03T01:13:25.758Z</updated>
+    <updated>2015-12-04T01:04:22.993Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-tutorial-for-beginners-part-1/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-29<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1461,7 +1461,7 @@
     <link href="http://swiftggteam.github.io/2015/11/12/naming-methods-and-functions/"/>
     <id>http://swiftggteam.github.io/2015/11/12/naming-methods-and-functions/</id>
     <published>2015-11-12T01:00:00.000Z</published>
-    <updated>2015-12-03T01:13:25.758Z</updated>
+    <updated>2015-12-04T01:04:22.993Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/08/31/naming-methods-and-functions/" target="_blank" rel="external">原文链接</a>，原文日期：2015-08-31<br>译者：<a href="http://weibo.com/u/2916092907" target="_blank" rel="external">天才175</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1506,7 +1506,7 @@
     <link href="http://swiftggteam.github.io/2015/11/11/c-callbacks-in-swift/"/>
     <id>http://swiftggteam.github.io/2015/11/11/c-callbacks-in-swift/</id>
     <published>2015-11-11T01:00:00.000Z</published>
-    <updated>2015-12-03T01:13:25.758Z</updated>
+    <updated>2015-12-04T01:04:22.993Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Ole Begemann，<a href="http://oleb.net/blog/2015/06/c-callbacks-in-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-06-22<br>译者：<a href="http://www.jianshu.com/users/3b40e55ec6d5/latest_articles" target="_blank" rel="external">小锅</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
 </blockquote>
@@ -1588,7 +1588,7 @@
     <link href="http://swiftggteam.github.io/2015/11/10/ios-undo-and-redo-with-nsundomanager/"/>
     <id>http://swiftggteam.github.io/2015/11/10/ios-undo-and-redo-with-nsundomanager/</id>
     <published>2015-11-10T01:00:00.000Z</published>
-    <updated>2015-12-03T01:13:25.758Z</updated>
+    <updated>2015-12-04T01:04:22.993Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/ios-undo-and-redo-with-nsundomanager/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-13<br>译者：<a href="http://blog.csdn.net/yake_099" target="_blank" rel="external">Yake</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="undefined"></a></p>
 </blockquote>
@@ -1656,7 +1656,7 @@
     <link href="http://swiftggteam.github.io/2015/11/09/what-makes-good-code/"/>
     <id>http://swiftggteam.github.io/2015/11/09/what-makes-good-code/</id>
     <published>2015-11-09T01:00:00.000Z</published>
-    <updated>2015-12-03T01:13:25.754Z</updated>
+    <updated>2015-12-04T01:04:22.989Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/10/28/what-makes-good-code/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-28<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1711,7 +1711,7 @@
     <link href="http://swiftggteam.github.io/2015/11/06/if-let-assignment/"/>
     <id>http://swiftggteam.github.io/2015/11/06/if-let-assignment/</id>
     <published>2015-11-06T01:00:00.000Z</published>
-    <updated>2015-12-03T01:13:25.754Z</updated>
+    <updated>2015-12-04T01:04:22.989Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Weston Hanners，<a href="http://www.alloc-init.com/2015/10/if-let-assignment/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-29<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
