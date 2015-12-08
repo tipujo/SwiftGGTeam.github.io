@@ -16,7 +16,7 @@
     <meta name="description" content="作者：Tomasz Szulc，原文链接，原文日期：2015-11-29译者：Cee；校对：千叶知风；定稿：千叶知风
 
 &amp;lt;!--此处开始正文--&amp;gt;
-iOS：选择 Realm 而不是 CoreData
+
 我已在网上多次看到「Realm」这个词。我甚至曾在十月时有机会参加由 Swift 用户组组织的 Realm 聚会。最终，我有机会用上了 Realm 这个框架。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS：选择 Realm 而不是 CoreData">
@@ -25,15 +25,15 @@ iOS：选择 Realm 而不是 CoreData
 <meta property="og:description" content="作者：Tomasz Szulc，原文链接，原文日期：2015-11-29译者：Cee；校对：千叶知风；定稿：千叶知风
 
 &amp;lt;!--此处开始正文--&amp;gt;
-iOS：选择 Realm 而不是 CoreData
+
 我已在网上多次看到「Realm」这个词。我甚至曾在十月时有机会参加由 Swift 用户组组织的 Realm 聚会。最终，我有机会用上了 Realm 这个框架。">
-<meta property="og:updated_time" content="2015-12-08T07:49:17.905Z">
+<meta property="og:updated_time" content="2015-12-08T07:52:19.377Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS：选择 Realm 而不是 CoreData">
 <meta name="twitter:description" content="作者：Tomasz Szulc，原文链接，原文日期：2015-11-29译者：Cee；校对：千叶知风；定稿：千叶知风
 
 &amp;lt;!--此处开始正文--&amp;gt;
-iOS：选择 Realm 而不是 CoreData
+
 我已在网上多次看到「Realm」这个词。我甚至曾在十月时有机会参加由 Swift 用户组组织的 Realm 聚会。最终，我有机会用上了 Realm 这个框架。">
 
     
@@ -105,7 +105,7 @@ iOS：选择 Realm 而不是 CoreData
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#iOS：选择_Realm_而不是_CoreData"><span class="toc-number">1.</span> <span class="toc-text">iOS：选择 Realm 而不是 CoreData</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#案例"><span class="toc-number">1.1.</span> <span class="toc-text">案例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#抽象模型（Model）"><span class="toc-number">1.2.</span> <span class="toc-text">抽象模型（Model）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#索引属性（Indexed_properties）和主键（Primary_keys）"><span class="toc-number">1.3.</span> <span class="toc-text">索引属性（Indexed properties）和主键（Primary keys）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建、更新并写入数据"><span class="toc-number">1.4.</span> <span class="toc-text">创建、更新并写入数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小结"><span class="toc-number">1.5.</span> <span class="toc-text">小结</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#案例"><span class="toc-number">1.</span> <span class="toc-text">案例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#抽象模型（Model）"><span class="toc-number">2.</span> <span class="toc-text">抽象模型（Model）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#索引属性（Indexed_properties）和主键（Primary_keys）"><span class="toc-number">3.</span> <span class="toc-text">索引属性（Indexed properties）和主键（Primary keys）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建、更新并写入数据"><span class="toc-number">4.</span> <span class="toc-text">创建、更新并写入数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小结"><span class="toc-number">5.</span> <span class="toc-text">小结</span></a></li></ol>
 		
 		</div>
 		
@@ -113,7 +113,7 @@ iOS：选择 Realm 而不是 CoreData
 <p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/ios-realm-instead-of-coredata/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-29<br>译者：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
 <!--此处开始正文-->
-<h1 id="iOS：选择_Realm_而不是_CoreData">iOS：选择 Realm 而不是 CoreData</h1><blockquote>
+<blockquote>
 <p>我已在网上多次看到「Realm」这个词。我甚至曾在十月时有机会参加由 Swift 用户组组织的 Realm 聚会。最终，我有机会用上了 Realm 这个框架。</p>
 <a id="more"></a>
 </blockquote>
@@ -211,7 +211,7 @@ iOS：选择 Realm 而不是 CoreData
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#iOS：选择_Realm_而不是_CoreData"><span class="toc-number">1.</span> <span class="toc-text">iOS：选择 Realm 而不是 CoreData</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#案例"><span class="toc-number">1.1.</span> <span class="toc-text">案例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#抽象模型（Model）"><span class="toc-number">1.2.</span> <span class="toc-text">抽象模型（Model）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#索引属性（Indexed_properties）和主键（Primary_keys）"><span class="toc-number">1.3.</span> <span class="toc-text">索引属性（Indexed properties）和主键（Primary keys）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建、更新并写入数据"><span class="toc-number">1.4.</span> <span class="toc-text">创建、更新并写入数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小结"><span class="toc-number">1.5.</span> <span class="toc-text">小结</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#案例"><span class="toc-number">1.</span> <span class="toc-text">案例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#抽象模型（Model）"><span class="toc-number">2.</span> <span class="toc-text">抽象模型（Model）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#索引属性（Indexed_properties）和主键（Primary_keys）"><span class="toc-number">3.</span> <span class="toc-text">索引属性（Indexed properties）和主键（Primary keys）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建、更新并写入数据"><span class="toc-number">4.</span> <span class="toc-text">创建、更新并写入数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小结"><span class="toc-number">5.</span> <span class="toc-text">小结</span></a></li></ol>
  
   </div>
 
