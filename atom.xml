@@ -4,7 +4,7 @@
   <subtitle><![CDATA[走心的 Swift 翻译组]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://swiftggteam.github.io/"/>
-  <updated>2015-12-07T17:07:19.375Z</updated>
+  <updated>2015-12-08T01:00:16.868Z</updated>
   <id>http://swiftggteam.github.io/</id>
   
   <author>
@@ -15,11 +15,78 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[iOS：选择 Realm 而不是 CoreData]]></title>
+    <link href="http://swiftggteam.github.io/2015/12/08/ios-realm-instead-of-coredata/"/>
+    <id>http://swiftggteam.github.io/2015/12/08/ios-realm-instead-of-coredata/</id>
+    <published>2015-12-07T16:00:00.000Z</published>
+    <updated>2015-12-08T01:00:16.868Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/ios-realm-instead-of-coredata/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-29<br>译者：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
+</blockquote>
+<!--此处开始正文-->
+<h1 id="iOS：选择_Realm_而不是_CoreData">iOS：选择 Realm 而不是 CoreData</h1><blockquote>
+<p>我已在网上多次看到「Realm」这个词。我甚至曾在十月时有机会参加由 Swift 用户组组织的 Realm 聚会。最终，我有机会用上了 Realm 这个框架。</p>
+<a id="more"></a>
+</blockquote>
+<h2 id="案例">案例</h2><p>现在我正在节食。我需要减一些体重因为在加利福尼亚的时候胖了好多 – 好吃的食物实在是太多了:)！我浏览了一下 iTunes Store 中的那些能够追踪喝水记录的应用，但是在我看来这些应用要么看上去很糟糕，要么交互实在是很烂。我想：如果我决定做一个应用，岂不是一箭双雕吗 – 我又能写一个我想要的应用，又能选择使用 Realm 而不是 Core Data。所以我开工了。</p>
+<p>你知道当我看完文档、开始使用 Realm 框架的第一感觉是什么吗？<strong>哇，这简直真是太棒了！这些开发的家伙做的简直超棒！</strong></p>
+<p><strong>免责声明：</strong>接下来所写的仅仅只覆盖了 Realm 框架中最基本的一部分。我建议你们接下来可以去阅读<a href="https://realm.io/docs/swift/latest/" target="_blank" rel="external">官方文档</a>来获取更多的信息。在这儿我并不想向你们展示关于 Realm 框架的全部内容，因为这篇文章不可能像文档一样又臭又长，并且我自己也会避免这样的问题发生。官方的文档非常的棒，你在开工前可以先读一下它。</p>
+<p>我的这个案例并不是很复杂而是非常简单的。整个 app 只有两个抽象模型（Model）类： <code>Day</code> 和 <code>DrinkLogEntry</code> 。此外，这个 app 也需要这些功能：添加、更新、筛选和排序存储的数据。正如我所说这是个简单的 app 。接下来我会呈现 app 中的一些代码片段。</p>
+<h2 id="抽象模型（Model）">抽象模型（Model）</h2><p>Realm 中没有像 xcdatamodel-like 这样的文件。抽象模型仅仅是继承自 <code>Object</code> 类的文件。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> 表示了用户一天的生活。 Day 这个类的信息包含用户所喝的水和他们的每天喝水的目标。</span><br><span class="line">*/</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Day</span>: <span class="title">Object</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">dynamic</span> <span class="keyword">var</span> identifier: <span class="type">String</span>!</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// 表示一天的开始的时间戳（UTC+0 时区）</span></span><br><span class="line">    <span class="keyword">dynamic</span> <span class="keyword">var</span> timestamp: <span class="type">NSTimeInterval</span> = <span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// 用户所喝的水的量（毫升）</span></span><br><span class="line">    <span class="keyword">dynamic</span> <span class="keyword">var</span> waterDrank: <span class="type">Float</span> = <span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// 用户每天喝水的目标（毫升）</span></span><br><span class="line">    <span class="keyword">dynamic</span> <span class="keyword">var</span> dailyGoal: <span class="type">Float</span> = <span class="number">0</span> <span class="comment">// ml</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> drinkLogs = <span class="type">List</span>&lt;<span class="type">DrinkLogEntry</span>&gt;()</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">convenience</span> <span class="keyword">init</span>(timestamp: <span class="type">NSTimeInterval</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.<span class="keyword">init</span>()</span><br><span class="line">        <span class="keyword">self</span>.timestamp = timestamp</span><br><span class="line">        <span class="keyword">self</span>.identifier = <span class="type">Day</span>.convertTimestampIntoIdentifier(timestamp)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">override</span> <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">primaryKey</span>() -&gt; <span class="title">String</span>? </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"identifier"</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">override</span> <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">indexedProperties</span>() -&gt; [<span class="title">String</span>] </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> [<span class="string">"identifier"</span>]</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">convertTimestampIntoIdentifier</span>(<span class="title">timestamp</span>: <span class="title">NSTimeInterval</span>) -&gt; <span class="title">String</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="type">String</span>(format: <span class="string">"%.0f"</span>, arguments: [timestamp])</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>所有前有 <code>dynamic</code> 关键字的属性都会被转化成数据抽象层的一部分。Realm 也支持关系型数据。在这个例子中 Day 这个类中存在 drinkLogs 的一对多关系。一对一的关系就仅是类中的特定属性了。</p>
+<p>Realm 也支持从 Core Data 中迁移数据。当你需要迁移的时候，可以定义一个闭包并且执行它，然后你就能顺利地执行迁移属性的所有步骤了（译者注：<a href="https://realm.io/news/migrating-from-core-data-to-realm/" target="_blank" rel="external">如何从 Core Data 迁移到 Realm</a>）。</p>
+<h2 id="索引属性（Indexed_properties）和主键（Primary_keys）">索引属性（Indexed properties）和主键（Primary keys）</h2><p>Realm 框架有很多 Core Data 中没有的新特性（也有可能是我没找到，或者说我就是想提一下这点😊）。第一点就是「索引属性」了。你可以定义需要被索引的属性集合。当属性个数比较小的时候，搜索会变得很快。这有助于性能的提升。</p>
+<p>接下来不得不提一下「主键」。你可以定义抽象模型中的一个属性作为它的主键。这能保证更加有效地更新数据以及保证数据的唯一性。</p>
+<p>在我使用的这个例子中，主键和索引属性将作为「标识符」，被用于搜索和更新数据。</p>
+<p>数据中也可以有被忽略的属性，那些属性将不被持久化保存。</p>
+<h2 id="创建、更新并写入数据">创建、更新并写入数据</h2><p>你可以使用未被持久化过的抽象模型，而且这些数据可以被持久化时，你可以将它们写入 Realm 中。比起 Core Data，这就是我为什么喜欢 Realm 更多一点 – 因为它能够很好地解决一些临时数据的问题。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> day = <span class="type">Day</span>(timestamp: timestamp)</span><br><span class="line">day.dailyGoal = <span class="type">MenuSettings</span>().dailyGoal</span><br></pre></td></tr></table></figure>
+<p>为了能够写入 Realm 或者从 Realm 中读取，你需要创建 <code>Realm</code> 实例：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> realm = <span class="keyword">try</span>! <span class="type">Realm</span>()</span><br></pre></td></tr></table></figure>
+<p>这是如何将数据添加到数据库的方法：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">try</span>! realm.write &#123;</span><br><span class="line">    realm.add(day)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我特别喜欢 Realm 中更新数据的方式。我们假设一下有一部分数据是从网络上下载的，并且他们被映射过而且已经加进了数据库。在数据库中已经存在的数据仅需要更新而不是再次添加。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">fetchAll</span><span class="params">(completion: [Day] -&gt; Void)</span></span> &#123;</span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     假设请求返回了 JSON 并且数据已经映射到了抽象数据层的 Day 类型。</span><br><span class="line">          </span><br><span class="line">     创建的数据还没有存入数据库 Realm 中。</span><br><span class="line">     数据的标识符是相等的时间戳。</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">let</span> day1 = <span class="type">Day</span>(timestamp: <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">let</span> day2 = <span class="type">Day</span>(timestamp: <span class="number">86400</span>)</span><br><span class="line">    <span class="keyword">let</span> day3 = <span class="type">Day</span>(timestamp: <span class="number">172800</span>)</span><br><span class="line">    </span><br><span class="line">    completion([day1, day2, day3])</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">sync</span><span class="params">()</span></span> &#123;</span><br><span class="line">    fetchAll &#123; (days) -&gt; <span class="type">Void</span> <span class="keyword">in</span></span><br><span class="line">        <span class="keyword">let</span> realm = <span class="keyword">try</span>! <span class="type">Realm</span>()</span><br><span class="line">        <span class="keyword">try</span>! realm.write &#123;</span><br><span class="line">            <span class="comment">/// 如果有相同的标识符，那么它将会被更新。</span></span><br><span class="line">            realm.add(days, update: <span class="literal">true</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这是一种比手动查询带有相同标识符然后更新值域更好的方法。</p>
+<p>如果更新的参数被置为 false，那么新的数据将具有和在数据库中存在的数据相同的主键。异常会被抛出。</p>
+<p>还有其他一些方法来更新数据，在这篇文章中我就不涉及了。</p>
+<p>这是如何得到所有 Day 类型数据的方法：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> days = realm.objects(<span class="type">Day</span>.<span class="keyword">self</span>)</span><br></pre></td></tr></table></figure>
+<p>筛选数据也很简单：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">realm.objects(<span class="type">Day</span>.<span class="keyword">self</span>).<span class="built_in">filter</span>(<span class="string">"identifier == %@"</span>, dayIdentifier)</span><br></pre></td></tr></table></figure>
+<p>按照时间戳升序排列这些数据：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> days = realm.objects(<span class="type">Day</span>.<span class="keyword">self</span>).sorted(<span class="string">"timestamp"</span>, ascending: <span class="literal">true</span>)</span><br></pre></td></tr></table></figure>
+<p>当你每次执行 <code>object()</code>、<code>sorted()</code> 和 <code>filter()</code> 后均会得到一个 <code>Results&lt;T&gt;</code> 类型的数据。这能让你对结果进行额外的筛选排序等操作 - 这功能非常的强大而且非常好使。</p>
+<h2 id="小结">小结</h2><p>在下一个有更加复杂的数据模型的 app 中<strong>我还会使用</strong> Realm 吗？答案是<strong>肯定</strong>的。因为整个框架使用起来非常的简单、集成起来非常的快速，而且 Realm 提供了非常多而且强大的功能特性。</p>
+<p>P.S. 这个 app 正在等待过审 :)</p>
+<p>2015/12/06更新<br>这个应用上架了 - <a href="https://itunes.apple.com/pl/app/water-intake-drink-more-water/id1062053347?mt=8" target="_blank" rel="external">Water Intake</a></p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/ios-realm-instead-of-coredata/">原文链接</a>，原文日期：2015-11-29<br>译者：<a href="https://github.com/Cee">Cee</a>；校对：<a href="http://weibo.com/xiaoxxiao">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao">千叶知风</a></p>
+</blockquote>
+<!--此处开始正文-->
+<h1 id="iOS：选择_Realm_而不是_CoreData">iOS：选择 Realm 而不是 CoreData</h1><blockquote>
+<p>我已在网上多次看到「Realm」这个词。我甚至曾在十月时有机会参加由 Swift 用户组组织的 Realm 聚会。最终，我有机会用上了 Realm 这个框架。</p>]]>
+    
+    </summary>
+    
+      <category term="Tomasz Szulc" scheme="http://swiftggteam.github.io/tags/Tomasz-Szulc/"/>
+    
+      <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[几个 Swift 代码规范]]></title>
     <link href="http://swiftggteam.github.io/2015/12/07/a-handful-of-swift-style-rules-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/12/07/a-handful-of-swift-style-rules-swiftlang/</id>
     <published>2015-12-06T16:00:00.000Z</published>
-    <updated>2015-12-07T17:07:19.375Z</updated>
+    <updated>2015-12-08T01:00:16.868Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/11/17/a-handful-of-swift-style-rules-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-17<br>译者：<a href="http://blog.csdn.net/mmoaay" target="_blank" rel="external">mmoaay</a>；校对：<a href="http://weibo.com/lfbWb" target="_blank" rel="external">lfb_CD</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
 </blockquote>
@@ -100,7 +167,7 @@
     <link href="http://swiftggteam.github.io/2015/12/04/the-fibonacci-sequencetype/"/>
     <id>http://swiftggteam.github.io/2015/12/04/the-fibonacci-sequencetype/</id>
     <published>2015-12-03T16:00:00.000Z</published>
-    <updated>2015-12-07T17:07:19.375Z</updated>
+    <updated>2015-12-08T01:00:16.868Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Jacob Bandes-Storch，<a href="http://bandes-stor.ch/blog/2015/08/05/the-fibonacci-sequencetype/" target="_blank" rel="external">原文链接</a>，原文日期：2015/08/05<br>译者：<a href="undefined">Lou</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
 <p>这篇博文启发自<a href="http://codereview.stackexchange.com/questions/60875/project-euler-2-even-fibonacci-numbers-in-swift" target="_blank" rel="external">Code Review.SE</a>上的一个讨论，同时<a href="https://xkcd.com/356/" target="_blank" rel="external">nerd-sniped</a>上的关于数学的有趣的学习。让我对数学和 Swift 的结合有了兴趣。所以我花了一段时间来把这些知识整理成一篇博文，特别是自从我完成了对我网站重建的第一步以后。更重要的是，我希望我能更勤勉的更新我的博客，这8年我只写了一篇而已，希望大家能对我的博客感兴趣。<br>这篇博文的目标对于初学者来讲，比较容易理解，同时也提供给那些已经对这个概念熟悉的人一些有用的细节和例子。希望大家能给我反馈。</p>
@@ -240,7 +307,7 @@
     <link href="http://swiftggteam.github.io/2015/12/03/expandable-table-view/"/>
     <id>http://swiftggteam.github.io/2015/12/03/expandable-table-view/</id>
     <published>2015-12-02T16:00:00.000Z</published>
-    <updated>2015-12-07T17:07:19.375Z</updated>
+    <updated>2015-12-08T01:00:16.868Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：AppCoda，<a href="http://www.appcoda.com/expandable-table-view/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-16<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -418,7 +485,7 @@
     <link href="http://swiftggteam.github.io/2015/12/02/swift-weak-and-unowned/"/>
     <id>http://swiftggteam.github.io/2015/12/02/swift-weak-and-unowned/</id>
     <published>2015-12-01T16:00:00.000Z</published>
-    <updated>2015-12-07T17:07:19.375Z</updated>
+    <updated>2015-12-08T01:00:16.868Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-weak-and-unowned/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-30<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a></p>
 </blockquote>
@@ -467,7 +534,7 @@
     <link href="http://swiftggteam.github.io/2015/12/01/xcode-xcconfig-files-for-managing-targets-configurations/"/>
     <id>http://swiftggteam.github.io/2015/12/01/xcode-xcconfig-files-for-managing-targets-configurations/</id>
     <published>2015-11-30T16:00:00.000Z</published>
-    <updated>2015-12-07T17:07:19.375Z</updated>
+    <updated>2015-12-08T01:00:16.868Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/xcode-xcconfig-files-for-managing-targets-configurations/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-14<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -521,7 +588,7 @@
     <link href="http://swiftggteam.github.io/2015/11/30/should-you-migrate-objective-c-code-to-swift/"/>
     <id>http://swiftggteam.github.io/2015/11/30/should-you-migrate-objective-c-code-to-swift/</id>
     <published>2015-11-29T16:00:00.000Z</published>
-    <updated>2015-12-07T17:07:19.375Z</updated>
+    <updated>2015-12-08T01:00:16.868Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/should-you-migrate-objective-c-code-to-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-23<br>译者：<a href="http://blog.csdn.net/yake_099" target="_blank" rel="external">Yake</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -562,7 +629,7 @@
     <link href="http://swiftggteam.github.io/2015/11/27/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/11/27/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/</id>
     <published>2015-11-27T01:20:00.000Z</published>
-    <updated>2015-12-07T17:07:19.375Z</updated>
+    <updated>2015-12-08T01:00:16.868Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/11/05/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/5<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -605,7 +672,7 @@
     <link href="http://swiftggteam.github.io/2015/11/26/swift-map-and-flatmap/"/>
     <id>http://swiftggteam.github.io/2015/11/26/swift-map-and-flatmap/</id>
     <published>2015-11-25T16:00:00.000Z</published>
-    <updated>2015-12-07T17:07:19.371Z</updated>
+    <updated>2015-12-08T01:00:16.868Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-map-and-flatmap/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-16<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -645,7 +712,7 @@
     <link href="http://swiftggteam.github.io/2015/11/25/tvos-introduction/"/>
     <id>http://swiftggteam.github.io/2015/11/25/tvos-introduction/</id>
     <published>2015-11-24T16:00:00.000Z</published>
-    <updated>2015-12-07T17:07:19.371Z</updated>
+    <updated>2015-12-08T01:00:16.868Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：gregg mojica，<a href="http://www.appcoda.com/tvos-introduction/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-02<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -790,7 +857,7 @@
     <link href="http://swiftggteam.github.io/2015/11/24/speeding-up-swift-playgrounds-with-closure-initialization-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/11/24/speeding-up-swift-playgrounds-with-closure-initialization-swiftlang/</id>
     <published>2015-11-23T16:00:00.000Z</published>
-    <updated>2015-12-07T17:07:19.371Z</updated>
+    <updated>2015-12-08T01:00:16.864Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/11/15/speeding-up-swift-playgrounds-with-closure-initialization-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-15<br>译者：<a href="undefined">JackAlan</a>；校对：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -836,7 +903,7 @@
     <link href="http://swiftggteam.github.io/2015/11/23/swift-reflection-api-what-you-can-do/"/>
     <id>http://swiftggteam.github.io/2015/11/23/swift-reflection-api-what-you-can-do/</id>
     <published>2015-11-22T16:00:00.000Z</published>
-    <updated>2015-12-07T17:07:19.371Z</updated>
+    <updated>2015-12-08T01:00:16.864Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Benedikt Terhechte，<a href="http://appventure.me/2015/10/24/swift-reflection-api-what-you-can-do/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-24<br>译者：<a href="http://blog.csdn.net/mmoaay" target="_blank" rel="external">mmoaay</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -994,7 +1061,7 @@
     <link href="http://swiftggteam.github.io/2015/11/20/advanced-practical-enum-examples/"/>
     <id>http://swiftggteam.github.io/2015/11/20/advanced-practical-enum-examples/</id>
     <published>2015-11-19T16:00:00.000Z</published>
-    <updated>2015-12-07T17:07:19.371Z</updated>
+    <updated>2015-12-08T01:00:16.864Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Benedikt Terhechte，<a href="http://appventure.me/2015/10/17/advanced-practical-enum-examples/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-17<br>译者：<a href="http://www.jianshu.com/users/3b40e55ec6d5/latest_articles" target="_blank" rel="external">小锅</a>，<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
 </blockquote>
@@ -1279,7 +1346,7 @@
     <link href="http://swiftggteam.github.io/2015/11/19/3d-touch-tutorial/"/>
     <id>http://swiftggteam.github.io/2015/11/19/3d-touch-tutorial/</id>
     <published>2015-11-19T02:31:00.000Z</published>
-    <updated>2015-12-07T17:07:19.371Z</updated>
+    <updated>2015-12-08T01:00:16.864Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Maxime Defauw，<a href="http://www.appcoda.com/3d-touch-tutorial/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/09<br>译者：<a href="http://www.brighttj.com" target="_blank" rel="external">saitjr</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1367,7 +1434,7 @@
     <link href="http://swiftggteam.github.io/2015/11/18/watchconnectivity-user-info/"/>
     <id>http://swiftggteam.github.io/2015/11/18/watchconnectivity-user-info/</id>
     <published>2015-11-17T16:00:00.000Z</published>
-    <updated>2015-12-07T17:07:19.371Z</updated>
+    <updated>2015-12-08T01:00:16.864Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/watchconnectivity-user-info/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-21<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1445,7 +1512,7 @@
     <link href="http://swiftggteam.github.io/2015/11/17/functional-programming-in-swift/"/>
     <id>http://swiftggteam.github.io/2015/11/17/functional-programming-in-swift/</id>
     <published>2015-11-17T04:00:00.000Z</published>
-    <updated>2015-12-07T17:07:19.371Z</updated>
+    <updated>2015-12-08T01:00:16.864Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/functional-programming-in-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/13<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1497,7 +1564,7 @@
     <link href="http://swiftggteam.github.io/2015/11/16/capturing-context-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/11/16/capturing-context-swiftlang/</id>
     <published>2015-11-16T01:00:00.000Z</published>
-    <updated>2015-12-07T17:07:19.371Z</updated>
+    <updated>2015-12-08T01:00:16.864Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/08/27/capturing-context-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-08-27<br>译者：<a href="https://github.com/chenmingbiao" target="_blank" rel="external">CMB</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1542,7 +1609,7 @@
     <link href="http://swiftggteam.github.io/2015/11/13/swift-tutorial-for-beginners-part-1/"/>
     <id>http://swiftggteam.github.io/2015/11/13/swift-tutorial-for-beginners-part-1/</id>
     <published>2015-11-13T01:00:00.000Z</published>
-    <updated>2015-12-07T17:07:19.371Z</updated>
+    <updated>2015-12-08T01:00:16.864Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-tutorial-for-beginners-part-1/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-29<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1682,7 +1749,7 @@
     <link href="http://swiftggteam.github.io/2015/11/12/naming-methods-and-functions/"/>
     <id>http://swiftggteam.github.io/2015/11/12/naming-methods-and-functions/</id>
     <published>2015-11-12T01:00:00.000Z</published>
-    <updated>2015-12-07T17:07:19.371Z</updated>
+    <updated>2015-12-08T01:00:16.864Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/08/31/naming-methods-and-functions/" target="_blank" rel="external">原文链接</a>，原文日期：2015-08-31<br>译者：<a href="http://weibo.com/u/2916092907" target="_blank" rel="external">天才175</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1727,7 +1794,7 @@
     <link href="http://swiftggteam.github.io/2015/11/11/c-callbacks-in-swift/"/>
     <id>http://swiftggteam.github.io/2015/11/11/c-callbacks-in-swift/</id>
     <published>2015-11-11T01:00:00.000Z</published>
-    <updated>2015-12-07T17:07:19.371Z</updated>
+    <updated>2015-12-08T01:00:16.864Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Ole Begemann，<a href="http://oleb.net/blog/2015/06/c-callbacks-in-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-06-22<br>译者：<a href="http://www.jianshu.com/users/3b40e55ec6d5/latest_articles" target="_blank" rel="external">小锅</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
 </blockquote>
@@ -1799,74 +1866,6 @@
     </summary>
     
       <category term="Ole Begemann" scheme="http://swiftggteam.github.io/tags/Ole-Begemann/"/>
-    
-      <category term="Swift 进阶" scheme="http://swiftggteam.github.io/categories/Swift-%E8%BF%9B%E9%98%B6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[使用 NSUndoManager 来进行撤销和重做]]></title>
-    <link href="http://swiftggteam.github.io/2015/11/10/ios-undo-and-redo-with-nsundomanager/"/>
-    <id>http://swiftggteam.github.io/2015/11/10/ios-undo-and-redo-with-nsundomanager/</id>
-    <published>2015-11-10T01:00:00.000Z</published>
-    <updated>2015-12-07T17:07:19.371Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/ios-undo-and-redo-with-nsundomanager/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-13<br>译者：<a href="http://blog.csdn.net/yake_099" target="_blank" rel="external">Yake</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="undefined"></a></p>
-</blockquote>
-<p>在相当长的一段时间内 NSUndoManager 对我来说都是一个很神秘的东西。我想学习使用它，但是一直没有时间。一直到今天，我写了一个简单的应用，这个应用创建了一个可以移动的矩形，并且还可以修改矩形的属性，例如背景色或者圆角。</p>
-<a id="more"></a>
-<p>你可以在<a href="https://github.com/tomkowz/undo-manager-practice" target="_blank" rel="external">这儿</a>获取到示例应用<br><a href="https://youtu.be/3Pk85X8bugk" target="_blank" rel="external">这儿</a>是一段小视频，你可以看看这个示例应用是怎么工作的。</p>
-<p><img src="/img/articles/ios-undo-and-redo-with-nsundomanager/Screen-Shot-2015-09-13-at-17.24.19.png1447290433.4454885" alt="Screen-Shot-2015-09-13-at-17.24.19.png"></p>
-<h2 id="NSUndoManager">NSUndoManager</h2><p><code>NSUndoManager</code>允许记录用户执行的操作并且反转这类操作。</p>
-<p>当你调用一个可以改变一些东西的方法或者是执行一个改变属性值的动作（例如 setter 方法）时，你可以注册这个操作来进行撤销。</p>
-<p>一个撤销操作包含了接收消息的对象，发送消息以及参数 - 通常你会传入原始值。</p>
-<p><code>NSUndoManager</code>实例支持重做操作，所以才能逆转操作。你可以认为这个管理器拥有两个栈。实际上，它管理两个栈，<code>undo</code>(撤销)栈和<code>redo</code>（重做）栈 - 对应<code>NSUndoManager</code>的私有属性<code>_undoStack</code>和<code>_redoStack</code>，里面存储着一些操作。</p>
-<p>注册<code>undo</code>操作时，它会被添加到<code>undo</code>栈中。当调用<code>undo()</code>方法时管理器就会进行撤销，执行栈中的操作并把这个操作移动到<code>redo</code>栈中，这样你就可以重做它。当你拥有多个<code>undo</code>操作时，按照逆序来撤销和重做这些操作。你肯定不会将操作直接注册到<code>redo</code>栈中，实际上这根本无法实现。</p>
-<p>你可以为<code>undo</code>操作设置一个级别，这指的是一个管理器可以在它的栈中存储多少<code>undo</code>操作。如果添加的<code>undo</code>操作数量超过了这个级别，最早加入的那个操作将会从栈中移除。</p>
-<p>你可以通过<code>canUndo</code>和<code>canRedo</code>来检查<code>undo</code>和<code>redo</code>栈的状态。这些状态很重要，你可能会基于这些栈的状态来更新 UI。</p>
-<p>假设你已经设置了<code>undo</code>操作的级别并且<code>redo</code>栈中还有一个操作，如果<code>undo</code>操作超过了这个级别，那你就需要使用<code>canUndo</code>和<code>canRedo</code>来检测可用性。之所以要这样做，是因为在这种情况下<code>NSUndoManager</code>将会移除<code>redo</code>操作，因为它是历史操作中最新的<code>undo</code>操作。（校对注：这里确实很绕，大家可以类比一下编辑器的撤销和重做操作，如果你在撤销之后进行了新的改动，那之前撤销过的操作其实已经无法再被重做了，因此可以被直接删掉，从而把更多的空间留给<code>undo</code>操作。）</p>
-<h2 id="注册undo操作">注册<code>undo</code>操作</h2><p>API提供了两种注册操作的方法。</p>
-<p>第一种是使用<code>registerUndoWithTarget(_:selector:object:)</code>方法：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">registerUndoAddFigure</span><span class="params">(figure: FigureView)</span></span> &#123;</span><br><span class="line">    undoManager.registerUndoWithTarget(<span class="keyword">self</span>, selector: <span class="type">Selector</span>(“removeFigure:”), object: figure)</span><br><span class="line">    undoManager.setActionName(“<span class="type">Add</span> <span class="type">Figure</span>”)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>第二种撤销方法是基于<code>NSInvocation</code>。你可以使用<code>prepareWithInvocationTarget(_:)</code>方法来注册此类操作。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">registerUndoAddFigure</span><span class="params">(figure: FigureView)</span></span> &#123;</span><br><span class="line">    undoManager.prepareWithInvocationTarget(<span class="keyword">self</span>).removeFigure(figure)</span><br><span class="line">    undoManager.setActionName(<span class="string">"Add Figure"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>你将会得到一个<code>NSUndoManagerProxy</code>类型对象，可以用它调用任何方法（但是只能调用目标对象遵守的那些协议方法，否则应用会抛出运行时异常）。注册之后代理对象将会在内部创建<code>NSInvocation</code>对象来记录你的操作，这个对象会在传入的目标对象执行<code>undo</code>操作时被调用。</p>
-<p>值得强调的是，在注册过程中目标对象没有被持有，需要你去管理它。如果<code>undo</code>操作被调用而目标对象已经被销毁，就会产生运行时异常。</p>
-<p>当对象将要被销毁时你需要调用<code>removeAllActionsWithTarget(_:)</code>来移除与目标对象相关联的一些操作，或者调用<code>removeAllActions()</code>来移除<code>undo</code>和<code>redo</code>栈中所有的操作</p>
-<h2 id="将操作分组">将操作分组</h2><p>分组操作是一件很有用的事情。默认情况下操作是通过事件进行分组的。这就意味着操作将会通过每一轮运行时循环来分组。你可以关闭自动分组，调用<code>beginUndoGrouping()</code>和<code>endUndoGrouping()</code>方法来手动操作分组。</p>
-<h2 id="命名并显示操作">命名并显示操作</h2><p><code>NSUndoManager</code>支持存储操作的名称。你可以调用<code>setActionName(_:)</code>方法来为操作命名。管理器已经包含<code>Undo</code>和<code>Redo</code>这两个单词的多语言版本，可以使用 API 直接获取对应语言的<code>Undo/Redo</code>字符串。</p>
-<p>下面这个方法来自示例应用，每一个新的<code>undo</code>操作被注册或者<code>undo``redo</code>操作被执行之后，将会更新<code>undo</code>和<code>redo</code>按钮。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="func"><span class="keyword">func</span> <span class="title">updateUndoAndRedoButtons</span><span class="params">()</span></span> &#123;</span><br><span class="line">    undoButton.enabled = undoManager.canUndo == <span class="literal">true</span></span><br><span class="line">    <span class="keyword">if</span> undoManager.canUndo &#123;</span><br><span class="line">        undoButton.setTitle(undoManager.undoMenuTitleForUndoActionName(undoManager.undoActionName), forState: .<span class="type">Normal</span>)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        undoButton.setTitle(undoManager.undoMenuItemTitle, forState: .<span class="type">Normal</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    redoButton.enabled = undoManager.canRedo == <span class="literal">true</span></span><br><span class="line">    <span class="keyword">if</span> undoManager.canRedo &#123;</span><br><span class="line">        redoButton.setTitle(undoManager.redoMenuTitleForUndoActionName(undoManager.redoActionName), forState: .<span class="type">Normal</span>)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        redoButton.setTitle(undoManager.redoMenuItemTitle, forState: .<span class="type">Normal</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="通知">通知</h2><p>管理器有几个你可以观察的通知类型。在示例应用中我关注的是<code>NSUndoManagerDidUndoChangeNotification</code>和<code>NSUndoManagerDidRedoChangeNotification</code>。为了让应用完美运行，我可能需要观察所有<code>will</code>或者<code>did</code>类型的通知，因为操作可能要执行一段时间，并且一部分代码可能是异步的。在这些情况下应用要正确展示 UI 就需要使用这些通知来刷新<code>Undo</code>和<code>Redo</code>按钮。</p>
-<h2 id="上下文">上下文</h2><p>应用在不同的上下文中可能有不同的管理器。示例应用在不同的上下文中用了两个管理器。</p>
-<p>第一个上下文是块展板，展板用来展示矩形并且可以在上面移动这个矩形。在这个展板上下文中可能发生的操作就是添加、移动或者移除一个矩形。</p>
-<p>第二个上下文是这个矩形自己。你可以改变它的颜色和圆角。我决定追踪展板的背景色以及圆角，忽略掉它在展板中的位置。</p>
-<p>这样你就可以添加一个矩形，移动它，改变它的颜色和圆角，使用<code>undo</code>来撤销移动操作但是不会撤销掉背景色和圆角的改变。你所使用的上下文数量取决于你的应用是怎么样的。</p>
-<h2 id="响应链">响应链</h2><p>每一个<code>UIView</code>对象继承自<code>UIResponder</code>类型，这个类定义了响应对象的接口并且处理事件。</p>
-<p><code>UIResponder</code>类声明了<code>undoManager</code>属性。当应用接收到<code>undo</code>事件，<code>UIResponder</code>搭建起响应者链并通过<code>undoManager</code>返回一个<code>NSUndoManager</code>类型的对象来找到这个响应者。找到的第一个响应者将被用来处理<code>undo</code>或者<code>redo</code>操作。</p>
-<p>为了使用响应者链你需要重载<code>canBecomeFirstResponder()</code>属性并且设置返回值为<code>true</code>，然后通过调用<code>becomeFirstResponder()</code>方法使持有<code>undoManager</code>的对象成为第一响应者。如果你已经正确设置好了一切，可以执行一个摇晃手势，应用会出现一个警告框询问你是否要执行<code>undo</code>操作。</p>
-<p><img src="/img/articles/ios-undo-and-redo-with-nsundomanager/undo-event.png1447290437.6564598" alt="图片二.png"></p>
-<h2 id="示例代码">示例代码</h2><p>当我写这个示例代码的时候我注意自己花费了很多时间去考虑“具有唯一目的”的方法。当你需要支持撤销和重做操作时这其实很重要，因为你调用那些方法就是出于特定的目的。</p>
-<p>下面的示例代码来自那个示例应用，它展示了在展板中的添加，移除以及移动操作都是怎么实现的。下面是所有与<code>undo manager</code>相关的代码：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">/// MARK: Actions on Figures</span></span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">addFigure</span><span class="params">(figure: FigureView)</span></span> &#123;</span><br><span class="line">    registerUndoAddFigure(figure)</span><br><span class="line">    </span><br><span class="line">    boardView.addSubview(figure)</span><br><span class="line">    figures.append(figure)</span><br><span class="line">    </span><br><span class="line">    updateUndoAndRedoButtons()</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">removeFigure</span><span class="params">(figure: FigureView)</span></span> &#123;</span><br><span class="line">    registerUndoRemoveFigure(figure)</span><br><span class="line">    </span><br><span class="line">    figure.removeFromSuperview()</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">let</span> index = figures.indexOf(figure) &#123;</span><br><span class="line">        figures.removeAtIndex(index)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">moveFigure</span><span class="params">(figure: FigureView, center: CGPoint)</span></span> &#123;</span><br><span class="line">    registerUndoMoveFigure(figure)</span><br><span class="line">    figure.center = center</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="comment">/// MARK: Undo Manager</span></span><br><span class="line"><span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">canBecomeFirstResponder</span><span class="params">()</span></span> -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">private</span> <span class="keyword">var</span> _undoManager = <span class="type">NSUndoManager</span>()</span><br><span class="line"><span class="keyword">override</span> <span class="keyword">var</span> undoManager: <span class="type">NSUndoManager</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> _undoManager</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">private</span> <span class="func"><span class="keyword">func</span> <span class="title">observeUndoManager</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="type">NSNotificationCenter</span>.defaultCenter().addObserver(<span class="keyword">self</span>, selector: <span class="type">Selector</span>(<span class="string">"updateUndoAndRedoButtons"</span>), name: <span class="type">NSUndoManagerDidUndoChangeNotification</span>, object: undoManager)</span><br><span class="line">    <span class="type">NSNotificationCenter</span>.defaultCenter().addObserver(<span class="keyword">self</span>, selector: <span class="type">Selector</span>(<span class="string">"updateUndoAndRedoButtons"</span>), name: <span class="type">NSUndoManagerDidRedoChangeNotification</span>, object: undoManager)</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="preprocessor">@objc</span> <span class="keyword">private</span> <span class="func"><span class="keyword">func</span> <span class="title">updateUndoAndRedoButtons</span><span class="params">()</span></span> &#123;</span><br><span class="line">    undoButton.enabled = undoManager.canUndo == <span class="literal">true</span></span><br><span class="line">    <span class="keyword">if</span> undoManager.canUndo &#123;</span><br><span class="line">        undoButton.setTitle(undoManager.undoMenuTitleForUndoActionName(undoManager.undoActionName), forState: .<span class="type">Normal</span>)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        undoButton.setTitle(undoManager.undoMenuItemTitle, forState: .<span class="type">Normal</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    redoButton.enabled = undoManager.canRedo == <span class="literal">true</span></span><br><span class="line">    <span class="keyword">if</span> undoManager.canRedo &#123;</span><br><span class="line">        redoButton.setTitle(undoManager.redoMenuTitleForUndoActionName(undoManager.redoActionName), forState: .<span class="type">Normal</span>)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        redoButton.setTitle(undoManager.redoMenuItemTitle, forState: .<span class="type">Normal</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="comment">/// MARK: Undo Manager Actions</span></span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">registerUndoAddFigure</span><span class="params">(figure: FigureView)</span></span> &#123;</span><br><span class="line">    undoManager.prepareWithInvocationTarget(<span class="keyword">self</span>).removeFigure(figure)</span><br><span class="line">    undoManager.setActionName(<span class="string">"Add Figure"</span>)</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">registerUndoRemoveFigure</span><span class="params">(figure: FigureView)</span></span> &#123;</span><br><span class="line">    undoManager.prepareWithInvocationTarget(<span class="keyword">self</span>).addFigure(figure)</span><br><span class="line">    undoManager.setActionName(<span class="string">"Remove Figure"</span>)</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">registerUndoMoveFigure</span><span class="params">(figure: FigureView)</span></span> &#123;</span><br><span class="line">    undoManager.prepareWithInvocationTarget(<span class="keyword">self</span>).moveFigure(figure, center: figure.center)</span><br><span class="line">    undoManager.setActionName(<span class="string">"Move to <span class="subst">\(figure.center)</span>"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>我创建了一些<code>undo</code>相关的简单方法。这样做效果很好，注册<code>undo</code>操作的逻辑和操作本身的逻辑相分离，代码精简为一句函数调用。</p>
-<p>我决定放弃使用<code>registerUndoWithTarget(_:selector:object:)</code>方法，因为<code>Selector</code>是一个字符串，这样做很危险。而<code>prepareWithInvocationTarget(_:)</code>看起来更好一些，既安全又便于使用。</p>
-<p>不过，当你需要设置属性时可能要用带<code>Selector</code>的方法。</p>
-<p>你需要直接调用想要记录的方法，但是这样做不能设置属性（因为只能调用方法）。有两种解决方法：第一种是添加类似<code>setPropertyName(_:)</code>的方法，第二种是使用<code>registerUndoWithTarget(_:selector:object:)</code>方法并将<code>Selector</code>设置为<code>setPropertyName:</code>，作为参数传入。</p>
-<h2 id="结论">结论</h2><p><code>NSUndoManager</code>是一种强大的机制，我们可以简单地向应用中加入<code>undo</code>和<code>redo</code>方法。它需要你谨慎地设计应用的结构，因为你需要使用“具有唯一目的性”的方法来将用户的操作设置为<code>undo</code>或者是<code>redo</code>。但是总体来说这是个好事，不是吗？这会改善代码设计。</p>
-<blockquote>
-<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
-</blockquote>
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/ios-undo-and-redo-with-nsundomanager/">原文链接</a>，原文日期：2015-09-13<br>译者：<a href="http://blog.csdn.net/yake_099">Yake</a>；校对：<a href="https://github.com/numbbbbb">numbbbbb</a>；定稿：<a href="undefined"></a></p>
-</blockquote>
-<p>在相当长的一段时间内 NSUndoManager 对我来说都是一个很神秘的东西。我想学习使用它，但是一直没有时间。一直到今天，我写了一个简单的应用，这个应用创建了一个可以移动的矩形，并且还可以修改矩形的属性，例如背景色或者圆角。</p>]]>
-    
-    </summary>
-    
-      <category term="Tomasz Szulc" scheme="http://swiftggteam.github.io/tags/Tomasz-Szulc/"/>
     
       <category term="Swift 进阶" scheme="http://swiftggteam.github.io/categories/Swift-%E8%BF%9B%E9%98%B6/"/>
     
