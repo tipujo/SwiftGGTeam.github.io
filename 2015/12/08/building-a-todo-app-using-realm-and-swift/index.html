@@ -37,7 +37,7 @@
 <meta property="og:image" content="http://www.appcoda.com/wp-content/uploads/2015/10/edit-mode-576x1024.png">
 <meta property="og:image" content="http://www.appcoda.com/wp-content/uploads/2015/10/realm-database-info-1024x675.png">
 <meta property="og:image" content="http://www.appcoda.com/wp-content/uploads/2015/10/Simulator-Screen-Shot-Oct-24-2015-8.47.06-PM-576x1024.png">
-<meta property="og:updated_time" content="2015-12-09T01:23:21.014Z">
+<meta property="og:updated_time" content="2015-12-09T01:31:19.326Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用 Realm 和 Swift 创建 ToDo 应用">
 <meta name="twitter:description" content="作者：Hossam Ghareeb，原文链接，原文日期：2015-10-28译者：Prayer；校对：Cee；定稿：千叶知风
@@ -209,7 +209,7 @@
 </ol>
 <h3 id="嵌套对象">嵌套对象</h3><p>在 Realm 中还可以是使用嵌套的方式来创建对象。在一对一关系和一对多关系的时候，你可以使用这种方式，这时候，一个类型对象的初始化需要一个 Object 或多个另一个类型的对象 List<object>。面临这种情况的时候，你可以选择上面的第二或者第三种方法，使用一个字典或者一个数组来表示一个对象。下面是嵌套对象的一个例子：</object></p>
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> taskListB = <span class="type">TaskList</span>(value: [<span class="string">"MoviesList"</span>, <span class="type">NSDate</span>(), [[<span class="string">"The Martian"</span>, <span class="type">NSDate</span>(), <span class="string">""</span>, <span class="literal">false</span>], [<span class="string">"The Maze Runner"</span>, <span class="type">NSDate</span>(), <span class="string">""</span>, <span class="literal">true</span>]]])</span><br></pre></td></tr></table></figure>
-<p>在上面的代码中，我们创建了一个电影清单，并设置了清单名称、创建时间和清单内容，清单内容包括多个 task。每个 task 使用数组的方式来创建，例如 <code>[“The Maze Runner”, NSDate(), “”, true]</code> 表示一个 task，内容分别对应了名称、创建时间、备注和是否已经完成。</p>
+<p>在上面的代码中，我们创建了一个电影清单，并设置了清单名称、创建时间和清单内容，清单内容包括多个 task。每个 task 使用数组的方式来创建，例如 <code>[&quot;The Maze Runner&quot;, NSDate(), &quot;&quot;, true]</code> 表示一个 task，内容分别对应了名称、创建时间、备注和是否已经完成。</p>
 <h2 id="使用_Realm_持久化对象">使用 Realm 持久化对象</h2><p>现在你应该知道了如何在 Realm 中创建和使用对象，但是为了能够在应用程序重新启动的时候使用这些数据，需要使用写事务将它们持久化到 Realm 的数据库中。当使用 Realm 来持久化数据的时候，只要这些对象已经存储成功，你可以在任何线程中获取这些对象。一个 Realm 实例表示一个 Realm 数据库。可以像下面一样实例化它：</p>
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> uiRealm = <span class="keyword">try</span>! <span class="type">Realm</span>()</span><br></pre></td></tr></table></figure>
 <p>我们常常将上面这行代码写在 <code>AppDelegate.swift</code> 文件的顶端（译者注：类之外，全局变量），这样就可以在整个项目中获得该对象的引用。之后便可以很方便地调用它的读和写方法：</p>
