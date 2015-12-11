@@ -4,7 +4,7 @@
   <subtitle><![CDATA[走心的 Swift 翻译组]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://swiftggteam.github.io/"/>
-  <updated>2015-12-10T17:02:21.155Z</updated>
+  <updated>2015-12-11T01:00:17.861Z</updated>
   <id>http://swiftggteam.github.io/</id>
   
   <author>
@@ -15,11 +15,60 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[UIAlertController 测试的修正]]></title>
+    <link href="http://swiftggteam.github.io/2015/12/11/correction-on-testing-uialertcontroller/"/>
+    <id>http://swiftggteam.github.io/2015/12/11/correction-on-testing-uialertcontroller/</id>
+    <published>2015-12-10T16:00:00.000Z</published>
+    <updated>2015-12-11T01:00:17.861Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>作者：dom，<a href="http://swiftandpainless.com/correction-on-testing-uialertcontroller/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-25<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="http://weibo.com/lfbWb" target="_blank" rel="external">lfb_CD</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
+</blockquote>
+<!--此处开始正文-->
+<p>两个月前，我曾发布了一篇<a href="http://swiftandpainless.com/how-to-test-uialertcontroller-in-swift/" target="_blank" rel="external">如何测试 UIAlertController</a>的文章。一个读者发现测试没有如期地起作用：</p>
+<a id="more"></a>
+<blockquote>
+<p><a href="https://twitter.com/dasdom" target="_blank" rel="external">@dasdom</a> 你的测试是正常的，但是在 <code>MockUIAction</code> 中的简便 <code>init</code> 方法没有被调用。你不能重写 <code>init</code> 方法，看起来像是 iOS 的bug。<br> — Larhythimx (@Larhythmix) <a href="https://twitter.com/Larhythmix/status/669456137041915905" target="_blank" rel="external">25. November 2015</a></p>
+</blockquote>
+<p>Larhythimx 说的完全正确。模拟程序的初始化方法从来没有调用。为什么我在写这个测试用例的时候没有发觉呢？那是因为 handler 确实被调用了，看起来就像 <code>UIAlertAction</code> 真的把 handler 作为内部变量去存储动作的 handler 闭包。这是非常脆弱的，并且 Larhythimx 在另一个 tweet 指出在他的测试程序中 handler 是 <code>nil</code>。</p>
+<p>所以作为黄金通道（即编写不需要改变实现的测试）走不通，那就退而求其次用别的方法。</p>
+<p>首先，我们在 <code>UIAlertAction</code> 中添加一个类方法去创建 action 。在 <code>ViewController.swift</code> 中增加如下扩展：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">UIAlertAction</span> </span>&#123;</span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">makeActionWithTitle</span>(<span class="title">title</span>: <span class="title">String</span>?, <span class="title">style</span>: <span class="title">UIAlertActionStyle</span>, <span class="title">handler</span>: ((<span class="title">UIAlertAction</span>) -&gt; <span class="title">Void</span>)?) -&gt; <span class="title">UIAlertAction</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="type">UIAlertAction</span>(title: title, style: style, handler: handler)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 <code>MockAlertAction</code> 中增加这个重写方法：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">makeActionWithTitle</span>(<span class="title">title</span>: <span class="title">String</span>?, <span class="title">style</span>: <span class="title">UIAlertActionStyle</span>, <span class="title">handler</span>: ((<span class="title">UIAlertAction</span>) -&gt; <span class="title">Void</span>)?) -&gt; <span class="title">MockAlertAction</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="type">MockAlertAction</span>(title: title, style: style, handler: handler)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在实现代码中，我们现在可以使用类方法去创建 alert 动作：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> okAction = <span class="type">Action</span>.makeActionWithTitle(<span class="string">"OK"</span>, style: .<span class="type">Default</span>) &#123; (action) -&gt; <span class="type">Void</span> <span class="keyword">in</span></span><br><span class="line">    <span class="keyword">self</span>.actionString = <span class="string">"OK"</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> cancelAction = <span class="type">Action</span>.makeActionWithTitle(<span class="string">"Cancel"</span>, style: .<span class="type">Default</span>) &#123; (action) -&gt; <span class="type">Void</span> <span class="keyword">in</span></span><br><span class="line">    <span class="keyword">self</span>.actionString = <span class="string">"Cancel"</span></span><br><span class="line">&#125;</span><br><span class="line">alertViewController.addAction(cancelAction)</span><br></pre></td></tr></table></figure>
+<p>为了确保我们的测试用例正常，如我们预期地工作，将 <code>MockAlertAction</code> 的 <code>handler</code> 属性重命名为 <code>mockHandler</code>： </p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> mockHandler: <span class="type">Handler</span>?</span><br></pre></td></tr></table></figure>
+<p>此外，我们为动作的模拟标题添加测试。取消动作的测试应该像这样： </p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">testAlert_FirstActionStoresCancel</span><span class="params">()</span></span> &#123;</span><br><span class="line">  sut.<span class="type">Action</span> = <span class="type">MockAlertAction</span>.<span class="keyword">self</span></span><br><span class="line">  </span><br><span class="line">  sut.showAlert(<span class="type">UIButton</span>())</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">let</span> alertController = sut.presentedViewController <span class="keyword">as</span>! <span class="type">UIAlertController</span></span><br><span class="line">  <span class="keyword">let</span> action = alertController.actions.first <span class="keyword">as</span>! <span class="type">MockAlertAction</span></span><br><span class="line">  action.mockHandler!(action)</span><br><span class="line">  </span><br><span class="line">  <span class="type">XCTAssertEqual</span>(sut.actionString, <span class="string">"Cancel"</span>)</span><br><span class="line">  <span class="type">XCTAssertEqual</span>(action.mockTitle, <span class="string">"Cancel"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个测试在此前的版本将会失败，因为初始化方法没有被调用，因此模拟标题也没有得到设置。</p>
+<p>你可以在 <a href="https://github.com/dasdom/TestingAlertExperiment" target="_blank" rel="external">github</a> 上找到修正的版本。</p>
+<p>再次感谢 Larhythimx 的推特！</p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>作者：dom，<a href="http://swiftandpainless.com/correction-on-testing-uialertcontroller/">原文链接</a>，原文日期：2015-11-25<br>译者：<a href="http://daizi.me">小袋子</a>；校对：<a href="http://weibo.com/lfbWb">lfb_CD</a>；定稿：<a href="http://weibo.com/xiaoxxiao">千叶知风</a></p>
+</blockquote>
+<!--此处开始正文-->
+<p>两个月前，我曾发布了一篇<a href="http://swiftandpainless.com/how-to-test-uialertcontroller-in-swift/">如何测试 UIAlertController</a>的文章。一个读者发现测试没有如期地起作用：</p>]]>
+    
+    </summary>
+    
+      <category term="Swift and Painless" scheme="http://swiftggteam.github.io/tags/Swift-and-Painless/"/>
+    
+      <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[化零为整：Reduce 详解]]></title>
     <link href="http://swiftggteam.github.io/2015/12/10/reduce-all-the-things/"/>
     <id>http://swiftggteam.github.io/2015/12/10/reduce-all-the-things/</id>
     <published>2015-12-09T16:00:00.000Z</published>
-    <updated>2015-12-10T17:02:21.155Z</updated>
+    <updated>2015-12-11T01:00:17.861Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Benedikt Terhechte，<a href="http://appventure.me/2015/11/30/reduce-all-the-things/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-30<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -139,7 +188,7 @@
     <link href="http://swiftggteam.github.io/2015/12/08/building-a-todo-app-using-realm-and-swift/"/>
     <id>http://swiftggteam.github.io/2015/12/08/building-a-todo-app-using-realm-and-swift/</id>
     <published>2015-12-07T16:00:00.000Z</published>
-    <updated>2015-12-10T17:02:21.155Z</updated>
+    <updated>2015-12-11T01:00:17.861Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Hossam Ghareeb，<a href="http://www.appcoda.com/realm-database-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-28<br>译者：<a href="http://www.futantan.com" target="_blank" rel="external">Prayer</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -320,7 +369,7 @@
     <link href="http://swiftggteam.github.io/2015/12/08/ios-realm-instead-of-coredata/"/>
     <id>http://swiftggteam.github.io/2015/12/08/ios-realm-instead-of-coredata/</id>
     <published>2015-12-07T16:00:00.000Z</published>
-    <updated>2015-12-10T17:02:21.155Z</updated>
+    <updated>2015-12-11T01:00:17.861Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/ios-realm-instead-of-coredata/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-29<br>译者：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -388,7 +437,7 @@
     <link href="http://swiftggteam.github.io/2015/12/07/a-handful-of-swift-style-rules-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/12/07/a-handful-of-swift-style-rules-swiftlang/</id>
     <published>2015-12-06T16:00:00.000Z</published>
-    <updated>2015-12-10T17:02:21.155Z</updated>
+    <updated>2015-12-11T01:00:17.861Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/11/17/a-handful-of-swift-style-rules-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-17<br>译者：<a href="http://blog.csdn.net/mmoaay" target="_blank" rel="external">mmoaay</a>；校对：<a href="http://weibo.com/lfbWb" target="_blank" rel="external">lfb_CD</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
 </blockquote>
@@ -469,7 +518,7 @@
     <link href="http://swiftggteam.github.io/2015/12/04/the-fibonacci-sequencetype/"/>
     <id>http://swiftggteam.github.io/2015/12/04/the-fibonacci-sequencetype/</id>
     <published>2015-12-03T16:00:00.000Z</published>
-    <updated>2015-12-10T17:02:21.155Z</updated>
+    <updated>2015-12-11T01:00:17.861Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Jacob Bandes-Storch，<a href="http://bandes-stor.ch/blog/2015/08/05/the-fibonacci-sequencetype/" target="_blank" rel="external">原文链接</a>，原文日期：2015/08/05<br>译者：<a href="undefined">Lou</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
 <p>这篇博文启发自<a href="http://codereview.stackexchange.com/questions/60875/project-euler-2-even-fibonacci-numbers-in-swift" target="_blank" rel="external">Code Review.SE</a>上的一个讨论，同时<a href="https://xkcd.com/356/" target="_blank" rel="external">nerd-sniped</a>上的关于数学的有趣的学习。让我对数学和 Swift 的结合有了兴趣。所以我花了一段时间来把这些知识整理成一篇博文，特别是自从我完成了对我网站重建的第一步以后。更重要的是，我希望我能更勤勉的更新我的博客，这8年我只写了一篇而已，希望大家能对我的博客感兴趣。<br>这篇博文的目标对于初学者来讲，比较容易理解，同时也提供给那些已经对这个概念熟悉的人一些有用的细节和例子。希望大家能给我反馈。</p>
@@ -609,7 +658,7 @@
     <link href="http://swiftggteam.github.io/2015/12/03/expandable-table-view/"/>
     <id>http://swiftggteam.github.io/2015/12/03/expandable-table-view/</id>
     <published>2015-12-02T16:00:00.000Z</published>
-    <updated>2015-12-10T17:02:21.155Z</updated>
+    <updated>2015-12-11T01:00:17.861Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：AppCoda，<a href="http://www.appcoda.com/expandable-table-view/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-16<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -787,7 +836,7 @@
     <link href="http://swiftggteam.github.io/2015/12/02/swift-weak-and-unowned/"/>
     <id>http://swiftggteam.github.io/2015/12/02/swift-weak-and-unowned/</id>
     <published>2015-12-01T16:00:00.000Z</published>
-    <updated>2015-12-10T17:02:21.155Z</updated>
+    <updated>2015-12-11T01:00:17.861Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-weak-and-unowned/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-30<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a></p>
 </blockquote>
@@ -836,7 +885,7 @@
     <link href="http://swiftggteam.github.io/2015/12/01/xcode-xcconfig-files-for-managing-targets-configurations/"/>
     <id>http://swiftggteam.github.io/2015/12/01/xcode-xcconfig-files-for-managing-targets-configurations/</id>
     <published>2015-11-30T16:00:00.000Z</published>
-    <updated>2015-12-10T17:02:21.155Z</updated>
+    <updated>2015-12-11T01:00:17.861Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/xcode-xcconfig-files-for-managing-targets-configurations/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-14<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -890,7 +939,7 @@
     <link href="http://swiftggteam.github.io/2015/11/30/should-you-migrate-objective-c-code-to-swift/"/>
     <id>http://swiftggteam.github.io/2015/11/30/should-you-migrate-objective-c-code-to-swift/</id>
     <published>2015-11-29T16:00:00.000Z</published>
-    <updated>2015-12-10T17:02:21.155Z</updated>
+    <updated>2015-12-11T01:00:17.861Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/should-you-migrate-objective-c-code-to-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-23<br>译者：<a href="http://blog.csdn.net/yake_099" target="_blank" rel="external">Yake</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -931,7 +980,7 @@
     <link href="http://swiftggteam.github.io/2015/11/27/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/11/27/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/</id>
     <published>2015-11-27T01:20:00.000Z</published>
-    <updated>2015-12-10T17:02:21.155Z</updated>
+    <updated>2015-12-11T01:00:17.861Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/11/05/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/5<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -974,7 +1023,7 @@
     <link href="http://swiftggteam.github.io/2015/11/26/swift-map-and-flatmap/"/>
     <id>http://swiftggteam.github.io/2015/11/26/swift-map-and-flatmap/</id>
     <published>2015-11-25T16:00:00.000Z</published>
-    <updated>2015-12-10T17:02:21.155Z</updated>
+    <updated>2015-12-11T01:00:17.861Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-map-and-flatmap/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-16<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1014,7 +1063,7 @@
     <link href="http://swiftggteam.github.io/2015/11/25/tvos-introduction/"/>
     <id>http://swiftggteam.github.io/2015/11/25/tvos-introduction/</id>
     <published>2015-11-24T16:00:00.000Z</published>
-    <updated>2015-12-10T17:02:21.155Z</updated>
+    <updated>2015-12-11T01:00:17.861Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：gregg mojica，<a href="http://www.appcoda.com/tvos-introduction/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-02<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1159,7 +1208,7 @@
     <link href="http://swiftggteam.github.io/2015/11/24/speeding-up-swift-playgrounds-with-closure-initialization-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/11/24/speeding-up-swift-playgrounds-with-closure-initialization-swiftlang/</id>
     <published>2015-11-23T16:00:00.000Z</published>
-    <updated>2015-12-10T17:02:21.155Z</updated>
+    <updated>2015-12-11T01:00:17.861Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/11/15/speeding-up-swift-playgrounds-with-closure-initialization-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-15<br>译者：<a href="undefined">JackAlan</a>；校对：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1205,7 +1254,7 @@
     <link href="http://swiftggteam.github.io/2015/11/23/swift-reflection-api-what-you-can-do/"/>
     <id>http://swiftggteam.github.io/2015/11/23/swift-reflection-api-what-you-can-do/</id>
     <published>2015-11-22T16:00:00.000Z</published>
-    <updated>2015-12-10T17:02:21.155Z</updated>
+    <updated>2015-12-11T01:00:17.861Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Benedikt Terhechte，<a href="http://appventure.me/2015/10/24/swift-reflection-api-what-you-can-do/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-24<br>译者：<a href="http://blog.csdn.net/mmoaay" target="_blank" rel="external">mmoaay</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1363,7 +1412,7 @@
     <link href="http://swiftggteam.github.io/2015/11/20/advanced-practical-enum-examples/"/>
     <id>http://swiftggteam.github.io/2015/11/20/advanced-practical-enum-examples/</id>
     <published>2015-11-19T16:00:00.000Z</published>
-    <updated>2015-12-10T17:02:21.155Z</updated>
+    <updated>2015-12-11T01:00:17.861Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Benedikt Terhechte，<a href="http://appventure.me/2015/10/17/advanced-practical-enum-examples/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-17<br>译者：<a href="http://www.jianshu.com/users/3b40e55ec6d5/latest_articles" target="_blank" rel="external">小锅</a>，<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
 </blockquote>
@@ -1648,7 +1697,7 @@
     <link href="http://swiftggteam.github.io/2015/11/19/3d-touch-tutorial/"/>
     <id>http://swiftggteam.github.io/2015/11/19/3d-touch-tutorial/</id>
     <published>2015-11-19T02:31:00.000Z</published>
-    <updated>2015-12-10T17:02:21.155Z</updated>
+    <updated>2015-12-11T01:00:17.861Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Maxime Defauw，<a href="http://www.appcoda.com/3d-touch-tutorial/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/09<br>译者：<a href="http://www.brighttj.com" target="_blank" rel="external">saitjr</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1736,7 +1785,7 @@
     <link href="http://swiftggteam.github.io/2015/11/18/watchconnectivity-user-info/"/>
     <id>http://swiftggteam.github.io/2015/11/18/watchconnectivity-user-info/</id>
     <published>2015-11-17T16:00:00.000Z</published>
-    <updated>2015-12-10T17:02:21.155Z</updated>
+    <updated>2015-12-11T01:00:17.861Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/watchconnectivity-user-info/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-21<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1814,7 +1863,7 @@
     <link href="http://swiftggteam.github.io/2015/11/17/functional-programming-in-swift/"/>
     <id>http://swiftggteam.github.io/2015/11/17/functional-programming-in-swift/</id>
     <published>2015-11-17T04:00:00.000Z</published>
-    <updated>2015-12-10T17:02:21.155Z</updated>
+    <updated>2015-12-11T01:00:17.861Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/functional-programming-in-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/13<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1866,7 +1915,7 @@
     <link href="http://swiftggteam.github.io/2015/11/16/capturing-context-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/11/16/capturing-context-swiftlang/</id>
     <published>2015-11-16T01:00:00.000Z</published>
-    <updated>2015-12-10T17:02:21.155Z</updated>
+    <updated>2015-12-11T01:00:17.861Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/08/27/capturing-context-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-08-27<br>译者：<a href="https://github.com/chenmingbiao" target="_blank" rel="external">CMB</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1903,146 +1952,6 @@
       <category term="Erica Sadun" scheme="http://swiftggteam.github.io/tags/Erica-Sadun/"/>
     
       <category term="Swift 进阶" scheme="http://swiftggteam.github.io/categories/Swift-%E8%BF%9B%E9%98%B6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[写给初学者的 Swift 教程 Part 1]]></title>
-    <link href="http://swiftggteam.github.io/2015/11/13/swift-tutorial-for-beginners-part-1/"/>
-    <id>http://swiftggteam.github.io/2015/11/13/swift-tutorial-for-beginners-part-1/</id>
-    <published>2015-11-13T01:00:00.000Z</published>
-    <updated>2015-12-10T17:02:21.155Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-tutorial-for-beginners-part-1/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-29<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
-</blockquote>
-<!--此处开始正文-->
-<p>Swift 是苹果官方新推出的编程语言，它可以为 iOS、 watchOS、 tvOS 和 Mac OS 开发应用。在本教程中，你将会学到所有的基础操作。</p>
-<a id="more"></a>
-<h2 id="你将在这个“Swift_初学者教程”中学到些什么呢？">你将在这个“Swift 初学者教程”中学到些什么呢？</h2><p>本教程包含了以下这些话题：</p>
-<ul>
-<li>下载 Xcode</li>
-<li>Playgrounds</li>
-<li>Hello World!</li>
-<li>变量</li>
-<li>常量</li>
-<li>类型标注</li>
-<li>条件语句</li>
-<li>循环语句</li>
-<li>可选类型</li>
-<li>函数</li>
-</ul>
-<p>将会有更多内容出现在“写给初学者的 Swift 教程”系列中。</p>
-<p>本教程源码下载: <a href="https://github.com/kevin833752/MyTranslationPlaygrounds/tree/master/Swift_Tutorial_For_Beginners_Part_1.playground" target="_blank" rel="external">来自小铁匠的代码</a></p>
-<h2 id="下载_Xcode">下载 Xcode</h2><p>成为 Swift 大牛的第一步当然是下载 Xcode 啦。你可以直接从 App Store 里下载。Xcode 是苹果官方的 IDE 工具，它可以为 iOS、 watchOS、 tvOS 和 Mac OS 这些平台开发应用。</p>
-<h2 id="Playgrounds">Playgrounds</h2><p>你会把大部分编程的时间花在具体项目上。但是，Xcode 有一个非常有趣的特性，可以给初学者和大牛带来巨大帮助，它就是 Playgrounds。你可以在 Playground 里写 Swift 代码，写完就直接能看到执行的结果。因此，如果你想要学一些新特性或试验一些新功能，可以打开 Playground 直接编写，不用像在工程里那样先编译再执行。</p>
-<p>如果你正在写一个项目，那也可以同时打开一个 Playground，你可以在 Playground 里快速试验一些小功能。</p>
-<p>言归正传，讲讲如何使用 Playground。第一步打开 Xcode，接着在欢迎界面点击“Get started with a playground”。如果你没有看到这个欢迎界面，可以按 File -&gt; New -&gt; Playground 这样的路径打开 Playground。指定 Playground 的文件名和保存位置之后，你就可以开始写代码啦。</p>
-<h2 id="Hello_World!">Hello World!</h2><p>在大多数的编程书籍中，都把打印“Hello World!”作为第一个项目。我们也不会打破这个传统的，哈哈。</p>
-<p>因此，我们在 playground 里写下如下代码：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">"Hello World!"</span>)</span><br></pre></td></tr></table></figure>
-<p>输完这行代码，你就可以在 playground 的右边看到输出的结果。</p>
-<p><img src="/img/articles/swift-tutorial-for-beginners-part-1/Screen-Shot-2015-10-03-at-18.26.55-1024x636.png1447379896.6408916" alt=""></p>
-<p>恭喜，你已经成功编写了第一个 Swift 程序！</p>
-<h2 id="变量">变量</h2><p>在打印出第一句代码后，我们可以开始真正的编程啦。你需要从变量开始。变量可以存储一个值，比如数字或字符串。可以使用<code>var</code>关键字来定义变量：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> aNumber = <span class="number">5</span></span><br></pre></td></tr></table></figure>
-<p>这样，我们就有了一个叫<code>aNumber</code>的变量，它的值为 5。接着，我们可以尝试着改变这个变量的值：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">aNumber = <span class="number">10</span></span><br></pre></td></tr></table></figure>
-<p>我们也可以把一个数学表示式的结果存到这个变量里：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">aNumber = <span class="number">5</span> + <span class="number">6</span></span><br></pre></td></tr></table></figure>
-<p>当然也可以把变量的值打印出来，这需要用到特殊的术语，如下：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">"The number is equal <span class="subst">\(aNumber)</span>"</span>)</span><br></pre></td></tr></table></figure>
-<p>变量可以有不同的类型。你可以为变量指定类型，比如字符串、浮点数或者布尔值：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> aString = <span class="string">"A String"</span></span><br><span class="line"><span class="keyword">var</span> aDoble = <span class="number">13.3</span></span><br><span class="line"><span class="keyword">var</span> aBool = <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<p>但是，一旦你给变量赋了某一类型的值之后，就只能为变量赋相同类型的值了：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">aBool = <span class="string">"A String"</span> <span class="comment">//编译错误</span></span><br></pre></td></tr></table></figure>
-<p>编译器是一段可以把你写的代码翻译成机器码的程序。如果你写了一段编译器不能理解或者违反编程规则的代码，编译器就会报错。</p>
-<h2 id="常量">常量</h2><p>顾名思义，变量的值是可以改变的，而常量的值在第一次赋值后就不能修改了。对于常量，你可以使用关键字<code>let</code>来定义：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> aConstantNumber = <span class="number">10</span></span><br></pre></td></tr></table></figure>
-<p>如果你尝试修改一个常量的值，就会报错：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">aConstantNumber = <span class="number">10</span> <span class="comment">//编译出错</span></span><br></pre></td></tr></table></figure>
-<p>那为什么还要有常量呢？因为，有时候并不希望一个值在第一次赋值后被修改，比如，在指定一个人的姓名后，就不希望这个值被再次修改。</p>
-<h2 id="类型标注">类型标注</h2><p>我们已经知道，变量在第一次赋值之后会确定类型。当然，我们也可以在赋值时直接指定变量或常量的类型：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> aNumber: <span class="type">Int</span> = <span class="number">10</span></span><br></pre></td></tr></table></figure>
-<p>这个代码的结果和之前的是一样的，但是现在这段代码更加容易读懂。第一眼就知道这个变量的类型是<code>Int</code>。当然， 除了<code>Int</code>，还有许多其他的类型：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> aString: <span class="type">String</span> = <span class="string">"A String"</span></span><br><span class="line"><span class="keyword">var</span> aDouble: <span class="type">Double</span> = <span class="number">13.3</span></span><br><span class="line"><span class="keyword">var</span> aBool: <span class="type">Bool</span> = <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<h2 id="条件语句">条件语句</h2><p>一个程序如果总是做相同的事情，这很无聊。因此，出现了所谓的条件语句来控制程序的流向。比如，你想要根据计算的结果有不同的输出。能控制程序流向的，也是最普遍的条件语句是<code>if</code>条件语句，举例如下：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> number1 = <span class="number">5</span></span><br><span class="line"><span class="keyword">var</span> number2 = <span class="number">10</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> number1 &lt; number2 &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"number1 is smaller than number2"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在这段示例代码中，我们通过<code>if</code>条件语句来判断<code>number1</code>是否小于<code>number2</code>。如果满足这个条件的话，程序就会执行到大括号括起来的 if 代码块里。你也可以在代码块里添加你想要执行的代码。</p>
-<p>另外，你还可以在<code>if</code>条件判断返回<code>false</code>的代码块里写相应代码：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> number1 = <span class="number">5</span></span><br><span class="line"><span class="keyword">var</span> number2 = <span class="number">10</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> number1 &lt; number2 &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"number1 is smaller than number2"</span>)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"number1 is not smaller than number2"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>当然，你可以写多个<code>if</code>条件语句：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> number1 &lt; number2 &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"number1 is smaller than number2"</span>)</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> number2 &lt; number1 &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"number2 is than number2"</span>)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"number1 is equal number2"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>Swift 里另外一种条件语句是<code>switch</code>条件语句。<code>switch</code>语句的形式就是把某个值与一个或若干个值作比较，例子如下：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">switch</span> name &#123;</span><br><span class="line"><span class="keyword">case</span> <span class="string">"Mick"</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"The name is Mick"</span>)</span><br><span class="line"><span class="keyword">case</span> <span class="string">"John"</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"The name is John"</span>)</span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"The name is neither Mick nor John"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>switch</code>关键字后写上需要匹配的值<code>name</code>。然后，每个<code>case</code>后跟上可能匹配的值。如果<code>name</code>匹配了某一个值，对应<code>case</code>里的代码将被执行；否则，继续进行匹配。假如没有一个值能够匹配，就会执行<code>default</code>后的代码。对于初学者来说，知道<code>switch</code>条件语句有很多可能匹配的值就足够了。</p>
-<h2 id="循环">循环</h2><p>除了条件语句意外，还有一个控制程序流的重要结构：循环。循环的作用主要是能多次执行代码块里的代码。Swift 有三种循环的类型：while 循环, repeat-while 循环和 for 循环.</p>
-<h3 id="while_循环">while 循环</h3><p>下面的例子使用了 while 循环：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> i = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> (i &lt; <span class="number">10</span>) &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"Hello World"</span>)</span><br><span class="line">    i = i + <span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>while 循环以<code>while</code>关键字开始，在<code>while</code>关键字后跟上判断条件。如果条件为 true，会重复运行代码块里的一系列代码，比如本例子里的循环打印”Hello World”十次。如果没有修改变量<code>i</code>的值，循环将一直进行下去。</p>
-<h3 id="repeat-while_循环">repeat-while 循环</h3><p>repeat-while 循环和 while 循环很相似。但是，不再像 while 循环那样先判断循环条件，例子如下：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> i = <span class="number">10</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">repeat</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"Hello World"</span>)</span><br><span class="line">    i = i + <span class="number">1</span></span><br><span class="line">&#125; <span class="keyword">while</span> (i &lt; <span class="number">10</span>)</span><br></pre></td></tr></table></figure>
-<p>为什么要使用repeat-while 循环而不是 while 循环？repeat-while 循环和 while 循环的主要区别是在判断循环条件之前，先执行一次循环的代码块。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> i = <span class="number">11</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">repeat</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"Hello World"</span>)</span><br><span class="line">    i = i + <span class="number">1</span></span><br><span class="line">&#125; <span class="keyword">while</span> (i &lt; <span class="number">10</span>)</span><br></pre></td></tr></table></figure>
-<p>上面这个例子中，尽管判断条件永远是 false，但是还是会打印一次“Hello World”。因此，有时候需要先判断，而有时候不想要先判断，这就要根据具体的情况决定到底使用哪种循环。</p>
-<h3 id="for_循环">for 循环</h3><p>for 循环很好用，它可以对一个集合里面的每个元素执行一系列语句。同时，也有好几种遍历的方式，先来看一个例子：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">1</span>...<span class="number">10</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"This iteration number <span class="subst">\(i)</span>"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>如果像上面的例子一样使用三个点号（闭区间操作符）的话，最后一个数字（10）也会被包含。此外，也可以像下面的例子一样使用：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">1</span>..&lt;<span class="number">10</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"This iteration number <span class="subst">\(i)</span>"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在上面这个例子中，最后一个数字（10）不会被包含进去。另外，还有一种方式可以写 for 循环，就是标准 C 样式的 for 循环：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> <span class="keyword">var</span> i = <span class="number">1</span>; i &lt;= <span class="number">10</span>; i++ &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"This iteration number <span class="subst">\(i)</span>"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这个循环会执行十次。分号将循环的定义分为 3 个部分：首先，循环首次启动时，变量会被初始化，并赋一个起始值；其次，条件判断表达式被调用，如果表达式调用结果为true，则会执行大括号内部的代码；最后，执行所有语句之后，执行递增表达式，在本例中，变量<code>i</code>每次增加 1。其中，<code>i++</code>等同于<code>i = i + 1</code>。</p>
-<h2 id="可选类型">可选类型</h2><p>可选类型是 Swift 里很特殊的新特性，它非常重要，因此我们在一开始就要介绍它。试想一下，一个变量有可能没有值，比如，一个变量用来存储一个人的 middle name，那某人没有 middle name 的话该怎么表示呢？我们很自然的能想到赋值一个空字符串：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> middleName: <span class="type">String</span> = <span class="string">""</span></span><br></pre></td></tr></table></figure>
-<p>然而，如果我们让<code>middleName</code>成为可选类型，我们就可以为变量指定表示“这里没有值”的<code>nil</code>。可选类型的定义是在类型后面跟上问号：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> middleName: <span class="type">String</span>? = <span class="literal">nil</span></span><br></pre></td></tr></table></figure>
-<p>可选类型的变量可以有非空的值。但是，如果你像普通变量那样访问可选类型的变量，就会编译出错：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> anotherName: <span class="type">String</span> = middleName <span class="comment">//编译出错</span></span><br></pre></td></tr></table></figure>
-<p>你可以通过解包来访问，使用感叹号进行解包：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> anotherName: <span class="type">String</span> = middleName!</span><br></pre></td></tr></table></figure>
-<p>值得注意的是，如果你对一个非<code>nil</code>的值进行解包，可以得到具体的值；否则，就会在运行时报错，因为不能对<code>nil</code>进行解包。</p>
-<p>因此，最好在使用可选类型变量前先判断是否是<code>nil</code>，使用所谓的可选绑定（optional binding）就可以搞定了：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> middleName: <span class="type">String</span>? = <span class="string">"John"</span></span><br><span class="line"><span class="keyword">var</span> anotherName: <span class="type">String</span> = <span class="string">"Michael"</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> name = middleName &#123;</span><br><span class="line">    anotherName = name</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>一开始，这段代码可能看起来会有点奇怪，实际上很简单，意思也很明确：如果<code>middleName</code>等于<code>nil</code>的话，对应的代码块就不会执行。如果<code>middleName</code>不等于<code>nil</code>的话，变量<code>name</code>就会获得<code>middleName</code>的值，对应的代码块就会被执行。在代码块里，<code>name</code>就不再是可选变量了，因此可以给其他变量赋值。</p>
-<h2 id="函数">函数</h2><p>你可能经常会遇到，一些代码可以应用于许多不同的情况。而函数就是用来完成特定任务的独立的代码块，并且当函数需要执行的时候，这个名字会被用于“调用”函数。先从简单打印“Hello World”的函数开始吧：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">printHelloWorld</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"Hello World!"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>事实上，你把上面那段代码写到 playground 里，界面右边是没有输出的。如果你通过下面的方式调用这个函数的话，就会有对应的输出了：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">printHelloWorld</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"Hello World!"</span>)</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">printHelloWorld()</span><br></pre></td></tr></table></figure>
-<p>如果你调用这个函数两次的话，你会看到界面右边会出现两次输出：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">printHelloWorld</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"Hello World!"</span>)</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">printHelloWorld()</span><br><span class="line">printHelloWorld()</span><br></pre></td></tr></table></figure>
-<p>你也可以给函数传递额外的信息，即传递参数。每个参数都需要指定参数名和类型，然后你就可以在函数里访问这些参数的值了：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">printANumber</span><span class="params">(number:Int)</span></span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"The number is <span class="subst">\(number)</span>"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>现在，你就可以像下面的方式调用有参数的函数了：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">printANumber</span><span class="params">(number:Int)</span></span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"The number is <span class="subst">\(number)</span>"</span>)</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">printANumber(<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
-<p>本例中，对应的输出就是：“The number is 5”。</p>
-<p>你甚至可以指定多个参数。然后，你在调用函数时，除了不需要写第一个参数的参数名之外，其他参数都需要写参数名：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">printNumbers</span><span class="params">(number1:Int, number2:Int, number3:Int)</span></span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"The number are <span class="subst">\(number1)</span>, <span class="subst">\(number2)</span>, <span class="subst">\(number3)</span>"</span>)</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">printNumbers(<span class="number">5</span>, number2:<span class="number">10</span>, number3:<span class="number">15</span>)</span><br></pre></td></tr></table></figure>
-<p>另外，函数最重要的一点就是返回值。如果需要函数有返回值，你就要指定返回值的类型，同时，返回值由<code>return</code>关键字返回。</p>
-<p>举个例子：你需要写一个函数，实现返回两个数字中更大者的功能。大体代码如下：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">maxOfNumbers</span><span class="params">(number1: Int, number2: Int)</span></span> -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> number1 &lt; number2 &#123;</span><br><span class="line">        <span class="keyword">return</span> number2</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> number1</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">maxOfNumbers(<span class="number">5</span>, number2: <span class="number">10</span>)</span><br></pre></td></tr></table></figure>
-<p>输出结果为 10。</p>
-<h2 id="接下来该干什么">接下来该干什么</h2><p>现在已经基本熟悉 Swift 中大部分的基本语法了。这对之后的学习是个很重要的基础。接下来可以自己动手在 Playground 里试着写一些小功能，也可以看看关于本文知识点的其他文章：</p>
-<ul>
-<li><a href="http://www.thomashanning.com/should-you-use-objective-c-or-swift/" target="_blank" rel="external">该使用 Objective-C 还是 Swift？</a></li>
-<li><a href="http://www.thomashanning.com/constants-in-swift/" target="_blank" rel="external">Swift 中的常量</a></li>
-<li><a href="http://www.thomashanning.com/optionals-in-swift/" target="_blank" rel="external">Swift 中的可选类型</a></li>
-</ul>
-<p>在本系列的后续部分，我们会讨论更多关于 Swift 的新特性。请继续关注!</p>
-<blockquote>
-<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
-</blockquote>
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-tutorial-for-beginners-part-1/">原文链接</a>，原文日期：2015-10-29<br>译者：<a href="http://weibo.com/linusling">小铁匠Linus</a>；校对：<a href="http://weibo.com/xiaoxxiao">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb">numbbbbb</a></p>
-</blockquote>
-<!--此处开始正文-->
-<p>Swift 是苹果官方新推出的编程语言，它可以为 iOS、 watchOS、 tvOS 和 Mac OS 开发应用。在本教程中，你将会学到所有的基础操作。</p>]]>
-    
-    </summary>
-    
-      <category term="Thomas Hanning" scheme="http://swiftggteam.github.io/tags/Thomas-Hanning/"/>
-    
-      <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
     
   </entry>
   
