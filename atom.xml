@@ -4,7 +4,7 @@
   <subtitle><![CDATA[走心的 Swift 翻译组]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://swiftggteam.github.io/"/>
-  <updated>2015-12-14T01:56:01.640Z</updated>
+  <updated>2015-12-14T02:05:18.403Z</updated>
   <id>http://swiftggteam.github.io/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://swiftggteam.github.io/2015/12/14/a-beginners-guide-to-nsdate-in-swift/"/>
     <id>http://swiftggteam.github.io/2015/12/14/a-beginners-guide-to-nsdate-in-swift/</id>
     <published>2015-12-14T01:00:00.000Z</published>
-    <updated>2015-12-14T01:56:01.640Z</updated>
+    <updated>2015-12-14T02:05:18.403Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：gabriel theodoropoulos，<a href="http://www.appcoda.com/nsdate/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-18<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a></p>
 </blockquote>
@@ -135,7 +135,7 @@
 <p><img src="/img/articles/a-beginners-guide-to-nsdate-in-swift/12401450058096.656447" alt=""></p>
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> components = <span class="type">NSDateComponents</span>()</span><br><span class="line">components.day = <span class="number">5</span></span><br><span class="line">components.month = <span class="number">01</span></span><br><span class="line">components.year = <span class="number">2016</span></span><br><span class="line">components.hour = <span class="number">19</span></span><br><span class="line">components.minute = <span class="number">30</span></span><br><span class="line">newDate = calendar.dateFromComponents(components)</span><br></pre></td></tr></table></figure>
 <p>前面的部分我们看过一个在把某特定格式的字符串转换成一个日期对象时使用了 timezone 的例子。如果你足够好奇想看看对一个日期对象设置不同 timezone 的结果，我们就将上面的代码稍稍扩展一下，看看 timezone 的多种取值：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/131207-24725be693f5c46d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><img src="/img/articles/a-beginners-guide-to-nsdate-in-swift/12401450058715.7602158" alt=""></p>
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">components.timeZone = <span class="type">NSTimeZone</span>(abbreviation: <span class="string">"GMT"</span>)</span><br><span class="line">newDate = calendar.dateFromComponents(components)</span><br><span class="line"> </span><br><span class="line">components.timeZone = <span class="type">NSTimeZone</span>(abbreviation: <span class="string">"CST"</span>)</span><br><span class="line">newDate = calendar.dateFromComponents(components)</span><br><span class="line"> </span><br><span class="line">components.timeZone = <span class="type">NSTimeZone</span>(abbreviation: <span class="string">"CET"</span>)</span><br><span class="line">newDate = calendar.dateFromComponents(components)</span><br></pre></td></tr></table></figure>
 <p>GMT = 格林威治标准时间<br>CST = 中国标准时间<br>CET = 欧洲中部时间</p>
 <p>你可以在<a href="http://www.timeanddate.com/time/zones/" target="_blank" rel="external">这里</a>找到所有 timezone 的缩写，还有一些很棒的在线工具。</p>
@@ -177,7 +177,7 @@
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> calculatedDate = <span class="type">NSCalendar</span>.currentCalendar().dateByAddingUnit(<span class="type">NSCalendarUnit</span>.<span class="type">Month</span>, value: monthsToAdd, toDate: currentDate, options: <span class="type">NSCalendarOptions</span>.<span class="keyword">init</span>(rawValue: <span class="number">0</span>))</span><br><span class="line">calculatedDate = <span class="type">NSCalendar</span>.currentCalendar().dateByAddingUnit(<span class="type">NSCalendarUnit</span>.<span class="type">Day</span>, value: daysToAdd, toDate: calculatedDate!, options: <span class="type">NSCalendarOptions</span>.<span class="keyword">init</span>(rawValue: <span class="number">0</span>))</span><br></pre></td></tr></table></figure>
 <p>如你所见，这里用到的方法是 <em>NSCalendar</em> 类的 <em>dateByAddingUnit:value:toDate:options:</em> 方法。这个方法的任务就是给一个现有的日期加上一个特定的 calendar unit（由第一个参数指定），并将这个加法的结果做为一个新的日期返回。我们开始想的是在当前日期的基础上同时加两个不同的 calendar unit，但很显然这不现实。所以这里问题的关键是就要连续的调用该方法，每次设置其中的一个 calendar unit，从而得到最终结果。</p>
 <p>下面是每次叠加之后 playground 显示的结果：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/131207-93f4abf76537ef05.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><img src="/img/articles/a-beginners-guide-to-nsdate-in-swift/12401450058716.3939843" alt=""></p>
 <p>上面的方式不错，但是仅限于你要加的只有 1~2 个 calendar units，否则你得连续多次调用上面那个方法才行。</p>
 <p>当需要叠加更多的 units 时，第二个，也是更倾向的方式是使用 <em>NSDateComponents</em> 这个类。为了演示，我们不会再引入其他的组成元素，除上面已经定好的月和日之外。在这儿要做的事情很简单：首先初始化一个新的 <em>NSDateComponents</em> 对象，并给它设置之前定好的月和日。然后调用 <em>NSCalendar</em> 类的另一个叫做 <em>dateByAddingComponents:toDate:options:</em> 的方法，我们会立即得到一个新的 <em>NSDate</em> 对象，这个新对象即代表了最终想要的日期。</p>
 <p><img src="/img/articles/a-beginners-guide-to-nsdate-in-swift/12401450058158.1788666" alt=""></p>
@@ -188,14 +188,14 @@
 <p>再强调一下，要做任何类型的日期计算的话，还是使用前两种方式更安全。但这还是取决于你，选择你更喜欢的那一种。</p>
 <p>上面的三个例子都是给当前日期加上某些个组成元素。那现在用同样方式给当前日期减去几天，算出来那个过去的日期该怎么做？</p>
 <p>下面的代码示范了该怎么做。首先给当前日期加上一个特定天数的<em>负</em>值，这就可以得到一个属于过去的日期了。然后把结果转换成一个有适当格式的字符串，最后的结果…很有意思：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/131207-be8a1ce8ff264563.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><img src="/img/articles/a-beginners-guide-to-nsdate-in-swift/12401450058716.4647555" alt=""></p>
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> numberOfDays = -<span class="number">5684718</span></span><br><span class="line">calculatedDate = <span class="type">NSCalendar</span>.currentCalendar().dateByAddingUnit(<span class="type">NSCalendarUnit</span>.<span class="type">Day</span>, value: numberOfDays, toDate: currentDate, options: <span class="type">NSCalendarOptions</span>.<span class="keyword">init</span>(rawValue: <span class="number">0</span>))</span><br><span class="line"> </span><br><span class="line">dateFormatter.dateFormat = <span class="string">"EEEE, MMM dd, yyyy GGG"</span></span><br><span class="line">dateAsString = dateFormatter.stringFromDate(calculatedDate!)</span><br></pre></td></tr></table></figure>
 <p>以上所有的小代码段示例可以完全给你讲明白怎样通过给某个参考日期加上或正或负的 calendar unit 来算出一个新的日期。自己随便扩展一下上面的代码吧，写下你自己的代码，你就会对这些技巧更加熟悉。</p>
 <h3 id="计算出日期的差值">计算出日期的差值</h3><p>和标题的意思一样，这节讲的是计算出两个日期之间的差值，它是在你编程生涯中某个时间肯定要做的一个任务，显然需要做不止一次。在这（教程的最后）一部分，我会告诉你计算出两个 <em>NSDate</em> 对象之间差值的三种方式，你可以根据需要选出最适合你的那一种。</p>
 <p>开始之前先定义两个 <em>NSDate</em> 对象：</p>
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">dateFormatter.dateFormat = <span class="string">"yyyy-MM-dd HH:mm:ss"</span></span><br><span class="line">dateAsString = <span class="string">"2015-10-08 14:25:37"</span></span><br><span class="line">date1 = dateFormatter.dateFromString(dateAsString)!</span><br><span class="line"> </span><br><span class="line">dateAsString = <span class="string">"2018-03-05 08:14:19"</span></span><br><span class="line">date2 = dateFormatter.dateFromString(dateAsString)!</span><br></pre></td></tr></table></figure>
 <p>有了上面的日期对象，我们再来看一下如何获取日期组成元素（date components）形式的日期差值（date difference ）。我们会再次用到 <em>NSCalendar</em> 类，还有它的一个之前我们没见过的方法。最后把日期组成元素打印出来看一下结果。很明显当有了它，这个代表了日期差值的元素之后，想怎么做都取决于你了。来看下示范：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/131207-198f69b38456eca1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><img src="/img/articles/a-beginners-guide-to-nsdate-in-swift/12401450058716.5368817" alt=""></p>
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> diffDateComponents = <span class="type">NSCalendar</span>.currentCalendar().components([<span class="type">NSCalendarUnit</span>.<span class="type">Year</span>, <span class="type">NSCalendarUnit</span>.<span class="type">Month</span>, <span class="type">NSCalendarUnit</span>.<span class="type">Day</span>, <span class="type">NSCalendarUnit</span>.<span class="type">Hour</span>, <span class="type">NSCalendarUnit</span>.<span class="type">Minute</span>, <span class="type">NSCalendarUnit</span>.<span class="type">Second</span>], fromDate: date1, toDate: date2, options: <span class="type">NSCalendarOptions</span>.<span class="keyword">init</span>(rawValue: <span class="number">0</span>))</span><br><span class="line"> </span><br><span class="line"><span class="built_in">print</span>(<span class="string">"The difference between dates is: <span class="subst">\(diffDateComponents.year)</span> years, <span class="subst">\(diffDateComponents.month)</span> months, <span class="subst">\(diffDateComponents.day)</span> days, <span class="subst">\(diffDateComponents.hour)</span> hours, <span class="subst">\(diffDateComponents.minute)</span> minutes, <span class="subst">\(diffDateComponents.second)</span> seconds"</span>)</span><br></pre></td></tr></table></figure>
 <p>这种新方式就是使用 <em>components:fromDate:toDate:options:</em> 方法，同样它的第一个参数是一个 <em>NSCalendarUnit</em> 的数组。注意下如果第一个日期比第二个晚的话，返回值就会是负数。</p>
 <p>在计算日期差值的另外两种方式中，我们会第一次用到 <em>NSDateComponentsFormatter</em> 类，这个类有很多方法，能自动做出差值计算，然后返回一个带有特定格式的字符串。先生成一个对象，并先指定它的一个属性：</p>
@@ -205,7 +205,7 @@
 <p><img src="/img/articles/a-beginners-guide-to-nsdate-in-swift/12401450058159.4423432" alt=""></p>
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> interval = date2.timeIntervalSinceDate(date1)</span><br><span class="line">dateComponentsFormatter.stringFromTimeInterval(interval)</span><br></pre></td></tr></table></figure>
 <p>最后，在计算日期差值的最后一个方式中，两个日期需要作为参数传递给 <em>NSDateComponentsFormatter</em> 类的 <em>stringFromDate:toDate:</em> 方法。然而用这个方法之前需要先满足一个条件：<em>allowedUnits</em> 属性必须要设置一个 calendar unit，否则该方法会返回一个 nil。所以我们就「告诉」这个方法我们想要怎样的 unit，之后就等它给我们差值结果：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/131207-cca6f485b55e2d70.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><img src="/img/articles/a-beginners-guide-to-nsdate-in-swift/12401450058716.6109412" alt=""></p>
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">dateComponentsFormatter.allowedUnits = [<span class="type">NSCalendarUnit</span>.<span class="type">Year</span>, <span class="type">NSCalendarUnit</span>.<span class="type">Month</span>, <span class="type">NSCalendarUnit</span>.<span class="type">Day</span>, <span class="type">NSCalendarUnit</span>.<span class="type">Hour</span>, <span class="type">NSCalendarUnit</span>.<span class="type">Minute</span>, <span class="type">NSCalendarUnit</span>.<span class="type">Second</span>]</span><br><span class="line"><span class="keyword">let</span> autoFormattedDifference = dateComponentsFormatter.stringFromDate(date1, toDate: date2)</span><br></pre></td></tr></table></figure>
 <h3 id="总结">总结</h3><p>简介部分中我说过，处理 <em>NSDate</em> 对象这件事在你项目中非常常见，而且肯定无法避免。不可否认它并不是程序员最喜欢讨论的话题，所以我就写了前面的那些，在小例子中告诉你其实处理日期是很容易的。这篇教程中 <em>NSDate</em> 的方方面面，以及其他相关的类都有一个共同目标：教你小巧高效的用法，两三行代码就让你把活儿搞定。希望这篇文章能给你做个指南，尤其如果你是一个新开发者。下篇文章出来之前，好好练习吧。</p>
 <blockquote>
@@ -231,7 +231,7 @@
     <link href="http://swiftggteam.github.io/2015/12/11/correction-on-testing-uialertcontroller/"/>
     <id>http://swiftggteam.github.io/2015/12/11/correction-on-testing-uialertcontroller/</id>
     <published>2015-12-10T16:00:00.000Z</published>
-    <updated>2015-12-14T01:56:01.636Z</updated>
+    <updated>2015-12-14T02:05:18.399Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：dom，<a href="http://swiftandpainless.com/correction-on-testing-uialertcontroller/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-25<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="http://weibo.com/lfbWb" target="_blank" rel="external">lfb_CD</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -280,7 +280,7 @@
     <link href="http://swiftggteam.github.io/2015/12/10/reduce-all-the-things/"/>
     <id>http://swiftggteam.github.io/2015/12/10/reduce-all-the-things/</id>
     <published>2015-12-09T16:00:00.000Z</published>
-    <updated>2015-12-14T01:56:01.636Z</updated>
+    <updated>2015-12-14T02:05:18.399Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Benedikt Terhechte，<a href="http://appventure.me/2015/11/30/reduce-all-the-things/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-30<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -400,7 +400,7 @@
     <link href="http://swiftggteam.github.io/2015/12/08/building-a-todo-app-using-realm-and-swift/"/>
     <id>http://swiftggteam.github.io/2015/12/08/building-a-todo-app-using-realm-and-swift/</id>
     <published>2015-12-07T16:00:00.000Z</published>
-    <updated>2015-12-14T01:56:01.636Z</updated>
+    <updated>2015-12-14T02:05:18.399Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Hossam Ghareeb，<a href="http://www.appcoda.com/realm-database-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-28<br>译者：<a href="http://www.futantan.com" target="_blank" rel="external">Prayer</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -581,7 +581,7 @@
     <link href="http://swiftggteam.github.io/2015/12/08/ios-realm-instead-of-coredata/"/>
     <id>http://swiftggteam.github.io/2015/12/08/ios-realm-instead-of-coredata/</id>
     <published>2015-12-07T16:00:00.000Z</published>
-    <updated>2015-12-14T01:56:01.636Z</updated>
+    <updated>2015-12-14T02:05:18.399Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/ios-realm-instead-of-coredata/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-29<br>译者：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -649,7 +649,7 @@
     <link href="http://swiftggteam.github.io/2015/12/07/a-handful-of-swift-style-rules-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/12/07/a-handful-of-swift-style-rules-swiftlang/</id>
     <published>2015-12-06T16:00:00.000Z</published>
-    <updated>2015-12-14T01:56:01.636Z</updated>
+    <updated>2015-12-14T02:05:18.399Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/11/17/a-handful-of-swift-style-rules-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-17<br>译者：<a href="http://blog.csdn.net/mmoaay" target="_blank" rel="external">mmoaay</a>；校对：<a href="http://weibo.com/lfbWb" target="_blank" rel="external">lfb_CD</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
 </blockquote>
@@ -730,7 +730,7 @@
     <link href="http://swiftggteam.github.io/2015/12/04/the-fibonacci-sequencetype/"/>
     <id>http://swiftggteam.github.io/2015/12/04/the-fibonacci-sequencetype/</id>
     <published>2015-12-03T16:00:00.000Z</published>
-    <updated>2015-12-14T01:56:01.636Z</updated>
+    <updated>2015-12-14T02:05:18.399Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Jacob Bandes-Storch，<a href="http://bandes-stor.ch/blog/2015/08/05/the-fibonacci-sequencetype/" target="_blank" rel="external">原文链接</a>，原文日期：2015/08/05<br>译者：<a href="undefined">Lou</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
 <p>这篇博文启发自<a href="http://codereview.stackexchange.com/questions/60875/project-euler-2-even-fibonacci-numbers-in-swift" target="_blank" rel="external">Code Review.SE</a>上的一个讨论，同时<a href="https://xkcd.com/356/" target="_blank" rel="external">nerd-sniped</a>上的关于数学的有趣的学习。让我对数学和 Swift 的结合有了兴趣。所以我花了一段时间来把这些知识整理成一篇博文，特别是自从我完成了对我网站重建的第一步以后。更重要的是，我希望我能更勤勉的更新我的博客，这8年我只写了一篇而已，希望大家能对我的博客感兴趣。<br>这篇博文的目标对于初学者来讲，比较容易理解，同时也提供给那些已经对这个概念熟悉的人一些有用的细节和例子。希望大家能给我反馈。</p>
@@ -870,7 +870,7 @@
     <link href="http://swiftggteam.github.io/2015/12/03/expandable-table-view/"/>
     <id>http://swiftggteam.github.io/2015/12/03/expandable-table-view/</id>
     <published>2015-12-02T16:00:00.000Z</published>
-    <updated>2015-12-14T01:56:01.636Z</updated>
+    <updated>2015-12-14T02:05:18.399Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：AppCoda，<a href="http://www.appcoda.com/expandable-table-view/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-16<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1048,7 +1048,7 @@
     <link href="http://swiftggteam.github.io/2015/12/02/swift-weak-and-unowned/"/>
     <id>http://swiftggteam.github.io/2015/12/02/swift-weak-and-unowned/</id>
     <published>2015-12-01T16:00:00.000Z</published>
-    <updated>2015-12-14T01:56:01.636Z</updated>
+    <updated>2015-12-14T02:05:18.399Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-weak-and-unowned/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-30<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a></p>
 </blockquote>
@@ -1097,7 +1097,7 @@
     <link href="http://swiftggteam.github.io/2015/12/01/xcode-xcconfig-files-for-managing-targets-configurations/"/>
     <id>http://swiftggteam.github.io/2015/12/01/xcode-xcconfig-files-for-managing-targets-configurations/</id>
     <published>2015-11-30T16:00:00.000Z</published>
-    <updated>2015-12-14T01:56:01.636Z</updated>
+    <updated>2015-12-14T02:05:18.399Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/xcode-xcconfig-files-for-managing-targets-configurations/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-14<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1151,7 +1151,7 @@
     <link href="http://swiftggteam.github.io/2015/11/30/should-you-migrate-objective-c-code-to-swift/"/>
     <id>http://swiftggteam.github.io/2015/11/30/should-you-migrate-objective-c-code-to-swift/</id>
     <published>2015-11-29T16:00:00.000Z</published>
-    <updated>2015-12-14T01:56:01.636Z</updated>
+    <updated>2015-12-14T02:05:18.399Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/should-you-migrate-objective-c-code-to-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-23<br>译者：<a href="http://blog.csdn.net/yake_099" target="_blank" rel="external">Yake</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1192,7 +1192,7 @@
     <link href="http://swiftggteam.github.io/2015/11/27/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/11/27/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/</id>
     <published>2015-11-27T01:20:00.000Z</published>
-    <updated>2015-12-14T01:56:01.636Z</updated>
+    <updated>2015-12-14T02:05:18.399Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/11/05/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/5<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1235,7 +1235,7 @@
     <link href="http://swiftggteam.github.io/2015/11/26/swift-map-and-flatmap/"/>
     <id>http://swiftggteam.github.io/2015/11/26/swift-map-and-flatmap/</id>
     <published>2015-11-25T16:00:00.000Z</published>
-    <updated>2015-12-14T01:56:01.636Z</updated>
+    <updated>2015-12-14T02:05:18.399Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-map-and-flatmap/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-16<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1275,7 +1275,7 @@
     <link href="http://swiftggteam.github.io/2015/11/25/tvos-introduction/"/>
     <id>http://swiftggteam.github.io/2015/11/25/tvos-introduction/</id>
     <published>2015-11-24T16:00:00.000Z</published>
-    <updated>2015-12-14T01:56:01.636Z</updated>
+    <updated>2015-12-14T02:05:18.399Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：gregg mojica，<a href="http://www.appcoda.com/tvos-introduction/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-02<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1420,7 +1420,7 @@
     <link href="http://swiftggteam.github.io/2015/11/24/speeding-up-swift-playgrounds-with-closure-initialization-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/11/24/speeding-up-swift-playgrounds-with-closure-initialization-swiftlang/</id>
     <published>2015-11-23T16:00:00.000Z</published>
-    <updated>2015-12-14T01:56:01.636Z</updated>
+    <updated>2015-12-14T02:05:18.399Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/11/15/speeding-up-swift-playgrounds-with-closure-initialization-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-15<br>译者：<a href="undefined">JackAlan</a>；校对：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1466,7 +1466,7 @@
     <link href="http://swiftggteam.github.io/2015/11/23/swift-reflection-api-what-you-can-do/"/>
     <id>http://swiftggteam.github.io/2015/11/23/swift-reflection-api-what-you-can-do/</id>
     <published>2015-11-22T16:00:00.000Z</published>
-    <updated>2015-12-14T01:56:01.636Z</updated>
+    <updated>2015-12-14T02:05:18.399Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Benedikt Terhechte，<a href="http://appventure.me/2015/10/24/swift-reflection-api-what-you-can-do/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-24<br>译者：<a href="http://blog.csdn.net/mmoaay" target="_blank" rel="external">mmoaay</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1624,7 +1624,7 @@
     <link href="http://swiftggteam.github.io/2015/11/20/advanced-practical-enum-examples/"/>
     <id>http://swiftggteam.github.io/2015/11/20/advanced-practical-enum-examples/</id>
     <published>2015-11-19T16:00:00.000Z</published>
-    <updated>2015-12-14T01:56:01.636Z</updated>
+    <updated>2015-12-14T02:05:18.399Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Benedikt Terhechte，<a href="http://appventure.me/2015/10/17/advanced-practical-enum-examples/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-17<br>译者：<a href="http://www.jianshu.com/users/3b40e55ec6d5/latest_articles" target="_blank" rel="external">小锅</a>，<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
 </blockquote>
@@ -1909,7 +1909,7 @@
     <link href="http://swiftggteam.github.io/2015/11/19/3d-touch-tutorial/"/>
     <id>http://swiftggteam.github.io/2015/11/19/3d-touch-tutorial/</id>
     <published>2015-11-19T02:31:00.000Z</published>
-    <updated>2015-12-14T01:56:01.636Z</updated>
+    <updated>2015-12-14T02:05:18.399Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Maxime Defauw，<a href="http://www.appcoda.com/3d-touch-tutorial/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/09<br>译者：<a href="http://www.brighttj.com" target="_blank" rel="external">saitjr</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1997,7 +1997,7 @@
     <link href="http://swiftggteam.github.io/2015/11/18/watchconnectivity-user-info/"/>
     <id>http://swiftggteam.github.io/2015/11/18/watchconnectivity-user-info/</id>
     <published>2015-11-17T16:00:00.000Z</published>
-    <updated>2015-12-14T01:56:01.636Z</updated>
+    <updated>2015-12-14T02:05:18.399Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/watchconnectivity-user-info/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-21<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -2075,7 +2075,7 @@
     <link href="http://swiftggteam.github.io/2015/11/17/functional-programming-in-swift/"/>
     <id>http://swiftggteam.github.io/2015/11/17/functional-programming-in-swift/</id>
     <published>2015-11-17T04:00:00.000Z</published>
-    <updated>2015-12-14T01:56:01.636Z</updated>
+    <updated>2015-12-14T02:05:18.399Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/functional-programming-in-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/13<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
