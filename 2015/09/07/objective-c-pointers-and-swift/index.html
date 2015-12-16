@@ -1,0 +1,729 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="vqJV77bZM6" />
+  
+    <title>浅谈 Swift 2 中的 Objective-C 指针 | SwiftGG 翻译组 - 高质量的 Swift 译文网站</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="SwiftGG">
+    
+    <meta name="keywords" content="swift语言,swift翻译,swift学习" /> 
+
+    
+    <meta name="description" content="作者：Jameson Quave，原文链接，原文日期：2015/08/23译者：mmoaay；校对：numbbbbb；定稿：shanks
+本文写于 2015 年 8 月 23 日，与 Xcode7 Beta 版和 Swift 2 兼容
+
+在 Swift 中读 C 指针下面这个 Objective-C 方法会返回一个 int 指针，或者说 C 术语里面的 (int *)：
+@interface Po">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅谈 Swift 2 中的 Objective-C 指针">
+<meta property="og:url" content="http://swiftggteam.github.io/2015/09/07/objective-c-pointers-and-swift/index.html">
+<meta property="og:site_name" content="SwiftGG">
+<meta property="og:description" content="作者：Jameson Quave，原文链接，原文日期：2015/08/23译者：mmoaay；校对：numbbbbb；定稿：shanks
+本文写于 2015 年 8 月 23 日，与 Xcode7 Beta 版和 Swift 2 兼容
+
+在 Swift 中读 C 指针下面这个 Objective-C 方法会返回一个 int 指针，或者说 C 术语里面的 (int *)：
+@interface Po">
+<meta property="og:updated_time" content="2015-12-16T00:55:07.124Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="浅谈 Swift 2 中的 Objective-C 指针">
+<meta name="twitter:description" content="作者：Jameson Quave，原文链接，原文日期：2015/08/23译者：mmoaay；校对：numbbbbb；定稿：shanks
+本文写于 2015 年 8 月 23 日，与 Xcode7 Beta 版和 Swift 2 兼容
+
+在 Swift 中读 C 指针下面这个 Objective-C 方法会返回一个 int 指针，或者说 C 术语里面的 (int *)：
+@interface Po">
+
+    
+    <link rel="alternative" href="/atom.xml" title="SwiftGG" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/logo.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/logo.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.jpg" alt="SwiftGG" title="SwiftGG"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="SwiftGG">SwiftGG</a></h1>
+				<h2 class="blog-motto">走心的 Swift 翻译组</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+						<li><a href="/stat">统计</a></li>
+					
+					<li>
+ 					
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		
+  <header class="article-info clearfix">
+    <h1 itemprop="name">
+      
+        <a href="/2015/09/07/objective-c-pointers-and-swift/" title="浅谈 Swift 2 中的 Objective-C 指针" itemprop="url">浅谈 Swift 2 中的 Objective-C 指针</a>
+    </h1>
+    <p class="article-time">
+      <time datetime="2015-09-06T16:00:00.000Z" itemprop="datePublished"><i class="icon-time"></i> 2015-09-07</time>
+      <span style="margin-left: 0.5em;"><i class="icon-eye-open"></i> <span class="viewcount"></span></span>
+    </p>
+  </header>
+
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#在_Swift_中读_C_指针"><span class="toc-number">1.</span> <span class="toc-text">在 Swift 中读 C 指针</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在_Swift_中创建_C_指针"><span class="toc-number">2.</span> <span class="toc-text">在 Swift 中创建 C 指针</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li></ol>
+		
+		</div>
+		
+		<blockquote>
+<p>作者：Jameson Quave，<a href="http://jamesonquave.com/blog/objective-c-pointers-and-swift" target="_blank" rel="external">原文链接</a>，原文日期：2015/08/23<br>译者：<a href="http://blog.csdn.net/mmoaay" target="_blank" rel="external">mmoaay</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
+<p>本文写于 2015 年 8 月 23 日，与 Xcode7 Beta 版和 Swift 2 兼容</p>
+</blockquote>
+<h2 id="在_Swift_中读_C_指针">在 Swift 中读 C 指针</h2><p>下面这个 Objective-C 方法会返回一个 <code>int</code> 指针，或者说 C 术语里面的 <code>(int *)</code>：</p>
+<figure class="highlight objectivec"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">PointerBridge</span> : <span class="title">NSObject</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> count;</span><br><span class="line">&#125;</span><br><span class="line">- (<span class="keyword">int</span> *) getCountPtr;</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">PointerBridge</span></span></span><br><span class="line">- (instancetype) init &#123;</span><br><span class="line">    <span class="keyword">self</span> = [<span class="keyword">super</span> init];</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">self</span>) &#123;</span><br><span class="line">        count = <span class="number">23</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line">- (<span class="keyword">int</span> *) getCountPtr &#123;</span><br><span class="line">    <span class="keyword">return</span> &amp;count;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>上面的代码定义了一个 <code>PointerBridge</code> 类，它包含 <code>getCountPtr</code> 方法，这个方法返回一个值为 23 的 <code>int</code> 型<em>内存地址</em>。 这个 <code>Int</code> 其实是 <code>count</code> 的实例，它在构造方法 <code>init</code> 中被赋值为 23 。</p>
+<p>我把这段代码放在一个 Objective-C 的头文件中，然后把这个头文件 import 到我的桥接头文件（XXX-bridging-header.h）中，这样就可以在 Swift 中使用。然后我在 Swift 中创建一个名为 <code>bridge</code> 的 <code>PointerBridge</code> 实例，然后获得 <code>getCountPtr()</code> 方法的返回值…</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> bridge = <span class="type">PointerBridge</span>()</span><br><span class="line"><span class="keyword">let</span> theInt = bridge.getCountPtr()</span><br><span class="line"><span class="built_in">print</span>(theInt)</span><br><span class="line"><span class="built_in">print</span>(theInt.memory)</span><br></pre></td></tr></table></figure>
+<p>在 Xcode 中按住 Option 键点击 <code>theInt</code> 检查它的类型，你会发现他的 Swift 类型是  <code>UnsafeMutablePointer&lt;Int32&gt;</code>。这是指向 <code>Int</code> 型的指针，和 <code>Int</code> 型不一样，它仅仅是指向它的<em>指针</em>。</p>
+<p>如果运行这个程序然后执行这段 Swift 代码，我们会发现 <code>theInt</code> 在命令行中输出类似 <em>0x00007f8bdb508ef8</em> 这样的内存地址，然后，然后我们会看到 <code>memory</code> 成员变量输出的值 23 。访问指针指向的内存通常返回其底层指向的对象，在这个例子中就是原来的 32 位 <code>int</code>（在 Swift 中就是 <code>Int32</code>）</p>
+<p>现在让 Objective-C 类支持设置 <code>count</code> 的值。</p>
+<figure class="highlight objectivec"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">PointerBridge</span> : <span class="title">NSObject</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> count;</span><br><span class="line">&#125;</span><br><span class="line">- (<span class="keyword">int</span> *) getCountPtr;</span><br><span class="line">- (<span class="keyword">void</span>) setCount:(<span class="keyword">int</span>)newCount;</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">PointerBridge</span></span></span><br><span class="line">- (instancetype) init &#123;</span><br><span class="line">    <span class="keyword">self</span> = [<span class="keyword">super</span> init];</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">self</span>) &#123;</span><br><span class="line">        count = <span class="number">23</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line">- (<span class="keyword">int</span> *) getCountPtr &#123;</span><br><span class="line">    <span class="keyword">return</span> &amp;count;</span><br><span class="line">&#125;</span><br><span class="line">- (<span class="keyword">void</span>) setCount:(<span class="keyword">int</span>)newCount &#123;</span><br><span class="line">    count = newCount;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>我们可以调用 <code>setCount()</code> 方法来修改 <code>count</code> 的值。因为 <code>theInt</code> 是一个指针，所以通过 <code>setCount</code> 修改 <code>count</code> 也会更新 <code>theInt.memory</code>。别忘了内存地址是不会变的，变的是值。</p>
+<p>也就是说，下面的代码会在命令行中打印数字 23， 然后打印数字 1000。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> bridge = <span class="type">PointerBridge</span>()</span><br><span class="line"><span class="keyword">let</span> theInt = bridge.getCountPtr()</span><br><span class="line"><span class="built_in">print</span>(theInt.memory) <span class="comment">// 23</span></span><br><span class="line">bridge.setCount(<span class="number">1000</span>)</span><br><span class="line"><span class="built_in">print</span>(theInt.memory) <span class="comment">// 1000</span></span><br></pre></td></tr></table></figure>
+<p>如果想避免每次都写 <code>.memory</code>，有一条捷径就是把<code>.memory</code> 赋值给一个变量：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> bridge = <span class="type">PointerBridge</span>()</span><br><span class="line"><span class="keyword">let</span> theInt = bridge.getCountPtr()</span><br><span class="line"><span class="keyword">let</span> countVal = theInt.memory</span><br><span class="line"><span class="built_in">print</span>(countVal) <span class="comment">// 23</span></span><br></pre></td></tr></table></figure>
+<p>就像之前一样， 命令行会输出 23。然而，如果我们像之前那样调用 <code>setCount()</code> 方法修改 <code>count</code> 的值，问题出现了：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> bridge = <span class="type">PointerBridge</span>()</span><br><span class="line"><span class="keyword">let</span> theInt = bridge.getCountPtr()</span><br><span class="line"><span class="keyword">let</span> countVal = theInt.memory</span><br><span class="line"><span class="built_in">print</span>(countVal) <span class="comment">// 23</span></span><br><span class="line"> </span><br><span class="line">bridge.setCount(<span class="number">1000</span>)</span><br><span class="line"><span class="built_in">print</span>(countVal) <span class="comment">// 23</span></span><br></pre></td></tr></table></figure>
+<p>出现问题的原因是 <code>countVal</code> 是通过<em>值（value）</em>来赋值的。赋值的时候<em>值（value）</em>就是23，所以 <code>countVal</code> 有它自己的内存地址，这个地址永久地保存了 23 这个值，所以已经失去了指针的特性。 <code>countVal</code> 现在只是一个普通的 <code>Int32</code> 型。</p>
+<h2 id="在_Swift_中创建_C_指针">在 Swift 中创建 C 指针</h2><p>如果我们想要做和上面相反的事情呢？不是用 <code>Int</code> 型来给 <code>count</code> 赋值，而是传入一个指针呢？</p>
+<p>我们假设在 Objective-C 的代码中有如下的一个方法：</p>
+<figure class="highlight objectivec"><table><tr><td class="code"><pre><span class="line">- (<span class="keyword">void</span>) setCountPtr:(<span class="keyword">int</span> *)newCountPtr &#123;</span><br><span class="line">    count = *newCountPtr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个方法很作，其实就是把 <code>newCountPtr</code> 重新赋值给 count，但在 Swift 开发中你确实会碰到这样一些需要传入指针的场景。用这么作的方式只是为了向你展示如何在 Swift 中创建指针类型，然后传入到 Objective-C 的方法中。</p>
+<p>你可能会简单的认为只要使用一个类似 &amp; 的引用操作符就可以传入 <code>Int</code> 值，就像你在 C 中所做的那样。在 Objective-C 中你可以这样写：</p>
+<figure class="highlight objectivec"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> mcount = <span class="number">500</span>;</span><br><span class="line">[<span class="keyword">self</span> setCountPtr:&amp;mcount];</span><br></pre></td></tr></table></figure>
+<p>这段代码可以成功地把 <code>count</code> 的值更新为 500。然而在 Swift 中，通过自动补全你会发现它更复杂（而且更冗长）。它需要传入一个<code>UnsafeMutablePointer&lt;Int32&gt;</code> 类型的 <code>newCountPtr</code> 变量。</p>
+<p>我知道这个类型很恶心，而且它看起来确实很复杂。但是，事实上它相当简单，特别是在你了解 Obj-C 中的指针的情况下。如果要创建一个<code>UnsafeMutablePointer&lt;Int32&gt;</code> 类型的对象，我们只需要调用构造方法，这个构造方法唯一需要传入的参数就是指针的大小（你应该知道 C 的指针是不存储类型的，所以它也不会存储大小的信息）</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> bridge = <span class="type">PointerBridge</span>()</span><br><span class="line"><span class="keyword">let</span> theInt = bridge.getCountPtr()</span><br><span class="line"><span class="built_in">print</span>(theInt.memory) <span class="comment">// 23</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">let</span> newIntPtr = <span class="type">UnsafeMutablePointer</span>&lt;<span class="type">Int32</span>&gt;.alloc(<span class="number">1</span>)</span><br><span class="line">newIntPtr.memory = <span class="number">100</span></span><br><span class="line">bridge.setCountPtr(newIntPtr)</span><br><span class="line"> </span><br><span class="line"><span class="built_in">print</span>(theInt.memory) <span class="comment">// 100</span></span><br></pre></td></tr></table></figure>
+<p>唯一需要给 <code>UnsafeMutablePointer&lt;Int32&gt;</code> 构造方法传入的参数就是需要分配空间的对象的个数，所以我们传入 1 即可，因为我们只需要一个<code>Int32</code> 对象 。然后，只需要把我们之前对 <code>memory</code> 所做的事情反过来，我们就可以为我们新建的指针赋值。最终，我们只需要简单滴把 <code>newIntPtr</code> 传入到 <code>setCountrPtr</code> 方法中，再把之前 <code>theInt</code> 指针的值打印出来，我们就会发现它的值已经被更新为 100。</p>
+<h2 id="总结">总结</h2><p><code>UnsafeMutablePointer&lt;T&gt;</code> 类型的兄弟类型 <code>UnsafePointer&lt;T&gt;</code> 从根本上说只是 C 指针的一个抽象。你可以把它们看作 Swift 的可选类型，这样更容易理解。它们不是直接等于一个确切的值，而是在一个确切的值上面做了一层抽象。它们的类型是泛型，这样就可以允许其使用其他的值，而不单单是 <code>Int32</code>。比如你需要传入一个 <code>Float</code> 对象那么你可能需要 <code>UnsafeMutablePointer&lt;Float&gt;</code>。</p>
+<p>重点是：你不是把一个 <code>Int</code> <em>强转</em> 为 <code>UnsafeMutablePointer&lt;Int&gt;</code>，因为指针不是简单地一个 <code>Int</code> 值。所以，如果需要创建一个新的对象，你需要调用构造方法 <code>UnsafeMutablePointer&lt;Int&gt;(count: Int)</code>。</p>
+<p>在本文之后我们会继续深入研究函数指针的一些细节，然后学习如何利用这些特性的优势去更好地与 C 和 Objective-C 的 API 进行交互。一定要注册我们的 <a href="http://jamesonquave.us6.list-manage1.com/subscribe?u=1d2576bf288fe2fd7fa71bd20&amp;id=6c787ed58a" target="_blank" rel="external">Newsletter</a> ，这样你才不会错过这些精彩的内容！</p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Swift-进阶/">Swift 进阶</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Jameson-Quave/">Jameson Quave</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://swiftggteam.github.io/2015/09/07/objective-c-pointers-and-swift/" data-title="浅谈 Swift 2 中的 Objective-C 指针 | SwiftGG" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/09/07/switching-your-brain-to-swift/" title="从 OC 到 Swift">
+  <strong>上一篇：</strong><br/>
+  <span>
+  从 OC 到 Swift</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/09/06/commoncrypto-in-swift/"  title="如何在 Swift 中使用 CommonCrypto 类进行加密(I)">
+ <strong>下一篇：</strong><br/> 
+ <span>如何在 Swift 中使用 CommonCrypto 类进行加密(I)
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2015/09/07/objective-c-pointers-and-swift/" data-title="浅谈 Swift 2 中的 Objective-C 指针" data-url="http://swiftggteam.github.io/2015/09/07/objective-c-pointers-and-swift/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#在_Swift_中读_C_指针"><span class="toc-number">1.</span> <span class="toc-text">在 Swift 中读 C 指针</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在_Swift_中创建_C_指针"><span class="toc-number">2.</span> <span class="toc-text">在 Swift 中创建 C 指针</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/3D-Touch/" title="3D Touch">3D Touch<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Apple-TV-开发/" title="Apple TV 开发">Apple TV 开发<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Swift-入门/" title="Swift 入门">Swift 入门<sup>51</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Swift-进阶/" title="Swift 进阶">Swift 进阶<sup>34</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Swift2-0/" title="Swift2.0">Swift2.0<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/WatchOS-2/" title="WatchOS 2">WatchOS 2<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Xcode/" title="Xcode">Xcode<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS9/" title="iOS9">iOS9<sup>2</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Natasha-The-Robot/" title="Natasha The Robot">Natasha The Robot<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Thomas-Hanning/" title="Thomas Hanning">Thomas Hanning<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Erica-Sadun/" title="Erica Sadun">Erica Sadun<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Crunchy-Development/" title="Crunchy Development">Crunchy Development<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AppCoda/" title="AppCoda">AppCoda<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Tomasz-Szulc/" title="Tomasz Szulc">Tomasz Szulc<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IOSCREATOR/" title="IOSCREATOR">IOSCREATOR<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Ole-Begemann/" title="Ole Begemann">Ole Begemann<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Jameson-Quave/" title="Jameson Quave">Jameson Quave<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/APPVENTURE/" title="APPVENTURE">APPVENTURE<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mike-Ash/" title="Mike Ash">Mike Ash<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Raj-Kandathi/" title="Raj Kandathi">Raj Kandathi<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Swift-and-Painless/" title="Swift and Painless">Swift and Painless<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JamesonQuave-com/" title="JamesonQuave.com">JamesonQuave.com<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Benedikt-Terhechte/" title="Benedikt Terhechte">Benedikt Terhechte<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Jacob-Bandes-Storch/" title="Jacob Bandes-Storch">Jacob Bandes-Storch<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Big-O-Note-Taking/" title="Big O Note-Taking">Big O Note-Taking<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Weston-Hanners/" title="Weston Hanners">Weston Hanners<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ioscreator/" title="ioscreator">ioscreator<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/dom/" title="dom">dom<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://codebuild.me" target="_blank" title="Code Build Me">Code Build Me</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.saitjr.com" target="_blank" title="//TODO:">//TODO:</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.cee.moe" target="_blank" title="Perfect Freeze">Perfect Freeze</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.swiftyper.com" target="_blank" title="小锅的swift之路">小锅的swift之路</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.futantan.com/" target="_blank" title="Prayer的博客">Prayer的博客</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net/mmoaay" target="_blank" title="画渣程序猿mmoaay">画渣程序猿mmoaay</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blogoflinus.sinaapp.com" target="_blank" title="小铁匠的swift之路">小铁匠的swift之路</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" title="ppppppmst的简书博客">ppppppmst的简书博客</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wxgbridgeq.github.io/" target="_blank" title="BridgeQ">BridgeQ</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://bearychat.com/" target="_blank" title="BearyChat">BearyChat</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://bbs.php-z.com" target="_blank" title="PHP-Z论坛">PHP-Z论坛</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.swiftguide.cn" target="_blank" title="官方文档">官方文档</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="wechatpart">
+	<p class="asidetitle">微信公众号</p>
+	<img src="/img/wechat.jpg" />
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer>
+
+
+<div id="footer" >
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="SwiftGG">SwiftGG</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+<script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+<script src="/js/mm.js"></script>
+<script src="/js/subscribe.js"></script>
+
+<div id="swiftweekly" style="display:none;">
+  <span id="sw_slogan">订阅同样走心的<b>『Swift开发者周报』</b>&nbsp;</span>
+  <form id="content">
+    <input name="email" id="sw_email" placeholder="输入邮箱地址" type="email" /><a class="sw_sub">订阅</a>
+  </form>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+  
+
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"swiftgg"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66150920-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
