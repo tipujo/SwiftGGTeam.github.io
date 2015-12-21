@@ -4,7 +4,7 @@
   <subtitle><![CDATA[走心的 Swift 翻译组]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://swiftggteam.github.io/"/>
-  <updated>2015-12-18T08:30:16.605Z</updated>
+  <updated>2015-12-21T01:00:22.100Z</updated>
   <id>http://swiftggteam.github.io/</id>
   
   <author>
@@ -15,11 +15,53 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[Swift 3.0 和 Foundation]]></title>
+    <link href="http://swiftggteam.github.io/2015/12/21/swift-3-0-and-foundation/"/>
+    <id>http://swiftggteam.github.io/2015/12/21/swift-3-0-and-foundation/</id>
+    <published>2015-12-20T16:00:00.000Z</published>
+    <updated>2015-12-21T01:00:22.100Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/12/03/swift-3-0-and-foundation/" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-03<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
+</blockquote>
+<!--此处开始正文-->
+<p>我将尽量避免那些看上去很尴尬的笑话，直接介绍 <a href="https://github.com/apple/swift-corelibs-foundation" target="_blank" rel="external">Swift CoreLibs Foundation</a>。</p>
+<p>以下引自 Apple：</p>
+<blockquote>
+<p>本项目提供了各个平台下 Foundation API 的具体实现，但并未使用 Objective-C runtime 机制。在 OS X、iOS 以及其他 Apple 平台下，应用程序都应该使用指定操作系统下的 Foundation 进行开发。我们希望尽可能地抽象出具体的底层平台…<br>我们最主要的目标是在 Apple 平台下使用 Foundation implementation parity。这将有助于整个 Swift 3 完成<strong>可移植性</strong>的目标。</p>
+</blockquote>
+<a id="more"></a>
+<p>正如在上篇更新的文章所述，Foundation 将使用新的 API 指导方针、摒弃 NS 前缀、精简文本并避免整体过度冗余。</p>
+<p>具体实现文章在<a href="https://github.com/apple/swift-corelibs-foundation/blob/master/Docs/Status.md" target="_blank" rel="external">这里</a>。显然<em>有很多</em>要做的事。苹果的主要目标是使用一套标准工具类来实现跨平台开发，能够在各个平台之间保持相对高的独立性和可移植性。</p>
+<p>开发者们更关注核心语言功能（比如 Swift 中的数组和字典）在标准库、功能（比如正则表达式中）以及 Foundation 基础库中有哪些不同。NSArray/NSDictionary/NSSet/NSString 的更新版本将成为 Foundation 的一部分，与标准库中对应的类稍有不同。</p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/12/03/swift-3-0-and-foundation/">原文链接</a>，原文日期：2015-12-03<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles">pmst</a>；校对：<a href="https://github.com/Cee">Cee</a>；定稿：<a href="https://github.com/numbbbbb">numbbbbb</a></p>
+</blockquote>
+<!--此处开始正文-->
+<p>我将尽量避免那些看上去很尴尬的笑话，直接介绍 <a href="https://github.com/apple/swift-corelibs-foundation">Swift CoreLibs Foundation</a>。</p>
+<p>以下引自 Apple：</p>
+<blockquote>
+<p>本项目提供了各个平台下 Foundation API 的具体实现，但并未使用 Objective-C runtime 机制。在 OS X、iOS 以及其他 Apple 平台下，应用程序都应该使用指定操作系统下的 Foundation 进行开发。我们希望尽可能地抽象出具体的底层平台…<br>我们最主要的目标是在 Apple 平台下使用 Foundation implementation parity。这将有助于整个 Swift 3 完成<strong>可移植性</strong>的目标。</p>
+</blockquote>]]>
+    
+    </summary>
+    
+      <category term="Erica Sadun" scheme="http://swiftggteam.github.io/tags/Erica-Sadun/"/>
+    
+      <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[Swift 的变化：从 2.2 到 3.0 会带来什么]]></title>
     <link href="http://swiftggteam.github.io/2015/12/18/changing-swift-whats-coming-up-in-2-2-and-3-0/"/>
     <id>http://swiftggteam.github.io/2015/12/18/changing-swift-whats-coming-up-in-2-2-and-3-0/</id>
     <published>2015-12-17T16:00:00.000Z</published>
-    <updated>2015-12-18T08:30:16.605Z</updated>
+    <updated>2015-12-21T01:00:22.100Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/12/03/changing-swift-whats-coming-up-in-2-2-and-3-0/" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-03<br>译者：<a href="undefined">Channe</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -61,7 +103,7 @@
     <link href="http://swiftggteam.github.io/2015/12/17/per-view-auto-rotation-locking-made-easy-for-ios-8-and-9/"/>
     <id>http://swiftggteam.github.io/2015/12/17/per-view-auto-rotation-locking-made-easy-for-ios-8-and-9/</id>
     <published>2015-12-16T16:00:00.000Z</published>
-    <updated>2015-12-18T08:30:16.601Z</updated>
+    <updated>2015-12-21T01:00:22.100Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Weston Hanners，<a href="http://www.alloc-init.com/2015/11/per-view-auto-rotation-locking-made-easy-for-ios-8-and-9/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-18<br>译者：<a href="undefined">littledogboy</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -254,7 +296,7 @@
     <link href="http://swiftggteam.github.io/2015/12/16/new-to-beta-2-swift-2-1-playground-value-drops-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/12/16/new-to-beta-2-swift-2-1-playground-value-drops-swiftlang/</id>
     <published>2015-12-15T16:00:00.000Z</published>
-    <updated>2015-12-18T08:30:16.601Z</updated>
+    <updated>2015-12-21T01:00:22.100Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/09/23/new-to-beta-2-swift-2-1-playground-value-drops-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-23<br>译者：<a href="http://weibo.com/u/2916092907" target="_blank" rel="external">天才175</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -314,7 +356,7 @@
     <link href="http://swiftggteam.github.io/2015/12/15/mixins-over-inheritance/"/>
     <id>http://swiftggteam.github.io/2015/12/15/mixins-over-inheritance/</id>
     <published>2015-12-15T02:30:00.000Z</published>
-    <updated>2015-12-18T08:30:16.601Z</updated>
+    <updated>2015-12-21T01:00:22.100Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Olivier Halligon，<a href="http://alisoftware.github.io/swift/protocol/2015/11/08/mixins-over-inheritance/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-08<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -437,7 +479,7 @@
     <link href="http://swiftggteam.github.io/2015/12/14/a-beginners-guide-to-nsdate-in-swift/"/>
     <id>http://swiftggteam.github.io/2015/12/14/a-beginners-guide-to-nsdate-in-swift/</id>
     <published>2015-12-14T01:00:00.000Z</published>
-    <updated>2015-12-18T08:30:16.601Z</updated>
+    <updated>2015-12-21T01:00:22.100Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：gabriel theodoropoulos，<a href="http://www.appcoda.com/nsdate/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-18<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a></p>
 </blockquote>
@@ -649,7 +691,7 @@
     <link href="http://swiftggteam.github.io/2015/12/11/correction-on-testing-uialertcontroller/"/>
     <id>http://swiftggteam.github.io/2015/12/11/correction-on-testing-uialertcontroller/</id>
     <published>2015-12-10T16:00:00.000Z</published>
-    <updated>2015-12-18T08:30:16.601Z</updated>
+    <updated>2015-12-21T01:00:22.100Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：dom，<a href="http://swiftandpainless.com/correction-on-testing-uialertcontroller/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-25<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="http://weibo.com/lfbWb" target="_blank" rel="external">lfb_CD</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -698,7 +740,7 @@
     <link href="http://swiftggteam.github.io/2015/12/10/reduce-all-the-things/"/>
     <id>http://swiftggteam.github.io/2015/12/10/reduce-all-the-things/</id>
     <published>2015-12-09T16:00:00.000Z</published>
-    <updated>2015-12-18T08:30:16.601Z</updated>
+    <updated>2015-12-21T01:00:22.096Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Benedikt Terhechte，<a href="http://appventure.me/2015/11/30/reduce-all-the-things/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-30<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -818,7 +860,7 @@
     <link href="http://swiftggteam.github.io/2015/12/08/building-a-todo-app-using-realm-and-swift/"/>
     <id>http://swiftggteam.github.io/2015/12/08/building-a-todo-app-using-realm-and-swift/</id>
     <published>2015-12-07T16:00:00.000Z</published>
-    <updated>2015-12-18T08:30:16.601Z</updated>
+    <updated>2015-12-21T01:00:22.096Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Hossam Ghareeb，<a href="http://www.appcoda.com/realm-database-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-28<br>译者：<a href="http://www.futantan.com" target="_blank" rel="external">Prayer</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -999,7 +1041,7 @@
     <link href="http://swiftggteam.github.io/2015/12/08/ios-realm-instead-of-coredata/"/>
     <id>http://swiftggteam.github.io/2015/12/08/ios-realm-instead-of-coredata/</id>
     <published>2015-12-07T16:00:00.000Z</published>
-    <updated>2015-12-18T08:30:16.601Z</updated>
+    <updated>2015-12-21T01:00:22.096Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/ios-realm-instead-of-coredata/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-29<br>译者：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1067,7 +1109,7 @@
     <link href="http://swiftggteam.github.io/2015/12/07/a-handful-of-swift-style-rules-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/12/07/a-handful-of-swift-style-rules-swiftlang/</id>
     <published>2015-12-06T16:00:00.000Z</published>
-    <updated>2015-12-18T08:30:16.601Z</updated>
+    <updated>2015-12-21T01:00:22.096Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/11/17/a-handful-of-swift-style-rules-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-17<br>译者：<a href="http://blog.csdn.net/mmoaay" target="_blank" rel="external">mmoaay</a>；校对：<a href="http://weibo.com/lfbWb" target="_blank" rel="external">lfb_CD</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
 </blockquote>
@@ -1148,7 +1190,7 @@
     <link href="http://swiftggteam.github.io/2015/12/04/the-fibonacci-sequencetype/"/>
     <id>http://swiftggteam.github.io/2015/12/04/the-fibonacci-sequencetype/</id>
     <published>2015-12-03T16:00:00.000Z</published>
-    <updated>2015-12-18T08:30:16.601Z</updated>
+    <updated>2015-12-21T01:00:22.096Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Jacob Bandes-Storch，<a href="http://bandes-stor.ch/blog/2015/08/05/the-fibonacci-sequencetype/" target="_blank" rel="external">原文链接</a>，原文日期：2015/08/05<br>译者：<a href="undefined">Lou</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
 <p>这篇博文启发自<a href="http://codereview.stackexchange.com/questions/60875/project-euler-2-even-fibonacci-numbers-in-swift" target="_blank" rel="external">Code Review.SE</a>上的一个讨论，同时<a href="https://xkcd.com/356/" target="_blank" rel="external">nerd-sniped</a>上的关于数学的有趣的学习。让我对数学和 Swift 的结合有了兴趣。所以我花了一段时间来把这些知识整理成一篇博文，特别是自从我完成了对我网站重建的第一步以后。更重要的是，我希望我能更勤勉的更新我的博客，这8年我只写了一篇而已，希望大家能对我的博客感兴趣。<br>这篇博文的目标对于初学者来讲，比较容易理解，同时也提供给那些已经对这个概念熟悉的人一些有用的细节和例子。希望大家能给我反馈。</p>
@@ -1289,7 +1331,7 @@
     <link href="http://swiftggteam.github.io/2015/12/03/expandable-table-view/"/>
     <id>http://swiftggteam.github.io/2015/12/03/expandable-table-view/</id>
     <published>2015-12-02T16:00:00.000Z</published>
-    <updated>2015-12-18T08:30:16.601Z</updated>
+    <updated>2015-12-21T01:00:22.096Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：AppCoda，<a href="http://www.appcoda.com/expandable-table-view/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-16<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1467,7 +1509,7 @@
     <link href="http://swiftggteam.github.io/2015/12/02/swift-weak-and-unowned/"/>
     <id>http://swiftggteam.github.io/2015/12/02/swift-weak-and-unowned/</id>
     <published>2015-12-01T16:00:00.000Z</published>
-    <updated>2015-12-18T08:30:16.601Z</updated>
+    <updated>2015-12-21T01:00:22.096Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-weak-and-unowned/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-30<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a></p>
 </blockquote>
@@ -1516,7 +1558,7 @@
     <link href="http://swiftggteam.github.io/2015/12/01/xcode-xcconfig-files-for-managing-targets-configurations/"/>
     <id>http://swiftggteam.github.io/2015/12/01/xcode-xcconfig-files-for-managing-targets-configurations/</id>
     <published>2015-11-30T16:00:00.000Z</published>
-    <updated>2015-12-18T08:30:16.601Z</updated>
+    <updated>2015-12-21T01:00:22.096Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/xcode-xcconfig-files-for-managing-targets-configurations/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-14<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1570,7 +1612,7 @@
     <link href="http://swiftggteam.github.io/2015/11/30/should-you-migrate-objective-c-code-to-swift/"/>
     <id>http://swiftggteam.github.io/2015/11/30/should-you-migrate-objective-c-code-to-swift/</id>
     <published>2015-11-29T16:00:00.000Z</published>
-    <updated>2015-12-18T08:30:16.601Z</updated>
+    <updated>2015-12-21T01:00:22.096Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/should-you-migrate-objective-c-code-to-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-23<br>译者：<a href="http://blog.csdn.net/yake_099" target="_blank" rel="external">Yake</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1611,7 +1653,7 @@
     <link href="http://swiftggteam.github.io/2015/11/27/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/11/27/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/</id>
     <published>2015-11-27T01:20:00.000Z</published>
-    <updated>2015-12-18T08:30:16.601Z</updated>
+    <updated>2015-12-21T01:00:22.096Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/11/05/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/5<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1654,7 +1696,7 @@
     <link href="http://swiftggteam.github.io/2015/11/26/swift-map-and-flatmap/"/>
     <id>http://swiftggteam.github.io/2015/11/26/swift-map-and-flatmap/</id>
     <published>2015-11-25T16:00:00.000Z</published>
-    <updated>2015-12-18T08:30:16.601Z</updated>
+    <updated>2015-12-21T01:00:22.096Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-map-and-flatmap/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-16<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1694,7 +1736,7 @@
     <link href="http://swiftggteam.github.io/2015/11/25/tvos-introduction/"/>
     <id>http://swiftggteam.github.io/2015/11/25/tvos-introduction/</id>
     <published>2015-11-24T16:00:00.000Z</published>
-    <updated>2015-12-18T08:30:16.601Z</updated>
+    <updated>2015-12-21T01:00:22.096Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：gregg mojica，<a href="http://www.appcoda.com/tvos-introduction/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-02<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1831,52 +1873,6 @@
       <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
     
       <category term="Apple TV 开发" scheme="http://swiftggteam.github.io/categories/Apple-TV-%E5%BC%80%E5%8F%91/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[如何使用闭包初始化来加速 Swift 的 playground]]></title>
-    <link href="http://swiftggteam.github.io/2015/11/24/speeding-up-swift-playgrounds-with-closure-initialization-swiftlang/"/>
-    <id>http://swiftggteam.github.io/2015/11/24/speeding-up-swift-playgrounds-with-closure-initialization-swiftlang/</id>
-    <published>2015-11-23T16:00:00.000Z</published>
-    <updated>2015-12-18T08:30:16.601Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/11/15/speeding-up-swift-playgrounds-with-closure-initialization-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-15<br>译者：<a href="undefined">JackAlan</a>；校对：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
-</blockquote>
-<!--此处开始正文-->
-<p>Swift 的 Playground 可能会莫名其妙地变慢，尤其当你使用 SpriteKit 或 SceneKit 时。尽可能的把代码迁移到外部资源文件中，可以优化编译并获得更好的运行时速度。</p>
-<a id="more"></a>
-<p>这种方法的最大问题在于，你会因此失去在 Playground 中的线性流 <code>linear flow</code>。模块编译不支持修改变量的顶层指令。比如，你有类似如下的代码：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">let</span> lightNode = <span class="type">SCNNode</span>()</span><br><span class="line">lightNode.light = <span class="type">SCNLight</span>()</span><br><span class="line">lightNode.light!.type = <span class="type">SCNLightTypeOmni</span></span><br><span class="line">lightNode.position = <span class="type">SCNVector3</span>(x: <span class="number">0</span>, y: <span class="number">10</span>, z: <span class="number">10</span>)</span><br><span class="line">scnscene.rootNode.addChildNode(lightNode)</span><br></pre></td></tr></table></figure>
-<p>(我很抱歉使用强制解包，但是这是来自苹果的示例代码。)</p>
-<p>你不能将这些代码直接移到一个模块文件中，因为你使用的是顶级调用，这些代码不会在外部 Swift 文件中被编译。你可能会把这些代码放在一个函数里，来作为一种变通的方法，例如：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">internal</span> <span class="func"><span class="keyword">func</span> <span class="title">setupLightNode</span><span class="params">()</span></span> -&gt; <span class="type">SCNNode</span> &#123;</span><br><span class="line"><span class="keyword">let</span> theLight = <span class="type">SCNNode</span>()</span><br><span class="line">theLight.light = <span class="type">SCNLight</span>()</span><br><span class="line">theLight.light!.type = <span class="type">SCNLightTypeOmni</span></span><br><span class="line">theLight.position = <span class="type">SCNVector3</span>(x: <span class="number">0</span>, y: <span class="number">10</span>, z: <span class="number">10</span>)</span><br><span class="line">scnscene.rootNode.addChildNode(theLight)</span><br><span class="line"><span class="keyword">return</span> theLight</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>然后你可以在声明后调用该函数：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> lightNode = setupLightNode()</span><br></pre></td></tr></table></figure>
-<p>这挫爆了，这种方式创建了一个不必要的额外函数，而且它强制让你在一个新的实例被声明前去处理这个实例。</p>
-<p>闭包提供了一种更吸引人、相对轻量的解决方案。正如下面你将看到的样例。在这里，将初始化的代码打包在一个单独的组中，执行并最终返回完全初始化的实例。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// create and add a light to the scene</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">let</span> lightNode: <span class="type">SCNNode</span> = &#123;</span><br><span class="line">  <span class="keyword">let</span> theLight = <span class="type">SCNNode</span>()</span><br><span class="line">  theLight.light = <span class="type">SCNLight</span>()</span><br><span class="line">  theLight.light!.type = <span class="type">SCNLightTypeOmni</span></span><br><span class="line">  theLight.position = <span class="type">SCNVector3</span>(x: <span class="number">0</span>, y: <span class="number">10</span>, z: <span class="number">10</span>)</span><br><span class="line">  scnscene.rootNode.addChildNode(theLight)</span><br><span class="line">  <span class="keyword">return</span> theLight</span><br><span class="line">&#125;()</span><br></pre></td></tr></table></figure>
-<p>这种方法使你可以使用单独的语句来创建和初始化一个对象，保留你在 Playground 中声明的流动性和可读性，而且运行的会更快一点。</p>
-<p>这个<a href="https://vid.me/BrPC" target="_blank" rel="external">视频</a>包含了这次 lightNode 的代码与其他设置操作。在点击 Playground 的 “运行” 按钮后，只花了 3-4 秒，而不像此前的数分钟。这种加速方法对于建立以 SpriteKit 和 SceneKit 为元素的原型，在部署到实际的应用前，变得更有实际意义。</p>
-<p><strong>更新</strong>：如下是另外一种可以建立类实例的方法：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">infix</span> <span class="keyword">operator</span> •-&gt; &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// prepare class instance</span></span><br><span class="line"><span class="func"><span class="keyword">func</span> •-&gt; <span class="generics">&lt;T&gt;</span><span class="params">(object: T, f: <span class="params">(T)</span></span></span> -&gt; <span class="type">Void</span>) -&gt; <span class="type">T</span> &#123;</span><br><span class="line">  f(object)</span><br><span class="line">  <span class="keyword">return</span> object</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;<span class="keyword">var</span> (x, y, z) = (<span class="string">"x"</span>, <span class="string">"y"</span>, <span class="string">"z"</span>)&#125;</span><br><span class="line"><span class="keyword">let</span> myInstance = <span class="type">MyClass</span>() •-&gt; &#123;</span><br><span class="line"> $<span class="number">0</span>.x = <span class="string">"NewX"</span></span><br><span class="line"> $<span class="number">0</span>.y = <span class="string">"NewY"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>不知你意下如何？</p>
-<blockquote>
-<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
-</blockquote>
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/11/15/speeding-up-swift-playgrounds-with-closure-initialization-swiftlang/">原文链接</a>，原文日期：2015-11-15<br>译者：<a href="undefined">JackAlan</a>；校对：<a href="http://weibo.com/linusling">小铁匠Linus</a>；定稿：<a href="http://weibo.com/xiaoxxiao">千叶知风</a></p>
-</blockquote>
-<!--此处开始正文-->
-<p>Swift 的 Playground 可能会莫名其妙地变慢，尤其当你使用 SpriteKit 或 SceneKit 时。尽可能的把代码迁移到外部资源文件中，可以优化编译并获得更好的运行时速度。</p>]]>
-    
-    </summary>
-    
-      <category term="Erica Sadun" scheme="http://swiftggteam.github.io/tags/Erica-Sadun/"/>
-    
-      <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
     
   </entry>
   

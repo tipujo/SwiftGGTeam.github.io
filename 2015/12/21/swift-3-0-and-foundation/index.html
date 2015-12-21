@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="baidu-site-verification" content="vqJV77bZM6" />
   
-    <title>苹果官方博客：Swift 2.0 中的字符串 | SwiftGG 翻译组 - 高质量的 Swift 译文网站</title>
+    <title>Swift 3.0 和 Foundation | SwiftGG 翻译组 - 高质量的 Swift 译文网站</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="SwiftGG">
@@ -13,28 +13,34 @@
     <meta name="keywords" content="swift语言,swift翻译,swift学习" /> 
 
     
-    <meta name="description" content="作者：Greg Heo，原文链接，原文日期：2015/07/23译者：小锅；校对：千叶知风；定稿：numbbbbb
+    <meta name="description" content="作者：Erica Sadun，原文链接，原文日期：2015-12-03译者：pmst；校对：Cee；定稿：numbbbbb
 
-抱歉，由于没有拿到作者授权，我们无法继续提供这个内容。
-如果你真的很需要查看中文译文，可以去阅读译者文章。
-你也可以去首页看看我们的其他文章！">
+&amp;lt;!--此处开始正文--&amp;gt;
+我将尽量避免那些看上去很尴尬的笑话，直接介绍 Swift CoreLibs Foundation。
+以下引自 Apple：
+
+本项目提供了各个平台下 Foundation API 的具体实现，但并未使用 Objective-C runtime 机">
 <meta property="og:type" content="article">
-<meta property="og:title" content="苹果官方博客：Swift 2.0 中的字符串">
-<meta property="og:url" content="http://swiftggteam.github.io/2015/08/24/strings-in-Swift2/index.html">
+<meta property="og:title" content="Swift 3.0 和 Foundation">
+<meta property="og:url" content="http://swiftggteam.github.io/2015/12/21/swift-3-0-and-foundation/index.html">
 <meta property="og:site_name" content="SwiftGG">
-<meta property="og:description" content="作者：Greg Heo，原文链接，原文日期：2015/07/23译者：小锅；校对：千叶知风；定稿：numbbbbb
+<meta property="og:description" content="作者：Erica Sadun，原文链接，原文日期：2015-12-03译者：pmst；校对：Cee；定稿：numbbbbb
 
-抱歉，由于没有拿到作者授权，我们无法继续提供这个内容。
-如果你真的很需要查看中文译文，可以去阅读译者文章。
-你也可以去首页看看我们的其他文章！">
-<meta property="og:updated_time" content="2015-12-21T01:00:22.088Z">
+&amp;lt;!--此处开始正文--&amp;gt;
+我将尽量避免那些看上去很尴尬的笑话，直接介绍 Swift CoreLibs Foundation。
+以下引自 Apple：
+
+本项目提供了各个平台下 Foundation API 的具体实现，但并未使用 Objective-C runtime 机">
+<meta property="og:updated_time" content="2015-12-21T01:00:22.100Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="苹果官方博客：Swift 2.0 中的字符串">
-<meta name="twitter:description" content="作者：Greg Heo，原文链接，原文日期：2015/07/23译者：小锅；校对：千叶知风；定稿：numbbbbb
+<meta name="twitter:title" content="Swift 3.0 和 Foundation">
+<meta name="twitter:description" content="作者：Erica Sadun，原文链接，原文日期：2015-12-03译者：pmst；校对：Cee；定稿：numbbbbb
 
-抱歉，由于没有拿到作者授权，我们无法继续提供这个内容。
-如果你真的很需要查看中文译文，可以去阅读译者文章。
-你也可以去首页看看我们的其他文章！">
+&amp;lt;!--此处开始正文--&amp;gt;
+我将尽量避免那些看上去很尴尬的笑话，直接介绍 Swift CoreLibs Foundation。
+以下引自 Apple：
+
+本项目提供了各个平台下 Foundation API 的具体实现，但并未使用 Objective-C runtime 机">
 
     
     <link rel="alternative" href="/atom.xml" title="SwiftGG" type="application/atom+xml">
@@ -92,10 +98,10 @@
   <header class="article-info clearfix">
     <h1 itemprop="name">
       
-        <a href="/2015/08/24/strings-in-Swift2/" title="苹果官方博客：Swift 2.0 中的字符串" itemprop="url">苹果官方博客：Swift 2.0 中的字符串</a>
+        <a href="/2015/12/21/swift-3-0-and-foundation/" title="Swift 3.0 和 Foundation" itemprop="url">Swift 3.0 和 Foundation</a>
     </h1>
     <p class="article-time">
-      <time datetime="2015-08-23T23:04:02.000Z" itemprop="datePublished"><i class="icon-time"></i> 2015-08-24</time>
+      <time datetime="2015-12-20T16:00:00.000Z" itemprop="datePublished"><i class="icon-time"></i> 2015-12-21</time>
       <span style="margin-left: 0.5em;"><i class="icon-eye-open"></i> <span class="viewcount"></span></span>
     </p>
   </header>
@@ -110,16 +116,36 @@
 		</div>
 		
 		<blockquote>
-<p>作者：Greg Heo，<a href="https://developer.apple.com/swift/blog/?id=30" target="_blank" rel="external">原文链接</a>，原文日期：2015/07/23<br>译者：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
+<p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/12/03/swift-3-0-and-foundation/" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-03<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
-<p>抱歉，由于没有拿到作者授权，我们无法继续提供这个内容。</p>
-<p>如果你真的很需要查看中文译文，可以去阅读<a href="http://www.jianshu.com/p/23078dc56639" target="_blank" rel="external">译者文章</a>。</p>
-<p>你也可以去<a href="http://swift.gg" target="_blank" rel="external">首页</a>看看我们的其他文章！</p>
+<!--此处开始正文-->
+<p>我将尽量避免那些看上去很尴尬的笑话，直接介绍 <a href="https://github.com/apple/swift-corelibs-foundation" target="_blank" rel="external">Swift CoreLibs Foundation</a>。</p>
+<p>以下引自 Apple：</p>
+<blockquote>
+<p>本项目提供了各个平台下 Foundation API 的具体实现，但并未使用 Objective-C runtime 机制。在 OS X、iOS 以及其他 Apple 平台下，应用程序都应该使用指定操作系统下的 Foundation 进行开发。我们希望尽可能地抽象出具体的底层平台…<br>我们最主要的目标是在 Apple 平台下使用 Foundation implementation parity。这将有助于整个 Swift 3 完成<strong>可移植性</strong>的目标。</p>
+</blockquote>
+<a id="more"></a>
+<p>正如在上篇更新的文章所述，Foundation 将使用新的 API 指导方针、摒弃 NS 前缀、精简文本并避免整体过度冗余。</p>
+<p>具体实现文章在<a href="https://github.com/apple/swift-corelibs-foundation/blob/master/Docs/Status.md" target="_blank" rel="external">这里</a>。显然<em>有很多</em>要做的事。苹果的主要目标是使用一套标准工具类来实现跨平台开发，能够在各个平台之间保持相对高的独立性和可移植性。</p>
+<p>开发者们更关注核心语言功能（比如 Swift 中的数组和字典）在标准库、功能（比如正则表达式中）以及 Foundation 基础库中有哪些不同。NSArray/NSDictionary/NSSet/NSString 的更新版本将成为 Foundation 的一部分，与标准库中对应的类稍有不同。</p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
   
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Swift-入门/">Swift 入门</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Erica-Sadun/">Erica Sadun</a>
+  </div>
 
 </div>
 
@@ -127,7 +153,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://swiftggteam.github.io/2015/08/24/strings-in-Swift2/" data-title="苹果官方博客：Swift 2.0 中的字符串 | SwiftGG" data-tsina="null" class="share clearfix">
+	  <div data-url="http://swiftggteam.github.io/2015/12/21/swift-3-0-and-foundation/" data-title="Swift 3.0 和 Foundation | SwiftGG" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -140,19 +166,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/08/25/protocols-my-current-recommendations/" title="如何正确使用协议">
-  <strong>上一篇：</strong><br/>
-  <span>
-  如何正确使用协议</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2015/08/14/friday-qa-2015-07-17-when-to-use-swift-structs-and-classes/"  title="Swift：什么时候使用结构体和类">
+<a href="/2015/12/18/changing-swift-whats-coming-up-in-2-2-and-3-0/"  title="Swift 的变化：从 2.2 到 3.0 会带来什么">
  <strong>下一篇：</strong><br/> 
- <span>Swift：什么时候使用结构体和类
+ <span>Swift 的变化：从 2.2 到 3.0 会带来什么
 </span>
 </a>
 </div>
@@ -161,7 +179,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/08/24/strings-in-Swift2/" data-title="苹果官方博客：Swift 2.0 中的字符串" data-url="http://swiftggteam.github.io/2015/08/24/strings-in-Swift2/"></div>
+	<div class="ds-thread" data-thread-key="2015/12/21/swift-3-0-and-foundation/" data-title="Swift 3.0 和 Foundation" data-url="http://swiftggteam.github.io/2015/12/21/swift-3-0-and-foundation/"></div>
 </section>
 
 
