@@ -4,7 +4,7 @@
   <subtitle><![CDATA[走心的 Swift 翻译组]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://swiftggteam.github.io/"/>
-  <updated>2015-12-21T01:00:22.100Z</updated>
+  <updated>2015-12-22T00:55:17.279Z</updated>
   <id>http://swiftggteam.github.io/</id>
   
   <author>
@@ -15,11 +15,230 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[如何在 Swift 中使用 Alamofire 进行网络编程]]></title>
+    <link href="http://swiftggteam.github.io/2015/12/22/alamofire-beginner-guide/"/>
+    <id>http://swiftggteam.github.io/2015/12/22/alamofire-beginner-guide/</id>
+    <published>2015-12-21T16:00:00.000Z</published>
+    <updated>2015-12-22T00:55:17.279Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>作者：gregg mojica，<a href="http://www.appcoda.com/alamofire-beginner-guide/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-30<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="undefined"></a></p>
+</blockquote>
+<!--此处开始正文-->
+<p>2014 年 6 月 Apple 发布 Swift 以来，如何在 Swift 中进行网络编程一直成为程序猿们关注的焦点。甚至，Chris Lattner，Swift 的作者之一，也发推说过，在 Swift 中解析 JSON 还有很长的路要走。因此，许多人开始寻求替代方案。尽管，在 Swift 中也有处理 JSON 解析的内建类，但是对开发者来说并不是很友好。幸运的是，Alamofire 出现了。Alamofire 是一个可以帮助我们解析 JSON 的强有力网络库，它由 Objective-C 中同类网络库 AFNetworking 的作者编写。</p>
+<p>在这个又臭又长、近乎 3500 多词（译者注：in English）的教程中，我们将探讨一系列广泛的网络基本话题，并建立一个假日待办应用。</p>
+<a id="more"></a>
+<p>同时，你会从本教程中学到：如何使用和解析 JSON，如何自定义服务器端，如何使用 <a href="https://www.heroku.com/" target="_blank" rel="external">Heroku</a> 和 <a href="https://mongolab.com/" target="_blank" rel="external">MongoLab</a> 等工具，HTTP 的工作原理（包括 GET，POST 和 DELETE 请求），如何使用 git 和终端（terminal）以及如何使用 Cocoapods。如果你觉得上面提到的内容太多了，那就对了，拿一杯咖啡，就让我们开始吧。</p>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/11/thangiving-app-coda-20151-1024x768.png" alt=""></p>
+<p>哦，AppCoda 的所有作者祝大家节日开心！😊</p>
+<p>注意：本教程是一个进阶教程，涵盖了很多东西。而且，我假设你已经对 iOS 和 Swift 有了很坚实的了解。文章中诸如 tableviews， autolayout，delegate 等话题都不会深入的解释原理。你如果记不清这些内容，可以先去学习我们推出的<a href="http://www.appcoda.com/ios-programming-course/" target="_blank" rel="external">优秀课程</a>，然后再回来看本教程。</p>
+<h2 id="开始">开始</h2><p>为了实现本教程要实现的功能，我已用 Node.js 写了一个服务器后端。这里需要给那些对它不熟悉的人解释一下，Node.js 是一个基于 Javascript、运行在 Google Chrome 的 V8 引擎中的运行时环境。长话短说，总之它是一个特别可靠，速度特别快，特别厉害的东西，哈哈。</p>
+<p>为了搞定这个后端，我同时也使用了 Restify 和 MongoDB。MongoDB 是在 Web 开发人员中很流行的一个 no-SQL 数据库。我们可以使用 MongoDB 存储所有我们相关的数据。</p>
+<p>当我刚开始使用 Node 的时候，我不知道这些东西都是怎么运行的，其他我所浏览的一些博客也从没有解释 Node 到底是怎么工作的。因此，尽管这是个 iOS 的博客，但我还是要介绍一下 Javascript 和 Node 服务器的工作原理。</p>
+<p>我搜遍了网络，都没有一个详细的教程引导你创建一个 API 与 iOS 应用程序交互的步骤，从现在开始就有了。</p>
+<h2 id="遇见_Node-js">遇见 Node.js</h2><p>像我之前提到的一样，Node.js 是一个很强大的服务器端开发技术，它建立在 Chrome 的运行时环境上。因此，它是高度异步的和非阻塞的（如果你不知道我说的是什么意思，其实很简单，大概就是：使用主线程或者应用的主要部分不会被阻塞）。多线程是一种可以防止延迟且能提高项目效率的编程技术。你把应用想象成一条高速公路，如果只有一条通道，却有 20 辆车要通过，那么他们就很有可能会堵车。如果一条高速公路有三条都有出入口的通道，那么堵车的机会就很小。多线程就可以这样来理解。在一个多线程的环境里，代码执行在不同的线程就可以避免应用阻塞，从而防止程序奔溃。</p>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/11/1436439824nodejs-logo.png" alt=""></p>
+<p>Node 是由 Joyent 开发并维持的，Joyent 是一家位于旧金山的云计算公司。</p>
+<p>如果你仍然不清楚所有这些是怎么运行的，想想后端具体干了些什么吧。下面列出来一些：</p>
+<ol>
+<li>后端是一个为你传送 API 的地方（我们现在正在为当前的应用构建 API，就和网络上其他的 API 一样，其中包括了我们在之前的 <a href="http://www.appcoda.com/tvos-introduction/" target="_blank" rel="external">tvOS 教程</a>中使用的 <a href="http://forecast.io/" target="_blank" rel="external">forecast.io</a> API）。</li>
+<li>MongoDB 提供了一个保存所有数据的地方。当你想要 POST 一条新的消息，我们需要有个地方可以存储这条消息。在本教程中，我们将把这些数据存储到 MongoDB 数据库中。</li>
+<li>创建一个功能完整的 REST API，它遵循 REST 协议。</li>
+</ol>
+<p>我们的 MongoDB 放在 MongoLab 的主机上，Node 服务器放在 Heroku 上。Heroku 由 Salesforce 提供支持，可以作为 Node，Rails，Python等应用的主机服务商。MongoLab 也是一家可以当 MongoDB 主机的服务商。</p>
+<h2 id="HTTP_请求介绍">HTTP 请求介绍</h2><p>在我们开始写代码之前，你应该了解 HTTP 请求以及如何在我们的应用里使用。</p>
+<ul>
+<li><p>GET 请求 - GET 请求会查询我们的数据库，然后获取内容。GET 请求可以被限制，使得其只能获取一个、多个或全部的内容。事实上，每次你访问 <a href="http://google.com/" target="_blank" rel="external">google.com</a> 或浏览你的 Facebook/Twitter 主页，你都会发起 GET 请求（可能你之前都不知道这个东西）！</p>
+</li>
+<li><p>POST 请求 - POST 请求会发送数据到服务器，然后保存这个数据。举个例子，当你在 Facebook 或 Twitter 上写好文字，然后按 Post/Tweet 按钮的时候，你就发起了 POST 请求。</p>
+</li>
+<li><p>UPDATE 请求 - UPDATE 请求可以让你修改已经存在的内容。当你编辑一条 Facebook 消息时，其实使用到了 UPDATE 请求。</p>
+</li>
+<li><p>DELETE 请求 - DELETE 请求会删除对应的内容。当你按了删除按钮删除 Facebook 或 Twitter 消息的时候，其实是调用了 DELETE 请求。</p>
+</li>
+</ul>
+<p>以上这四个请求类型是基于 REST 协议的。Internet 能运行就是由这些请求组成的。你可能也听说过 CRUD 这个缩写词，CRUD 是由 <strong>C</strong>reate，<strong>R</strong>ead，<strong>U</strong>pdate 和 <strong>D</strong>elete 的首字母组成的。很显然，这些单词就和 POST，GET，UPDATE 和 DELETE 是一一对应的。</p>
+<p>帅气！现在我们已经对 HTTP 协议有一定的理解了，我们可以进入到这次教程的核心部分了。</p>
+<h2 id="配置必要的工具">配置必要的工具</h2><p>在我们使用 MongoLab 或 Heroku 之前，我们应该要确保 Node.js 能正常使用。</p>
+<p>打开 <a href="https://nodejs.org/en/" target="_blank" rel="external">Node.js官网</a>，根据简单的引导下载 Node 到你的电脑上。</p>
+<p>然后，到 <a href="https://docs.npmjs.com/getting-started/installing-node" target="_blank" rel="external">npm 官网</a>下载 npm。</p>
+<p>为了正确配置我们的后端，我们需要分别在 Heroku 和 MongoLab 上注册帐号。我们先从 MongoLab 开始吧，去 <a href="https://mongolab.com/home" target="_blank" rel="external">MongoLab 官网</a>注册帐号。</p>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/11/Untitled-1024x640.png" alt=""></p>
+<p>确保选择的是 single-node（免费），填上你数据库的名字。我这边取名为 <em>alamofire-db</em>（以 db 为后缀表示是一个数据库，这是比较普遍的命名规范）。</p>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/11/Untitled2-1024x640.png" alt=""></p>
+<p>接下来，登录你的数据库，定位好 MongoDB 数据库的 URI。</p>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/11/Screen-Shot-2015-11-26-at-2.35.58-PM-1024x328.png" alt=""></p>
+<p>马上就让你添加一个新的数据库帐号，输入用户名和密码。不要忘记密码。</p>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/11/Screen-Shot-2015-11-26-at-2.38.15-PM-1024x478.png" alt=""></p>
+<p>现在返回到你设置 URI 的页面，修改成新的地址。比如：</p>
+<figure class="highlight gherkin"><table><tr><td class="code"><pre><span class="line">mongodb://<span class="variable">&lt;dbuser&gt;</span>:<span class="variable">&lt;dbpassword&gt;</span><span class="comment">@ds057954.mongolab.com:57954/alamofire-db</span></span><br></pre></td></tr></table></figure>
+<p>替换成：</p>
+<figure class="highlight groovy"><table><tr><td class="code"><pre><span class="line"><span class="string">mongodb:</span><span class="comment">//gregg:test@ds057954.mongolab.com:57954/alamofire-db</span></span><br></pre></td></tr></table></figure>
+<p>MongoLab 搞定！</p>
+<p>现在去 <a href="http://heroku.com/" target="_blank" rel="external">Heroku.com</a>，免费注册后，打开 <a href="https://toolbelt.heroku.com/" target="_blank" rel="external">heroku toolbelt 页面</a>。</p>
+<p>跟随指南，成功安装后，打开终端并登录 heroku。如果你之前从未使用过终端，不用担心。本教程会多次使用终端，这样你最终就会对终端的使用有一个清晰的认识。</p>
+<p>一旦你在终端上登录 heroku，可以使用 cd 命令（cd 代表改变目录）进到对应目录，将之前从 dropbox 下载的工程文件夹移动进去。</p>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/11/Screen-Shot-2015-11-26-at-3.03.13-PM-2.png" alt=""></p>
+<p>按下回车键就可以执行这行命令了。干的不错，现在我们可以用 <strong>git</strong> <strong>提交（Push）</strong>东西到 heroku 了。</p>
+<p>在终端中键入以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git init</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">"First Commit"</span></span><br></pre></td></tr></table></figure>
+<p>这三行命令，初始化了一个仓库（repository，简写为 repo），并添加了当前目录下的所有文件到这个仓库，最终提交并保存。</p>
+<p>git 是一款很流行的版本控制软件。</p>
+<p>现在你可以看终端里应该和下图的内容差不多：</p>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/11/Screen-Shot-2015-11-26-at-3.09.42-PM-2.png" alt=""></p>
+<p>因为你之前已经成功安装了 heroku toolbelt，所以你现在可以在终端里键入 <em>heroku login</em>，并输入帐号密码。敲回车后继续，如果帐号密码没问题的话，你的 Email 会以蓝绿色高亮显示。</p>
+<p>现在，键入 <strong>heroku create</strong> 来创建一个新的 heroku 应用。Heroku 会创建一个新的带有域名的应用给你。比如，我的就是 <a href="https://whispering-plains-1537.herokuapp.com/。" target="_blank" rel="external">https://whispering-plains-1537.herokuapp.com/。</a></p>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/11/Screen-Shot-2015-11-26-at-3.50.39-PM-2.png" alt=""></p>
+<p>现在，键入 <strong>git push heroku master</strong> 来把你新建的应用发送到 heroku。</p>
+<p>如果一切顺利的话，会显示如下图（其中的某一些设置可能会不同）。</p>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/11/Screen-Shot-2015-11-26-at-5.06.08-PM-2.png" alt=""></p>
+<h2 id="使用_Node-js,_Express,_MongoLab_&amp;_Mongoose">使用 Node.js, Express, MongoLab &amp; Mongoose</h2><p>让我们从下载示例工程开始，<a href="https://www.dropbox.com/sh/hvvneknq4hh7ntw/AAARljJGt3OLLjQRmIMxDsIHa?dl=0" target="_blank" rel="external">链接在这里</a>。打开你最喜欢的文本编辑器（我这边用的是 Sublime Text 2；可以在<a href="http://sublimetext.com/" target="_blank" rel="external">这里</a>下载免费版，如果你支持的话也可以购买），然后继续。</p>
+<p>Javascript 在很大程度上是和 Swift 很相似的。我们之后会使用 express 和 mongoose 两个著名 node 包。请确保你已经在系统上安装 npm 和 node 包管理器。</p>
+<p>Express 是 <a href="http://nodejs.org/" target="_blank" rel="external">Node.js</a> 中的一个「快速、强大而又轻量级」的网络框架，它可以轻松解决路由（Route）问题。你问什么是路由？路由就是你与网络交互的方式。每次你打开 google.com 的时候，其实你访问的是根主页，即 google.com/。假如你访问 google.com/hello，那就是另外一个路由了。我们接下来将要定义一个能访问我们数据库的路由。</p>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/11/Screen-Shot-2015-11-26-at-5.11.44-PM-2-1024x576.png" alt=""></p>
+<p>你可以从 expressjs.org 官网上学习更多关于 express 的知识。</p>
+<p>下面是示例代码：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>); <span class="comment">// 1</span></span><br><span class="line"><span class="keyword">var</span> app = express(); <span class="comment">// 2</span></span><br><span class="line"><span class="comment">// 当一个 GET 请求访问主页的时候，会返回 hello world</span></span><br><span class="line">app.get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123; <span class="comment">// 3</span></span><br><span class="line">  res.send(<span class="string">'hello world'</span>); <span class="comment">// 4</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>第一行代码设置了一个叫 express 的变量。第二行代码，把 express 初始化后赋值给一个叫 app 的变量。在第三行代码，app 这个变量代表了 express 环境，调用它的 get() 方法（形式类似 Swift）。当一个用户访问 / 根主页的时候，就会显示「hello world」。这是 express 作为路由的一个例子。如果需要更多信息，可以访问 <a href="http://expressjs.com/guide/routing.html" target="_blank" rel="external">express 官网</a>查看。</p>
+<p>现在，我们已经配置好了 mongo 数据库的环境，接下来让我们来使用 cURL 请求测试一下功能。cURL 是一款命令行程序，它可以发送 HTTP 请求。我们将会先使用 cURL 做一下实验，然后再迁移到 Alamofire 去。</p>
+<h2 id="JavaScript_介绍">JavaScript 介绍</h2><h3 id="模型">模型</h3><p>打开你的文本编辑器（再次顺便说一下，我用的是 Sublime），同时打开 app.js 文件。正如你看到的，应用被分割成了一个 model 和路由文件（就是你刚打开的 app.js 文件）。model 文件可以建立模式（schema）或数据库结构。让我们先来简单看看这个文件吧。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> mongoose = <span class="built_in">require</span>(<span class="string">'mongoose'</span>),</span><br><span class="line">    Schema = mongoose.Schema;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">var</span> TodoSchema  = <span class="keyword">new</span> Schema(</span><br><span class="line">    &#123;</span><br><span class="line">  name: <span class="built_in">String</span></span><br><span class="line">&#125;);</span><br><span class="line"> </span><br><span class="line">mongoose.model(<span class="string">'employees'</span>, TodoSchema);</span><br></pre></td></tr></table></figure>
+<p>我们可以使用 mongoose，它是一个用在应用与 mongo 之间作为接口的 npm 包。我起初在构建一个雇工跟踪应用，并把 model 命名为 employee，但是可能会随时修改这个 model。我保留着它，是因为这个教程的接下来部分可能会用到。</p>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/11/Screen-Shot-2015-11-27-at-12.48.53-AM-1024x640.png" alt=""></p>
+<p>Mongoose 能很方便的提供与 mongoLab 的 heroku node 应用连接并提供相应的接口。这的确非常方便。</p>
+<h3 id="路由">路由</h3><p>路由文件里存的是我们将会<em>输出</em>到 app.js 文件的内容。不用太担心这个输出——它是 node 中一个比较先进的特性，也超出了本教程的范围。</p>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/11/Screen-Shot-2015-11-27-at-12.53.18-AM-1024x640.png" alt=""></p>
+<p>注意第 26 行的 <em>newTodo</em>。正如你可能猜到的，这行代码创建了一个新的 todo。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> emp = <span class="keyword">new</span> Todo(req.body);</span><br><span class="line"> </span><br><span class="line">    emp.save(<span class="function"><span class="keyword">function</span>(<span class="params">err</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (err) &#123;</span><br><span class="line">            res.send(<span class="string">'Error occurred'</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">console</span>.log(err);</span><br><span class="line">        &#125;</span><br><span class="line">        res.send(emp);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>我们把 Todo 对象（在第四行定义了一个与 mongoose 连接的对象）赋值给一个叫 emp 的变量，并设置 req.body（req 代表请求，它会发送给我们数据，同时，res 代表回复，它会返回我们的要返回的东西）。</p>
+<p>随意浏览一下文件中剩下的方法。</p>
+<h3 id="就像粘稠的胶水——App-js">就像粘稠的胶水——App.js</h3><p>现在回到 app.js 文件，这里是整个应用的主要部分。接下来列出来一些这个文件里的重点部分（译者注：对照下图看）：</p>
+<ul>
+<li>第 13 行代码建立 express 应用</li>
+<li>第 15 - 22 行代码配置该应用</li>
+<li>第 33 行代码使用 mongoose 将应用连接到 mongoLab 数据库</li>
+<li>第 35 行代码建立连接</li>
+<li>第 41 - 45 行代码建立应用的路由文件并连接到 /routes/todo.js 文件</li>
+<li>第 48 行代码创建服务器</li>
+</ul>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/11/Screen-Shot-2015-11-27-at-12.59.54-AM-1024x640.png" alt=""></p>
+<p>以上这些，能让你了解到一些 Javascript 应用的基本运作知识。但是，毕竟这篇教程不是主讲 Javascript 的，我不会继续深究。当然，我还是鼓励你们去研究一下 express 和 mongoose。</p>
+<h2 id="使用_cURL">使用 cURL</h2><p>在我们的 node 应用开启状态下，我们可以执行一些 cURL 请求来做测试。一旦我们做完测试，就可以迁移到 Alamofire 上去了。</p>
+<h3 id="GET_请求">GET 请求</h3><p>在终端里执行下面的代码（记得将 url 修改成你自己对应的 heroku url）。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl -i -H <span class="string">"Accept: application/json"</span> <span class="string">"https://rocky-meadow-1164.herokuapp.com/todo"</span></span><br></pre></td></tr></table></figure>
+<p>命令行中的 -i 和 -H 参数，表示我们将要接收什么东西。我们会接收 JSON 并将 JSON url 追加到请求的末尾。</p>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/11/Screen-Shot-2015-11-26-at-6.00.45-PM-2.png" alt=""></p>
+<p>你应该能看到有数据返回了。和下图差不多。</p>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/11/Screen-Shot-2015-11-26-at-6.00.49-PM-2.png" alt=""></p>
+<p>正如你看到的，返回的数据就是我们想要得到的。如果你已经将 url 替换成你自己的，你可能什么也看不到，因为你的 mongodb 里现在还没数据。</p>
+<h3 id="POST_请求">POST 请求</h3><p>加入你想要加一些数据到数据库里，你需要的就是下面的 POST 命令。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl -H <span class="string">"Content-Type: application/json"</span> -X POST <span class="operator">-d</span> <span class="string">'&#123;"name":"Buy Presents"&#125;'</span> https://rocky-meadow-<span class="number">1164</span>.herokuapp.com/todo</span><br></pre></td></tr></table></figure>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/11/Screen-Shot-2015-11-26-at-6.05.01-PM-2.png" alt=""></p>
+<p>然后，你使用之前讲过的 GET 请求，就可以看到你刚才添加的「Buy Presents」的内容了。</p>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/11/s.png" alt=""></p>
+<h3 id="DELETE_请求">DELETE 请求</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl -X DELETE <span class="string">'https://rocky-meadow-1164.herokuapp.com/todo/5657901fee93910900cc54ed'</span></span><br></pre></td></tr></table></figure>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/11/Screen-Shot-2015-11-26-at-8.21.40-PM-2.png" alt=""></p>
+<p>很棒！接下去我们不会讲 PUT 请求，因为在我们这个应用里暂时还用不上。但是它和其他的请求使用起来是差不多的。</p>
+<h2 id="使用_Alamofire_设置_iOS_应用">使用 Alamofire 设置 iOS 应用</h2><p><img src="http://www.appcoda.com/wp-content/uploads/2015/11/alamofire.png" alt=""></p>
+<p>让我们从新建一个名叫 TodoApp 的 Xcode 工程开始吧。因为假期就要到来，我们应该有一种方式来跟踪这件事情。幸运的是，我们有我们的 node 应用可以帮忙。</p>
+<p>虽然你可以手动安装 Alamofire（通过拖拽源文件到对应工程的方法），但是我们选择使用 Cocoapods。Cocoapods 是一款为 iOS 工程提供依赖管理的工具。在使用 Cocoapods 的时候，开发者可以轻松的添加框架或第三方类库。如果你之前没有使用 Cocoapods，强烈推荐你去使用。</p>
+<p>接下来，在终端里运行以下命令可以确保你在接下来的步骤后成功安装 Cocoapods。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ gem install cocoapods</span><br></pre></td></tr></table></figure>
+<p>然后，通过 cd 命令进入你工程所在的目录，键入以下命令。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim Podfile</span><br></pre></td></tr></table></figure>
+<p>Vim 是一款系统自带的命令行编辑器，与 Sublime Text 或 TextMate 类似。我们现在要新建一个 Podfile 的文件，Cocoapods 每次都会去这个文件里查询是否需要更新工程的 pod（包括各种的依赖）。</p>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/11/Screen-Shot-2015-11-26-at-8.32.03-PM-2.png" alt=""></p>
+<p>在 Podfile 这个文件里键入如下内容：</p>
+<figure class="highlight ruby"><table><tr><td class="code"><pre><span class="line">source <span class="string">'https://github.com/CocoaPods/Specs.git'</span></span><br><span class="line"> </span><br><span class="line">platform <span class="symbol">:ios</span>, <span class="string">'8.0'</span></span><br><span class="line"> </span><br><span class="line">use_frameworks!</span><br><span class="line"> </span><br><span class="line">pod <span class="string">'Alamofire'</span>, <span class="string">'~&gt; 3.0'</span></span><br></pre></td></tr></table></figure>
+<p>然后，按 ESC 键，并输入 <code>:wq</code>，再敲回车。其中，wq 表示保存并退出。</p>
+<p>我们现在已经成功创建 Podfile 并且保存了，为了安装 CocoaPods，在终端里输入以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pod install</span><br></pre></td></tr></table></figure>
+<p>敲了回车后，如果一切都设置好的话，大概会呈现下图显示的内容。</p>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/11/Screen-Shot-2015-11-26-at-8.38.01-PM-2.png" alt=""></p>
+<p>这时候，你可以看到命令行里要求你关闭当前打开的 Xcode 并且以后都用 .xcworkspace 为后缀的文件来打开工程。</p>
+<p>下面这个命令能够非常方便地打开当前目录的 finder 界面。到此为止我们在 Terminal 中的操作就那么多，看上去一天之内有那么多就够了！</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">open .</span><br></pre></td></tr></table></figure>
+<p>打开 ViewController.swift，让我们继续吧。</p>
+<h3 id="Alamofire_GET_请求">Alamofire GET 请求</h3><p>在打开的 ViewController.swift 里，输入以下代码来导入 Alamofire：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> Alamofire</span><br></pre></td></tr></table></figure>
+<p>在 viewDidLoad() 方法里键入以下代码来使用 Alamofire。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Alamofire</span>.request(.<span class="type">GET</span>, <span class="string">"https://rocky-meadow-1164.herokuapp.com/todo"</span>) .responseJSON &#123; response <span class="keyword">in</span> <span class="comment">// 1</span></span><br><span class="line">      <span class="built_in">print</span>(response.request)  <span class="comment">// original URL request</span></span><br><span class="line">      <span class="built_in">print</span>(response.response) <span class="comment">// URL response</span></span><br><span class="line">      <span class="built_in">print</span>(response.data)     <span class="comment">// server data</span></span><br><span class="line">      <span class="built_in">print</span>(response.result)   <span class="comment">// result of response serialization</span></span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> <span class="keyword">let</span> <span class="type">JSON</span> = response.result.value &#123;</span><br><span class="line">         <span class="built_in">print</span>(<span class="string">"JSON: <span class="subst">\(JSON)</span>"</span>)</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在第一行代码中，我们声明了一个 GET 请求，并且传入了一个我们需要的 URL。运行当前的应用，看看返回的是什么。如果一切都设置正确的话，你会看到返回的是 JSON 数据。</p>
+<p>现在，打开 Main.storyboard，添加一个 tableview 到 view controller，并将视图控制器嵌入到 navigation controller。你的 storyboard 现在看起来应该跟我的一样，如下图（值得注意的是，现在返回的 JSON 数据还只是显示在控制台上，我们要将其显示出来。）。</p>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/11/Screen-Shot-2015-11-26-at-9.38.31-PM-2-1024x576.png" alt=""></p>
+<p>将以下代码复制并粘帖到你的 Viewcontroller.swift 文件里。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> UIKit</span><br><span class="line"><span class="keyword">import</span> Alamofire</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ViewController</span>: <span class="title">UIViewController</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">    <span class="preprocessor">@IBOutlet</span> <span class="keyword">weak</span> <span class="keyword">var</span> tableView: <span class="type">UITableView</span>!</span><br><span class="line">    <span class="keyword">var</span> jsonArray:<span class="type">NSMutableArray</span>?</span><br><span class="line">    <span class="keyword">var</span> newArray: <span class="type">Array</span>&lt;<span class="type">String</span>&gt; = []</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.viewDidLoad()</span><br><span class="line">        </span><br><span class="line">        <span class="type">Alamofire</span>.request(.<span class="type">GET</span>, <span class="string">"https://rocky-meadow-1164.herokuapp.com/todo"</span>) .responseJSON &#123; response <span class="keyword">in</span></span><br><span class="line">                <span class="built_in">print</span>(response.request)  <span class="comment">// original URL request</span></span><br><span class="line">                <span class="built_in">print</span>(response.response) <span class="comment">// URL response</span></span><br><span class="line">                <span class="built_in">print</span>(response.data)     <span class="comment">// server data</span></span><br><span class="line">                <span class="built_in">print</span>(response.result)   <span class="comment">// result of response serialization</span></span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> <span class="keyword">let</span> <span class="type">JSON</span> = response.result.value &#123;</span><br><span class="line">                    <span class="keyword">self</span>.jsonArray = <span class="type">JSON</span> <span class="keyword">as</span>? <span class="type">NSMutableArray</span></span><br><span class="line">                    <span class="keyword">for</span> item <span class="keyword">in</span> <span class="keyword">self</span>.jsonArray! &#123;</span><br><span class="line">                        <span class="built_in">print</span>(item[<span class="string">"name"</span>]!)</span><br><span class="line">                        <span class="keyword">let</span> string = item[<span class="string">"name"</span>]!</span><br><span class="line">                        <span class="built_in">print</span>(<span class="string">"String is <span class="subst">\(string!)</span>"</span>)</span><br><span class="line"></span><br><span class="line">                        <span class="keyword">self</span>.newArray.append(string! <span class="keyword">as</span>! <span class="type">String</span>)</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    <span class="built_in">print</span>(<span class="string">"New array is <span class="subst">\(<span class="keyword">self</span>.newArray)</span>"</span>)</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">self</span>.tableView.reloadData()</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="comment">// Do any additional setup after loading the view, typically from a nib.</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我初始化了两个数组 jsonArray 和 newArray，用 for 循环遍历了返回数据的那个 jsonArray，将其中的每个数据保存到 newArray 中。</p>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/11/Screen-Shot-2015-11-26-at-10.08.34-PM-2.png" alt=""></p>
+<p>我使用 POST cURL 请求在数据库里多添加了一些数据。用法类似，不再赘述。</p>
+<p>你可以试试下面代码演示的 GET 请求的极致精简写法。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Alamofire</span>.request(.<span class="type">GET</span>, <span class="string">"https://rocky-meadow-1164.herokuapp.com/todo"</span>).responseJSON &#123; response <span class="keyword">in</span> <span class="built_in">debugPrint</span>(response) &#125;</span><br></pre></td></tr></table></figure>
+<p>接下来，在文件顶部的 UIViewController 定义后面添加 UITableViewDelegate 和 UITableViewDataSource。并且，在 viewDidLoad() 方法里键入如下代码：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">self</span>.tableView.dataSource = <span class="keyword">self</span></span><br><span class="line"><span class="keyword">self</span>.tableView.delegate = <span class="keyword">self</span></span><br></pre></td></tr></table></figure>
+<p>最后，添加 UITableView 的 delegate 方法。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(tableView: UITableView, numberOfRowsInSection section: Int)</span></span> -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>.newArray.<span class="built_in">count</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath)</span></span> -&gt; <span class="type">UITableViewCell</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> cell = tableView.dequeueReusableCellWithIdentifier(<span class="string">"Cell"</span>, forIndexPath: indexPath) <span class="keyword">as</span> <span class="type">UITableViewCell</span></span><br><span class="line"></span><br><span class="line">    cell.textLabel?.text = <span class="keyword">self</span>.newArray[indexPath.row]</span><br><span class="line">    <span class="keyword">return</span> cell</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">didReceiveMemoryWarning</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">super</span>.didReceiveMemoryWarning()</span><br><span class="line">    <span class="comment">// Dispose of any resources that can be recreated.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/11/Screen-Shot-2015-11-26-at-10.16.39-PM-2-1024x576.png" alt=""></p>
+<p>正如你看到的，我们的 tableview 已经成功显示数据了。</p>
+<p>现在，让我们来添加一个按钮，用来添加数据到列表中。首先，先在 storyboard 里添加一个叫 AddViewController 的类，并用 segue 的方式连接起来。你的 storyboard 应该和下图差不多。</p>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/11/Screen-Shot-2015-11-26-at-11.34.59-PM-2-1024x576.png" alt=""></p>
+<h3 id="Alamofire_POST_请求">Alamofire POST 请求</h3><p>在你的 AddViewController.swift 文件里，为 textfield 建立一个 IBOutlet（命名为 textView）和为 Save 按钮建立一个 IBAction。在 Save 按钮代码下面键入如下代码：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Alamofire</span>.request(.<span class="type">POST</span>, <span class="string">"https://rocky-meadow-1164.herokuapp.com/todo"</span>, parameters: [<span class="string">"name"</span>: <span class="keyword">self</span>.textView.text!])</span><br><span class="line"></span><br><span class="line"><span class="keyword">self</span>.navigationController!.popViewControllerAnimated(<span class="literal">true</span>)</span><br></pre></td></tr></table></figure>
+<p>正如你看到的，Alamofire 大大简化了发送 POST 请求的过程。</p>
+<p>接下来，我们来对 ViewController.swift 文件进行重构，确保我们在保存数据后能及时更新列表。删除 viewDidLoad() 方法里 GET Alamofire 的代码，用以下的 downloadAndUpdate 方法代替。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">downloadAndUpdate</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="type">Alamofire</span>.request(.<span class="type">GET</span>, <span class="string">"https://rocky-meadow-1164.herokuapp.com/todo"</span>) .responseJSON &#123; response <span class="keyword">in</span></span><br><span class="line">            <span class="built_in">print</span>(response.request)  <span class="comment">// original URL request</span></span><br><span class="line">            <span class="built_in">print</span>(response.response) <span class="comment">// URL response</span></span><br><span class="line">            <span class="built_in">print</span>(response.data)     <span class="comment">// server data</span></span><br><span class="line">            <span class="built_in">print</span>(response.result)   <span class="comment">// result of response serialization</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">let</span> <span class="type">JSON</span> = response.result.value &#123;</span><br><span class="line">                <span class="keyword">self</span>.jsonArray = <span class="type">JSON</span> <span class="keyword">as</span>? <span class="type">NSMutableArray</span></span><br><span class="line">                <span class="keyword">for</span> item <span class="keyword">in</span> <span class="keyword">self</span>.jsonArray! &#123;</span><br><span class="line">                    <span class="built_in">print</span>(item[<span class="string">"name"</span>]!)</span><br><span class="line">                    <span class="keyword">let</span> string = item[<span class="string">"name"</span>]!</span><br><span class="line">                    <span class="built_in">print</span>(<span class="string">"String is <span class="subst">\(string!)</span>"</span>)</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">self</span>.newArray.append(string! <span class="keyword">as</span>! <span class="type">String</span>)</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">"New array is <span class="subst">\(<span class="keyword">self</span>.newArray)</span>"</span>)</span><br><span class="line">                <span class="keyword">self</span>.tableView.reloadData()</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>现在，在 viewWillAppear() 方法里调用这个方法，如下。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">viewWillAppear</span><span class="params">(animated: Bool)</span></span> &#123;</span><br><span class="line">   <span class="keyword">self</span>.downloadAndUpdate()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果你再次编译并运行这个应用，就会发现每次添加新的 todo 后都会重新加载。但是，这是为什么呢？</p>
+<p>这就关系到 view controller 的生命周期，这里我就简短讨论一下。viewDidLoad() 会在 view 初始化后并且所有控件都结束加载后被调用。问题就出在，当你从已经加载的 ViewController 上加载另外一个 view（比如 AppViewController）时，viewDidLoad 方法不会被调用（之前已经初始化过）。viewWillAppear 方法会在每次 view 在屏幕上显示时调用。因为我们需要在再次显示 ViewController.swift 时候显示，所以这个方法刚好可用。</p>
+<h3 id="Alamofire_DELETE_请求">Alamofire DELETE 请求</h3><p>现在在刚才的 newArray 下面添加一个 IDArray。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> <span class="type">IDArray</span>: <span class="type">Array</span>&lt;<span class="type">String</span>&gt; = []</span><br></pre></td></tr></table></figure>
+<p>接下来，更新 downloadAndUpdate 方法的相应部分，代码如下。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">self</span>.newArray.removeAll() <span class="comment">// NEW</span></span><br><span class="line"><span class="keyword">self</span>.<span class="type">IDArray</span>.removeAll() <span class="comment">// NEW</span></span><br><span class="line"></span><br><span class="line"><span class="type">Alamofire</span>.request(.<span class="type">GET</span>, <span class="string">"https://rocky-meadow-1164.herokuapp.com/todo"</span>) .responseJSON &#123; response <span class="keyword">in</span></span><br><span class="line">            <span class="built_in">print</span>(response.request)  <span class="comment">// original URL request</span></span><br><span class="line">            <span class="built_in">print</span>(response.response) <span class="comment">// URL response</span></span><br><span class="line">            <span class="built_in">print</span>(response.data)     <span class="comment">// server data</span></span><br><span class="line">            <span class="built_in">print</span>(response.result)   <span class="comment">// result of response serialization</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">let</span> <span class="type">JSON</span> = response.result.value &#123;</span><br><span class="line">                <span class="keyword">self</span>.jsonArray = <span class="type">JSON</span> <span class="keyword">as</span>? <span class="type">NSMutableArray</span></span><br><span class="line">                <span class="keyword">for</span> item <span class="keyword">in</span> <span class="keyword">self</span>.jsonArray! &#123;</span><br><span class="line">                    <span class="built_in">print</span>(item[<span class="string">"name"</span>]!)</span><br><span class="line">                    <span class="keyword">let</span> string = item[<span class="string">"name"</span>]!</span><br><span class="line">                    <span class="keyword">let</span> <span class="type">ID</span> = item[<span class="string">"_id"</span>]! <span class="comment">// NEW</span></span><br><span class="line"></span><br><span class="line">                    <span class="keyword">self</span>.newArray.append(string! <span class="keyword">as</span>! <span class="type">String</span>)</span><br><span class="line">                    <span class="keyword">self</span>.<span class="type">IDArray</span>.append(<span class="type">ID</span>! <span class="keyword">as</span>! <span class="type">String</span>) <span class="comment">// NEW</span></span><br><span class="line">                &#125;</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">"New array is <span class="subst">\(<span class="keyword">self</span>.newArray)</span>"</span>)</span><br><span class="line">                <span class="keyword">self</span>.tableView.reloadData()</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p>两行带有 NEW 注释的代码是新添加的。从代码的本质上来说，我们在循环中获得对应的 ID 并保存到数组 IDArray 中。同样，我们也需要将不需要的数据从列表中删除并重置。</p>
+<p>添加 commitEditingStyle 方法，以调用 DELETE 请求来删除对应的不需要数据。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath)</span></span> &#123;</span><br><span class="line">        <span class="keyword">if</span> editingStyle == .<span class="type">Delete</span> &#123;</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"ID is <span class="subst">\(<span class="keyword">self</span>.IDArray[indexPath.row])</span>"</span>)</span><br><span class="line"></span><br><span class="line">            <span class="type">Alamofire</span>.request(.<span class="type">DELETE</span>, <span class="string">"https://rocky-meadow-1164.herokuapp.com/todo/<span class="subst">\(<span class="keyword">self</span>.IDArray[indexPath.row])</span>"</span>)</span><br><span class="line">            <span class="keyword">self</span>.downloadAndUpdate()</span><br><span class="line">            </span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> editingStyle == .<span class="type">Insert</span> &#123;</span><br><span class="line">            <span class="comment">// Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>正如你看到的，以上代码遵循了我们应用的 API，即通过传入 /todo/ID 来调用 DELETE 请求删除对应的数据。</p>
+<p>同时，我们用比较简单的 Alamofire 方法来调用 DELETE 请求并删除了对应的数据。</p>
+<p>至此，你现在已经拥有了一个功能完备的 todo 应用了。因此，让我们来总结一下本次教程吧。</p>
+<h2 id="小结">小结</h2><p>本教程探索了很多东西。从 Javascript 的 node 到 express，从 MongoDB 到 cURL，从终端到 Cocoapods，以及最后的 Alamofire，我们深入了解了 REST API 的创建过程和网络的工作流程。你通过本次教程应该已经坚实的掌握了以下内容：</p>
+<ul>
+<li>构建 API</li>
+<li>部署 API</li>
+<li>写客户端应用</li>
+<li>使用 HTTP 请求</li>
+<li>使用 Cocoapods</li>
+<li>使用 cURL</li>
+<li>使用 node 和 MongoDB/Express</li>
+<li>使用 Express 做路由</li>
+<li>使用 Alamofire</li>
+</ul>
+<p>这真是一个大教程，我感谢你坚持和我走到这里。所有的源代码可以在<a href="https://www.dropbox.com/sh/axho3cgfvinz9lc/AADXjhAPwATsbZBA-z9mVLn4a?dl=0" target="_blank" rel="external">这里</a>下载，其中包含了 node 应用和 iOS 应用。</p>
+<p>有任何问题和想法都可以在教程下面留言评论。下次见！</p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>作者：gregg mojica，<a href="http://www.appcoda.com/alamofire-beginner-guide/">原文链接</a>，原文日期：2015-11-30<br>译者：<a href="http://weibo.com/linusling">小铁匠Linus</a>；校对：<a href="https://github.com/Cee">Cee</a>；定稿：<a href="undefined"></a></p>
+</blockquote>
+<!--此处开始正文-->
+<p>2014 年 6 月 Apple 发布 Swift 以来，如何在 Swift 中进行网络编程一直成为程序猿们关注的焦点。甚至，Chris Lattner，Swift 的作者之一，也发推说过，在 Swift 中解析 JSON 还有很长的路要走。因此，许多人开始寻求替代方案。尽管，在 Swift 中也有处理 JSON 解析的内建类，但是对开发者来说并不是很友好。幸运的是，Alamofire 出现了。Alamofire 是一个可以帮助我们解析 JSON 的强有力网络库，它由 Objective-C 中同类网络库 AFNetworking 的作者编写。</p>
+<p>在这个又臭又长、近乎 3500 多词（译者注：in English）的教程中，我们将探讨一系列广泛的网络基本话题，并建立一个假日待办应用。</p>]]>
+    
+    </summary>
+    
+      <category term="AppCoda" scheme="http://swiftggteam.github.io/tags/AppCoda/"/>
+    
+      <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[Swift 3.0 和 Foundation]]></title>
     <link href="http://swiftggteam.github.io/2015/12/21/swift-3-0-and-foundation/"/>
     <id>http://swiftggteam.github.io/2015/12/21/swift-3-0-and-foundation/</id>
     <published>2015-12-20T16:00:00.000Z</published>
-    <updated>2015-12-21T01:00:22.100Z</updated>
+    <updated>2015-12-22T00:55:17.279Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/12/03/swift-3-0-and-foundation/" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-03<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -61,7 +280,7 @@
     <link href="http://swiftggteam.github.io/2015/12/18/changing-swift-whats-coming-up-in-2-2-and-3-0/"/>
     <id>http://swiftggteam.github.io/2015/12/18/changing-swift-whats-coming-up-in-2-2-and-3-0/</id>
     <published>2015-12-17T16:00:00.000Z</published>
-    <updated>2015-12-21T01:00:22.100Z</updated>
+    <updated>2015-12-22T00:55:17.279Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/12/03/changing-swift-whats-coming-up-in-2-2-and-3-0/" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-03<br>译者：<a href="undefined">Channe</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -103,7 +322,7 @@
     <link href="http://swiftggteam.github.io/2015/12/17/per-view-auto-rotation-locking-made-easy-for-ios-8-and-9/"/>
     <id>http://swiftggteam.github.io/2015/12/17/per-view-auto-rotation-locking-made-easy-for-ios-8-and-9/</id>
     <published>2015-12-16T16:00:00.000Z</published>
-    <updated>2015-12-21T01:00:22.100Z</updated>
+    <updated>2015-12-22T00:55:17.279Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Weston Hanners，<a href="http://www.alloc-init.com/2015/11/per-view-auto-rotation-locking-made-easy-for-ios-8-and-9/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-18<br>译者：<a href="undefined">littledogboy</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -296,7 +515,7 @@
     <link href="http://swiftggteam.github.io/2015/12/16/new-to-beta-2-swift-2-1-playground-value-drops-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/12/16/new-to-beta-2-swift-2-1-playground-value-drops-swiftlang/</id>
     <published>2015-12-15T16:00:00.000Z</published>
-    <updated>2015-12-21T01:00:22.100Z</updated>
+    <updated>2015-12-22T00:55:17.279Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/09/23/new-to-beta-2-swift-2-1-playground-value-drops-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-23<br>译者：<a href="http://weibo.com/u/2916092907" target="_blank" rel="external">天才175</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -356,7 +575,7 @@
     <link href="http://swiftggteam.github.io/2015/12/15/mixins-over-inheritance/"/>
     <id>http://swiftggteam.github.io/2015/12/15/mixins-over-inheritance/</id>
     <published>2015-12-15T02:30:00.000Z</published>
-    <updated>2015-12-21T01:00:22.100Z</updated>
+    <updated>2015-12-22T00:55:17.279Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Olivier Halligon，<a href="http://alisoftware.github.io/swift/protocol/2015/11/08/mixins-over-inheritance/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-08<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -479,7 +698,7 @@
     <link href="http://swiftggteam.github.io/2015/12/14/a-beginners-guide-to-nsdate-in-swift/"/>
     <id>http://swiftggteam.github.io/2015/12/14/a-beginners-guide-to-nsdate-in-swift/</id>
     <published>2015-12-14T01:00:00.000Z</published>
-    <updated>2015-12-21T01:00:22.100Z</updated>
+    <updated>2015-12-22T00:55:17.279Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：gabriel theodoropoulos，<a href="http://www.appcoda.com/nsdate/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-18<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a></p>
 </blockquote>
@@ -691,7 +910,7 @@
     <link href="http://swiftggteam.github.io/2015/12/11/correction-on-testing-uialertcontroller/"/>
     <id>http://swiftggteam.github.io/2015/12/11/correction-on-testing-uialertcontroller/</id>
     <published>2015-12-10T16:00:00.000Z</published>
-    <updated>2015-12-21T01:00:22.100Z</updated>
+    <updated>2015-12-22T00:55:17.279Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：dom，<a href="http://swiftandpainless.com/correction-on-testing-uialertcontroller/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-25<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="http://weibo.com/lfbWb" target="_blank" rel="external">lfb_CD</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -740,7 +959,7 @@
     <link href="http://swiftggteam.github.io/2015/12/10/reduce-all-the-things/"/>
     <id>http://swiftggteam.github.io/2015/12/10/reduce-all-the-things/</id>
     <published>2015-12-09T16:00:00.000Z</published>
-    <updated>2015-12-21T01:00:22.096Z</updated>
+    <updated>2015-12-22T00:55:17.279Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Benedikt Terhechte，<a href="http://appventure.me/2015/11/30/reduce-all-the-things/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-30<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -856,11 +1075,79 @@
   </entry>
   
   <entry>
+    <title><![CDATA[iOS：选择 Realm 而不是 CoreData]]></title>
+    <link href="http://swiftggteam.github.io/2015/12/08/ios-realm-instead-of-coredata/"/>
+    <id>http://swiftggteam.github.io/2015/12/08/ios-realm-instead-of-coredata/</id>
+    <published>2015-12-07T16:00:00.000Z</published>
+    <updated>2015-12-22T00:55:17.279Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/ios-realm-instead-of-coredata/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-29<br>译者：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
+</blockquote>
+<!--此处开始正文-->
+<blockquote>
+<p>我已在网上多次看到「Realm」这个词。我甚至曾在十月时有机会参加由 Swift 用户组组织的 Realm 聚会。最终，我有机会用上了 Realm 这个框架。</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="案例">案例</h2><p>现在我正在节食。我需要减一些体重因为在加利福尼亚的时候胖了好多 – 好吃的食物实在是太多了:)！我浏览了一下 iTunes Store 中的那些能够追踪喝水记录的应用，但是在我看来这些应用要么看上去很糟糕，要么交互实在是很烂。我想：如果我决定做一个应用，岂不是一箭双雕吗 – 我又能写一个我想要的应用，又能选择使用 Realm 而不是 Core Data。所以我开工了。</p>
+<p>你知道当我看完文档、开始使用 Realm 框架的第一感觉是什么吗？<strong>哇，这简直真是太棒了！这些开发的家伙做的简直超棒！</strong></p>
+<p><strong>免责声明：</strong>接下来所写的仅仅只覆盖了 Realm 框架中最基本的一部分。我建议你们接下来可以去阅读<a href="https://realm.io/docs/swift/latest/" target="_blank" rel="external">官方文档</a>来获取更多的信息。在这儿我并不想向你们展示关于 Realm 框架的全部内容，因为这篇文章不可能像文档一样又臭又长，并且我自己也会避免这样的问题发生。官方的文档非常的棒，你在开工前可以先读一下它。</p>
+<p>我的这个案例并不是很复杂而是非常简单的。整个 app 只有两个抽象模型（Model）类： <code>Day</code> 和 <code>DrinkLogEntry</code> 。此外，这个 app 也需要这些功能：添加、更新、筛选和排序存储的数据。正如我所说这是个简单的 app 。接下来我会呈现 app 中的一些代码片段。</p>
+<h2 id="抽象模型（Model）">抽象模型（Model）</h2><p>Realm 中没有像 xcdatamodel-like 这样的文件。抽象模型仅仅是继承自 <code>Object</code> 类的文件。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> 表示了用户一天的生活。 Day 这个类的信息包含用户所喝的水和他们的每天喝水的目标。</span><br><span class="line">*/</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Day</span>: <span class="title">Object</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">dynamic</span> <span class="keyword">var</span> identifier: <span class="type">String</span>!</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// 表示一天的开始的时间戳（UTC+0 时区）</span></span><br><span class="line">    <span class="keyword">dynamic</span> <span class="keyword">var</span> timestamp: <span class="type">NSTimeInterval</span> = <span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// 用户所喝的水的量（毫升）</span></span><br><span class="line">    <span class="keyword">dynamic</span> <span class="keyword">var</span> waterDrank: <span class="type">Float</span> = <span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// 用户每天喝水的目标（毫升）</span></span><br><span class="line">    <span class="keyword">dynamic</span> <span class="keyword">var</span> dailyGoal: <span class="type">Float</span> = <span class="number">0</span> <span class="comment">// ml</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> drinkLogs = <span class="type">List</span>&lt;<span class="type">DrinkLogEntry</span>&gt;()</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">convenience</span> <span class="keyword">init</span>(timestamp: <span class="type">NSTimeInterval</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.<span class="keyword">init</span>()</span><br><span class="line">        <span class="keyword">self</span>.timestamp = timestamp</span><br><span class="line">        <span class="keyword">self</span>.identifier = <span class="type">Day</span>.convertTimestampIntoIdentifier(timestamp)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">override</span> <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">primaryKey</span>() -&gt; <span class="title">String</span>? </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"identifier"</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">override</span> <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">indexedProperties</span>() -&gt; [<span class="title">String</span>] </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> [<span class="string">"identifier"</span>]</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">convertTimestampIntoIdentifier</span>(<span class="title">timestamp</span>: <span class="title">NSTimeInterval</span>) -&gt; <span class="title">String</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="type">String</span>(format: <span class="string">"%.0f"</span>, arguments: [timestamp])</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>所有前有 <code>dynamic</code> 关键字的属性都会被转化成数据抽象层的一部分。Realm 也支持关系型数据。在这个例子中 Day 这个类中存在 drinkLogs 的一对多关系。一对一的关系就仅是类中的特定属性了。</p>
+<p>Realm 也支持从 Core Data 中迁移数据。当你需要迁移的时候，可以定义一个闭包并且执行它，然后你就能顺利地执行迁移属性的所有步骤了（译者注：<a href="https://realm.io/news/migrating-from-core-data-to-realm/" target="_blank" rel="external">如何从 Core Data 迁移到 Realm</a>）。</p>
+<h2 id="索引属性（Indexed_properties）和主键（Primary_keys）">索引属性（Indexed properties）和主键（Primary keys）</h2><p>Realm 框架有很多 Core Data 中没有的新特性（也有可能是我没找到，或者说我就是想提一下这点😊）。第一点就是「索引属性」了。你可以定义需要被索引的属性集合。当属性个数比较小的时候，搜索会变得很快。这有助于性能的提升。</p>
+<p>接下来不得不提一下「主键」。你可以定义抽象模型中的一个属性作为它的主键。这能保证更加有效地更新数据以及保证数据的唯一性。</p>
+<p>在我使用的这个例子中，主键和索引属性将作为「标识符」，被用于搜索和更新数据。</p>
+<p>数据中也可以有被忽略的属性，那些属性将不被持久化保存。</p>
+<h2 id="创建、更新并写入数据">创建、更新并写入数据</h2><p>你可以使用未被持久化过的抽象模型，而且这些数据可以被持久化时，你可以将它们写入 Realm 中。比起 Core Data，这就是我为什么喜欢 Realm 更多一点 – 因为它能够很好地解决一些临时数据的问题。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> day = <span class="type">Day</span>(timestamp: timestamp)</span><br><span class="line">day.dailyGoal = <span class="type">MenuSettings</span>().dailyGoal</span><br></pre></td></tr></table></figure>
+<p>为了能够写入 Realm 或者从 Realm 中读取，你需要创建 <code>Realm</code> 实例：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> realm = <span class="keyword">try</span>! <span class="type">Realm</span>()</span><br></pre></td></tr></table></figure>
+<p>这是如何将数据添加到数据库的方法：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">try</span>! realm.write &#123;</span><br><span class="line">    realm.add(day)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我特别喜欢 Realm 中更新数据的方式。我们假设一下有一部分数据是从网络上下载的，并且他们被映射过而且已经加进了数据库。在数据库中已经存在的数据仅需要更新而不是再次添加。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">fetchAll</span><span class="params">(completion: [Day] -&gt; Void)</span></span> &#123;</span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     假设请求返回了 JSON 并且数据已经映射到了抽象数据层的 Day 类型。</span><br><span class="line">          </span><br><span class="line">     创建的数据还没有存入数据库 Realm 中。</span><br><span class="line">     数据的标识符是相等的时间戳。</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">let</span> day1 = <span class="type">Day</span>(timestamp: <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">let</span> day2 = <span class="type">Day</span>(timestamp: <span class="number">86400</span>)</span><br><span class="line">    <span class="keyword">let</span> day3 = <span class="type">Day</span>(timestamp: <span class="number">172800</span>)</span><br><span class="line">    </span><br><span class="line">    completion([day1, day2, day3])</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">sync</span><span class="params">()</span></span> &#123;</span><br><span class="line">    fetchAll &#123; (days) -&gt; <span class="type">Void</span> <span class="keyword">in</span></span><br><span class="line">        <span class="keyword">let</span> realm = <span class="keyword">try</span>! <span class="type">Realm</span>()</span><br><span class="line">        <span class="keyword">try</span>! realm.write &#123;</span><br><span class="line">            <span class="comment">/// 如果有相同的标识符，那么它将会被更新。</span></span><br><span class="line">            realm.add(days, update: <span class="literal">true</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这是一种比手动查询带有相同标识符然后更新值域更好的方法。</p>
+<p>如果更新的参数被置为 false，那么新的数据将具有和在数据库中存在的数据相同的主键。异常会被抛出。</p>
+<p>还有其他一些方法来更新数据，在这篇文章中我就不涉及了。</p>
+<p>这是如何得到所有 Day 类型数据的方法：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> days = realm.objects(<span class="type">Day</span>.<span class="keyword">self</span>)</span><br></pre></td></tr></table></figure>
+<p>筛选数据也很简单：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">realm.objects(<span class="type">Day</span>.<span class="keyword">self</span>).<span class="built_in">filter</span>(<span class="string">"identifier == %@"</span>, dayIdentifier)</span><br></pre></td></tr></table></figure>
+<p>按照时间戳升序排列这些数据：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> days = realm.objects(<span class="type">Day</span>.<span class="keyword">self</span>).sorted(<span class="string">"timestamp"</span>, ascending: <span class="literal">true</span>)</span><br></pre></td></tr></table></figure>
+<p>当你每次执行 <code>object()</code>、<code>sorted()</code> 和 <code>filter()</code> 后均会得到一个 <code>Results&lt;T&gt;</code> 类型的数据。这能让你对结果进行额外的筛选排序等操作 - 这功能非常的强大而且非常好使。</p>
+<h2 id="小结">小结</h2><p>在下一个有更加复杂的数据模型的 app 中<strong>我还会使用</strong> Realm 吗？答案是<strong>肯定</strong>的。因为整个框架使用起来非常的简单、集成起来非常的快速，而且 Realm 提供了非常多而且强大的功能特性。</p>
+<p>P.S. 这个 app 正在等待过审 :)</p>
+<p>2015/12/06更新<br>这个应用上架了 - <a href="https://itunes.apple.com/pl/app/water-intake-drink-more-water/id1062053347?mt=8" target="_blank" rel="external">Water Intake</a></p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/ios-realm-instead-of-coredata/">原文链接</a>，原文日期：2015-11-29<br>译者：<a href="https://github.com/Cee">Cee</a>；校对：<a href="http://weibo.com/xiaoxxiao">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao">千叶知风</a></p>
+</blockquote>
+<!--此处开始正文-->
+<blockquote>
+<p>我已在网上多次看到「Realm」这个词。我甚至曾在十月时有机会参加由 Swift 用户组组织的 Realm 聚会。最终，我有机会用上了 Realm 这个框架。</p>
+</blockquote>]]>
+    
+    </summary>
+    
+      <category term="Tomasz Szulc" scheme="http://swiftggteam.github.io/tags/Tomasz-Szulc/"/>
+    
+      <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[使用 Realm 和 Swift 创建 ToDo 应用]]></title>
     <link href="http://swiftggteam.github.io/2015/12/08/building-a-todo-app-using-realm-and-swift/"/>
     <id>http://swiftggteam.github.io/2015/12/08/building-a-todo-app-using-realm-and-swift/</id>
     <published>2015-12-07T16:00:00.000Z</published>
-    <updated>2015-12-21T01:00:22.096Z</updated>
+    <updated>2015-12-22T00:55:17.279Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Hossam Ghareeb，<a href="http://www.appcoda.com/realm-database-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-28<br>译者：<a href="http://www.futantan.com" target="_blank" rel="external">Prayer</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1037,79 +1324,11 @@
   </entry>
   
   <entry>
-    <title><![CDATA[iOS：选择 Realm 而不是 CoreData]]></title>
-    <link href="http://swiftggteam.github.io/2015/12/08/ios-realm-instead-of-coredata/"/>
-    <id>http://swiftggteam.github.io/2015/12/08/ios-realm-instead-of-coredata/</id>
-    <published>2015-12-07T16:00:00.000Z</published>
-    <updated>2015-12-21T01:00:22.096Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/ios-realm-instead-of-coredata/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-29<br>译者：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
-</blockquote>
-<!--此处开始正文-->
-<blockquote>
-<p>我已在网上多次看到「Realm」这个词。我甚至曾在十月时有机会参加由 Swift 用户组组织的 Realm 聚会。最终，我有机会用上了 Realm 这个框架。</p>
-</blockquote>
-<a id="more"></a>
-<h2 id="案例">案例</h2><p>现在我正在节食。我需要减一些体重因为在加利福尼亚的时候胖了好多 – 好吃的食物实在是太多了:)！我浏览了一下 iTunes Store 中的那些能够追踪喝水记录的应用，但是在我看来这些应用要么看上去很糟糕，要么交互实在是很烂。我想：如果我决定做一个应用，岂不是一箭双雕吗 – 我又能写一个我想要的应用，又能选择使用 Realm 而不是 Core Data。所以我开工了。</p>
-<p>你知道当我看完文档、开始使用 Realm 框架的第一感觉是什么吗？<strong>哇，这简直真是太棒了！这些开发的家伙做的简直超棒！</strong></p>
-<p><strong>免责声明：</strong>接下来所写的仅仅只覆盖了 Realm 框架中最基本的一部分。我建议你们接下来可以去阅读<a href="https://realm.io/docs/swift/latest/" target="_blank" rel="external">官方文档</a>来获取更多的信息。在这儿我并不想向你们展示关于 Realm 框架的全部内容，因为这篇文章不可能像文档一样又臭又长，并且我自己也会避免这样的问题发生。官方的文档非常的棒，你在开工前可以先读一下它。</p>
-<p>我的这个案例并不是很复杂而是非常简单的。整个 app 只有两个抽象模型（Model）类： <code>Day</code> 和 <code>DrinkLogEntry</code> 。此外，这个 app 也需要这些功能：添加、更新、筛选和排序存储的数据。正如我所说这是个简单的 app 。接下来我会呈现 app 中的一些代码片段。</p>
-<h2 id="抽象模型（Model）">抽象模型（Model）</h2><p>Realm 中没有像 xcdatamodel-like 这样的文件。抽象模型仅仅是继承自 <code>Object</code> 类的文件。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> 表示了用户一天的生活。 Day 这个类的信息包含用户所喝的水和他们的每天喝水的目标。</span><br><span class="line">*/</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Day</span>: <span class="title">Object</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">dynamic</span> <span class="keyword">var</span> identifier: <span class="type">String</span>!</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// 表示一天的开始的时间戳（UTC+0 时区）</span></span><br><span class="line">    <span class="keyword">dynamic</span> <span class="keyword">var</span> timestamp: <span class="type">NSTimeInterval</span> = <span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// 用户所喝的水的量（毫升）</span></span><br><span class="line">    <span class="keyword">dynamic</span> <span class="keyword">var</span> waterDrank: <span class="type">Float</span> = <span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// 用户每天喝水的目标（毫升）</span></span><br><span class="line">    <span class="keyword">dynamic</span> <span class="keyword">var</span> dailyGoal: <span class="type">Float</span> = <span class="number">0</span> <span class="comment">// ml</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> drinkLogs = <span class="type">List</span>&lt;<span class="type">DrinkLogEntry</span>&gt;()</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">convenience</span> <span class="keyword">init</span>(timestamp: <span class="type">NSTimeInterval</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.<span class="keyword">init</span>()</span><br><span class="line">        <span class="keyword">self</span>.timestamp = timestamp</span><br><span class="line">        <span class="keyword">self</span>.identifier = <span class="type">Day</span>.convertTimestampIntoIdentifier(timestamp)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">override</span> <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">primaryKey</span>() -&gt; <span class="title">String</span>? </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"identifier"</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">override</span> <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">indexedProperties</span>() -&gt; [<span class="title">String</span>] </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> [<span class="string">"identifier"</span>]</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">convertTimestampIntoIdentifier</span>(<span class="title">timestamp</span>: <span class="title">NSTimeInterval</span>) -&gt; <span class="title">String</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="type">String</span>(format: <span class="string">"%.0f"</span>, arguments: [timestamp])</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>所有前有 <code>dynamic</code> 关键字的属性都会被转化成数据抽象层的一部分。Realm 也支持关系型数据。在这个例子中 Day 这个类中存在 drinkLogs 的一对多关系。一对一的关系就仅是类中的特定属性了。</p>
-<p>Realm 也支持从 Core Data 中迁移数据。当你需要迁移的时候，可以定义一个闭包并且执行它，然后你就能顺利地执行迁移属性的所有步骤了（译者注：<a href="https://realm.io/news/migrating-from-core-data-to-realm/" target="_blank" rel="external">如何从 Core Data 迁移到 Realm</a>）。</p>
-<h2 id="索引属性（Indexed_properties）和主键（Primary_keys）">索引属性（Indexed properties）和主键（Primary keys）</h2><p>Realm 框架有很多 Core Data 中没有的新特性（也有可能是我没找到，或者说我就是想提一下这点😊）。第一点就是「索引属性」了。你可以定义需要被索引的属性集合。当属性个数比较小的时候，搜索会变得很快。这有助于性能的提升。</p>
-<p>接下来不得不提一下「主键」。你可以定义抽象模型中的一个属性作为它的主键。这能保证更加有效地更新数据以及保证数据的唯一性。</p>
-<p>在我使用的这个例子中，主键和索引属性将作为「标识符」，被用于搜索和更新数据。</p>
-<p>数据中也可以有被忽略的属性，那些属性将不被持久化保存。</p>
-<h2 id="创建、更新并写入数据">创建、更新并写入数据</h2><p>你可以使用未被持久化过的抽象模型，而且这些数据可以被持久化时，你可以将它们写入 Realm 中。比起 Core Data，这就是我为什么喜欢 Realm 更多一点 – 因为它能够很好地解决一些临时数据的问题。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> day = <span class="type">Day</span>(timestamp: timestamp)</span><br><span class="line">day.dailyGoal = <span class="type">MenuSettings</span>().dailyGoal</span><br></pre></td></tr></table></figure>
-<p>为了能够写入 Realm 或者从 Realm 中读取，你需要创建 <code>Realm</code> 实例：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> realm = <span class="keyword">try</span>! <span class="type">Realm</span>()</span><br></pre></td></tr></table></figure>
-<p>这是如何将数据添加到数据库的方法：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">try</span>! realm.write &#123;</span><br><span class="line">    realm.add(day)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>我特别喜欢 Realm 中更新数据的方式。我们假设一下有一部分数据是从网络上下载的，并且他们被映射过而且已经加进了数据库。在数据库中已经存在的数据仅需要更新而不是再次添加。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">fetchAll</span><span class="params">(completion: [Day] -&gt; Void)</span></span> &#123;</span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     假设请求返回了 JSON 并且数据已经映射到了抽象数据层的 Day 类型。</span><br><span class="line">          </span><br><span class="line">     创建的数据还没有存入数据库 Realm 中。</span><br><span class="line">     数据的标识符是相等的时间戳。</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">let</span> day1 = <span class="type">Day</span>(timestamp: <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">let</span> day2 = <span class="type">Day</span>(timestamp: <span class="number">86400</span>)</span><br><span class="line">    <span class="keyword">let</span> day3 = <span class="type">Day</span>(timestamp: <span class="number">172800</span>)</span><br><span class="line">    </span><br><span class="line">    completion([day1, day2, day3])</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">sync</span><span class="params">()</span></span> &#123;</span><br><span class="line">    fetchAll &#123; (days) -&gt; <span class="type">Void</span> <span class="keyword">in</span></span><br><span class="line">        <span class="keyword">let</span> realm = <span class="keyword">try</span>! <span class="type">Realm</span>()</span><br><span class="line">        <span class="keyword">try</span>! realm.write &#123;</span><br><span class="line">            <span class="comment">/// 如果有相同的标识符，那么它将会被更新。</span></span><br><span class="line">            realm.add(days, update: <span class="literal">true</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这是一种比手动查询带有相同标识符然后更新值域更好的方法。</p>
-<p>如果更新的参数被置为 false，那么新的数据将具有和在数据库中存在的数据相同的主键。异常会被抛出。</p>
-<p>还有其他一些方法来更新数据，在这篇文章中我就不涉及了。</p>
-<p>这是如何得到所有 Day 类型数据的方法：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> days = realm.objects(<span class="type">Day</span>.<span class="keyword">self</span>)</span><br></pre></td></tr></table></figure>
-<p>筛选数据也很简单：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">realm.objects(<span class="type">Day</span>.<span class="keyword">self</span>).<span class="built_in">filter</span>(<span class="string">"identifier == %@"</span>, dayIdentifier)</span><br></pre></td></tr></table></figure>
-<p>按照时间戳升序排列这些数据：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> days = realm.objects(<span class="type">Day</span>.<span class="keyword">self</span>).sorted(<span class="string">"timestamp"</span>, ascending: <span class="literal">true</span>)</span><br></pre></td></tr></table></figure>
-<p>当你每次执行 <code>object()</code>、<code>sorted()</code> 和 <code>filter()</code> 后均会得到一个 <code>Results&lt;T&gt;</code> 类型的数据。这能让你对结果进行额外的筛选排序等操作 - 这功能非常的强大而且非常好使。</p>
-<h2 id="小结">小结</h2><p>在下一个有更加复杂的数据模型的 app 中<strong>我还会使用</strong> Realm 吗？答案是<strong>肯定</strong>的。因为整个框架使用起来非常的简单、集成起来非常的快速，而且 Realm 提供了非常多而且强大的功能特性。</p>
-<p>P.S. 这个 app 正在等待过审 :)</p>
-<p>2015/12/06更新<br>这个应用上架了 - <a href="https://itunes.apple.com/pl/app/water-intake-drink-more-water/id1062053347?mt=8" target="_blank" rel="external">Water Intake</a></p>
-<blockquote>
-<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
-</blockquote>
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/ios-realm-instead-of-coredata/">原文链接</a>，原文日期：2015-11-29<br>译者：<a href="https://github.com/Cee">Cee</a>；校对：<a href="http://weibo.com/xiaoxxiao">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao">千叶知风</a></p>
-</blockquote>
-<!--此处开始正文-->
-<blockquote>
-<p>我已在网上多次看到「Realm」这个词。我甚至曾在十月时有机会参加由 Swift 用户组组织的 Realm 聚会。最终，我有机会用上了 Realm 这个框架。</p>
-</blockquote>]]>
-    
-    </summary>
-    
-      <category term="Tomasz Szulc" scheme="http://swiftggteam.github.io/tags/Tomasz-Szulc/"/>
-    
-      <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
-    
-  </entry>
-  
-  <entry>
     <title><![CDATA[几个 Swift 代码规范]]></title>
     <link href="http://swiftggteam.github.io/2015/12/07/a-handful-of-swift-style-rules-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/12/07/a-handful-of-swift-style-rules-swiftlang/</id>
     <published>2015-12-06T16:00:00.000Z</published>
-    <updated>2015-12-21T01:00:22.096Z</updated>
+    <updated>2015-12-22T00:55:17.279Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/11/17/a-handful-of-swift-style-rules-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-17<br>译者：<a href="http://blog.csdn.net/mmoaay" target="_blank" rel="external">mmoaay</a>；校对：<a href="http://weibo.com/lfbWb" target="_blank" rel="external">lfb_CD</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
 </blockquote>
@@ -1190,7 +1409,7 @@
     <link href="http://swiftggteam.github.io/2015/12/04/the-fibonacci-sequencetype/"/>
     <id>http://swiftggteam.github.io/2015/12/04/the-fibonacci-sequencetype/</id>
     <published>2015-12-03T16:00:00.000Z</published>
-    <updated>2015-12-21T01:00:22.096Z</updated>
+    <updated>2015-12-22T00:55:17.279Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Jacob Bandes-Storch，<a href="http://bandes-stor.ch/blog/2015/08/05/the-fibonacci-sequencetype/" target="_blank" rel="external">原文链接</a>，原文日期：2015/08/05<br>译者：<a href="undefined">Lou</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
 <p>这篇博文启发自<a href="http://codereview.stackexchange.com/questions/60875/project-euler-2-even-fibonacci-numbers-in-swift" target="_blank" rel="external">Code Review.SE</a>上的一个讨论，同时<a href="https://xkcd.com/356/" target="_blank" rel="external">nerd-sniped</a>上的关于数学的有趣的学习。让我对数学和 Swift 的结合有了兴趣。所以我花了一段时间来把这些知识整理成一篇博文，特别是自从我完成了对我网站重建的第一步以后。更重要的是，我希望我能更勤勉的更新我的博客，这8年我只写了一篇而已，希望大家能对我的博客感兴趣。<br>这篇博文的目标对于初学者来讲，比较容易理解，同时也提供给那些已经对这个概念熟悉的人一些有用的细节和例子。希望大家能给我反馈。</p>
@@ -1331,7 +1550,7 @@
     <link href="http://swiftggteam.github.io/2015/12/03/expandable-table-view/"/>
     <id>http://swiftggteam.github.io/2015/12/03/expandable-table-view/</id>
     <published>2015-12-02T16:00:00.000Z</published>
-    <updated>2015-12-21T01:00:22.096Z</updated>
+    <updated>2015-12-22T00:55:17.279Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：AppCoda，<a href="http://www.appcoda.com/expandable-table-view/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-16<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1509,7 +1728,7 @@
     <link href="http://swiftggteam.github.io/2015/12/02/swift-weak-and-unowned/"/>
     <id>http://swiftggteam.github.io/2015/12/02/swift-weak-and-unowned/</id>
     <published>2015-12-01T16:00:00.000Z</published>
-    <updated>2015-12-21T01:00:22.096Z</updated>
+    <updated>2015-12-22T00:55:17.279Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-weak-and-unowned/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-30<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a></p>
 </blockquote>
@@ -1558,7 +1777,7 @@
     <link href="http://swiftggteam.github.io/2015/12/01/xcode-xcconfig-files-for-managing-targets-configurations/"/>
     <id>http://swiftggteam.github.io/2015/12/01/xcode-xcconfig-files-for-managing-targets-configurations/</id>
     <published>2015-11-30T16:00:00.000Z</published>
-    <updated>2015-12-21T01:00:22.096Z</updated>
+    <updated>2015-12-22T00:55:17.279Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/xcode-xcconfig-files-for-managing-targets-configurations/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-14<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1612,7 +1831,7 @@
     <link href="http://swiftggteam.github.io/2015/11/30/should-you-migrate-objective-c-code-to-swift/"/>
     <id>http://swiftggteam.github.io/2015/11/30/should-you-migrate-objective-c-code-to-swift/</id>
     <published>2015-11-29T16:00:00.000Z</published>
-    <updated>2015-12-21T01:00:22.096Z</updated>
+    <updated>2015-12-22T00:55:17.279Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/should-you-migrate-objective-c-code-to-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-23<br>译者：<a href="http://blog.csdn.net/yake_099" target="_blank" rel="external">Yake</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1653,7 +1872,7 @@
     <link href="http://swiftggteam.github.io/2015/11/27/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/11/27/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/</id>
     <published>2015-11-27T01:20:00.000Z</published>
-    <updated>2015-12-21T01:00:22.096Z</updated>
+    <updated>2015-12-22T00:55:17.279Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/11/05/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/5<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1696,7 +1915,7 @@
     <link href="http://swiftggteam.github.io/2015/11/26/swift-map-and-flatmap/"/>
     <id>http://swiftggteam.github.io/2015/11/26/swift-map-and-flatmap/</id>
     <published>2015-11-25T16:00:00.000Z</published>
-    <updated>2015-12-21T01:00:22.096Z</updated>
+    <updated>2015-12-22T00:55:17.279Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-map-and-flatmap/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-16<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1728,151 +1947,6 @@
       <category term="Thomas Hanning" scheme="http://swiftggteam.github.io/tags/Thomas-Hanning/"/>
     
       <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[tvOS 入门：开发你的第一个 tvOS 应用]]></title>
-    <link href="http://swiftggteam.github.io/2015/11/25/tvos-introduction/"/>
-    <id>http://swiftggteam.github.io/2015/11/25/tvos-introduction/</id>
-    <published>2015-11-24T16:00:00.000Z</published>
-    <updated>2015-12-21T01:00:22.096Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>作者：gregg mojica，<a href="http://www.appcoda.com/tvos-introduction/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-02<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
-</blockquote>
-<p>上月在旧金山举办的苹果发布会中,苹果公司发布了第四代苹果电视。然而，此次更新不同于以往任何版本，苹果新电视将允许用户从 App Store 下载应用和游戏。</p>
-<p>这样的声明无疑给开发者打了一剂鸡血。新苹果电视中，位于 Cupertino(译者注:苹果电脑的全球总公司所在地，位于美国旧金山)的巨人介绍了一个新的操作系统，有别于 iOS 系统，新系统名为 tvOS。tvOS 基于 iOS 开发，有少许改动。 我们将使用通用框架和你最喜欢编程语言(当然是 Swift 喽，毫无疑问！)来编写几个简单应用，初步了解 tvOS。</p>
-<a id="more"></a>
-<p><img src="http://www.appcoda.com/wp-content/uploads/2015/10/IMG_3302-1024x683.jpg" alt="image"></p>
-<h2 id="了解_tvOS">了解 tvOS</h2><p>tvOS 基于 iOS 系统开发而成。你使用的许多框架可能都适用于 tvOS。然而，苹果删除了几个 iOS 框架，使得 tvOS 独一无二 (最有名的就是 WebKit)。</p>
-<p>苹果支持两种类型的 tvOS 应用程序。第一个是传统的应用程序-这类应用程序会打包代码和图片等等资源。这基本上与 iOS 或 OS X 应用程序一样。tvOS 新增对<strong>client-server(客户端-服务器)</strong>应用的支持，即第二种类型。<strong>client-server</strong>应用程序简单地把服务器请求和网络开发过程集中到应用中来。换句话说，这些应用可以同常见的数据库，服务器等交互。例如，如果你使用 Node.js(一款基于 Chrome V8 引擎开发的 JavaScript 框架)实现了后端，接着你可以考虑使用<strong>client-server</strong>技术，使它更易于管理应用程序(即我们的客户端)和后端(又称之为服务器)。<strong>client-server</strong>应用程序可以直接与 JavaScript 进行交互。然而，由于这些应用程序比较特别，在本教程中我们将不讨论<strong>client-server</strong>应用程序，重点介绍传统应用的开发。</p>
-<p>请将这些概念牢记于心，开始我们的教程!</p>
-<h2 id="必备条件">必备条件</h2><p>在本教程中，我假设你已经了解常见的 iOS 框架、术语和网络知识。 我将在整个教程中使用 storyboard 进行讲解，希望你知道如何使用 storyboard。同样，我不会对 storyboard 中一些常见的操作做详细深入地讲解(例如改变背景颜色，修改对象尺寸等等)。如果你对 storyboard 还不太了解或者还只是个 iOS 的初学者，我建议你去 AppCoda 教程网站先学习下，再回过头来学习本教程。</p>
-<p>开发环境为 Xcode7.1 以上。当然最好还是在苹果电视真机上进行调试(译者表示呵呵)，当然模拟器也足够了。</p>
-<h2 id="创建一个新的_tvOS_工程">创建一个新的 tvOS 工程</h2><p>为了开发 tvOS 应用，你必须在你的 Mac 上安装 Xcode7.1。Xcode7.1 内置了 tvOS SDK,除此之外还有 iOS9.1 以及 Swift2.1。</p>
-<p>启动 Xcode,创建一个新工程，选中一个新的 tvOS 应用。在右侧面板，选中击 Single View Application 并点击 next。</p>
-<p><img src="http://www.appcoda.com/wp-content/uploads/2015/10/Screen-Shot-2015-10-31-at-11.07.02-PM-1024x732.png" alt="image2"></p>
-<p>接着为新应用命名。对于第一个应用来说，我们习惯以一个 Hello World App 作为教程的开始。命名该工程为 HelloWorld，接着点击创建并选择项目存储位置。</p>
-<h2 id="Hello,_tvOS">Hello, tvOS</h2><p>由于 tvOS 继承自 iOS，许多你熟悉的 iOS 开发基本概念在 tvOS 中都适用。</p>
-<p>在你的 Main.storyboard 文件中，添加一个 button，将 title 修改为“Click Me!”，接着在其下方添加一个标签 label,如下所示：</p>
-<p><img src="http://www.appcoda.com/wp-content/uploads/2015/10/Screen-Shot-2015-10-31-at-11.26.45-PM-1024x558.png" alt="image3"></p>
-<p>注意到 tvOS 中的按钮与 iOS 的按钮稍有不同。此外，当你添加多个按钮时，苹果已经允许用户在按钮间无缝切换，比如向右，向左，向上或向下滑动。开发者只需要在 storyboard 中为按钮布局来利用该特性(稍后详述)。</p>
-<p>和 iOS 一样，我们通过 control-drag 标签(label)和按钮(button)来创建 IBOutlet 以及 IBAction。这里分别命名 outlet 为 myLabel，IBAction 为 buttonPressed。</p>
-<p><img src="http://www.appcoda.com/wp-content/uploads/2015/10/Screen-Shot-2015-10-31-at-11.32.31-PM-1024x647.png" alt=""></p>
-<p>在 buttonPressed 动作中，请键入如下代码行:</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">self</span>.myLabel.text = <span class="string">"Hello,World"</span></span><br></pre></td></tr></table></figure>
-<p>你应该很熟悉这行代码了。如果你不熟悉，上述代码实现了点击按钮，为标签(label)的 text 字段赋值”Hello,World”字符串值。</p>
-<p>请在模拟器中运行应用。</p>
-<p>你可能想要通过鼠标来点击按钮，但与模拟器中的 iOS 应用不同，苹果电视未配备触摸屏，仅仅依靠一个遥控器罢了。因此，单击Hardware &gt;Show Apple TV Remote 或者 Command + Shift + R 快捷键显示遥控器。通过遥控器实现按钮的点击，你的第一个 tvOS 应用就此完成了！<br><img src="http://www.appcoda.com/wp-content/uploads/2015/10/Screen-Shot-2015-10-31-at-11.58.52-PM-1024x575.png" alt=""></p>
-<h2 id="猜谜游戏_App">猜谜游戏 App</h2><p>接下来,我们将使用现有的 tvOS 知识开发一款简单的猜谜应用。这将是一个非常基本的猜谜应用(只有一个问题),这个迷你项目主要是像你展示按钮和遥控器之间是如何交互的。在接下来的项目中，我们将探索更多有关控制 tvOS 的知识。</p>
-<p>再次启动 Xcode，依葫芦画瓢创建一个新的 tvOS 项目。不过请重新命名项目名称。</p>
-<p>模仿我下面的布局做一些 storyboard 的基础操作。</p>
-<p><img src="http://www.appcoda.com/wp-content/uploads/2015/10/Screen-Shot-2015-11-01-at-12.14.40-AM-1024x564.png" alt=""></p>
-<p>如果你不确定我是如何实现的，下面是我使用的组件的列表:</p>
-<ol>
-<li>4 个 UIButton，尺寸为 960 X 325</li>
-<li>1 个 UILabel，尺寸为 1400 X 120</li>
-</ol>
-<p>接着为 4 个按钮添加 text 并更改它们的背景颜色，均在 storyboard 完成(任何 iOS 应用都可以这么实现)。</p>
-<p><img src="http://www.appcoda.com/wp-content/uploads/2015/10/Screen-Shot-2015-11-01-at-12.21.16-AM-1024x564.png" alt=""></p>
-<p>像以前一样,让我们将这些按钮绑定到代码中。为了代码简洁和易于理解,我将创建 4 个 IBAction(虽然这并不一定是最优雅的解决方案,但它是最简单的)。</p>
-<p>将这些按钮逐一连接到 ViewController.swift 文件中(通过拖拉方式创建 IBAction)，暂且命名为 :button0Tapped、button1Tapped、button2Tapped 和 button3Tapped，你可以随时修改这些名称。</p>
-<p>上面图片中显示的 label 内容是询问加州的首府是哪个。给出四个选项供你选择(有关加州首都的知识)，答案是 Sacramento。其中 button1Pressed 动作响应 Sacramento 按钮的点击事件。</p>
-<p>根据点击的按钮,我们想向用户显示一个警告信息,告知他们选择了正确还是错误的按钮。接着我们创建一个名为 showAlert 的函数来处理这件事,让我们的代码 DRY(DRY 是 Don’t Repeat YourSelf 的缩写，对于软件工程师来说这是惯例用法，确保代码可重用性和可维护性)。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">showAlert</span><span class="params">(status: String, title:String)</span></span> &#123; <span class="comment">// 1</span></span><br><span class="line">        <span class="keyword">let</span> alertController = <span class="type">UIAlertController</span>(title: status, message: title, preferredStyle: .<span class="type">Alert</span>) <span class="comment">// 2</span></span><br><span class="line">        <span class="keyword">let</span> cancelAction = <span class="type">UIAlertAction</span>(title: <span class="string">"Cancel"</span>, style: .<span class="type">Cancel</span>) &#123; (action) <span class="keyword">in</span> <span class="comment">//3 </span></span><br><span class="line">        &#125;</span><br><span class="line">        alertController.addAction(cancelAction)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">let</span> ok = <span class="type">UIAlertAction</span>(title: <span class="string">"OK"</span>, style: .<span class="type">Default</span>) &#123; (action) <span class="keyword">in</span></span><br><span class="line">        &#125; <span class="comment">// 4</span></span><br><span class="line">        alertController.addAction(ok)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">self</span>.presentViewController(alertController, animated: <span class="literal">true</span>) &#123; <span class="comment">// 5</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>上述函数接受两个参数，一个是用户的输入状态(表面他们回答问题的正确或者错误)，以及警告提示框中要显示的信息或者标题。</p>
-<p>第二行创建并初始化一个新的 UIAlertController 对象。第三和第四行代码为 alert 警告框添加一个 cancel 取消按钮和 ok 确认按钮，第五行代码用于呈现这些内容。</p>
-<p>如果你不确定这段代码是如何工作的,我强烈建议你先看看<a href="http://www.appcoda.com/uialertcontroller-swift-closures-enum/" target="_blank" rel="external">UIAlertController</a>教程,这里提供了有关该类的详细信息。</p>
-<p>现在，请在不同的 IBActions 中调用这个方法。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="preprocessor">@IBAction</span> <span class="func"><span class="keyword">func</span> <span class="title">button0Tapped</span><span class="params">(sender: AnyObject)</span></span> &#123;</span><br><span class="line">        showAlert(<span class="string">"Wrong!"</span>, title: <span class="string">"Bummer, you got it wrong!"</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 这是唯一正确的</span></span><br><span class="line"><span class="preprocessor">@IBAction</span> <span class="func"><span class="keyword">func</span> <span class="title">button1Tapped</span><span class="params">(sender: AnyObject)</span></span> &#123;</span><br><span class="line">    showAlert(<span class="string">"Correct!"</span>, title: <span class="string">"Whoo! That is the correct response"</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="preprocessor">@IBAction</span> <span class="func"><span class="keyword">func</span> <span class="title">button2Tapped</span><span class="params">(sender: AnyObject)</span></span> &#123;</span><br><span class="line">    showAlert(<span class="string">"Wrong!"</span>, title: <span class="string">"Bummer, you got it wrong!"</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="preprocessor">@IBAction</span> <span class="func"><span class="keyword">func</span> <span class="title">button3Tapped</span><span class="params">(sender: AnyObject)</span></span> &#123;</span><br><span class="line">    showAlert(<span class="string">"Wrong!"</span>, title: <span class="string">"Bummer, you got it wrong!"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>正如你所看到的，仅在 button1Tapped 函数中传入“Correct”的标题，剩下都传入“Wrong”。</p>
-<p>你的代码应该看起来和下面的代码一样。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> UIKit</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ViewController</span>: <span class="title">UIViewController</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.viewDidLoad()</span><br><span class="line">        <span class="comment">// Do any additional setup after loading the view, typically from a nib.</span></span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">didReceiveMemoryWarning</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.didReceiveMemoryWarning()</span><br><span class="line">        <span class="comment">// Dispose of any resources that can be recreated.</span></span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="preprocessor">@IBAction</span> <span class="func"><span class="keyword">func</span> <span class="title">button0Tapped</span><span class="params">(sender: AnyObject)</span></span> &#123;</span><br><span class="line">        showAlert(<span class="string">"Wrong!"</span>, title: <span class="string">"Bummer, you got it wrong!"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="preprocessor">@IBAction</span> <span class="func"><span class="keyword">func</span> <span class="title">button1Tapped</span><span class="params">(sender: AnyObject)</span></span> &#123;</span><br><span class="line">        showAlert(<span class="string">"Correct!"</span>, title: <span class="string">"Whoo! That is the correct response"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="preprocessor">@IBAction</span> <span class="func"><span class="keyword">func</span> <span class="title">button2Tapped</span><span class="params">(sender: AnyObject)</span></span> &#123;</span><br><span class="line">        showAlert(<span class="string">"Wrong!"</span>, title: <span class="string">"Bummer, you got it wrong!"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="preprocessor">@IBAction</span> <span class="func"><span class="keyword">func</span> <span class="title">button3Tapped</span><span class="params">(sender: AnyObject)</span></span> &#123;</span><br><span class="line">        showAlert(<span class="string">"Wrong!"</span>, title: <span class="string">"Bummer, you got it wrong!"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">showAlert</span><span class="params">(status: String, title:String)</span></span> &#123;</span><br><span class="line">        <span class="keyword">let</span> alertController = <span class="type">UIAlertController</span>(title: status, message: title, preferredStyle: .<span class="type">Alert</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">let</span> cancelAction = <span class="type">UIAlertAction</span>(title: <span class="string">"Cancel"</span>, style: .<span class="type">Cancel</span>) &#123; (action) <span class="keyword">in</span></span><br><span class="line">        </span><br><span class="line">        &#125;</span><br><span class="line">        alertController.addAction(cancelAction)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">let</span> ok = <span class="type">UIAlertAction</span>(title: <span class="string">"OK"</span>, style: .<span class="type">Default</span>) &#123; (action) <span class="keyword">in</span></span><br><span class="line">        &#125;</span><br><span class="line">        alertController.addAction(ok)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">self</span>.presentViewController(alertController, animated: <span class="literal">true</span>) &#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在模拟器中运行你的应用。如果一切顺利，你应当会看到类似下面的截图。</p>
-<p>单机遥控器，选中 Cupertino 选项</p>
-<p><img src="http://www.appcoda.com/wp-content/uploads/2015/10/Screen-Shot-2015-11-01-at-12.49.37-AM-1024x552.png" alt=""></p>
-<p>你应该看到弹出一个 UIAlertController。</p>
-<p><img src="http://www.appcoda.com/wp-content/uploads/2015/10/Screen-Shot-2015-11-01-at-12.49.27-AM-1024x557.png" alt=""></p>
-<p>不幸的是，模拟器并不支持 swiping，因此你可能需要在真机中测试成功的 alert 警告框。不过，你可以在模拟器(遥控)中通过按住 option 键 swipe 选项。在 Apple TV 真机中，你能够在所有按钮中无缝切换。</p>
-<p><img src="http://www.appcoda.com/wp-content/uploads/2015/10/Screen-Shot-2015-11-01-at-12.53.00-AM-1024x575.png" alt=""></p>
-<p>恭喜！ 你已经完成了第二个项目。</p>
-<h2 id="在_tvOS_中使用_TableViews">在 tvOS 中使用 TableViews</h2><p>在 iOS 操作系统中，苹果大量使用 tableview。事实上，苹果在许多自家应用(包括信息、联系人等)都使用了它。随着 watchOS SDK 的发布，tableview 可用于 Apple Watch 开发。自然地，新的苹果电视和 tvOS 同样支持这个流行的 API。</p>
-<p>依葫芦画瓢创建一个新的工程项目，命名为 TableViewPractice。</p>
-<p>和先前创建的工程一样，Xcode 默认自动生成 ViewController.swift 文件。请在文件的第 11 行代码处添加如下声明(译者注:就是让 ViewController 遵循两个 tableView 的协议)：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">UITableViewDataSource</span>, <span class="type">UITableViewDelegate</span></span><br></pre></td></tr></table></figure>
-<p>第 11 行的代码应该看起来这样:</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ViewController</span>: <span class="title">UIViewController</span>, <span class="title">UITableViewDataSource</span>, <span class="title">UITableViewDelegate</span> </span>&#123;</span><br></pre></td></tr></table></figure>
-<p>由于 Swift 是一门注重安全的语言，编译器会报告说没有遵循 UITableView 的 Datasource 和 Delegate 协议。我们会很快解决这个问题。</p>
-<p>接着在 storyboard 中添加一个 tableView 视图并拖拽到 ViewController 文件中生成一个 IBOutlet，将其命名为 tableView。同时在这个 IBOutlet 声明下方新增一个数组。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> dataArray = [<span class="string">"San Francisco"</span>, <span class="string">"San Diego"</span>, <span class="string">"Los Angeles"</span>, <span class="string">"San Jose"</span>, <span class="string">"Mountain View"</span>, <span class="string">"Sacramento"</span>]</span><br></pre></td></tr></table></figure>
-<p>数组囊括了所有我们要在 tableView 显示的元素。</p>
-<p>现在请在v iewDidLoad 方法的下方添加如下代码：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// section数量</span></span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">numberOfSectionsInTableView</span><span class="params">(tableView: UITableView)</span></span> -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 每个section的cell数量    </span></span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(tableView: UITableView, numberOfRowsInSection section: Int)</span></span> -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>.dataArray.<span class="built_in">count</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 填充每个cell的内容    </span></span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath)</span></span> -&gt; <span class="type">UITableViewCell</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> cell = <span class="type">UITableViewCell</span>(style: .<span class="type">Subtitle</span>, reuseIdentifier: <span class="literal">nil</span>)</span><br><span class="line">        </span><br><span class="line">    cell.textLabel?.text = <span class="string">"<span class="subst">\(<span class="keyword">self</span>.dataArray[indexPath.row])</span>"</span></span><br><span class="line">    cell.detailTextLabel?.text = <span class="string">"Hello from sub title <span class="subst">\(indexPath.row + <span class="number">1</span>)</span>"</span></span><br><span class="line">        </span><br><span class="line">    <span class="keyword">return</span> cell</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>你可能发现了，tvOS 中的 tableview 和 iOS 中的 tableView 非常相似。在上面的代码片段中，我们告诉 tableview 有多少行(rows),多少个部分(section)，以及每个单元格要显示的内容。</p>
-<p>在 viewDidLoad 方法中，确保你把 tableview 的 delegate 和 datasource 设置为自身 self。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">self</span>.tableView.dataSource = <span class="keyword">self</span></span><br><span class="line"><span class="keyword">self</span>.tableView.delegate = <span class="keyword">self</span></span><br></pre></td></tr></table></figure>
-<p>在模拟器中运行应用。</p>
-<p>不出意外，你应该看到一个 tableview 出现在界面中。</p>
-<p><img src="http://www.appcoda.com/wp-content/uploads/2015/10/Screen-Shot-2015-11-01-at-9.21.21-AM-1024x567.png" alt=""></p>
-<p>现在，我们将在 tableView 的右侧添加一个按钮(UIButton)。在模拟或者真机上构建并运行，Whoo<br>！我们现在可以在按钮和 tableview 之间无缝切换了。</p>
-<h2 id="创建一个天气_App">创建一个天气 App</h2><p>在下一个小项目中，我们将开发一个简单的天气应用程序，显示当前的天气预报。在这个项目中，我们将使用非常稳定的天气 API：<strong>forecast.io</strong>，它为包括 Dark Sky 在内许多 iOS 应用提供 API 支持。</p>
-<p>首先你需要在 developer.forecast.io 注册一个开发者账号。我们只是测试，免费的 API 调用(1000 次/天)应该足够使用了。</p>
-<p>注意下面 url:<br><a href="https://api.forecast.io/forecast/d3250bf407f0579c8355cd39cdd4f9e1/37.7833,122.4167" target="_blank" rel="external">https://api.forecast.io/forecast/d3250bf407f0579c8355cd39cdd4f9e1/37.7833,122.4167</a></p>
-<p><strong>forecast/</strong>之后的一串数字(即 d3250bf40…)是 API Key 键值(千万不要将项目的 API Key 透露给别人)；紧跟着 API Key 字符串后的是你想要解析天气数据位置的经度和纬度坐标。我选择 San Francisco，但是你可以通过简单修改经纬坐标值来显示其他地方的天气。</p>
-<p>倘若在浏览器中打开该链接，你将注意到反馈数据为 JSON 格式。这是一个 Get请求。在 HTTP 世界中，GET 用于获取和下载数据。</p>
-<p>为了理解数据并将其显示到应用中,我们需要解析它。解析 JSON 在 Swift 中一直是一个热议话题。目前有各种各样的 JSON 解析库，诸如 SwiftyJSON、Alamofire 等。它们都是很棒的资源，我强烈建议你先看看。然而，在本教程中我们将使用 NSJSONSerialization，一个 iOS 内置的类。首先，打开 ViewController.swift 文件。<code>didRecieveMemory</code>警告函数在本项目中没有存在的意义，所以删除它吧！</p>
-<p>现在，在 ViewDidLoad 中键入如下代码:</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> url = <span class="type">NSURL</span>(string: <span class="string">"https://api.forecast.io/forecast/d3250bf407f0579c8355cd39cdd4f9e1/37.7833,122.4167"</span>) &#123; &#125;</span><br></pre></td></tr></table></figure>
-<p>这里我们使用可选类型声明一个 url 变量。</p>
-<p>NSJSONSerialization 需要传入 NSData 进行解析。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> data = <span class="type">NSData</span>(contentsOfURL: url)&#123; &#125;</span><br></pre></td></tr></table></figure>
-<p>接着，在上面 data 花括号作用域中键入如下代码：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">      <span class="keyword">let</span> parsed = <span class="keyword">try</span> <span class="type">NSJSONSerialization</span>.<span class="type">JSONObjectWithData</span>(data, options: <span class="type">NSJSONReadingOptions</span>.<span class="type">AllowFragments</span>) <span class="comment">// 1</span></span><br><span class="line">                    </span><br><span class="line">     <span class="keyword">let</span> newDict = parsed <span class="keyword">as</span>? <span class="type">NSDictionary</span> <span class="comment">// 2</span></span><br><span class="line">     <span class="built_in">print</span>(newDict![<span class="string">"currently"</span>]![<span class="string">"summary"</span>])</span><br><span class="line">   &#125;</span><br><span class="line"><span class="keyword">catch</span> <span class="keyword">let</span> error <span class="keyword">as</span> <span class="type">NSError</span> &#123;</span><br><span class="line">     <span class="built_in">print</span>(<span class="string">"A JSON parsing error occurred, here are the details:\n <span class="subst">\(error)</span>"</span>) <span class="comment">// 3</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>我们把 NSJSONSerialization 对象包裹在 do-catch 语句中。你可能对 do 语句不太了解，这是 Swift 2 中的新特性。Do-Catch 语句是一个新的改进性错误处理机制。Do-Catch 语句的使用方式如下：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> expression <span class="comment">// 不是必要的内容</span></span><br><span class="line">    statements</span><br><span class="line">&#125; <span class="keyword">catch</span> pattern <span class="number">1</span> &#123;</span><br><span class="line">    statements</span><br><span class="line">&#125; <span class="keyword">catch</span> pattern <span class="number">2</span> <span class="keyword">where</span> condition &#123;</span><br><span class="line">    statements</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在第一行代码中，我们设定了一个 NSJSONSerialization 对象，并传入 data 对象。注意，对象(parsed)在使用之前必须先转换成一个 NSDictionary 字典。</p>
-<p>接着，在第二行代码中，我们指定一个名为 newDict 的变量并使用<code>as</code>关键字将其转换 NSDictionary。</p>
-<p>最后，在第三行代码中，我们捕获任何错误并打印到终端中。</p>
-<p>你的整个 ViewController 文件应该类似于下面的代码。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> UIKit</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ViewController</span>: <span class="title">UIViewController</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.viewDidLoad()</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">let</span> url = <span class="type">NSURL</span>(string: <span class="string">"https://api.forecast.io/forecast/d3250bf407f0579c8355cd39cdd4f9e1/37.7833,122.4167"</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">let</span> data = <span class="type">NSData</span>(contentsOfURL: url)&#123;</span><br><span class="line">                <span class="keyword">do</span> &#123;</span><br><span class="line">                    <span class="keyword">let</span> parsed = <span class="keyword">try</span> <span class="type">NSJSONSerialization</span>.<span class="type">JSONObjectWithData</span>(data, options: <span class="type">NSJSONReadingOptions</span>.<span class="type">AllowFragments</span>)</span><br><span class="line">                    </span><br><span class="line">                    <span class="keyword">let</span> newDict = parsed <span class="keyword">as</span>? <span class="type">NSDictionary</span></span><br><span class="line">                    <span class="built_in">print</span>(newDict![<span class="string">"currently"</span>]![<span class="string">"summary"</span>])</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">catch</span> <span class="keyword">let</span> error <span class="keyword">as</span> <span class="type">NSError</span> &#123;</span><br><span class="line">                    <span class="built_in">print</span>(<span class="string">"A JSON parsithng error occurred, here are the details:\n <span class="subst">\(error)</span>"</span>)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>检查终端输出。你应该看到一个包裹了值的可选类型(你得到的值应该稍有不同，会根据不同的地理位置和天气来显示)。</p>
-<p><img src="http://www.appcoda.com/wp-content/uploads/2015/10/Screen-Shot-2015-11-01-at-11.21.02-AM1.png" alt=""></p>
-<p>现在我们将一些 UILabel 链接到应用中。拖拽两个 UILabel，一个叫 currentTemp，另一个叫 currentSummary。仔细看下 forecast 的 API，你会注意到它返回当前天气温度以及天气的概况(当然还有其他数据)。</p>
-<p><img src="http://www.appcoda.com/wp-content/uploads/2015/10/Screen-Shot-2015-11-01-at-12.26.11-PM-1024x565.png" alt=""></p>
-<p>在 newDict 变量下面放置如下代码：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">self</span>.currentTemp.text = <span class="string">"<span class="subst">\(newDict!["currently"]!["temperature"]!!)</span>"</span></span><br><span class="line"><span class="keyword">self</span>.currentSummary.text = <span class="string">"<span class="subst">\(newDict!["currently"]!["summary"]!!)</span>"</span></span><br></pre></td></tr></table></figure>
-<p>代码实现了获取天气数据并正确显示到界面。每一行语句最后都使用了双重叹号符号(!!)，用于强制解包 JSON 数据(否则它将被包裹到 Optional 中)。</p>
-<p>在模拟器中构建并运行。</p>
-<p><img src="http://www.appcoda.com/wp-content/uploads/2015/10/Screen-Shot-2015-11-01-at-11.41.44-AM-1024x549.png" alt=""></p>
-<p>干的不错！你已经完成了天气预报项目！</p>
-<h2 id="其他_tvOS_特性">其他 tvOS 特性</h2><p>我们只不过接触了点 tvOS 的皮毛。正如你所知道的，tvOS 建立在各种 iOS API 之上。但是，许多框架已经从 tvOS 中移除了。完整列表请看这篇<a href="https://developer.apple.com/library/prerelease/tvos/releasenotes/General/tvOS90APIDiffs/" target="_blank" rel="external">文章</a>。</p>
-<p>除此之外，tvOS 的基础是焦点事件(按钮、单元格、标签等在选中状态时会凸显出来，此时为聚焦状态)。幸运的是，系统自动处理大多数聚焦事件。只要你使用了 storyboard，默认会自动聚焦。你可以在谷歌中找到一些聚焦<a href="https://www.google.com/search?sourceid=chrome-psyapi2&amp;ion=1&amp;espv=2&amp;ie=UTF-8&amp;q=tvOS%20focus&amp;oq=tvOS%20focus&amp;aqs=chrome..69i57j0l4j69i60.2140j0j7" target="_blank" rel="external">API</a>。</p>
-<p>正如教程开始所提到的，苹果支持 client-server 应用。这些应用使用 TVML、TVJS 以及 TVMLKit，它们的基础是当下最为流行的 web 技术(HTML、JavaScript 等)。</p>
-<p>当前需要考虑的最大挑战是创建的 tvOS 应用中，SDK 并不支持数据持久化存储。这是和 iOS 不同，你不能保存任何大小超过 1MB 的照片、图标等内容。因此你必须配备一个后端服务，如 CloudKit、Parse、iCloud 等。建议你先了解下 tvOS 中对资源的需求(之前我写的<a href="http://www.appcoda.com/app-thinning/" target="_blank" rel="external">App 瘦包教程</a>)。此外，应用大小限制在 200MB 以内。</p>
-<p>显然，tvOS 应用中有太多限制条件，我们需要多加小心。</p>
-<h3 id="总结">总结</h3><p>在本教程中我们大致了解了 tvOS 以及它的各种特性。通过四个例子项目我们看到了 tvOS 的强大之处，当然还有局限性。tvOS 与 iOS 共享许多相似之处，但一些iOS框架却已经被移除了。</p>
-<p><a href="https://www.dropbox.com/sh/83i9ahb3nabc698/AAAJ00LBMDEnbJWPy2gF3Iyza?dl=0" target="_blank" rel="external">这里</a>提供了完整的项目文件。</p>
-<p>在项目一中，我们实现了一个 hello，world 应用程序；随后项目二中实现了简单的猜谜游戏应用，向你展示聚焦引擎；项目三详细介绍了在 tvOS 中如何使用 tableView；最后，我们结合已有知识在项目四中构建了一个简单的天气应用程序，可以从互联网上下载天气数据。</p>
-<p>苹果的 tvOS 应用商店于上周推出，授权世界各地的开发者分享他们的作品。</p>
-<p>你将作为见证者，看到 tvOS 和新的苹果电视永久性地改变 TV 行业！</p>
-<blockquote>
-<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
-</blockquote>
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>作者：gregg mojica，<a href="http://www.appcoda.com/tvos-introduction/">原文链接</a>，原文日期：2015-11-02<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles">pmst</a>；校对：<a href="https://github.com/numbbbbb">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb">numbbbbb</a></p>
-</blockquote>
-<p>上月在旧金山举办的苹果发布会中,苹果公司发布了第四代苹果电视。然而，此次更新不同于以往任何版本，苹果新电视将允许用户从 App Store 下载应用和游戏。</p>
-<p>这样的声明无疑给开发者打了一剂鸡血。新苹果电视中，位于 Cupertino(译者注:苹果电脑的全球总公司所在地，位于美国旧金山)的巨人介绍了一个新的操作系统，有别于 iOS 系统，新系统名为 tvOS。tvOS 基于 iOS 开发，有少许改动。 我们将使用通用框架和你最喜欢编程语言(当然是 Swift 喽，毫无疑问！)来编写几个简单应用，初步了解 tvOS。</p>]]>
-    
-    </summary>
-    
-      <category term="AppCoda" scheme="http://swiftggteam.github.io/tags/AppCoda/"/>
-    
-      <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
-    
-      <category term="Apple TV 开发" scheme="http://swiftggteam.github.io/categories/Apple-TV-%E5%BC%80%E5%8F%91/"/>
     
   </entry>
   
