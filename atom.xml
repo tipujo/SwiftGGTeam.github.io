@@ -4,7 +4,7 @@
   <subtitle><![CDATA[走心的 Swift 翻译组]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://swiftggteam.github.io/"/>
-  <updated>2015-12-23T02:00:18.449Z</updated>
+  <updated>2015-12-23T09:00:15.690Z</updated>
   <id>http://swiftggteam.github.io/</id>
   
   <author>
@@ -15,11 +15,117 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title></title>
+    <link href="http://swiftggteam.github.io/2015/12/23/%E6%AF%8F%E5%91%A8%20Swift%20%E7%A4%BE%E5%8C%BA%E9%97%AE%E7%AD%9420151223/"/>
+    <id>http://swiftggteam.github.io/2015/12/23/每周 Swift 社区问答20151223/</id>
+    <published>2015-12-23T09:00:16.570Z</published>
+    <updated>2015-12-23T09:00:15.690Z</updated>
+    <content type="html"><![CDATA[<p>title: “每周 Swift 社区问答 2015-12-23”<br>date: 2015-12-23<br>tags: [Swift, 社区问答]<br>categories: [Swift, iOS开发]<br>permalink: swift-qa-2015-12-23</p>
+<p>作者：<a href="http://codebuild.me" target="_blank" rel="external">shanks</a></p>
+<p>本周整理问题如下：</p>
+<ul>
+<li><a href="#Q1">Code doesn’t work on Playground</a></li>
+<li><a href="#Q2">Array cannot be bridged from Objective-C</a></li>
+<li><a href="#Q3">Why do we need the keywords “let” and “var” at all ?</a></li>
+<li><a href="#Q4">“If” statement with an optional value not working</a></li>
+<li><a href="#Q5">Generic Random Function in Swift</a></li>
+<li><a href="#Q6">Setting a variable to an operator function</a></li>
+<li><a href="#Q7">Why I can’t use let in protocol in Swift?</a> </li>
+</ul>
+<p>对应的代码都放到了 github 上，有兴趣的同学可以下载下来研究：<a href="https://github.com/SwiftGGTeam/SwiftCommunityWeeklyQA/tree/master/20151223/%E6%AF%8F%E5%91%A8%20Swift%20%E7%A4%BE%E5%8C%BA%E9%97%AE%E7%AD%9420151223.playground" target="_blank" rel="external">点击下载</a></p>
+<a id="more"></a>
+<p><a name="Q1"></a></p>
+<h2 id="Question1:_Code_doesn’t_work_on_Playground">Question1: Code doesn’t work on Playground</h2><p><a href="https://forums.developer.apple.com/thread/27995" target="_blank" rel="external">Q1链接地址</a></p>
+<h3 id="问题描述">问题描述</h3><p>提问者说以下代码在 Playground 下运行， <code>range</code> 返回<code>nil</code>：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> telefone = <span class="string">"+42 43 23123-2221"</span>   </span><br><span class="line"><span class="keyword">let</span> range = telefone.rangeOfString(<span class="string">"\\d&#123;4,5&#125;\\-?\\d&#123;4&#125;"</span>, options:.<span class="type">RegularExpressionSearch</span>)   </span><br><span class="line"><span class="built_in">print</span>(<span class="string">"range <span class="subst">\(range)</span>"</span>) <span class="comment">//here returns nil</span></span><br></pre></td></tr></table></figure>
+<p>下面回复，实际上是可以的，亲测也是可以，也不知道提问者是不是 Xcode 版本问题，输出结果：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">range <span class="type">Optional</span>(<span class="type">Range</span>(<span class="number">7</span>..&lt;<span class="number">17</span>))\n</span><br></pre></td></tr></table></figure>
+<h3 id="解答">解答</h3><p>这个问题是关于正则表达式匹配的，匹配结果返回的是<code>Range</code>类型。<br>然后提问者不甘心，写出了一段很复杂的解决方案：</p>
+<figure class="highlight nimrod"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="type">Foundation</span>  </span><br><span class="line"><span class="keyword">var</span> telefone = <span class="string">"+55 11 11111‑1111"</span>  </span><br><span class="line"><span class="keyword">let</span> phoneNumberRegEx = <span class="string">"(?:(\\+\\d\\d\\s+)?((?:\\(\\d\\d\\)|\\d\\d)\\s+)?)(\\d&#123;4,5&#125;\\-?\\d&#123;4&#125;)"</span>;  </span><br><span class="line"><span class="keyword">let</span> <span class="type">range</span> = telefone.rangeOfString(phoneNumberRegEx,  </span><br><span class="line">    options:.<span class="type">RegularExpressionSearch</span>)  </span><br><span class="line">print(<span class="string">"range \(range)"</span>)  </span><br><span class="line"><span class="keyword">var</span> found = telefone.substringWithRange(<span class="type">range</span>!)  </span><br><span class="line">print(found)  </span><br><span class="line"><span class="keyword">let</span> regex = <span class="keyword">try</span>! <span class="type">NSRegularExpression</span>(pattern: phoneNumberRegEx, options: [])  </span><br><span class="line"><span class="keyword">let</span> telephoneRange = <span class="type">NSMakeRange</span>(<span class="number">0</span>, telefone.characters.count)  </span><br><span class="line"><span class="keyword">let</span> <span class="literal">result</span> = regex.firstMatchInString(telefone, options: <span class="type">NSMatchingOptions</span>(rawValue: <span class="number">0</span>), <span class="type">range</span>: telephoneRange)  </span><br><span class="line"><span class="keyword">let</span> r1 = <span class="literal">result</span>!.rangeAtIndex(<span class="number">1</span>)  </span><br><span class="line"><span class="keyword">let</span> r2 = <span class="literal">result</span>!.rangeAtIndex(<span class="number">2</span>)  </span><br><span class="line"><span class="keyword">let</span> r3 = <span class="literal">result</span>!.rangeAtIndex(<span class="number">3</span>)  </span><br><span class="line"><span class="keyword">if</span> (r1.length &gt; <span class="number">0</span>) &#123;  </span><br><span class="line">    <span class="keyword">let</span> phoneCountry = (telefone <span class="keyword">as</span> <span class="type">NSString</span>).substringWithRange(r1)  </span><br><span class="line">    print(<span class="string">"country: \(phoneCountry)"</span>)  </span><br><span class="line">&#125;  </span><br><span class="line"><span class="keyword">if</span> (r2.length &gt; <span class="number">0</span>) &#123;  </span><br><span class="line">    <span class="keyword">let</span> phoneArea = (telefone <span class="keyword">as</span> <span class="type">NSString</span>).substringWithRange(r2)  </span><br><span class="line">    print(<span class="string">"area: \(phoneArea)"</span>)  </span><br><span class="line">&#125;  </span><br><span class="line"><span class="keyword">if</span> (r3.length &gt; <span class="number">0</span>) &#123;  </span><br><span class="line">    <span class="keyword">let</span> phone = (telefone <span class="keyword">as</span> <span class="type">NSString</span>).substringWithRange(r3)  </span><br><span class="line">    print(<span class="string">"phone: \(phone)"</span>)  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>说会报错，下面大神看出了问题：</p>
+<figure class="highlight tex"><table><tr><td class="code"><pre><span class="line">var telefone = "+55 11 11111‑1111"  //字符'‑'和下面正则表达式的字符'-'匹配不上</span><br><span class="line">let phoneNumberRegEx = "(?:(<span class="command">\\</span>+<span class="command">\\</span>d<span class="command">\\</span>d<span class="command">\\</span>s+)?((?:<span class="command">\\</span>(<span class="command">\\</span>d<span class="command">\\</span>d<span class="command">\\</span>)|<span class="command">\\</span>d<span class="command">\\</span>d)<span class="command">\\</span>s+)?)(<span class="command">\\</span>d<span class="special">&#123;</span>4,5<span class="special">&#125;</span><span class="command">\\</span>-?<span class="command">\\</span>d<span class="special">&#123;</span>4<span class="special">&#125;</span>)";</span><br></pre></td></tr></table></figure>
+<p>原来是字符’‑’和字符’-‘用混了。统一改成’-‘就好了。</p>
+<p>估计第一个问题也是这样造成的。</p>
+<p><a name="Q2"></a></p>
+<h2 id="Question2:_Array_cannot_be_bridged_from_Objective-C">Question2: Array cannot be bridged from Objective-C</h2><p><a href="https://forums.developer.apple.com/thread/28678" target="_blank" rel="external">Q2链接地址</a></p>
+<h3 id="问题描述-1">问题描述</h3><p>以下代码会在<code>testUnbridgableArrayOfPs</code>函数中报错:</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">P</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span> &#123; <span class="keyword">get</span> &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PImpl</span>: <span class="title">P</span> </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> name: <span class="type">String</span></span><br><span class="line">    <span class="keyword">init</span>(name: <span class="type">String</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.name = name</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">unbridgableArrayOfPs</span><span class="params">()</span></span> -&gt; [<span class="type">P</span>] &#123;</span><br><span class="line">    <span class="keyword">let</span> pees = [<span class="type">PImpl</span>(name: <span class="string">"A"</span>), <span class="type">PImpl</span>(name: <span class="string">"B"</span>), <span class="type">PImpl</span>(name: <span class="string">"C"</span>)]</span><br><span class="line">    <span class="keyword">return</span> pees</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">arrayOfPs</span><span class="params">()</span></span> -&gt; [<span class="type">P</span>] &#123;</span><br><span class="line">    <span class="keyword">return</span> [<span class="type">PImpl</span>(name: <span class="string">"A"</span>), <span class="type">PImpl</span>(name: <span class="string">"B"</span>), <span class="type">PImpl</span>(name: <span class="string">"C"</span>)]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">testUnbridgableArrayOfPs</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">let</span> p = unbridgableArrayOfPs() <span class="comment">// Fails with fatal error: array cannot be bridged from Objective-C</span></span><br><span class="line">    <span class="keyword">let</span> result = p.<span class="built_in">map</span>&#123;$<span class="number">0</span>.name&#125;.joinWithSeparator(<span class="string">""</span>)</span><br><span class="line">    <span class="comment">//XCTAssertEqual(result, "ABC")</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">testArrayOfPs</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">let</span> p = arrayOfPs() <span class="comment">// We get our P's</span></span><br><span class="line">    <span class="keyword">let</span> result = p.<span class="built_in">map</span>&#123;$<span class="number">0</span>.name&#125;.joinWithSeparator(<span class="string">""</span>)</span><br><span class="line">   <span class="comment">// XCTAssertEqual(result, "ABC")</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">testUnbridgableArrayOfPs()</span><br><span class="line">testArrayOfPs()</span><br></pre></td></tr></table></figure>
+<p>楼主还用了<code>XCTAssertEqual</code>来进行测试，但是 Playground不支持<code>XCTest</code>测试框架，所以代码我就现注释掉了。<br>楼主吐槽，定义了变量，使用了类型推断，就会报错。直接返回就不会。。</p>
+<h3 id="问题解答">问题解答</h3><p>不使用类型推断，定义时候，直接指定类型，就没有问题了：</p>
+<figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line">let pees: [P] = [<span class="function"><span class="title">PImpl</span><span class="params">(name: <span class="string">"A"</span>)</span></span>, <span class="function"><span class="title">PImpl</span><span class="params">(name: <span class="string">"B"</span>)</span></span>, <span class="function"><span class="title">PImpl</span><span class="params">(name: <span class="string">"C"</span>)</span></span>]</span><br></pre></td></tr></table></figure>
+<p>类型推断会把<code>pees</code> 推断为<code>PImpl</code>类型，虽然<code>PImpl</code>遵从协议<code>P</code>，目前还是需要显式做一下声明或者转换。<code>OOPer</code> 还提供了以下 2 种转换方式：</p>
+<figure class="highlight xquery"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> pees = [PImpl(name: <span class="string">"A"</span>), PImpl(name: <span class="string">"B"</span>), PImpl(name: <span class="string">"C"</span>)] <span class="keyword">as</span> [P] </span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> pees = [PImpl(name: <span class="string">"A"</span>), PImpl(name: <span class="string">"B"</span>), PImpl(name: <span class="string">"C"</span>)]  </span><br><span class="line"><span class="keyword">let</span> peesAsArrayP: [P] = pees.<span class="keyword">map</span>&#123;<span class="variable">$0</span> as P&#125;  </span><br><span class="line"><span class="keyword">return</span> peesAsArrayP</span><br></pre></td></tr></table></figure>
+<p><a name="Q3"></a></p>
+<h2 id="Question3:_Why_do_we_need_the_keywords_“let”_and_“var”_at_all_?">Question3: Why do we need the keywords “let” and “var” at all ?</h2><p><a href="https://forums.developer.apple.com/thread/28673" target="_blank" rel="external">Q3链接地址</a></p>
+<h3 id="问题描述-2">问题描述</h3><p>这个问题没有涉及到代码，提问者写了几段文字，为了表达自己的观点：为神马会有<code>var</code>关键字的存在，完全可以去掉：</p>
+<ul>
+<li>定义局部变量时，如果要定义一个常量，可以直接使用<code>let</code>,然后其他非常量的情况下，完全可以省略掉<code>var</code>, 因为可以直接推断出来啊</li>
+<li>类中变量定义也是可以类似的来做，<code>let</code> 定义常量，没有<code>let</code>就是变量</li>
+</ul>
+<p>回想一下好像是这么一回事。。。</p>
+<h3 id="问题解答-1">问题解答</h3><p>这个问题引来了 Chris Lattner 的回复。。。，所以得好好说说， Chris 回复的大概意思如下：<br>首先，Chris 认为这个问题很有意思，说明 Swift 作者也应该思考过这个问题的。的确， Swift 编译器是可以基于提问者的思考，去推断出变量的可变修饰符，加<code>var</code> 和没加<code>var</code>对于编译器来讲没啥区别。主要基于2个目的来设计的<code>var</code>关键字：</p>
+<ul>
+<li>human factors：主要是从可读性来讲，显式的声明<code>var</code>能够让代码更加可读，有点类似于 Swift 中目前饱受诟病的类型推断一样，目前大部分指南，都推荐你显式定义类型，可读性很高，且编译器不会出错。</li>
+<li>hard cases：在一些复杂的情况下，没有使用<code>var</code>和<code>let</code>，编译器会很难推断出来是变量还是常量（公共全局变量，公共实例变量等）。所以人为使用<code>var</code>和<code>let</code>表明你的态度很重要。</li>
+</ul>
+<p><a name="Q4"></a></p>
+<h2 id="Question4:_“If”_statement_with_an_optional_value_not_working">Question4: “If” statement with an optional value not working</h2><h3 id="问题链接">问题链接</h3><p><a href="http://stackoverflow.com/questions/34389158/if-statement-with-an-optional-value-not-working" target="_blank" rel="external">Q4链接地址</a></p>
+<h3 id="问题描述-3">问题描述</h3><p>此贴问题比较初级，楼主问的问题也是错误的，但是对于初学者来讲，值得一看。主要是对 Optional 类型的使用和理解。首先我们看看问题：</p>
+<figure class="highlight dart"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> x = Optional(<span class="string">"6"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(x == <span class="number">6</span>) &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"x is 6"</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"x is not 6"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>楼主说定义了一个值为 Optional(“6”) 的变量 x， 然后去和数字 6 比较，这段代码在 Playground 运行，因为 Optional(“6”) 是 Optional<string> 类型的，不能和 Int 进行比较。</string></p>
+<h3 id="问题解答-2">问题解答</h3><p>上述代码改为：</p>
+<figure class="highlight dart"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> x = Optional(<span class="number">6</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(x == <span class="number">6</span>) &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"x is 6"</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"x is not 6"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输出： x is 6</span></span><br></pre></td></tr></table></figure>
+<p>x 的类型是一个可选类型，直接使用 if 去和固定值进行比较，编译器会拆包出来真正的值去比较。不过更推荐的做法是，使用 if let 去显式拆包：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> x1 = <span class="type">Optional</span>(<span class="number">6</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> y = x1 <span class="keyword">where</span> y == <span class="number">6</span>  &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"x is 6"</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"x is not 6"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a name="Q5"></a></p>
+<h2 id="Question5:_Generic_Random_Function_in_Swift">Question5: Generic Random Function in Swift</h2><h3 id="问题链接-1">问题链接</h3><p><a href="http://stackoverflow.com/questions/34387250/generic-random-function-in-swift" target="_blank" rel="external">Q5链接地址</a></p>
+<h3 id="问题描述-4">问题描述</h3><p>问题很简单，如何实现随机数生成的泛型表达，支持 Int， Float，Double 和 CGFloat？</p>
+<h3 id="问题解答-3">问题解答</h3><p>首先，可以分部对这几种类型做扩展，来生成随机数：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">extension</span> <span class="title">Int</span> </span>&#123;</span><br><span class="line">    <span class="comment">/// SwiftRandom extension</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="func"><span class="keyword">func</span> <span class="title">random</span><span class="params">(lower: Int = <span class="number">0</span>, <span class="number">_</span> upper: Int = <span class="number">100</span>)</span></span> -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> lower + <span class="type">Int</span>(arc4random_uniform(<span class="type">UInt32</span>(upper - lower + <span class="number">1</span>)))</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">extension</span> <span class="title">Double</span> </span>&#123;</span><br><span class="line">    <span class="comment">/// SwiftRandom extension</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="func"><span class="keyword">func</span> <span class="title">random</span><span class="params">(lower: Double = <span class="number">0</span>, <span class="number">_</span> upper: Double = <span class="number">100</span>)</span></span> -&gt; <span class="type">Double</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> (<span class="type">Double</span>(arc4random()) / <span class="number">0xFFFFFFFF</span>) * (upper - lower) + lower</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">extension</span> <span class="title">Float</span> </span>&#123;</span><br><span class="line">    <span class="comment">/// SwiftRandom extension</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="func"><span class="keyword">func</span> <span class="title">random</span><span class="params">(lower: Float = <span class="number">0</span>, <span class="number">_</span> upper: Float = <span class="number">100</span>)</span></span> -&gt; <span class="type">Float</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> (<span class="type">Float</span>(arc4random()) / <span class="number">0xFFFFFFFF</span>) * (upper - lower) + lower</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">extension</span> <span class="title">CGFloat</span> </span>&#123;</span><br><span class="line">    <span class="comment">/// SwiftRandom extension</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="func"><span class="keyword">func</span> <span class="title">random</span><span class="params">(lower: CGFloat = <span class="number">0</span>, <span class="number">_</span> upper: CGFloat = <span class="number">1</span>)</span></span> -&gt; <span class="type">CGFloat</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="type">CGFloat</span>(<span class="type">Float</span>(arc4random()) / <span class="type">Float</span>(<span class="type">UINT32_MAX</span>)) * (upper - lower) + lower</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">Int</span>.random()</span><br></pre></td></tr></table></figure>
+<p>也可以使用扩展协议来实现，不过 Int 和 Float，Double，CGFloat的协议不太一样：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">FloatingPointArithmeticType</span>: <span class="title">FloatingPointType</span> </span>&#123;</span><br><span class="line">    <span class="func"><span class="keyword">func</span> /<span class="params">(lhs: <span class="keyword">Self</span>, rhs: <span class="keyword">Self</span>)</span></span> -&gt; <span class="type">Self</span></span><br><span class="line">    <span class="comment">// etc</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">Double</span>: <span class="title">FloatingPointArithmeticType</span> </span>&#123; &#125;</span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">Float</span>: <span class="title">FloatingPointArithmeticType</span> </span>&#123; &#125;</span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">CGFloat</span>: <span class="title">FloatingPointArithmeticType</span> </span>&#123; &#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">FloatingPointArithmeticType</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="func"><span class="keyword">func</span> <span class="title">rand</span><span class="params">()</span></span> -&gt; <span class="type">Self</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> num = <span class="type">Self</span>(arc4random())</span><br><span class="line">        <span class="keyword">let</span> denom = <span class="type">Self</span>(<span class="type">UInt32</span>.<span class="built_in">max</span>)</span><br><span class="line">        <span class="comment">// this line won’t compile:</span></span><br><span class="line">        <span class="keyword">return</span> num / denom</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// so these now work</span></span><br><span class="line"><span class="keyword">let</span> d = <span class="type">Double</span>.rand()  <span class="comment">// etc</span></span><br></pre></td></tr></table></figure>
+<p>而 Int 的随机数，直接通过<code>arc4random()</code>生成来转换，因为<code>arc4random()</code>结果是<code>UInt32</code>的,代码在第一段已经有了，直接基于 Int 去扩展。</p>
+<p><a name="Q6"></a></p>
+<h2 id="Question6:_Setting_a_variable_to_an_operator_function">Question6: Setting a variable to an operator function</h2><h3 id="问题链接-2">问题链接</h3><p><a href="http://stackoverflow.com/questions/34386306/setting-a-variable-to-an-operator-function" target="_blank" rel="external">Q6链接地址</a></p>
+<h3 id="问题描述-5">问题描述</h3><p>楼主的问题是，既然函数可以是第一公民，那么运算符也能够是第一公民，可以当成右值赋值给一个变量。代码如下：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> +<span class="params">(lhs: Int, rhs: Int)</span></span> -&gt; <span class="type">Int</span> &#123; <span class="keyword">return</span> <span class="number">1</span>&#125;</span><br><span class="line"><span class="keyword">let</span> op = + <span class="comment">// results in an error</span></span><br></pre></td></tr></table></figure>
+<p>但是，这段代码会报错，这是为什么呢？</p>
+<h3 id="问题解答-4">问题解答</h3><p>在 Swift 中，函数是第一公民，运算符也是第一公民，但是在作为右键赋值时，需要加括号包住操作符，并且要求显式定义操作符变量的类型，或者做显式转换：</p>
+<figure class="highlight livescript"><table><tr><td class="code"><pre><span class="line">func +<span class="function"><span class="params">(lhs: Int, rhs: Int)</span> -&gt;</span> Int &#123; <span class="keyword">return</span> <span class="number">1</span>&#125;</span><br><span class="line"><span class="keyword">let</span> <span class="function"><span class="title">v</span> = <span class="params">(+)</span> <span class="title">as</span> <span class="params">(Int,Int)</span> -&gt;</span> Int</span><br><span class="line"><span class="keyword">let</span> out = v(<span class="number">3</span>,<span class="number">4</span>)</span><br><span class="line"><span class="built_in">print</span>(out)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="attribute">op</span>: <span class="function"><span class="params">(Int, Int)</span> -&gt;</span> Int = (+)</span><br><span class="line">op(<span class="number">3</span>, <span class="number">4</span>) <span class="pi">//输出1，如果去掉自定义+操作符，输出7</span></span><br></pre></td></tr></table></figure>
+<p>在另外一篇post中，也是类似的提问：<br><a href="http://stackoverflow.com/questions/30017400/set-a-variable-to-the-less-than-operator-as-a-function-in-swift" target="_blank" rel="external">set-a-variable-to-the-less-than-operator-as-a-function-in-swift</a></p>
+<p><a name="Q7"></a></p>
+<h2 id="Question7:_Why_I_can’t_use_let_in_protocol_in_Swift?">Question7: Why I can’t use let in protocol in Swift?</h2><h3 id="问题链接-3">问题链接</h3><p><a href="http://stackoverflow.com/questions/34385897/why-i-cant-use-let-in-protocol-in-swift" target="_blank" rel="external">Q7链接地址</a></p>
+<h3 id="问题描述-6">问题描述</h3><p>楼主问，为啥以下协议定义中的只读存储变量，不能使用<code>let</code>定义的常量替代？</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">someProtocol</span> </span><br><span class="line"></span>&#123;</span><br><span class="line">   <span class="keyword">var</span> someProperty: <span class="type">String</span> &#123; <span class="keyword">get</span> &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">someProtocol1</span></span><br><span class="line"></span>&#123;</span><br><span class="line">   <span class="keyword">let</span> someProperty: <span class="type">String</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="问题解答-5">问题解答</h3><p><code>let</code> 修饰的是常量，而协议里面是不能指定变量的存储方式的，也就是说，如果要在协议里面，要求遵从只读属性，只能使用var和get，也就是<code>var someProperty: String { get }</code>这种写法。<br>在具体定义的类或者结构体中，如果协议是要求只读计算属性，那么具体的实现可以使用<code>let</code>修饰，也可以实现<code>set</code>操作，也可以是一个存储属性。<br><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">MyProtocol</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> someProperty: <span class="type">String</span> &#123; <span class="keyword">get</span> &#125;  <span class="comment">// abstract interface</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">MyStruct</span>: <span class="title">MyProtocol</span> </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> someProperty: <span class="type">String</span>  <span class="comment">// concrete implementation: stored property</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">OtherStruct</span>: <span class="title">MyProtocol</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> str: <span class="type">String</span></span><br><span class="line">    <span class="keyword">var</span> someProperty: <span class="type">String</span> &#123;</span><br><span class="line">        <span class="keyword">get</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"<span class="subst">\(str)</span>"</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">set</span>(newValue) &#123;</span><br><span class="line">            str = newValue</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;  <span class="comment">// concrete implementation: computed property</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a = <span class="type">MyStruct</span>(someProperty: <span class="string">""</span>)</span><br><span class="line"><span class="comment">//a.someProperty = "est" --错误，常量不能修改</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> b = <span class="type">OtherStruct</span>(str: <span class="string">"test"</span>)</span><br><span class="line">b.someProperty</span><br><span class="line">b.someProperty = <span class="string">"other test"</span></span><br><span class="line">b.str</span><br></pre></td></tr></table></figure></p>
+<p>也就是说，协议要求只是一个最小化要求。如果协议是定义的<code>get</code>和<code>set</code>，那么具体实现就不能定义为只读的了：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">MyProtocol1</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> someProperty: <span class="type">String</span> &#123; <span class="keyword">get</span> <span class="keyword">set</span> &#125;  <span class="comment">// abstract interface</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">OtherStruct1</span>: <span class="title">MyProtocol1</span> </span>&#123; <span class="comment">//错误：candidate is not settable, but protocol requires it</span></span><br><span class="line">    <span class="keyword">var</span> str: <span class="type">String</span></span><br><span class="line">    <span class="keyword">var</span> someProperty: <span class="type">String</span> &#123;</span><br><span class="line">        <span class="keyword">get</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"<span class="subst">\(str)</span>"</span></span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">    &#125;  <span class="comment">// concrete implementation: computed property</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>title: “每周 Swift 社区问答 2015-12-23”<br>date: 2015-12-23<br>tags: [Swift, 社区问答]<br>categories: [Swift, iOS开发]<br>permalink: swift-qa-2015-12-23</p>
+<p>作者：<a href="http://codebuild.me">shanks</a></p>
+<p>本周整理问题如下：</p>
+<ul>
+<li><a href="#Q1">Code doesn’t work on Playground</a></li>
+<li><a href="#Q2">Array cannot be bridged from Objective-C</a></li>
+<li><a href="#Q3">Why do we need the keywords “let” and “var” at all ?</a></li>
+<li><a href="#Q4">“If” statement with an optional value not working</a></li>
+<li><a href="#Q5">Generic Random Function in Swift</a></li>
+<li><a href="#Q6">Setting a variable to an operator function</a></li>
+<li><a href="#Q7">Why I can’t use let in protocol in Swift?</a> </li>
+</ul>
+<p>对应的代码都放到了 github 上，有兴趣的同学可以下载下来研究：<a href="https://github.com/SwiftGGTeam/SwiftCommunityWeeklyQA/tree/master/20151223/%E6%AF%8F%E5%91%A8%20Swift%20%E7%A4%BE%E5%8C%BA%E9%97%AE%E7%AD%9420151223.playground">点击下载</a></p>]]>
+    
+    </summary>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[Swift 3 及展望]]></title>
     <link href="http://swiftggteam.github.io/2015/12/23/swift-3/"/>
     <id>http://swiftggteam.github.io/2015/12/23/swift-3/</id>
     <published>2015-12-22T16:00:00.000Z</published>
-    <updated>2015-12-23T02:00:18.449Z</updated>
+    <updated>2015-12-23T09:00:18.258Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-3/" target="_blank" rel="external">原文链接</a>，原文日期：2015/12/10<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="undefined"></a></p>
 </blockquote>
@@ -65,7 +171,7 @@
     <link href="http://swiftggteam.github.io/2015/12/22/alamofire-beginner-guide/"/>
     <id>http://swiftggteam.github.io/2015/12/22/alamofire-beginner-guide/</id>
     <published>2015-12-21T16:00:00.000Z</published>
-    <updated>2015-12-23T02:00:18.449Z</updated>
+    <updated>2015-12-23T09:00:18.258Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：gregg mojica，<a href="http://www.appcoda.com/alamofire-beginner-guide/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/30<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -285,7 +391,7 @@
     <link href="http://swiftggteam.github.io/2015/12/21/swift-3-0-and-foundation/"/>
     <id>http://swiftggteam.github.io/2015/12/21/swift-3-0-and-foundation/</id>
     <published>2015-12-20T16:00:00.000Z</published>
-    <updated>2015-12-23T02:00:18.449Z</updated>
+    <updated>2015-12-23T09:00:18.258Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/12/03/swift-3-0-and-foundation/" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-03<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -327,7 +433,7 @@
     <link href="http://swiftggteam.github.io/2015/12/18/changing-swift-whats-coming-up-in-2-2-and-3-0/"/>
     <id>http://swiftggteam.github.io/2015/12/18/changing-swift-whats-coming-up-in-2-2-and-3-0/</id>
     <published>2015-12-17T16:00:00.000Z</published>
-    <updated>2015-12-23T02:00:18.449Z</updated>
+    <updated>2015-12-23T09:00:18.258Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/12/03/changing-swift-whats-coming-up-in-2-2-and-3-0/" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-03<br>译者：<a href="undefined">Channe</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -369,7 +475,7 @@
     <link href="http://swiftggteam.github.io/2015/12/17/per-view-auto-rotation-locking-made-easy-for-ios-8-and-9/"/>
     <id>http://swiftggteam.github.io/2015/12/17/per-view-auto-rotation-locking-made-easy-for-ios-8-and-9/</id>
     <published>2015-12-16T16:00:00.000Z</published>
-    <updated>2015-12-23T02:00:18.449Z</updated>
+    <updated>2015-12-23T09:00:18.258Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Weston Hanners，<a href="http://www.alloc-init.com/2015/11/per-view-auto-rotation-locking-made-easy-for-ios-8-and-9/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-18<br>译者：<a href="undefined">littledogboy</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -562,7 +668,7 @@
     <link href="http://swiftggteam.github.io/2015/12/16/new-to-beta-2-swift-2-1-playground-value-drops-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/12/16/new-to-beta-2-swift-2-1-playground-value-drops-swiftlang/</id>
     <published>2015-12-15T16:00:00.000Z</published>
-    <updated>2015-12-23T02:00:18.449Z</updated>
+    <updated>2015-12-23T09:00:18.258Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/09/23/new-to-beta-2-swift-2-1-playground-value-drops-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-23<br>译者：<a href="http://weibo.com/u/2916092907" target="_blank" rel="external">天才175</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -622,7 +728,7 @@
     <link href="http://swiftggteam.github.io/2015/12/15/mixins-over-inheritance/"/>
     <id>http://swiftggteam.github.io/2015/12/15/mixins-over-inheritance/</id>
     <published>2015-12-15T02:30:00.000Z</published>
-    <updated>2015-12-23T02:00:18.449Z</updated>
+    <updated>2015-12-23T09:00:18.258Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Olivier Halligon，<a href="http://alisoftware.github.io/swift/protocol/2015/11/08/mixins-over-inheritance/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-08<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -745,7 +851,7 @@
     <link href="http://swiftggteam.github.io/2015/12/14/a-beginners-guide-to-nsdate-in-swift/"/>
     <id>http://swiftggteam.github.io/2015/12/14/a-beginners-guide-to-nsdate-in-swift/</id>
     <published>2015-12-14T01:00:00.000Z</published>
-    <updated>2015-12-23T02:00:18.449Z</updated>
+    <updated>2015-12-23T09:00:18.258Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：gabriel theodoropoulos，<a href="http://www.appcoda.com/nsdate/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-18<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a></p>
 </blockquote>
@@ -957,7 +1063,7 @@
     <link href="http://swiftggteam.github.io/2015/12/11/correction-on-testing-uialertcontroller/"/>
     <id>http://swiftggteam.github.io/2015/12/11/correction-on-testing-uialertcontroller/</id>
     <published>2015-12-10T16:00:00.000Z</published>
-    <updated>2015-12-23T02:00:18.449Z</updated>
+    <updated>2015-12-23T09:00:18.258Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：dom，<a href="http://swiftandpainless.com/correction-on-testing-uialertcontroller/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-25<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="http://weibo.com/lfbWb" target="_blank" rel="external">lfb_CD</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1006,7 +1112,7 @@
     <link href="http://swiftggteam.github.io/2015/12/10/reduce-all-the-things/"/>
     <id>http://swiftggteam.github.io/2015/12/10/reduce-all-the-things/</id>
     <published>2015-12-09T16:00:00.000Z</published>
-    <updated>2015-12-23T02:00:18.449Z</updated>
+    <updated>2015-12-23T09:00:18.258Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Benedikt Terhechte，<a href="http://appventure.me/2015/11/30/reduce-all-the-things/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-30<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1122,79 +1228,11 @@
   </entry>
   
   <entry>
-    <title><![CDATA[iOS：选择 Realm 而不是 CoreData]]></title>
-    <link href="http://swiftggteam.github.io/2015/12/08/ios-realm-instead-of-coredata/"/>
-    <id>http://swiftggteam.github.io/2015/12/08/ios-realm-instead-of-coredata/</id>
-    <published>2015-12-07T16:00:00.000Z</published>
-    <updated>2015-12-23T02:00:18.449Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/ios-realm-instead-of-coredata/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-29<br>译者：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
-</blockquote>
-<!--此处开始正文-->
-<blockquote>
-<p>我已在网上多次看到「Realm」这个词。我甚至曾在十月时有机会参加由 Swift 用户组组织的 Realm 聚会。最终，我有机会用上了 Realm 这个框架。</p>
-</blockquote>
-<a id="more"></a>
-<h2 id="案例">案例</h2><p>现在我正在节食。我需要减一些体重因为在加利福尼亚的时候胖了好多 – 好吃的食物实在是太多了:)！我浏览了一下 iTunes Store 中的那些能够追踪喝水记录的应用，但是在我看来这些应用要么看上去很糟糕，要么交互实在是很烂。我想：如果我决定做一个应用，岂不是一箭双雕吗 – 我又能写一个我想要的应用，又能选择使用 Realm 而不是 Core Data。所以我开工了。</p>
-<p>你知道当我看完文档、开始使用 Realm 框架的第一感觉是什么吗？<strong>哇，这简直真是太棒了！这些开发的家伙做的简直超棒！</strong></p>
-<p><strong>免责声明：</strong>接下来所写的仅仅只覆盖了 Realm 框架中最基本的一部分。我建议你们接下来可以去阅读<a href="https://realm.io/docs/swift/latest/" target="_blank" rel="external">官方文档</a>来获取更多的信息。在这儿我并不想向你们展示关于 Realm 框架的全部内容，因为这篇文章不可能像文档一样又臭又长，并且我自己也会避免这样的问题发生。官方的文档非常的棒，你在开工前可以先读一下它。</p>
-<p>我的这个案例并不是很复杂而是非常简单的。整个 app 只有两个抽象模型（Model）类： <code>Day</code> 和 <code>DrinkLogEntry</code> 。此外，这个 app 也需要这些功能：添加、更新、筛选和排序存储的数据。正如我所说这是个简单的 app 。接下来我会呈现 app 中的一些代码片段。</p>
-<h2 id="抽象模型（Model）">抽象模型（Model）</h2><p>Realm 中没有像 xcdatamodel-like 这样的文件。抽象模型仅仅是继承自 <code>Object</code> 类的文件。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> 表示了用户一天的生活。 Day 这个类的信息包含用户所喝的水和他们的每天喝水的目标。</span><br><span class="line">*/</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Day</span>: <span class="title">Object</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">dynamic</span> <span class="keyword">var</span> identifier: <span class="type">String</span>!</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// 表示一天的开始的时间戳（UTC+0 时区）</span></span><br><span class="line">    <span class="keyword">dynamic</span> <span class="keyword">var</span> timestamp: <span class="type">NSTimeInterval</span> = <span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// 用户所喝的水的量（毫升）</span></span><br><span class="line">    <span class="keyword">dynamic</span> <span class="keyword">var</span> waterDrank: <span class="type">Float</span> = <span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// 用户每天喝水的目标（毫升）</span></span><br><span class="line">    <span class="keyword">dynamic</span> <span class="keyword">var</span> dailyGoal: <span class="type">Float</span> = <span class="number">0</span> <span class="comment">// ml</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> drinkLogs = <span class="type">List</span>&lt;<span class="type">DrinkLogEntry</span>&gt;()</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">convenience</span> <span class="keyword">init</span>(timestamp: <span class="type">NSTimeInterval</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.<span class="keyword">init</span>()</span><br><span class="line">        <span class="keyword">self</span>.timestamp = timestamp</span><br><span class="line">        <span class="keyword">self</span>.identifier = <span class="type">Day</span>.convertTimestampIntoIdentifier(timestamp)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">override</span> <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">primaryKey</span>() -&gt; <span class="title">String</span>? </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"identifier"</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">override</span> <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">indexedProperties</span>() -&gt; [<span class="title">String</span>] </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> [<span class="string">"identifier"</span>]</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">convertTimestampIntoIdentifier</span>(<span class="title">timestamp</span>: <span class="title">NSTimeInterval</span>) -&gt; <span class="title">String</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="type">String</span>(format: <span class="string">"%.0f"</span>, arguments: [timestamp])</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>所有前有 <code>dynamic</code> 关键字的属性都会被转化成数据抽象层的一部分。Realm 也支持关系型数据。在这个例子中 Day 这个类中存在 drinkLogs 的一对多关系。一对一的关系就仅是类中的特定属性了。</p>
-<p>Realm 也支持从 Core Data 中迁移数据。当你需要迁移的时候，可以定义一个闭包并且执行它，然后你就能顺利地执行迁移属性的所有步骤了（译者注：<a href="https://realm.io/news/migrating-from-core-data-to-realm/" target="_blank" rel="external">如何从 Core Data 迁移到 Realm</a>）。</p>
-<h2 id="索引属性（Indexed_properties）和主键（Primary_keys）">索引属性（Indexed properties）和主键（Primary keys）</h2><p>Realm 框架有很多 Core Data 中没有的新特性（也有可能是我没找到，或者说我就是想提一下这点😊）。第一点就是「索引属性」了。你可以定义需要被索引的属性集合。当属性个数比较小的时候，搜索会变得很快。这有助于性能的提升。</p>
-<p>接下来不得不提一下「主键」。你可以定义抽象模型中的一个属性作为它的主键。这能保证更加有效地更新数据以及保证数据的唯一性。</p>
-<p>在我使用的这个例子中，主键和索引属性将作为「标识符」，被用于搜索和更新数据。</p>
-<p>数据中也可以有被忽略的属性，那些属性将不被持久化保存。</p>
-<h2 id="创建、更新并写入数据">创建、更新并写入数据</h2><p>你可以使用未被持久化过的抽象模型，而且这些数据可以被持久化时，你可以将它们写入 Realm 中。比起 Core Data，这就是我为什么喜欢 Realm 更多一点 – 因为它能够很好地解决一些临时数据的问题。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> day = <span class="type">Day</span>(timestamp: timestamp)</span><br><span class="line">day.dailyGoal = <span class="type">MenuSettings</span>().dailyGoal</span><br></pre></td></tr></table></figure>
-<p>为了能够写入 Realm 或者从 Realm 中读取，你需要创建 <code>Realm</code> 实例：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> realm = <span class="keyword">try</span>! <span class="type">Realm</span>()</span><br></pre></td></tr></table></figure>
-<p>这是如何将数据添加到数据库的方法：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">try</span>! realm.write &#123;</span><br><span class="line">    realm.add(day)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>我特别喜欢 Realm 中更新数据的方式。我们假设一下有一部分数据是从网络上下载的，并且他们被映射过而且已经加进了数据库。在数据库中已经存在的数据仅需要更新而不是再次添加。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">fetchAll</span><span class="params">(completion: [Day] -&gt; Void)</span></span> &#123;</span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     假设请求返回了 JSON 并且数据已经映射到了抽象数据层的 Day 类型。</span><br><span class="line">          </span><br><span class="line">     创建的数据还没有存入数据库 Realm 中。</span><br><span class="line">     数据的标识符是相等的时间戳。</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">let</span> day1 = <span class="type">Day</span>(timestamp: <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">let</span> day2 = <span class="type">Day</span>(timestamp: <span class="number">86400</span>)</span><br><span class="line">    <span class="keyword">let</span> day3 = <span class="type">Day</span>(timestamp: <span class="number">172800</span>)</span><br><span class="line">    </span><br><span class="line">    completion([day1, day2, day3])</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">sync</span><span class="params">()</span></span> &#123;</span><br><span class="line">    fetchAll &#123; (days) -&gt; <span class="type">Void</span> <span class="keyword">in</span></span><br><span class="line">        <span class="keyword">let</span> realm = <span class="keyword">try</span>! <span class="type">Realm</span>()</span><br><span class="line">        <span class="keyword">try</span>! realm.write &#123;</span><br><span class="line">            <span class="comment">/// 如果有相同的标识符，那么它将会被更新。</span></span><br><span class="line">            realm.add(days, update: <span class="literal">true</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这是一种比手动查询带有相同标识符然后更新值域更好的方法。</p>
-<p>如果更新的参数被置为 false，那么新的数据将具有和在数据库中存在的数据相同的主键。异常会被抛出。</p>
-<p>还有其他一些方法来更新数据，在这篇文章中我就不涉及了。</p>
-<p>这是如何得到所有 Day 类型数据的方法：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> days = realm.objects(<span class="type">Day</span>.<span class="keyword">self</span>)</span><br></pre></td></tr></table></figure>
-<p>筛选数据也很简单：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">realm.objects(<span class="type">Day</span>.<span class="keyword">self</span>).<span class="built_in">filter</span>(<span class="string">"identifier == %@"</span>, dayIdentifier)</span><br></pre></td></tr></table></figure>
-<p>按照时间戳升序排列这些数据：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> days = realm.objects(<span class="type">Day</span>.<span class="keyword">self</span>).sorted(<span class="string">"timestamp"</span>, ascending: <span class="literal">true</span>)</span><br></pre></td></tr></table></figure>
-<p>当你每次执行 <code>object()</code>、<code>sorted()</code> 和 <code>filter()</code> 后均会得到一个 <code>Results&lt;T&gt;</code> 类型的数据。这能让你对结果进行额外的筛选排序等操作 - 这功能非常的强大而且非常好使。</p>
-<h2 id="小结">小结</h2><p>在下一个有更加复杂的数据模型的 app 中<strong>我还会使用</strong> Realm 吗？答案是<strong>肯定</strong>的。因为整个框架使用起来非常的简单、集成起来非常的快速，而且 Realm 提供了非常多而且强大的功能特性。</p>
-<p>P.S. 这个 app 正在等待过审 :)</p>
-<p>2015/12/06更新<br>这个应用上架了 - <a href="https://itunes.apple.com/pl/app/water-intake-drink-more-water/id1062053347?mt=8" target="_blank" rel="external">Water Intake</a></p>
-<blockquote>
-<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
-</blockquote>
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/ios-realm-instead-of-coredata/">原文链接</a>，原文日期：2015-11-29<br>译者：<a href="https://github.com/Cee">Cee</a>；校对：<a href="http://weibo.com/xiaoxxiao">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao">千叶知风</a></p>
-</blockquote>
-<!--此处开始正文-->
-<blockquote>
-<p>我已在网上多次看到「Realm」这个词。我甚至曾在十月时有机会参加由 Swift 用户组组织的 Realm 聚会。最终，我有机会用上了 Realm 这个框架。</p>
-</blockquote>]]>
-    
-    </summary>
-    
-      <category term="Tomasz Szulc" scheme="http://swiftggteam.github.io/tags/Tomasz-Szulc/"/>
-    
-      <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
-    
-  </entry>
-  
-  <entry>
     <title><![CDATA[使用 Realm 和 Swift 创建 ToDo 应用]]></title>
     <link href="http://swiftggteam.github.io/2015/12/08/building-a-todo-app-using-realm-and-swift/"/>
     <id>http://swiftggteam.github.io/2015/12/08/building-a-todo-app-using-realm-and-swift/</id>
     <published>2015-12-07T16:00:00.000Z</published>
-    <updated>2015-12-23T02:00:18.449Z</updated>
+    <updated>2015-12-23T09:00:18.258Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Hossam Ghareeb，<a href="http://www.appcoda.com/realm-database-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-28<br>译者：<a href="http://www.futantan.com" target="_blank" rel="external">Prayer</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1371,11 +1409,79 @@
   </entry>
   
   <entry>
+    <title><![CDATA[iOS：选择 Realm 而不是 CoreData]]></title>
+    <link href="http://swiftggteam.github.io/2015/12/08/ios-realm-instead-of-coredata/"/>
+    <id>http://swiftggteam.github.io/2015/12/08/ios-realm-instead-of-coredata/</id>
+    <published>2015-12-07T16:00:00.000Z</published>
+    <updated>2015-12-23T09:00:18.258Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/ios-realm-instead-of-coredata/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-29<br>译者：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
+</blockquote>
+<!--此处开始正文-->
+<blockquote>
+<p>我已在网上多次看到「Realm」这个词。我甚至曾在十月时有机会参加由 Swift 用户组组织的 Realm 聚会。最终，我有机会用上了 Realm 这个框架。</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="案例">案例</h2><p>现在我正在节食。我需要减一些体重因为在加利福尼亚的时候胖了好多 – 好吃的食物实在是太多了:)！我浏览了一下 iTunes Store 中的那些能够追踪喝水记录的应用，但是在我看来这些应用要么看上去很糟糕，要么交互实在是很烂。我想：如果我决定做一个应用，岂不是一箭双雕吗 – 我又能写一个我想要的应用，又能选择使用 Realm 而不是 Core Data。所以我开工了。</p>
+<p>你知道当我看完文档、开始使用 Realm 框架的第一感觉是什么吗？<strong>哇，这简直真是太棒了！这些开发的家伙做的简直超棒！</strong></p>
+<p><strong>免责声明：</strong>接下来所写的仅仅只覆盖了 Realm 框架中最基本的一部分。我建议你们接下来可以去阅读<a href="https://realm.io/docs/swift/latest/" target="_blank" rel="external">官方文档</a>来获取更多的信息。在这儿我并不想向你们展示关于 Realm 框架的全部内容，因为这篇文章不可能像文档一样又臭又长，并且我自己也会避免这样的问题发生。官方的文档非常的棒，你在开工前可以先读一下它。</p>
+<p>我的这个案例并不是很复杂而是非常简单的。整个 app 只有两个抽象模型（Model）类： <code>Day</code> 和 <code>DrinkLogEntry</code> 。此外，这个 app 也需要这些功能：添加、更新、筛选和排序存储的数据。正如我所说这是个简单的 app 。接下来我会呈现 app 中的一些代码片段。</p>
+<h2 id="抽象模型（Model）">抽象模型（Model）</h2><p>Realm 中没有像 xcdatamodel-like 这样的文件。抽象模型仅仅是继承自 <code>Object</code> 类的文件。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> 表示了用户一天的生活。 Day 这个类的信息包含用户所喝的水和他们的每天喝水的目标。</span><br><span class="line">*/</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Day</span>: <span class="title">Object</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">dynamic</span> <span class="keyword">var</span> identifier: <span class="type">String</span>!</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// 表示一天的开始的时间戳（UTC+0 时区）</span></span><br><span class="line">    <span class="keyword">dynamic</span> <span class="keyword">var</span> timestamp: <span class="type">NSTimeInterval</span> = <span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// 用户所喝的水的量（毫升）</span></span><br><span class="line">    <span class="keyword">dynamic</span> <span class="keyword">var</span> waterDrank: <span class="type">Float</span> = <span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// 用户每天喝水的目标（毫升）</span></span><br><span class="line">    <span class="keyword">dynamic</span> <span class="keyword">var</span> dailyGoal: <span class="type">Float</span> = <span class="number">0</span> <span class="comment">// ml</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> drinkLogs = <span class="type">List</span>&lt;<span class="type">DrinkLogEntry</span>&gt;()</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">convenience</span> <span class="keyword">init</span>(timestamp: <span class="type">NSTimeInterval</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.<span class="keyword">init</span>()</span><br><span class="line">        <span class="keyword">self</span>.timestamp = timestamp</span><br><span class="line">        <span class="keyword">self</span>.identifier = <span class="type">Day</span>.convertTimestampIntoIdentifier(timestamp)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">override</span> <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">primaryKey</span>() -&gt; <span class="title">String</span>? </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"identifier"</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">override</span> <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">indexedProperties</span>() -&gt; [<span class="title">String</span>] </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> [<span class="string">"identifier"</span>]</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">convertTimestampIntoIdentifier</span>(<span class="title">timestamp</span>: <span class="title">NSTimeInterval</span>) -&gt; <span class="title">String</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="type">String</span>(format: <span class="string">"%.0f"</span>, arguments: [timestamp])</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>所有前有 <code>dynamic</code> 关键字的属性都会被转化成数据抽象层的一部分。Realm 也支持关系型数据。在这个例子中 Day 这个类中存在 drinkLogs 的一对多关系。一对一的关系就仅是类中的特定属性了。</p>
+<p>Realm 也支持从 Core Data 中迁移数据。当你需要迁移的时候，可以定义一个闭包并且执行它，然后你就能顺利地执行迁移属性的所有步骤了（译者注：<a href="https://realm.io/news/migrating-from-core-data-to-realm/" target="_blank" rel="external">如何从 Core Data 迁移到 Realm</a>）。</p>
+<h2 id="索引属性（Indexed_properties）和主键（Primary_keys）">索引属性（Indexed properties）和主键（Primary keys）</h2><p>Realm 框架有很多 Core Data 中没有的新特性（也有可能是我没找到，或者说我就是想提一下这点😊）。第一点就是「索引属性」了。你可以定义需要被索引的属性集合。当属性个数比较小的时候，搜索会变得很快。这有助于性能的提升。</p>
+<p>接下来不得不提一下「主键」。你可以定义抽象模型中的一个属性作为它的主键。这能保证更加有效地更新数据以及保证数据的唯一性。</p>
+<p>在我使用的这个例子中，主键和索引属性将作为「标识符」，被用于搜索和更新数据。</p>
+<p>数据中也可以有被忽略的属性，那些属性将不被持久化保存。</p>
+<h2 id="创建、更新并写入数据">创建、更新并写入数据</h2><p>你可以使用未被持久化过的抽象模型，而且这些数据可以被持久化时，你可以将它们写入 Realm 中。比起 Core Data，这就是我为什么喜欢 Realm 更多一点 – 因为它能够很好地解决一些临时数据的问题。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> day = <span class="type">Day</span>(timestamp: timestamp)</span><br><span class="line">day.dailyGoal = <span class="type">MenuSettings</span>().dailyGoal</span><br></pre></td></tr></table></figure>
+<p>为了能够写入 Realm 或者从 Realm 中读取，你需要创建 <code>Realm</code> 实例：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> realm = <span class="keyword">try</span>! <span class="type">Realm</span>()</span><br></pre></td></tr></table></figure>
+<p>这是如何将数据添加到数据库的方法：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">try</span>! realm.write &#123;</span><br><span class="line">    realm.add(day)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我特别喜欢 Realm 中更新数据的方式。我们假设一下有一部分数据是从网络上下载的，并且他们被映射过而且已经加进了数据库。在数据库中已经存在的数据仅需要更新而不是再次添加。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">fetchAll</span><span class="params">(completion: [Day] -&gt; Void)</span></span> &#123;</span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     假设请求返回了 JSON 并且数据已经映射到了抽象数据层的 Day 类型。</span><br><span class="line">          </span><br><span class="line">     创建的数据还没有存入数据库 Realm 中。</span><br><span class="line">     数据的标识符是相等的时间戳。</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">let</span> day1 = <span class="type">Day</span>(timestamp: <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">let</span> day2 = <span class="type">Day</span>(timestamp: <span class="number">86400</span>)</span><br><span class="line">    <span class="keyword">let</span> day3 = <span class="type">Day</span>(timestamp: <span class="number">172800</span>)</span><br><span class="line">    </span><br><span class="line">    completion([day1, day2, day3])</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">sync</span><span class="params">()</span></span> &#123;</span><br><span class="line">    fetchAll &#123; (days) -&gt; <span class="type">Void</span> <span class="keyword">in</span></span><br><span class="line">        <span class="keyword">let</span> realm = <span class="keyword">try</span>! <span class="type">Realm</span>()</span><br><span class="line">        <span class="keyword">try</span>! realm.write &#123;</span><br><span class="line">            <span class="comment">/// 如果有相同的标识符，那么它将会被更新。</span></span><br><span class="line">            realm.add(days, update: <span class="literal">true</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这是一种比手动查询带有相同标识符然后更新值域更好的方法。</p>
+<p>如果更新的参数被置为 false，那么新的数据将具有和在数据库中存在的数据相同的主键。异常会被抛出。</p>
+<p>还有其他一些方法来更新数据，在这篇文章中我就不涉及了。</p>
+<p>这是如何得到所有 Day 类型数据的方法：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> days = realm.objects(<span class="type">Day</span>.<span class="keyword">self</span>)</span><br></pre></td></tr></table></figure>
+<p>筛选数据也很简单：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">realm.objects(<span class="type">Day</span>.<span class="keyword">self</span>).<span class="built_in">filter</span>(<span class="string">"identifier == %@"</span>, dayIdentifier)</span><br></pre></td></tr></table></figure>
+<p>按照时间戳升序排列这些数据：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> days = realm.objects(<span class="type">Day</span>.<span class="keyword">self</span>).sorted(<span class="string">"timestamp"</span>, ascending: <span class="literal">true</span>)</span><br></pre></td></tr></table></figure>
+<p>当你每次执行 <code>object()</code>、<code>sorted()</code> 和 <code>filter()</code> 后均会得到一个 <code>Results&lt;T&gt;</code> 类型的数据。这能让你对结果进行额外的筛选排序等操作 - 这功能非常的强大而且非常好使。</p>
+<h2 id="小结">小结</h2><p>在下一个有更加复杂的数据模型的 app 中<strong>我还会使用</strong> Realm 吗？答案是<strong>肯定</strong>的。因为整个框架使用起来非常的简单、集成起来非常的快速，而且 Realm 提供了非常多而且强大的功能特性。</p>
+<p>P.S. 这个 app 正在等待过审 :)</p>
+<p>2015/12/06更新<br>这个应用上架了 - <a href="https://itunes.apple.com/pl/app/water-intake-drink-more-water/id1062053347?mt=8" target="_blank" rel="external">Water Intake</a></p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/ios-realm-instead-of-coredata/">原文链接</a>，原文日期：2015-11-29<br>译者：<a href="https://github.com/Cee">Cee</a>；校对：<a href="http://weibo.com/xiaoxxiao">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao">千叶知风</a></p>
+</blockquote>
+<!--此处开始正文-->
+<blockquote>
+<p>我已在网上多次看到「Realm」这个词。我甚至曾在十月时有机会参加由 Swift 用户组组织的 Realm 聚会。最终，我有机会用上了 Realm 这个框架。</p>
+</blockquote>]]>
+    
+    </summary>
+    
+      <category term="Tomasz Szulc" scheme="http://swiftggteam.github.io/tags/Tomasz-Szulc/"/>
+    
+      <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[几个 Swift 代码规范]]></title>
     <link href="http://swiftggteam.github.io/2015/12/07/a-handful-of-swift-style-rules-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/12/07/a-handful-of-swift-style-rules-swiftlang/</id>
     <published>2015-12-06T16:00:00.000Z</published>
-    <updated>2015-12-23T02:00:18.449Z</updated>
+    <updated>2015-12-23T09:00:18.258Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/11/17/a-handful-of-swift-style-rules-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-17<br>译者：<a href="http://blog.csdn.net/mmoaay" target="_blank" rel="external">mmoaay</a>；校对：<a href="http://weibo.com/lfbWb" target="_blank" rel="external">lfb_CD</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
 </blockquote>
@@ -1456,7 +1562,7 @@
     <link href="http://swiftggteam.github.io/2015/12/04/the-fibonacci-sequencetype/"/>
     <id>http://swiftggteam.github.io/2015/12/04/the-fibonacci-sequencetype/</id>
     <published>2015-12-03T16:00:00.000Z</published>
-    <updated>2015-12-23T02:00:18.449Z</updated>
+    <updated>2015-12-23T09:00:18.258Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Jacob Bandes-Storch，<a href="http://bandes-stor.ch/blog/2015/08/05/the-fibonacci-sequencetype/" target="_blank" rel="external">原文链接</a>，原文日期：2015/08/05<br>译者：<a href="undefined">Lou</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
 <p>这篇博文启发自<a href="http://codereview.stackexchange.com/questions/60875/project-euler-2-even-fibonacci-numbers-in-swift" target="_blank" rel="external">Code Review.SE</a>上的一个讨论，同时<a href="https://xkcd.com/356/" target="_blank" rel="external">nerd-sniped</a>上的关于数学的有趣的学习。让我对数学和 Swift 的结合有了兴趣。所以我花了一段时间来把这些知识整理成一篇博文，特别是自从我完成了对我网站重建的第一步以后。更重要的是，我希望我能更勤勉的更新我的博客，这8年我只写了一篇而已，希望大家能对我的博客感兴趣。<br>这篇博文的目标对于初学者来讲，比较容易理解，同时也提供给那些已经对这个概念熟悉的人一些有用的细节和例子。希望大家能给我反馈。</p>
@@ -1597,7 +1703,7 @@
     <link href="http://swiftggteam.github.io/2015/12/03/expandable-table-view/"/>
     <id>http://swiftggteam.github.io/2015/12/03/expandable-table-view/</id>
     <published>2015-12-02T16:00:00.000Z</published>
-    <updated>2015-12-23T02:00:18.449Z</updated>
+    <updated>2015-12-23T09:00:18.258Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：AppCoda，<a href="http://www.appcoda.com/expandable-table-view/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-16<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1775,7 +1881,7 @@
     <link href="http://swiftggteam.github.io/2015/12/02/swift-weak-and-unowned/"/>
     <id>http://swiftggteam.github.io/2015/12/02/swift-weak-and-unowned/</id>
     <published>2015-12-01T16:00:00.000Z</published>
-    <updated>2015-12-23T02:00:18.445Z</updated>
+    <updated>2015-12-23T09:00:18.258Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-weak-and-unowned/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-30<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a></p>
 </blockquote>
@@ -1824,7 +1930,7 @@
     <link href="http://swiftggteam.github.io/2015/12/01/xcode-xcconfig-files-for-managing-targets-configurations/"/>
     <id>http://swiftggteam.github.io/2015/12/01/xcode-xcconfig-files-for-managing-targets-configurations/</id>
     <published>2015-11-30T16:00:00.000Z</published>
-    <updated>2015-12-23T02:00:18.445Z</updated>
+    <updated>2015-12-23T09:00:18.258Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/xcode-xcconfig-files-for-managing-targets-configurations/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-14<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1878,7 +1984,7 @@
     <link href="http://swiftggteam.github.io/2015/11/30/should-you-migrate-objective-c-code-to-swift/"/>
     <id>http://swiftggteam.github.io/2015/11/30/should-you-migrate-objective-c-code-to-swift/</id>
     <published>2015-11-29T16:00:00.000Z</published>
-    <updated>2015-12-23T02:00:18.445Z</updated>
+    <updated>2015-12-23T09:00:18.258Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/should-you-migrate-objective-c-code-to-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-23<br>译者：<a href="http://blog.csdn.net/yake_099" target="_blank" rel="external">Yake</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1909,49 +2015,6 @@
     </summary>
     
       <category term="Thomas Hanning" scheme="http://swiftggteam.github.io/tags/Thomas-Hanning/"/>
-    
-      <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[实现可打印内容的 try? 和 try!]]></title>
-    <link href="http://swiftggteam.github.io/2015/11/27/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/"/>
-    <id>http://swiftggteam.github.io/2015/11/27/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/</id>
-    <published>2015-11-27T01:20:00.000Z</published>
-    <updated>2015-12-23T02:00:18.445Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/11/05/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/5<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
-</blockquote>
-<!--此处开始正文-->
-<p>Swift 2 中的<code>try?</code>运算符在可选类型(optionals)和错误处理机制中抛出 error 转换为输出 nil 结果值之间建立了桥接。这样你就可以使用 guard 语句和条件绑定，只关注处理成功的用例(case)。<br><a id="more"></a></p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">/// try? 没有错误输出正确结果值</span></span><br><span class="line"><span class="comment">///      有错误发生，输出nil值</span></span><br><span class="line"><span class="keyword">guard</span> <span class="keyword">let</span> foo = <span class="keyword">try</span>? somethingThatMayThrow <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">//处理错误情况并退出作用域</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>倘若你使用这种方式进行错误处理，需要注意，它并不会返回 error 信息。本文想说的是：抛弃错误信息是一件让人郁闷的事情！为什么不有选择地使用<code>try?</code>和<code>try!</code>来自动建立上下文并打印错误信息呢？</p>
-<p>前阵子，我分享了一个模仿<code>try?</code>语句的基础实现，可以保留错误信息。下面的实现首先打印返回的错误，接着继续返回你想要得到的<code>try?</code>的处理结果：结果是一个值或 nil。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">attempt</span><span class="generics">&lt;T&gt;</span><span class="params">(block: <span class="params">()</span></span></span> <span class="keyword">throws</span> -&gt; <span class="type">T</span>) -&gt; <span class="type">Optional</span>&lt;<span class="type">T</span>&gt;&#123; </span><br><span class="line">    <span class="keyword">do</span> &#123; <span class="keyword">return</span> <span class="keyword">try</span> block() &#125; </span><br><span class="line">    <span class="keyword">catch</span> &#123; <span class="built_in">print</span>(error); <span class="keyword">return</span> <span class="literal">nil</span> &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这很有效，尤其是当你想要进一步使用返回值却发现 guard 语句在失败时无法返回错误信息。使用 attemp 函数就可以打印错误信息。举个例子，如果我们要使用 NSFileManager 来删除文件。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">NSFileManager</span>.defaultManager().removeItemAtURL(someURL)</span><br></pre></td></tr></table></figure>
-<p>你应该这样做：将上述代码包裹到<code>do-catch</code>的 block 中(略显冗长)，在 attempt 函数中使用<code>try?</code>，接着处理返回 nil 值的情况，或者使用<code>try!</code>忽视所有错误信息(译者注:倘若实际有错误发生，程序会直接崩溃，使用它之前你必须确保不会有错误产生)。</p>
-<p>当然这里还有另外一种方式。在文章的最后，我构建了一个 attemptFailable 函数，它把 throwing 声明封装到 guard/try 的迷你打印系统中，后者会返回一个布尔类型值。下面是使用方法：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="type">NSFileManager</span>.defaultManager().fileExistsAtPath(myPath) &#123;</span><br><span class="line">    <span class="keyword">guard</span> (attemptFailable&#123;<span class="keyword">try</span> <span class="type">NSFileManager</span>.defaultManager()</span><br><span class="line">         .removeItemAtURL(myURL)&#125;) <span class="keyword">else</span> &#123;abort()&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>显然不是很理想，但是在 playground 中写一些小东西时相当方便，最近我经常使用。(Playground 相当不错，作者书籍<a href="https://itunes.apple.com/us/book/playground-secrets-power-tips/id982838034?mt=11" target="_blank" rel="external">购买链接</a>)。</p>
-<p>你可以使用类似的方式增强<code>try!</code>。相比 Swift 的可选值，<code>doOrDie</code>函数提供了更多信息。就像<code>attemp</code>和<code>attemptFailable</code>函数一样，它能够捕获上下文，在继续使用标准<code>try!</code>终止执行前抛出并打印错误。</p>
-<p>以下是完整代码：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> Foundation</span><br><span class="line"></span><br><span class="line"><span class="comment">// 错误泛型</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">struct</span> <span class="title">Error</span>: <span class="title">ErrorType</span> </span>&#123;<span class="keyword">let</span> reason: <span class="type">String</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> Printing version of try? Call either with standard or autoclosure approach</span><br><span class="line"> </span><br><span class="line"> let contents = attempt&#123;try NSFileManager.defaultManager().contentsOfDirectoryAtPath(fakePath)&#125;</span><br><span class="line"> let contents = attempt&#123;try NSFileManager.defaultManager().contentsOfDirectoryAtPath(XCPlaygroundSharedDataDirectoryURL.path!)&#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> - Returns: Optional that is nil when the called closure throws</span><br><span class="line"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="func"><span class="keyword">func</span> <span class="title">attempt</span><span class="generics">&lt;T&gt;</span><span class="params">(source source: String = <span class="keyword">__FUNCTION__</span>, file: String = <span class="keyword">__FILE__</span>, line: Int = <span class="keyword">__LINE__</span>, closure: <span class="params">()</span></span></span> <span class="keyword">throws</span> -&gt; <span class="type">T</span>) -&gt; <span class="type">Optional</span>&lt;<span class="type">T</span>&gt;&#123;</span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">try</span> closure()</span><br><span class="line">    &#125; <span class="keyword">catch</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> fileName = (file <span class="keyword">as</span> <span class="type">NSString</span>).lastPathComponent</span><br><span class="line">        <span class="keyword">let</span> report = <span class="string">"Error <span class="subst">\(fileName)</span>:<span class="subst">\(source)</span>:<span class="subst">\(line)</span>:\n    <span class="subst">\(error)</span>"</span></span><br><span class="line">        <span class="built_in">print</span>(report)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> 可以打印内容并返回布尔值的 try? 可选实现</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> let success = attemptFailable&#123;try "Test".writeToFile(fakePath, atomically: true, encoding: NSUTF8StringEncoding)&#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> - Returns: Boolean 值，如果被调用的闭包抛出错误返回 false，否则返回 true</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="func"><span class="keyword">func</span> <span class="title">attemptFailable</span><span class="params">(source source: String = <span class="keyword">__FUNCTION__</span>, file: String = <span class="keyword">__FILE__</span>, line: Int = <span class="keyword">__LINE__</span>, closure: <span class="params">()</span></span></span> <span class="keyword">throws</span> -&gt; <span class="type">Void</span>) -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> closure()</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">    &#125; <span class="keyword">catch</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> fileName = (file <span class="keyword">as</span> <span class="type">NSString</span>).lastPathComponent</span><br><span class="line">        <span class="keyword">let</span> report = <span class="string">"Error <span class="subst">\(fileName)</span>:<span class="subst">\(source)</span>:<span class="subst">\(line)</span>:\n    <span class="subst">\(error)</span>"</span></span><br><span class="line">        <span class="built_in">print</span>(report)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> 另外一个包含更多信息的 try! 版本。shouldCrash 是 false 时，即使有错误抛出，也会继续执行</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> doOrDie(shouldCrash: false, closure: &#123;try "Test".writeToFile(fakePath, atomically: true, encoding: NSUTF8StringEncoding)&#125;)</span><br><span class="line"> // 或</span><br><span class="line"> doOrDie(shouldCrash:false)&#123;try NSFileManager.defaultManager().removeItemAtURL(fakeURL)&#125;</span><br><span class="line"> // 或</span><br><span class="line"> doOrDie&#123;try "Test".writeToFile(fakePath, atomically: true, encoding: NSUTF8StringEncoding)&#125;</span><br><span class="line"> </span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="func"><span class="keyword">func</span> <span class="title">doOrDie</span><span class="params">(source: String = <span class="keyword">__FUNCTION__</span>,</span><br><span class="line">    file: String = <span class="keyword">__FILE__</span>, line: Int = <span class="keyword">__LINE__</span>, shouldCrash: Bool = <span class="literal">true</span>, closure: <span class="params">()</span></span></span> <span class="keyword">throws</span> -&gt; <span class="type">Void</span>) &#123;</span><br><span class="line">        <span class="keyword">let</span> success = attemptFailable(source: source, file: file, line: line, closure: closure)</span><br><span class="line">        <span class="keyword">if</span> shouldCrash &amp;&amp; !success &#123;<span class="built_in">fatalError</span>(<span class="string">"Goodbye cruel world"</span>)&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
-</blockquote>
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/11/05/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/">原文链接</a>，原文日期：2015/11/5<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb">numbbbbb</a></p>
-</blockquote>
-<!--此处开始正文-->
-<p>Swift 2 中的<code>try?</code>运算符在可选类型(optionals)和错误处理机制中抛出 error 转换为输出 nil 结果值之间建立了桥接。这样你就可以使用 guard 语句和条件绑定，只关注处理成功的用例(case)。<br>]]>
-    
-    </summary>
-    
-      <category term="Erica Sadun" scheme="http://swiftggteam.github.io/tags/Erica-Sadun/"/>
     
       <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
     
