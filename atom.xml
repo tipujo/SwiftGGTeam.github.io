@@ -4,7 +4,7 @@
   <subtitle><![CDATA[走心的 Swift 翻译组]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://swiftggteam.github.io/"/>
-  <updated>2015-12-22T02:40:15.952Z</updated>
+  <updated>2015-12-23T01:10:19.705Z</updated>
   <id>http://swiftggteam.github.io/</id>
   
   <author>
@@ -15,11 +15,57 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[Swift 3 及展望]]></title>
+    <link href="http://swiftggteam.github.io/2015/12/23/swift-3/"/>
+    <id>http://swiftggteam.github.io/2015/12/23/swift-3/</id>
+    <published>2015-12-22T16:00:00.000Z</published>
+    <updated>2015-12-23T01:10:19.705Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-3/" target="_blank" rel="external">原文链接</a>，原文日期：2015/12/10<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="undefined"></a></p>
+</blockquote>
+<!--此处开始正文-->
+<p>2015 年 12 月 3 日，Swift 正式开源。同时，官方也公布了 Swift 3 的最新消息，即 Swift 3 将会在 2016 年秋天发布。</p>
+<a id="more"></a>
+<h2 id="API_设计指南与_Swift_中_Objective-C_的导入">API 设计指南与 Swift 中 Objective-C 的导入</h2><p>Swift 3 的 API 设计指南将与 Objective-C 中 Cocoa 的完全不同。这就意味着 Objective-C 中的 API 映射到 Swift 时会与以往不同。<a href="https://github.com/apple/swift-evolution/blob/master/proposals/0005-objective-c-name-translation.md" target="_blank" rel="external">这里</a>有一个相关的例子可以研究一下。以下这行代码的方法调用是从现有的 Objective-C 中「翻译」成 Swift 的：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> contentString = listItemView.stringValue.stringByTrimmingCharactersInSet(</span><br><span class="line">   <span class="type">NSCharacterSet</span>.whitespaceAndNewlineCharacterSet())</span><br></pre></td></tr></table></figure>
+<p>而在 Swift 3 中同样的方法调用将会是下面这个样子的：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> content = listItem.stringValue.trimming(.whitespaceAndNewlines)</span><br></pre></td></tr></table></figure>
+<p>这样让语法看上去更「Swift 化」。然而，这也意味着已经导入的 Objective-C API 将会有很大变动，因此，现有的这些代码将会报错。</p>
+<h2 id="彻底的泛型">彻底的泛型</h2><p>Swift 有泛型，但是这次是为了引进新的特性，就像递归协议约束（使得受限的扩展遵循新协议的能力），比如遵循 <code>Equatable</code> 的数组的元素也是遵循 <code>Equatable</code> 的。</p>
+<h2 id="精简的语言">精简的语言</h2><p>对于那些「和 Swift 语法不是很配」的语言特性仍然会有一些小改动。同样的，这也会使得现有的这些代码报错。</p>
+<h2 id="展望_Swift_3">展望 Swift 3</h2><ul>
+<li><p>Swift 目前还没有在语言层面支持并发操作。取而代之的是使用 NSOpertion 或 dispatch queues 来处理。这种状况在 Swift 3 中仍然不会改变。但是，在未来（Swift 4？）可能会有一个语言层面上并发操作的支持。</p>
+</li>
+<li><p>Swift 和 C，特别是 Objective-C，现在已经有了很好的兼容。但是，却缺乏与 C++ 的兼容。虽然，这也不会在 Swift 3 上有所改变，但是这需要一个比较长期的目标来引进它。</p>
+</li>
+</ul>
+<h2 id="小结">小结</h2><p>首先，Swift 将会在未来大规模的改善和提升，这是一个非常好的消息。另一方面，Swift 3 的发布会使得现有的 Swift 2 代码报错，因此，需要做一些代码迁移的工作才行。</p>
+<h2 id="参考">参考</h2><p><a href="http://swift.org/" target="_blank" rel="external">Swift.org</a><br><a href="https://github.com/apple/swift-evolution" target="_blank" rel="external">Swift Programming Language Evolution</a></p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-3/">原文链接</a>，原文日期：2015/12/10<br>译者：<a href="http://weibo.com/linusling">小铁匠Linus</a>；校对：<a href="https://github.com/Cee">Cee</a>；定稿：<a href="undefined"></a></p>
+</blockquote>
+<!--此处开始正文-->
+<p>2015 年 12 月 3 日，Swift 正式开源。同时，官方也公布了 Swift 3 的最新消息，即 Swift 3 将会在 2016 年秋天发布。</p>]]>
+    
+    </summary>
+    
+      <category term="Thomas Hanning" scheme="http://swiftggteam.github.io/tags/Thomas-Hanning/"/>
+    
+      <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[如何在 Swift 中使用 Alamofire 进行网络编程]]></title>
     <link href="http://swiftggteam.github.io/2015/12/22/alamofire-beginner-guide/"/>
     <id>http://swiftggteam.github.io/2015/12/22/alamofire-beginner-guide/</id>
     <published>2015-12-21T16:00:00.000Z</published>
-    <updated>2015-12-22T02:40:15.952Z</updated>
+    <updated>2015-12-23T01:10:19.705Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：gregg mojica，<a href="http://www.appcoda.com/alamofire-beginner-guide/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/30<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -239,7 +285,7 @@
     <link href="http://swiftggteam.github.io/2015/12/21/swift-3-0-and-foundation/"/>
     <id>http://swiftggteam.github.io/2015/12/21/swift-3-0-and-foundation/</id>
     <published>2015-12-20T16:00:00.000Z</published>
-    <updated>2015-12-22T02:40:15.808Z</updated>
+    <updated>2015-12-23T01:10:19.705Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/12/03/swift-3-0-and-foundation/" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-03<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -281,7 +327,7 @@
     <link href="http://swiftggteam.github.io/2015/12/18/changing-swift-whats-coming-up-in-2-2-and-3-0/"/>
     <id>http://swiftggteam.github.io/2015/12/18/changing-swift-whats-coming-up-in-2-2-and-3-0/</id>
     <published>2015-12-17T16:00:00.000Z</published>
-    <updated>2015-12-22T02:40:15.808Z</updated>
+    <updated>2015-12-23T01:10:19.705Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/12/03/changing-swift-whats-coming-up-in-2-2-and-3-0/" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-03<br>译者：<a href="undefined">Channe</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -323,7 +369,7 @@
     <link href="http://swiftggteam.github.io/2015/12/17/per-view-auto-rotation-locking-made-easy-for-ios-8-and-9/"/>
     <id>http://swiftggteam.github.io/2015/12/17/per-view-auto-rotation-locking-made-easy-for-ios-8-and-9/</id>
     <published>2015-12-16T16:00:00.000Z</published>
-    <updated>2015-12-22T02:40:15.808Z</updated>
+    <updated>2015-12-23T01:10:19.705Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Weston Hanners，<a href="http://www.alloc-init.com/2015/11/per-view-auto-rotation-locking-made-easy-for-ios-8-and-9/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-18<br>译者：<a href="undefined">littledogboy</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -516,7 +562,7 @@
     <link href="http://swiftggteam.github.io/2015/12/16/new-to-beta-2-swift-2-1-playground-value-drops-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/12/16/new-to-beta-2-swift-2-1-playground-value-drops-swiftlang/</id>
     <published>2015-12-15T16:00:00.000Z</published>
-    <updated>2015-12-22T02:40:15.784Z</updated>
+    <updated>2015-12-23T01:10:19.705Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/09/23/new-to-beta-2-swift-2-1-playground-value-drops-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-23<br>译者：<a href="http://weibo.com/u/2916092907" target="_blank" rel="external">天才175</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -576,7 +622,7 @@
     <link href="http://swiftggteam.github.io/2015/12/15/mixins-over-inheritance/"/>
     <id>http://swiftggteam.github.io/2015/12/15/mixins-over-inheritance/</id>
     <published>2015-12-15T02:30:00.000Z</published>
-    <updated>2015-12-22T02:40:15.784Z</updated>
+    <updated>2015-12-23T01:10:19.701Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Olivier Halligon，<a href="http://alisoftware.github.io/swift/protocol/2015/11/08/mixins-over-inheritance/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-08<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -699,7 +745,7 @@
     <link href="http://swiftggteam.github.io/2015/12/14/a-beginners-guide-to-nsdate-in-swift/"/>
     <id>http://swiftggteam.github.io/2015/12/14/a-beginners-guide-to-nsdate-in-swift/</id>
     <published>2015-12-14T01:00:00.000Z</published>
-    <updated>2015-12-22T02:40:15.692Z</updated>
+    <updated>2015-12-23T01:10:19.701Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：gabriel theodoropoulos，<a href="http://www.appcoda.com/nsdate/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-18<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a></p>
 </blockquote>
@@ -911,7 +957,7 @@
     <link href="http://swiftggteam.github.io/2015/12/11/correction-on-testing-uialertcontroller/"/>
     <id>http://swiftggteam.github.io/2015/12/11/correction-on-testing-uialertcontroller/</id>
     <published>2015-12-10T16:00:00.000Z</published>
-    <updated>2015-12-22T02:40:15.692Z</updated>
+    <updated>2015-12-23T01:10:19.701Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：dom，<a href="http://swiftandpainless.com/correction-on-testing-uialertcontroller/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-25<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="http://weibo.com/lfbWb" target="_blank" rel="external">lfb_CD</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -960,7 +1006,7 @@
     <link href="http://swiftggteam.github.io/2015/12/10/reduce-all-the-things/"/>
     <id>http://swiftggteam.github.io/2015/12/10/reduce-all-the-things/</id>
     <published>2015-12-09T16:00:00.000Z</published>
-    <updated>2015-12-22T02:40:15.692Z</updated>
+    <updated>2015-12-23T01:10:19.701Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Benedikt Terhechte，<a href="http://appventure.me/2015/11/30/reduce-all-the-things/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-30<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1080,7 +1126,7 @@
     <link href="http://swiftggteam.github.io/2015/12/08/ios-realm-instead-of-coredata/"/>
     <id>http://swiftggteam.github.io/2015/12/08/ios-realm-instead-of-coredata/</id>
     <published>2015-12-07T16:00:00.000Z</published>
-    <updated>2015-12-22T02:40:15.592Z</updated>
+    <updated>2015-12-23T01:10:19.701Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/ios-realm-instead-of-coredata/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-29<br>译者：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1148,7 +1194,7 @@
     <link href="http://swiftggteam.github.io/2015/12/08/building-a-todo-app-using-realm-and-swift/"/>
     <id>http://swiftggteam.github.io/2015/12/08/building-a-todo-app-using-realm-and-swift/</id>
     <published>2015-12-07T16:00:00.000Z</published>
-    <updated>2015-12-22T02:40:15.600Z</updated>
+    <updated>2015-12-23T01:10:19.701Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Hossam Ghareeb，<a href="http://www.appcoda.com/realm-database-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-28<br>译者：<a href="http://www.futantan.com" target="_blank" rel="external">Prayer</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1329,7 +1375,7 @@
     <link href="http://swiftggteam.github.io/2015/12/07/a-handful-of-swift-style-rules-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/12/07/a-handful-of-swift-style-rules-swiftlang/</id>
     <published>2015-12-06T16:00:00.000Z</published>
-    <updated>2015-12-22T02:40:15.592Z</updated>
+    <updated>2015-12-23T01:10:19.701Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/11/17/a-handful-of-swift-style-rules-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-17<br>译者：<a href="http://blog.csdn.net/mmoaay" target="_blank" rel="external">mmoaay</a>；校对：<a href="http://weibo.com/lfbWb" target="_blank" rel="external">lfb_CD</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
 </blockquote>
@@ -1410,7 +1456,7 @@
     <link href="http://swiftggteam.github.io/2015/12/04/the-fibonacci-sequencetype/"/>
     <id>http://swiftggteam.github.io/2015/12/04/the-fibonacci-sequencetype/</id>
     <published>2015-12-03T16:00:00.000Z</published>
-    <updated>2015-12-22T02:40:15.516Z</updated>
+    <updated>2015-12-23T01:10:19.701Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Jacob Bandes-Storch，<a href="http://bandes-stor.ch/blog/2015/08/05/the-fibonacci-sequencetype/" target="_blank" rel="external">原文链接</a>，原文日期：2015/08/05<br>译者：<a href="undefined">Lou</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
 <p>这篇博文启发自<a href="http://codereview.stackexchange.com/questions/60875/project-euler-2-even-fibonacci-numbers-in-swift" target="_blank" rel="external">Code Review.SE</a>上的一个讨论，同时<a href="https://xkcd.com/356/" target="_blank" rel="external">nerd-sniped</a>上的关于数学的有趣的学习。让我对数学和 Swift 的结合有了兴趣。所以我花了一段时间来把这些知识整理成一篇博文，特别是自从我完成了对我网站重建的第一步以后。更重要的是，我希望我能更勤勉的更新我的博客，这8年我只写了一篇而已，希望大家能对我的博客感兴趣。<br>这篇博文的目标对于初学者来讲，比较容易理解，同时也提供给那些已经对这个概念熟悉的人一些有用的细节和例子。希望大家能给我反馈。</p>
@@ -1551,7 +1597,7 @@
     <link href="http://swiftggteam.github.io/2015/12/03/expandable-table-view/"/>
     <id>http://swiftggteam.github.io/2015/12/03/expandable-table-view/</id>
     <published>2015-12-02T16:00:00.000Z</published>
-    <updated>2015-12-22T02:40:15.500Z</updated>
+    <updated>2015-12-23T01:10:19.701Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：AppCoda，<a href="http://www.appcoda.com/expandable-table-view/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-16<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1729,7 +1775,7 @@
     <link href="http://swiftggteam.github.io/2015/12/02/swift-weak-and-unowned/"/>
     <id>http://swiftggteam.github.io/2015/12/02/swift-weak-and-unowned/</id>
     <published>2015-12-01T16:00:00.000Z</published>
-    <updated>2015-12-22T02:40:15.500Z</updated>
+    <updated>2015-12-23T01:10:19.701Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-weak-and-unowned/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-30<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a></p>
 </blockquote>
@@ -1778,7 +1824,7 @@
     <link href="http://swiftggteam.github.io/2015/12/01/xcode-xcconfig-files-for-managing-targets-configurations/"/>
     <id>http://swiftggteam.github.io/2015/12/01/xcode-xcconfig-files-for-managing-targets-configurations/</id>
     <published>2015-11-30T16:00:00.000Z</published>
-    <updated>2015-12-22T02:40:15.448Z</updated>
+    <updated>2015-12-23T01:10:19.701Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/xcode-xcconfig-files-for-managing-targets-configurations/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-14<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1832,7 +1878,7 @@
     <link href="http://swiftggteam.github.io/2015/11/30/should-you-migrate-objective-c-code-to-swift/"/>
     <id>http://swiftggteam.github.io/2015/11/30/should-you-migrate-objective-c-code-to-swift/</id>
     <published>2015-11-29T16:00:00.000Z</published>
-    <updated>2015-12-22T02:40:15.436Z</updated>
+    <updated>2015-12-23T01:10:19.701Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/should-you-migrate-objective-c-code-to-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-23<br>译者：<a href="http://blog.csdn.net/yake_099" target="_blank" rel="external">Yake</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1873,7 +1919,7 @@
     <link href="http://swiftggteam.github.io/2015/11/27/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/11/27/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/</id>
     <published>2015-11-27T01:20:00.000Z</published>
-    <updated>2015-12-22T02:40:15.436Z</updated>
+    <updated>2015-12-23T01:10:19.701Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/11/05/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/5<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1906,46 +1952,6 @@
     </summary>
     
       <category term="Erica Sadun" scheme="http://swiftggteam.github.io/tags/Erica-Sadun/"/>
-    
-      <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Swift：map 和 flatMap 基础入门]]></title>
-    <link href="http://swiftggteam.github.io/2015/11/26/swift-map-and-flatmap/"/>
-    <id>http://swiftggteam.github.io/2015/11/26/swift-map-and-flatmap/</id>
-    <published>2015-11-25T16:00:00.000Z</published>
-    <updated>2015-12-22T02:40:15.436Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-map-and-flatmap/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-16<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
-</blockquote>
-<!--此处开始正文-->
-<p>借助于 map和flapMap 函数能够很轻易地将数组转换成另外一个新数组。</p>
-<a id="more"></a>
-<h1 id="Map">Map</h1><p><code>map</code>函数能够被数组调用，它接受一个闭包作为参数，作用于数组中的每个元素。闭包返回一个变换后的元素，接着将所有这些变换后的元素组成一个新的数组。</p>
-<p>这听起来有些复杂，但它是相当简单的。想象你拥有一个string类型的数组:</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> testArray = [<span class="string">"test1"</span>,<span class="string">"test1234"</span>,<span class="string">""</span>,<span class="string">"test56"</span>]</span><br></pre></td></tr></table></figure>
-<p><code>map</code>函数的闭包接收一个字符串(类型为<code>string</code>)作为参数，原因在于我们调用函数处理的数组元素类型为<code>String</code>。本例中，我们想要返回一个整型数组，逐个对应字符串元素成员的字符长度。因此闭包的返回类型为<code>Int?</code>.</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> anotherArray = testArray.<span class="built_in">map</span> &#123; (string:<span class="type">String</span>) -&gt; <span class="type">Int</span>? <span class="keyword">in</span></span><br><span class="line">     </span><br><span class="line">     <span class="keyword">let</span> length = string.characters.<span class="built_in">count</span></span><br><span class="line">     </span><br><span class="line">     <span class="keyword">guard</span> length &gt; <span class="number">0</span> <span class="keyword">else</span> &#123;</span><br><span class="line">         <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">     &#125;</span><br><span class="line"> </span><br><span class="line">     <span class="keyword">return</span> string.characters.<span class="built_in">count</span></span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="built_in">print</span>(anotherArray) <span class="comment">//[Optional(5), Optional(8), nil, Optional(6)]</span></span><br></pre></td></tr></table></figure>
-<h1 id="FlatMap">FlatMap</h1><p><code>flatMap</code>很像<code>map</code>函数，但是它摒弃了那些值为<code>nil</code>的元素。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> anotherArray2 = testArray.flatMap &#123; (string:<span class="type">String</span>) -&gt; <span class="type">Int</span>? <span class="keyword">in</span></span><br><span class="line"> </span><br><span class="line">     <span class="keyword">let</span> length = string.characters.<span class="built_in">count</span></span><br><span class="line"> </span><br><span class="line">     <span class="keyword">guard</span> length &gt; <span class="number">0</span> <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">     &#125;</span><br><span class="line"> </span><br><span class="line">     <span class="keyword">return</span> string.characters.<span class="built_in">count</span></span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="built_in">print</span>(anotherArray2) <span class="comment">//[5, 8, 6]</span></span><br></pre></td></tr></table></figure>
-<p>另外一个与<code>map</code>函数不同之处在于：倘若元素值不为nil情况下，<code>flapMap</code>函数能够将可选类型(<code>optional</code>)转换为非可选类型(<code>non-optionals</code>)。</p>
-<h1 id="引用">引用</h1><p>Image:@ Fly_dragonfly / shutterstock.com</p>
-<blockquote>
-<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
-</blockquote>
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-map-and-flatmap/">原文链接</a>，原文日期：2015-11-16<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao">千叶知风</a></p>
-</blockquote>
-<!--此处开始正文-->
-<p>借助于 map和flapMap 函数能够很轻易地将数组转换成另外一个新数组。</p>]]>
-    
-    </summary>
-    
-      <category term="Thomas Hanning" scheme="http://swiftggteam.github.io/tags/Thomas-Hanning/"/>
     
       <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
     
