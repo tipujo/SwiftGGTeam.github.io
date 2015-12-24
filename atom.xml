@@ -4,7 +4,7 @@
   <subtitle><![CDATA[走心的 Swift 翻译组]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://swiftggteam.github.io/"/>
-  <updated>2015-12-23T15:15:15.447Z</updated>
+  <updated>2015-12-24T01:00:13.200Z</updated>
   <id>http://swiftggteam.github.io/</id>
   
   <author>
@@ -13,6 +13,119 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Friday Q&A 2015-11-20：协变与逆变]]></title>
+    <link href="http://swiftggteam.github.io/2015/12/24/friday-qa-2015-11-20-covariance-and-contravariance/"/>
+    <id>http://swiftggteam.github.io/2015/12/24/friday-qa-2015-11-20-covariance-and-contravariance/</id>
+    <published>2015-12-23T16:00:00.000Z</published>
+    <updated>2015-12-24T01:00:13.200Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>作者：Mike Ash，<a href="https://mikeash.com/pyblog/friday-qa-2015-11-20-covariance-and-contravariance.html" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-20<br>译者：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
+</blockquote>
+<!--此处开始正文-->
+<p>在现代的编程语言中，子类型（Subtypes）和超类型（Supertypes）已经成为了非常常见的一部分了。协变（Convariance）和逆变（Contravariance）则能告诉我们什么时候使用子类型或超类型会优于原来使用的类型。这在我们使用的大多数编程语言中非常的常见，但是很多开发者仍然对这些概念感到模糊不清。今天我们就来详细讨论一下。</p>
+<a id="more"></a>
+<h3 id="子类型（Subtypes）和超类型（Supertypes）">子类型（Subtypes）和超类型（Supertypes）</h3><p>我们都知道子类（Subclass）是什么。当你创建一个子类的时候，你就在创建一个子类型。用一个经典的例子来讲，就是用 <code>Animal</code> 的子类去创建一只 <code>Cat</code>：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cat</span>: <span class="title">Animal</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这让 <code>Cat</code> 成为了 <code>Animal</code> 的子类型，也就意味着所有的 <code>Cat</code> 都是 <code>Animal</code>。但并不意味着所有的 <code>Animal</code> 都是 <code>Cat</code>。</p>
+<p>子类型通常能够替代超类型。很明显懂一点编程知识的任何程序员都知道，在 Swift 中，下面的代码的第一行能够正常的运行，然而第二行则不能：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> animal: <span class="type">Animal</span> = <span class="type">Cat</span>()</span><br><span class="line"><span class="keyword">let</span> cat: <span class="type">Cat</span> = <span class="type">Animal</span>()</span><br></pre></td></tr></table></figure>
+<p>对于函数类型也是适用的：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">animalF</span><span class="params">()</span></span> -&gt; <span class="type">Animal</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="type">Animal</span>()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">catF</span><span class="params">()</span></span> -&gt; <span class="type">Cat</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="type">Cat</span>()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> returnsAnimal: () -&gt; <span class="type">Animal</span> = catF</span><br><span class="line"><span class="keyword">let</span> returnsCat: () -&gt; <span class="type">Cat</span> = animalF</span><br></pre></td></tr></table></figure>
+<p>这些在 Objective-C 下也能实现，只不过要用 block，而且语法上会显得比较丑。所以我坚定地使用 Swift。</p>
+<p>注意，以下的代码是有问题的：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">catCatF</span><span class="params">(inCat: Cat)</span></span> -&gt; <span class="type">Cat</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> inCat</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> animalAnimal: <span class="type">Animal</span> -&gt; <span class="type">Animal</span> = catCatF</span><br></pre></td></tr></table></figure>
+<p>很困惑，不是吗？不用担心，整篇文章就是为了彻底了解为什么第一个版本是可行而第二个版本是不可行的。除此之外，我们在探索的过程中还会了解很多非常有用的东西。</p>
+<h3 id="重写（Override）方法">重写（Override）方法</h3><p>类似的事情在重写方法中也能正确地执行，想象一下有这样一个类：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">purchaseAnimal</span><span class="params">()</span></span> -&gt; <span class="type">Animal</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在我们建立它的子类，然后重写父类的方法，并改变返回值的类型：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CrazyCatLady</span>: <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">purchaseAnimal</span><span class="params">()</span></span> -&gt; <span class="type">Cat</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样做对吗？对。为什么呢？</p>
+<p><a href="https://en.wikipedia.org/wiki/Liskov_substitution_principle" target="_blank" rel="external">Liskov 替换原则</a>被用于指导何时该使用子类。简明扼要的来说，它指出任何子类的实例总是能够替代父类的实例。比如你有一个 <code>Animal</code>，你就能用 <code>Cat</code> 替代它；你也总是能够用 <code>CrazyCatLady</code> 替代 <code>Person</code>。</p>
+<p>下面是使用 <code>Person</code> 作为例子写的一段代码，接下来会有解释来解释清楚：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> person: <span class="type">Person</span> = getAPerson()</span><br><span class="line"><span class="keyword">let</span> animal: <span class="type">Animal</span> = person.purchaseAnimal()</span><br><span class="line">animal.pet()</span><br></pre></td></tr></table></figure>
+<p>想象一下当 <code>getAPerson</code> 返回一位 <code>CrazyCatLady</code>。整段代码还可行吗？<code>CrazyCatLady.purchaseAnimal</code> 会返回一只 <code>Cat</code>。这个实例被放入了 <code>animal</code> 中。<code>Cat</code> 是 <code>Animal</code> 的一种，所以它也能够做 <code>Animal</code> 能够做的事情，包括 <code>pet</code> 方法。类似，<code>CrazyCatLady</code> 返回的 <code>Cat</code> 也是有效的。</p>
+<p>我们这时把 <code>pet</code> 函数放入 <code>Person</code> 类中，所以我们能够知道一个人所养的特定的动物：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">purchaseAnimal</span><span class="params">()</span></span> -&gt; <span class="type">Animal</span></span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">pet</span><span class="params">(animal: Animal)</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>自然，<code>CrazyCatLady</code> 只拥有宠物猫：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CrazyCatLady</span>: <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">purchaseAnimal</span><span class="params">()</span></span> -&gt; <span class="type">Cat</span></span><br><span class="line">    <span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">pet</span><span class="params">(animal: Cat)</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在这样对吗？<em>不对！</em></p>
+<p>为了理解为什么不对，我们来看一下使用这个方法的代码片段：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> person: <span class="type">Person</span> = getAPerson()</span><br><span class="line"><span class="keyword">let</span> animal: <span class="type">Animal</span> = getAnAnimal()</span><br><span class="line">person.pet(animal)</span><br></pre></td></tr></table></figure>
+<p>假设 <code>getAPerson</code> 方法返回了一位 <code>CrazyCatLady</code>，第一行非常的正确：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> person: <span class="type">Person</span> = getAPerson()</span><br></pre></td></tr></table></figure>
+<p>如果 <code>getAnAnimal</code> 方法返回了一只 <code>Dog</code>，它也是 <code>Animal</code> 的子类但是和 <code>Cat</code> 有截然不同的表现。接下来的一行看上去也非常的正确：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> animal: <span class="type">Animal</span> = getAnAnimal()</span><br></pre></td></tr></table></figure>
+<p>接下来我们的 <code>person</code> 变量中有一位 <code>CrazyCatLady</code>，以及在 <code>animal</code> 变量中有一只 <code>Dog</code>，然后执行了这一行：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">person.pet(animal)</span><br></pre></td></tr></table></figure>
+<p>爆炸了噜！<code>CrazyCatLady</code> 的 <code>pet</code> 方法期望参数是一只 <code>Cat</code>。对于这只 <code>Dog</code> 就显得无计可施。这个方法也有可能会访问其他的属性或者调用其他 <code>Dog</code> 类所不具备的方法。</p>
+<p>这段代码原本是完全正确的。首先它得到 <code>Person</code> 和 <code>Animal</code>，然后调用 <code>Person</code> 中的方法让人拥有这个 <code>Animal</code>。上面的问题在于我们把 <code>CrazyCatLady.pet</code> 方法的参数类型变成了 <code>Cat</code>。这破坏了 Liskov 替换原则：此时的 <code>CrazyCatLady</code> 并不能在任意的地方替代 <code>Person</code> 的使用。</p>
+<p>感谢编译器给我们留了一手。它明白使用子类型用于重写方法的参数类型是不正确的，会拒绝编译这个代码。</p>
+<p>那在重写方法时使用不同的类型究竟对不对呢？对！事实上，你需要<em>超类型（Supertype）</em>。举一个例子，假设 <code>Animal</code> 是 <code>Thing</code> 的子类，那么当我们重写 <code>pet</code> 方法时，参数类型变为 <code>Thing</code>：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">pet</span><span class="params">(thing: Thing)</span></span></span><br></pre></td></tr></table></figure>
+<p>这保证了可替换性。如果是一个 <code>Person</code>，那么这个方法所传进来的参数类型始终是 <code>Animal</code>，这是 <code>Thing</code> 的一种。</p>
+<p>有个重要的规则来了：函数的返回值可以换成原类型的<em>子类型</em>，在层级上<em>降</em>了一级；反之函数的参数可以换成原类型的<em>超类型</em>，在层级上<em>升</em>了一级。</p>
+<h3 id="单独的函数（Standalone_functions）">单独的函数（Standalone functions）</h3><p>这种子类型和超类型的关系我们已经在类上面了解得很清楚了。它能够通过类与类之间的层级关系直接推出。那么如果是单独的函数关系呢？</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> f1: <span class="type">A</span> -&gt; <span class="type">B</span> = ...</span><br><span class="line"><span class="keyword">let</span> f2: <span class="type">C</span> -&gt; <span class="type">D</span> = f1</span><br></pre></td></tr></table></figure>
+<p>这种关系什么时候是对的，什么时候又是错的呢？</p>
+<p>这可以被看做是 Liskov 替换原则的一种精简版本。 事实上，你可以把函数想象成是非常小的（mini-objects）、只有一个方法的对象。当你有两个不同的对象类型时，怎么做才能够让这两个对象也遵循我们的原则呢？只有当原对象类型是后者类型的子类型就可以了。那什么时候函数是另一个函数的子类型呢？正如上面所见，当前者的参数是后者的超类型并且返回值是后者的子类型即可。</p>
+<p>把这个方法应用在这儿，上面的代码当 <code>A</code> 是 <code>C</code> 的超类型且 <code>B</code> 是 <code>D</code> 的子类型时可以正常的执行。用具体的例子来说：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> f1: <span class="type">Animal</span> -&gt; <span class="type">Animal</span> = ...</span><br><span class="line"><span class="keyword">let</span> f2: <span class="type">Cat</span> -&gt; <span class="type">Thing</span> = f1</span><br></pre></td></tr></table></figure>
+<p>参数和返回值的类型朝着相反的方向移动。可能不是你所想的那样，但是这就是能让函数正确执行的唯一方法。</p>
+<p>这又是一个重要的规则：一个函数若是另外一个函数的子类型，那么它的参数是原函数参数的<em>超类型</em>，返回值是原函数返回值的<em>子类型</em>（译者注：又叫做 <a href="http://www.wikiwand.com/en/Robustness_principle" target="_blank" rel="external">Robustness 原则</a>）。</p>
+<h3 id="属性（Property）">属性（Property）</h3><p>如果是只读的属性那就很简单。子类的属性必须是父类属性的子类型。只读的属性本质上是一个不接收参数而返回成员值的函数，所以上述的规则依旧适用。</p>
+<p>可读可写的属性其实也非常的简单。子类的属性必须和父类的属性类型相同。一个可读可写的属性其实由一对函数组成。<code>Getter</code> 是一个不接收参数而返回成员值的函数，<code>Setter</code> 则是一个需要传入一个参数但无需返回值的函数。看下面的例子：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> animal: <span class="type">Animal</span></span><br><span class="line"><span class="comment">// 这等价于：</span></span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">getAnimal</span><span class="params">()</span></span> -&gt; <span class="type">Animal</span></span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">setAnimal</span><span class="params">(animal: Animal)</span></span></span><br></pre></td></tr></table></figure>
+<p>正如我们之前得到的结论一样，函数的参数和返回值需要各自向上和向下改变一级。然而参数和返回值的类型却是固定的，所以它们的类型都不能被改变：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 注意到 animal 的类型是 Animal</span></span><br><span class="line"><span class="comment">// 这样不对（向下）</span></span><br><span class="line"><span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">getAnimal</span><span class="params">()</span></span> -&gt; <span class="type">Cat</span></span><br><span class="line"><span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">setAnimal</span><span class="params">(animal: Cat)</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 这样也不对（向上）</span></span><br><span class="line"><span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">getAnimal</span><span class="params">()</span></span> -&gt; <span class="type">Thing</span></span><br><span class="line"><span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">setAnimal</span><span class="params">(animal: Thing)</span></span></span><br></pre></td></tr></table></figure>
+<h3 id="泛型（Generics）">泛型（Generics）</h3><p>那如果是泛型呢？给定泛型类型的参数，什么时候又是正确的呢？</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> var1: <span class="type">SomeType</span>&lt;<span class="type">A</span>&gt; = ...</span><br><span class="line"><span class="keyword">let</span> var2: <span class="type">SomeType</span>&lt;<span class="type">B</span>&gt; = var1</span><br></pre></td></tr></table></figure>
+<p>理论上来说，这要看泛型参数是如何使用的。一个泛型类型参数本身并不做什么事情，但是它会被用作于属性的类型、函数方法的参数类型和返回类型。</p>
+<p>如果泛型参数仅仅被用作函数返回值的类型和只读属性身上，那么 <code>B</code> 需要是 <code>A</code> 的超类型：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> var1: <span class="type">SomeType</span>&lt;<span class="type">Cat</span>&gt; = ...</span><br><span class="line"><span class="keyword">let</span> var2: <span class="type">SomeType</span>&lt;<span class="type">Animal</span>&gt; = var1</span><br></pre></td></tr></table></figure>
+<p>如果泛型参数仅被用作于函数方法的参数类型，那么 <code>B</code> 需要是 <code>A</code> 的子类型：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> var1: <span class="type">SomeType</span>&lt;<span class="type">Animal</span>&gt; = ...</span><br><span class="line"><span class="keyword">let</span> var2: <span class="type">SomeType</span>&lt;<span class="type">Cat</span>&gt; = var1</span><br></pre></td></tr></table></figure>
+<p>如果泛型参数在上述提到的两方面都被使用了，那么当且仅当 <code>A</code> 和 <code>B</code> 是相同类型的时候才是有效的。这也同样适用于当泛型参数作为可读可写属性的情况。</p>
+<p>这就是理论部分，看上去有些复杂但其实很简短。与此同时，Swift 寻求到了其简便的解决之道。对于两个需要相互匹配的泛型类型，Swift 要求它们的泛型参数的类型也需要相同。子类型和超类型都是不被允许的，尽管理论上可行。</p>
+<p>Objective-C 事实上比 Swift 更好一些。一个在 Objective-C 中的泛型参数可以在声明时增加 <code>__covariant</code> 关键字来表示它能够接受子类型，而在声明时增加 <code>__contravariant</code> 关键字来表示它能够接受超类型。这在 <code>NSArray</code> 和其他的类的接口中有所体现：</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">@interface NSArray&#60;__covariant ObjectType&#62; : NSObject ...</span><br></pre></td></tr></table></figure>
+<h3 id="协变和逆变（Convariance_and_Contravariance）">协变和逆变（Convariance and Contravariance）</h3><p>那些细心的读者会注意到：在标题中提到的两个词至今为止我通篇未提。现在我们既然了解了这些概念，那就来谈一下这几个专业术语。</p>
+<p><em>协变（Convariance）</em>指可接受子类型。重写只读的属性是「协变的」。</p>
+<p><em>逆变（Contravariance）</em>指可接受超类型。重写方法中的参数是「逆变的」。</p>
+<p><em>不变（Invariance）</em>指既不接受子类型，又不接受超类型。Swift 中泛型是「不变的」。</p>
+<p><em>双向协变（Bivariate）</em>指既接受子类型，又接受超类型。我想不到在 Objective-C 或 Swift 中的任何例子。</p>
+<p>你会发现这种专业术语非常难记。那就对了，因为这并不重要。只要你懂得子类型、超类型，以及什么时候在特定位置适用一个类的子类或者超类就够了。在需要用到术语的时候看一下就够了。</p>
+<h3 id="小结">小结</h3><p>协变和逆变决定了在特定位置该怎样使用子类型或超类型。通常出现在重写方法以及改变传入参数或者返回值类型的地方。这种情况下我们已经知道返回值必须是原来的子类型，而参数是原来的超类型。整个指导我们这么做的原则就叫做 Liskov 替换原则，意思是任何子类的实例总是能够使用在父类的实例所使用的地方。子类型和超类型就是从这条原则中衍生出来。</p>
+<p>今天就到这儿了。记得回来探索更多有趣的事情；或者说就来探索有趣的事情。「更多」可能在这不适用，因为协变这件事并不是那么的令人激动。无论如何，我们的 Friday Q&amp;A 都会听从读者的建议，所以有什么更高的建议或者文章的话，记得<a href="mailto:mike@mikeash.com" target="_blank" rel="external">给我们写信</a>！</p>
+<hr>
+<p>译者注：</p>
+<ol>
+<li>Swift 中的泛型的确是「不变的（Invariance）」，但是 Swift 标准库中的 Collection 类型通常情况下是「协变的（Convariance）」。举个例子：</li>
+</ol>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> UIKit </span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Thing</span>&lt;<span class="title">T</span>&gt; </span>&#123; <span class="comment">// 亦可以使用结构体 struct 声明</span></span><br><span class="line">    <span class="keyword">var</span> thing: <span class="type">T</span> </span><br><span class="line">    <span class="keyword">init</span>(<span class="number">_</span> thing: <span class="type">T</span>) &#123; <span class="keyword">self</span>.thing = thing &#125; </span><br><span class="line">&#125; </span><br><span class="line"><span class="keyword">var</span> foo: <span class="type">Thing</span>&lt;<span class="type">UIView</span>&gt; = <span class="type">Thing</span>(<span class="type">UIView</span>()) </span><br><span class="line"><span class="keyword">var</span> bar: <span class="type">Thing</span>&lt;<span class="type">UIButton</span>&gt; = <span class="type">Thing</span>(<span class="type">UIButton</span>()) </span><br><span class="line">foo = bar <span class="comment">// 报错：error: cannot assign value of type 'Thing&lt;UIButton&gt;' to type 'Thing&lt;UIView&gt;' </span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Array 则不会报错 </span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> views: <span class="type">Array</span>&lt;<span class="type">UIView</span>&gt; = [<span class="type">UIView</span>()] </span><br><span class="line"><span class="keyword">var</span> buttons: <span class="type">Array</span>&lt;<span class="type">UIButton</span>&gt; = [<span class="type">UIButton</span>()] </span><br><span class="line">views = buttons</span><br></pre></td></tr></table></figure>
+<ol>
+<li>Swift 中的 Protocol 不支持这里的类型改变。如果某个协议是继承自另外一个协议而且尝试着「重写」父协议的方法，Swift 会把它当做是另外一个方法。举个例子：</li>
+</ol>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Thing</span> </span>&#123;&#125; </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span>: <span class="title">Thing</span> </span>&#123;&#125; </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cat</span>: <span class="title">Animal</span> </span>&#123;&#125; </span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">SuperP</span> </span>&#123; </span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">f</span><span class="params">(animal: Animal)</span></span> -&gt; <span class="type">Animal</span> </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">SubP1</span>: <span class="title">SuperP</span> </span>&#123; </span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">f</span><span class="params">(thing: Thing)</span></span> -&gt; <span class="type">Cat</span> </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">SubP2</span>: <span class="title">SuperP</span> </span>&#123; </span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">f</span><span class="params">(cat: Cat)</span></span> -&gt; <span class="type">Thing</span> </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ImplementsSubP1</span>: <span class="title">SubP1</span> </span>&#123; </span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">f</span><span class="params">(thing: Thing)</span></span> -&gt; <span class="type">Cat</span> &#123; </span><br><span class="line">        <span class="keyword">return</span> <span class="type">Cat</span>() </span><br><span class="line">    &#125; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ImplementsSubP2</span>: <span class="title">SubP2</span> </span>&#123; </span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">f</span><span class="params">(cat: Cat)</span></span> -&gt; <span class="type">Thing</span> &#123; </span><br><span class="line">        <span class="keyword">return</span> <span class="type">Thing</span>() </span><br><span class="line">    &#125; </span><br><span class="line">&#125; </span><br><span class="line"><span class="comment">// ImplementSubP1 和 ImplementSubP2 将不被认为遵循了 SuperP 的协议</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>作者：Mike Ash，<a href="https://mikeash.com/pyblog/friday-qa-2015-11-20-covariance-and-contravariance.html">原文链接</a>，原文日期：2015-11-20<br>译者：<a href="https://github.com/Cee">Cee</a>；校对：<a href="http://weibo.com/xiaoxxiao">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb">numbbbbb</a></p>
+</blockquote>
+<!--此处开始正文-->
+<p>在现代的编程语言中，子类型（Subtypes）和超类型（Supertypes）已经成为了非常常见的一部分了。协变（Convariance）和逆变（Contravariance）则能告诉我们什么时候使用子类型或超类型会优于原来使用的类型。这在我们使用的大多数编程语言中非常的常见，但是很多开发者仍然对这些概念感到模糊不清。今天我们就来详细讨论一下。</p>]]>
+    
+    </summary>
+    
+      <category term="Mike Ash" scheme="http://swiftggteam.github.io/tags/Mike-Ash/"/>
+    
+      <category term="Swift 进阶" scheme="http://swiftggteam.github.io/categories/Swift-%E8%BF%9B%E9%98%B6/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[[原创] 每周 Swift 社区问答 2015-12-23]]></title>
@@ -133,7 +246,7 @@
     <link href="http://swiftggteam.github.io/2015/12/23/swift-3/"/>
     <id>http://swiftggteam.github.io/2015/12/23/swift-3/</id>
     <published>2015-12-22T16:00:00.000Z</published>
-    <updated>2015-12-23T15:20:24.617Z</updated>
+    <updated>2015-12-24T01:00:13.200Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-3/" target="_blank" rel="external">原文链接</a>，原文日期：2015/12/10<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="undefined"></a></p>
 </blockquote>
@@ -179,7 +292,7 @@
     <link href="http://swiftggteam.github.io/2015/12/22/alamofire-beginner-guide/"/>
     <id>http://swiftggteam.github.io/2015/12/22/alamofire-beginner-guide/</id>
     <published>2015-12-21T16:00:00.000Z</published>
-    <updated>2015-12-23T15:20:24.617Z</updated>
+    <updated>2015-12-24T01:00:13.200Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：gregg mojica，<a href="http://www.appcoda.com/alamofire-beginner-guide/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/30<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -399,7 +512,7 @@
     <link href="http://swiftggteam.github.io/2015/12/21/swift-3-0-and-foundation/"/>
     <id>http://swiftggteam.github.io/2015/12/21/swift-3-0-and-foundation/</id>
     <published>2015-12-20T16:00:00.000Z</published>
-    <updated>2015-12-23T15:20:24.617Z</updated>
+    <updated>2015-12-24T01:00:13.200Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/12/03/swift-3-0-and-foundation/" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-03<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -441,7 +554,7 @@
     <link href="http://swiftggteam.github.io/2015/12/18/changing-swift-whats-coming-up-in-2-2-and-3-0/"/>
     <id>http://swiftggteam.github.io/2015/12/18/changing-swift-whats-coming-up-in-2-2-and-3-0/</id>
     <published>2015-12-17T16:00:00.000Z</published>
-    <updated>2015-12-23T15:20:24.617Z</updated>
+    <updated>2015-12-24T01:00:13.200Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/12/03/changing-swift-whats-coming-up-in-2-2-and-3-0/" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-03<br>译者：<a href="undefined">Channe</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -483,7 +596,7 @@
     <link href="http://swiftggteam.github.io/2015/12/17/per-view-auto-rotation-locking-made-easy-for-ios-8-and-9/"/>
     <id>http://swiftggteam.github.io/2015/12/17/per-view-auto-rotation-locking-made-easy-for-ios-8-and-9/</id>
     <published>2015-12-16T16:00:00.000Z</published>
-    <updated>2015-12-23T15:20:24.617Z</updated>
+    <updated>2015-12-24T01:00:13.200Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Weston Hanners，<a href="http://www.alloc-init.com/2015/11/per-view-auto-rotation-locking-made-easy-for-ios-8-and-9/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-18<br>译者：<a href="undefined">littledogboy</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -678,7 +791,7 @@
     <link href="http://swiftggteam.github.io/2015/12/16/new-to-beta-2-swift-2-1-playground-value-drops-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/12/16/new-to-beta-2-swift-2-1-playground-value-drops-swiftlang/</id>
     <published>2015-12-15T16:00:00.000Z</published>
-    <updated>2015-12-23T15:20:24.617Z</updated>
+    <updated>2015-12-24T01:00:13.200Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/09/23/new-to-beta-2-swift-2-1-playground-value-drops-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-23<br>译者：<a href="http://weibo.com/u/2916092907" target="_blank" rel="external">天才175</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -738,7 +851,7 @@
     <link href="http://swiftggteam.github.io/2015/12/15/mixins-over-inheritance/"/>
     <id>http://swiftggteam.github.io/2015/12/15/mixins-over-inheritance/</id>
     <published>2015-12-15T02:30:00.000Z</published>
-    <updated>2015-12-23T15:20:24.617Z</updated>
+    <updated>2015-12-24T01:00:13.200Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Olivier Halligon，<a href="http://alisoftware.github.io/swift/protocol/2015/11/08/mixins-over-inheritance/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-08<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -861,7 +974,7 @@
     <link href="http://swiftggteam.github.io/2015/12/14/a-beginners-guide-to-nsdate-in-swift/"/>
     <id>http://swiftggteam.github.io/2015/12/14/a-beginners-guide-to-nsdate-in-swift/</id>
     <published>2015-12-14T01:00:00.000Z</published>
-    <updated>2015-12-23T15:20:24.617Z</updated>
+    <updated>2015-12-24T01:00:13.196Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：gabriel theodoropoulos，<a href="http://www.appcoda.com/nsdate/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-18<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a></p>
 </blockquote>
@@ -1073,7 +1186,7 @@
     <link href="http://swiftggteam.github.io/2015/12/11/correction-on-testing-uialertcontroller/"/>
     <id>http://swiftggteam.github.io/2015/12/11/correction-on-testing-uialertcontroller/</id>
     <published>2015-12-10T16:00:00.000Z</published>
-    <updated>2015-12-23T15:20:24.617Z</updated>
+    <updated>2015-12-24T01:00:13.196Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：dom，<a href="http://swiftandpainless.com/correction-on-testing-uialertcontroller/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-25<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="http://weibo.com/lfbWb" target="_blank" rel="external">lfb_CD</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1122,7 +1235,7 @@
     <link href="http://swiftggteam.github.io/2015/12/10/reduce-all-the-things/"/>
     <id>http://swiftggteam.github.io/2015/12/10/reduce-all-the-things/</id>
     <published>2015-12-09T16:00:00.000Z</published>
-    <updated>2015-12-23T15:20:24.617Z</updated>
+    <updated>2015-12-24T01:00:13.196Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Benedikt Terhechte，<a href="http://appventure.me/2015/11/30/reduce-all-the-things/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-30<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1242,7 +1355,7 @@
     <link href="http://swiftggteam.github.io/2015/12/08/building-a-todo-app-using-realm-and-swift/"/>
     <id>http://swiftggteam.github.io/2015/12/08/building-a-todo-app-using-realm-and-swift/</id>
     <published>2015-12-07T16:00:00.000Z</published>
-    <updated>2015-12-23T15:20:24.617Z</updated>
+    <updated>2015-12-24T01:00:13.196Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Hossam Ghareeb，<a href="http://www.appcoda.com/realm-database-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-28<br>译者：<a href="http://www.futantan.com" target="_blank" rel="external">Prayer</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1423,7 +1536,7 @@
     <link href="http://swiftggteam.github.io/2015/12/08/ios-realm-instead-of-coredata/"/>
     <id>http://swiftggteam.github.io/2015/12/08/ios-realm-instead-of-coredata/</id>
     <published>2015-12-07T16:00:00.000Z</published>
-    <updated>2015-12-23T15:20:24.617Z</updated>
+    <updated>2015-12-24T01:00:13.196Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/ios-realm-instead-of-coredata/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-29<br>译者：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1491,7 +1604,7 @@
     <link href="http://swiftggteam.github.io/2015/12/07/a-handful-of-swift-style-rules-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/12/07/a-handful-of-swift-style-rules-swiftlang/</id>
     <published>2015-12-06T16:00:00.000Z</published>
-    <updated>2015-12-23T15:20:24.617Z</updated>
+    <updated>2015-12-24T01:00:13.196Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/11/17/a-handful-of-swift-style-rules-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-17<br>译者：<a href="http://blog.csdn.net/mmoaay" target="_blank" rel="external">mmoaay</a>；校对：<a href="http://weibo.com/lfbWb" target="_blank" rel="external">lfb_CD</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
 </blockquote>
@@ -1572,7 +1685,7 @@
     <link href="http://swiftggteam.github.io/2015/12/04/the-fibonacci-sequencetype/"/>
     <id>http://swiftggteam.github.io/2015/12/04/the-fibonacci-sequencetype/</id>
     <published>2015-12-03T16:00:00.000Z</published>
-    <updated>2015-12-23T15:20:24.613Z</updated>
+    <updated>2015-12-24T01:00:13.196Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Jacob Bandes-Storch，<a href="http://bandes-stor.ch/blog/2015/08/05/the-fibonacci-sequencetype/" target="_blank" rel="external">原文链接</a>，原文日期：2015/08/05<br>译者：<a href="undefined">Lou</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
 <p>这篇博文启发自<a href="http://codereview.stackexchange.com/questions/60875/project-euler-2-even-fibonacci-numbers-in-swift" target="_blank" rel="external">Code Review.SE</a>上的一个讨论，同时<a href="https://xkcd.com/356/" target="_blank" rel="external">nerd-sniped</a>上的关于数学的有趣的学习。让我对数学和 Swift 的结合有了兴趣。所以我花了一段时间来把这些知识整理成一篇博文，特别是自从我完成了对我网站重建的第一步以后。更重要的是，我希望我能更勤勉的更新我的博客，这8年我只写了一篇而已，希望大家能对我的博客感兴趣。<br>这篇博文的目标对于初学者来讲，比较容易理解，同时也提供给那些已经对这个概念熟悉的人一些有用的细节和例子。希望大家能给我反馈。</p>
@@ -1713,7 +1826,7 @@
     <link href="http://swiftggteam.github.io/2015/12/03/expandable-table-view/"/>
     <id>http://swiftggteam.github.io/2015/12/03/expandable-table-view/</id>
     <published>2015-12-02T16:00:00.000Z</published>
-    <updated>2015-12-23T15:20:24.613Z</updated>
+    <updated>2015-12-24T01:00:13.196Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：AppCoda，<a href="http://www.appcoda.com/expandable-table-view/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-16<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1891,7 +2004,7 @@
     <link href="http://swiftggteam.github.io/2015/12/02/swift-weak-and-unowned/"/>
     <id>http://swiftggteam.github.io/2015/12/02/swift-weak-and-unowned/</id>
     <published>2015-12-01T16:00:00.000Z</published>
-    <updated>2015-12-23T15:20:24.613Z</updated>
+    <updated>2015-12-24T01:00:13.196Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-weak-and-unowned/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-30<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a></p>
 </blockquote>
@@ -1940,7 +2053,7 @@
     <link href="http://swiftggteam.github.io/2015/12/01/xcode-xcconfig-files-for-managing-targets-configurations/"/>
     <id>http://swiftggteam.github.io/2015/12/01/xcode-xcconfig-files-for-managing-targets-configurations/</id>
     <published>2015-11-30T16:00:00.000Z</published>
-    <updated>2015-12-23T15:20:24.613Z</updated>
+    <updated>2015-12-24T01:00:13.196Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/xcode-xcconfig-files-for-managing-targets-configurations/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-14<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1986,47 +2099,6 @@
       <category term="Tomasz Szulc" scheme="http://swiftggteam.github.io/tags/Tomasz-Szulc/"/>
     
       <category term="Xcode" scheme="http://swiftggteam.github.io/categories/Xcode/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[你应该把 Objective-C 的代码转为 Swift 吗？]]></title>
-    <link href="http://swiftggteam.github.io/2015/11/30/should-you-migrate-objective-c-code-to-swift/"/>
-    <id>http://swiftggteam.github.io/2015/11/30/should-you-migrate-objective-c-code-to-swift/</id>
-    <published>2015-11-29T16:00:00.000Z</published>
-    <updated>2015-12-23T15:20:24.613Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/should-you-migrate-objective-c-code-to-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-23<br>译者：<a href="http://blog.csdn.net/yake_099" target="_blank" rel="external">Yake</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
-</blockquote>
-<!--此处开始正文-->
-<h1 id="你应该把_Objective-C_的代码转为_Swift_吗？">你应该把 <code>Objective-C</code> 的代码转为 <code>Swift</code> 吗？</h1><p>未来是 <code>swift</code> 的，但是这就意味着你需要把 <code>Objective-C</code> 的代码都转为 <code>Swift</code> 吗？</p>
-<a id="more"></a>
-<h2 id="选择一：不转代码坚持使用_Objective-C">选择一：不转代码坚持使用 <code>Objective-C</code></h2><p>乍一看这似乎是最简单的方法了。既然你已经有了一个 <code>Objective-C</code> 编写的项目，继续用OC写下去肯定不是问题。不过。这会产生一些问题：</p>
-<p>未来可能不会有很多优秀的 <code>Objective-C</code> 开发者，因为会有许多 <code>iOS</code> 开发者将注意力放在了 <code>Swift</code> 上面。如果你的项目依赖于其他的开发者，未来你想要继续维持纯粹的 <code>Objective-C</code> 的项目恐怕不是一件容易的事儿。</p>
-<p>但是即使你自己可以维护一个项目，这种方法也有害处。如果你没有 <code>Swift</code> 方面的实践，你可能会错失许多苹果通过 <code>iOS SDK</code> 引入的最新的开发技术。如果你想跟得上时代的步伐，你不得不学习 <code>Swift</code> 。</p>
-<h2 id="选择二：将_Objective-C_的代码转为_Swift">选择二：将 <code>Objective-C</code> 的代码转为 <code>Swift</code></h2><p>这是最激进的一种方法。但是想要将一个完整的项目从 <code>Objective-C</code> 转为 <code>Swift</code> 意味着要写一个新的项目了。虽然 <code>Objective-C</code> 与 <code>Swift</code> 有很好的互操作性，但是他们的编程规范是完全不同的。所以如果你想要将 <code>Objective-C</code> 转为 <code>Swift</code> ，使用错误的编程范式是很危险的。</p>
-<p>你还需要投入大量的时间和金钱。所以如果你不打算重写你的项目，这个方法就有点太夸张了。</p>
-<h2 id="选择三：将新的代码用_Swift_来写">选择三：将新的代码用 <code>Swift</code> 来写</h2><p>这是一种不错的折中办法。由于 <code>Objective-C</code> 与 <code>Swift</code> 之间的互用性很好，你可以用 <code>Swift</code> 来创建你新的类并让它们与你已有的 <code>Objective-C</code> 的代码交互。</p>
-<p>使用这种方法你可以将你的项目一步步转为 <code>Swift</code> 而不需要投入过多的时间和金钱。更多的是这对于学习的过程也是很好的。与其重写一个完整的项目，不如将注意力集中在应用的某些部分。</p>
-<p>并且这个方法的风险也小得多。如果采取这种方法你可能会发现自己一点儿都不喜欢 <code>Swift</code> （尽管不太可能会发生这种情况），你完全可以再回到 <code>Objective-C</code> 并且不会损失过多的时间和金钱。</p>
-<h2 id="结论">结论</h2><p>虽然有些情况下值得你将 <code>Objective-C</code> 的代码转为 <code>Swift</code> ，但最好的折中的办法就是将新代码用 <code>Swift</code> 来写并与你旧的 <code>Objective-C</code> 的代码进行交互。</p>
-<p>参考：<a href="http://www.thomashanning.com/should-you-use-objective-c-or-swift/" target="_blank" rel="external">Should You Use Objective-C or Swift?</a></p>
-<blockquote>
-<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
-</blockquote>
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/should-you-migrate-objective-c-code-to-swift/">原文链接</a>，原文日期：2015-11-23<br>译者：<a href="http://blog.csdn.net/yake_099">Yake</a>；校对：<a href="http://weibo.com/xiaoxxiao">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao">千叶知风</a></p>
-</blockquote>
-<!--此处开始正文-->
-<h1 id="你应该把_Objective-C_的代码转为_Swift_吗？">你应该把 <code>Objective-C</code> 的代码转为 <code>Swift</code> 吗？</h1><p>未来是 <code>swift</code> 的，但是这就意味着你需要把 <code>Objective-C</code> 的代码都转为 <code>Swift</code> 吗？</p>]]>
-    
-    </summary>
-    
-      <category term="Thomas Hanning" scheme="http://swiftggteam.github.io/tags/Thomas-Hanning/"/>
-    
-      <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
     
   </entry>
   
