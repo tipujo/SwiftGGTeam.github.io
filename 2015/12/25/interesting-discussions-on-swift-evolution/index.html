@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="baidu-site-verification" content="vqJV77bZM6" />
   
-    <title>几个 Swift 代码规范 | SwiftGG 翻译组 - 高质量的 Swift 译文网站</title>
+    <title>关于 Swift 演变的趣味探讨 | SwiftGG 翻译组 - 高质量的 Swift 译文网站</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="SwiftGG">
@@ -13,23 +13,34 @@
     <meta name="keywords" content="swift语言,swift翻译,swift学习" /> 
 
     
-    <meta name="description" content="作者：Erica Sadun，原文链接，原文日期：2015-11-17译者：mmoaay；校对：lfb_CD；定稿：shanks
+    <meta name="description" content="作者：Erica Sadun，原文链接，原文日期：2015/12/15译者：小袋子；校对：Cee；定稿：numbbbbb
 
-我们需要经常带着新问题来重新审视一下以前的代码规范。">
+&amp;lt;!--此处开始正文--&amp;gt;
+记得我曾分享过一些想法和建议，比如：
+newtype一个是建议 Swift 推出一个 newtype 的关键词，它可以添加完全不同于原生的可扩展的派生类型。例如：
+newtype Currency = NSDecimal
+这创建了一个拥有所有 NS">
 <meta property="og:type" content="article">
-<meta property="og:title" content="几个 Swift 代码规范">
-<meta property="og:url" content="http://swiftggteam.github.io/2015/12/07/a-handful-of-swift-style-rules-swiftlang/index.html">
+<meta property="og:title" content="关于 Swift 演变的趣味探讨">
+<meta property="og:url" content="http://swiftggteam.github.io/2015/12/25/interesting-discussions-on-swift-evolution/index.html">
 <meta property="og:site_name" content="SwiftGG">
-<meta property="og:description" content="作者：Erica Sadun，原文链接，原文日期：2015-11-17译者：mmoaay；校对：lfb_CD；定稿：shanks
+<meta property="og:description" content="作者：Erica Sadun，原文链接，原文日期：2015/12/15译者：小袋子；校对：Cee；定稿：numbbbbb
 
-我们需要经常带着新问题来重新审视一下以前的代码规范。">
-<meta property="og:image" content="http://swiftggteam.github.io/img/articles/a-handful-of-swift-style-rules-swiftlang/Screen-Shot-2015-11-18-at-10.31.13-AM.png1449449055.5795417">
+&amp;lt;!--此处开始正文--&amp;gt;
+记得我曾分享过一些想法和建议，比如：
+newtype一个是建议 Swift 推出一个 newtype 的关键词，它可以添加完全不同于原生的可扩展的派生类型。例如：
+newtype Currency = NSDecimal
+这创建了一个拥有所有 NS">
 <meta property="og:updated_time" content="2015-12-25T01:30:16.783Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="几个 Swift 代码规范">
-<meta name="twitter:description" content="作者：Erica Sadun，原文链接，原文日期：2015-11-17译者：mmoaay；校对：lfb_CD；定稿：shanks
+<meta name="twitter:title" content="关于 Swift 演变的趣味探讨">
+<meta name="twitter:description" content="作者：Erica Sadun，原文链接，原文日期：2015/12/15译者：小袋子；校对：Cee；定稿：numbbbbb
 
-我们需要经常带着新问题来重新审视一下以前的代码规范。">
+&amp;lt;!--此处开始正文--&amp;gt;
+记得我曾分享过一些想法和建议，比如：
+newtype一个是建议 Swift 推出一个 newtype 的关键词，它可以添加完全不同于原生的可扩展的派生类型。例如：
+newtype Currency = NSDecimal
+这创建了一个拥有所有 NS">
 
     
     <link rel="alternative" href="/atom.xml" title="SwiftGG" type="application/atom+xml">
@@ -87,10 +98,10 @@
   <header class="article-info clearfix">
     <h1 itemprop="name">
       
-        <a href="/2015/12/07/a-handful-of-swift-style-rules-swiftlang/" title="几个 Swift 代码规范" itemprop="url">几个 Swift 代码规范</a>
+        <a href="/2015/12/25/interesting-discussions-on-swift-evolution/" title="关于 Swift 演变的趣味探讨" itemprop="url">关于 Swift 演变的趣味探讨</a>
     </h1>
     <p class="article-time">
-      <time datetime="2015-12-06T16:00:00.000Z" itemprop="datePublished"><i class="icon-time"></i> 2015-12-07</time>
+      <time datetime="2015-12-24T16:00:00.000Z" itemprop="datePublished"><i class="icon-time"></i> 2015-12-25</time>
       <span style="margin-left: 0.5em;"><i class="icon-eye-open"></i> <span class="viewcount"></span></span>
     </p>
   </header>
@@ -100,68 +111,42 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#newtype"><span class="toc-number">1.</span> <span class="toc-text">newtype</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#self"><span class="toc-number">2.</span> <span class="toc-text">self</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#前置条件与断言（Precondition_vs_Assert）"><span class="toc-number">3.</span> <span class="toc-text">前置条件与断言（Precondition vs Assert）</span></a></li></ol>
 		
 		</div>
 		
 		<blockquote>
-<p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/11/17/a-handful-of-swift-style-rules-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-17<br>译者：<a href="http://blog.csdn.net/mmoaay" target="_blank" rel="external">mmoaay</a>；校对：<a href="http://weibo.com/lfbWb" target="_blank" rel="external">lfb_CD</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
+<p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/12/15/interesting-discussions-on-swift-evolution/" target="_blank" rel="external">原文链接</a>，原文日期：2015/12/15<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
-<p>我们需要经常带着新问题来重新审视一下以前的代码规范。</p>
+<!--此处开始正文-->
+<p>记得我曾分享过一些想法和建议，比如：</p>
+<h3 id="newtype">newtype</h3><p>一个是建议 Swift 推出一个 <code>newtype</code> 的关键词，它可以添加完全不同于原生的可扩展的派生类型。例如：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">newtype <span class="type">Currency</span> = <span class="type">NSDecimal</span></span><br></pre></td></tr></table></figure>
+<p>这创建了一个拥有所有 <code>NSDecimal</code> 所有行为的 <code>Currency</code> 类型。然而，你不能让一个 <code>NSDecimal</code> 类型的元素和一个 <code>Currency</code> 类型的元素相加，因为 Swift 中有类型检测。此外，你也可以扩展 <code>Currency</code> 类型。这样看起来就更加有针对性，因为不需要子类化或者添加新的存储属性。</p>
 <a id="more"></a>
-<p><strong><a href="http://twitter.com/Eridius" target="_blank" rel="external">Kevin</a> 提供的一套规范</strong>：“如果尾部的闭包参数是函数式的就用圆括号。如果是程序式的就用花括号。”</p>
-<figure class="highlight less"><table><tr><td class="code"><pre><span class="line"><span class="tag">myCollection</span><span class="class">.map</span>(&#123;<span class="tag">blah</span>&#125;)<span class="class">.filter</span>(&#123;<span class="tag">blah</span>&#125;)<span class="class">.etc</span></span><br><span class="line"><span class="tag">myCollection</span><span class="class">.forEach</span> &#123;&#125; <span class="comment">// 或者 </span></span><br><span class="line"><span class="function">dispatch_after</span>(when, queue) &#123;&#125;</span><br></pre></td></tr></table></figure>
-<p>样式一致性与闭包是否有返回值相关。目前存在的争议是我们是否应该在尾部花括号的左边留空格。</p>
-<p><strong><code>self</code> 的使用规范</strong>：“当<a href="http://ericasadun.com/2015/04/21/swift-occams-code-razor/" target="_blank" rel="external">编译器可以自动推断</a>成员类型时，你就可以在使用隐式成员表达式时省略 <code>self</code>。但无论何时，只要一个方法调用会反射到一个实例，就要使用 <code>self</code>。“</p>
-<p>仔细考虑下面 <code>for</code> 循环语句中的 <code>where</code> 分支。<code>contains</code> 方法就是在没有明确对象的情况下调用的。那是谁做了 <code>contains</code> 操作呢? 因为方法参数中没有传入容器对象，所以这个对象只能是调用这个方法的实例。</p>
-<figure class="highlight applescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (flagLessOne, <span class="type">string</span>) <span class="keyword">in</span> strings.enumerate() </span><br><span class="line">    <span class="keyword">where</span> <span class="keyword">contains</span>(</span><br><span class="line">        Features(rawValue: <span class="number">1</span>&lt;&lt;(flagLessOne + <span class="number">1</span>))) &#123;</span><br><span class="line">    nameArray.append(<span class="type">string</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>完全合格的调用明确指出了原本模糊不清的对象，同时极大滴提高了代码的可读性：</p>
-<figure class="highlight applescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (flagLessOne, <span class="type">string</span>) <span class="keyword">in</span> strings.enumerate() </span><br><span class="line">    <span class="keyword">where</span> self.<span class="keyword">contains</span>(</span><br><span class="line">        Features(rawValue: <span class="number">1</span>&lt;&lt;(flagLessOne + <span class="number">1</span>))) &#123;</span><br><span class="line">    nameArray.append(<span class="type">string</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>条件级联绑定的规范</strong>：“除非你做的是 <code>var</code> 和 <code>let</code> 混合的条件绑定，只用一个 <code>if let</code> 或者 <code>if var</code> 就可以了，需要的话可以自由添加空格。“</p>
-<p>不要使用下面的方式：</p>
-<figure class="highlight xquery"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> x = x, <span class="keyword">let</span> y = y, <span class="keyword">let</span> z = z &#123;blah&#125;</span><br></pre></td></tr></table></figure>
-<p>使用这种：</p>
-<figure class="highlight xquery"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> x = x, y = y, z = z &#123;blah&#125;</span><br></pre></td></tr></table></figure>
-<p>省略多余的 <code>let</code> 关键字可以让级联绑定更加简洁，而且 Xcode 会帮你对这些代码的格式进行很好的调整：</p>
-<figure class="highlight lasso"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">let</span></span><br><span class="line">    x = x,</span><br><span class="line">    y = y,</span><br><span class="line">    z = z &#123;</span><br><span class="line">    <span class="attribute">...</span>blah<span class="attribute">...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>尽管级联绑定避免了 pre-Swift 2 中的“鞭尸金字塔(pyramids of doom)“，但它们又导致了“恐怖便秘块(constipated blocks of horror)“的问题。这种问题主要出现在下面两种情况：</p>
-<ul>
-<li>存在大量的串行绑定，再加上空行和注释时（就像下面的代码）</li>
-<li>使用了一系列 <code>guard</code> 语句时。</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">let</span></span><br><span class="line">    <span class="comment">// 以字典的方式访问 JSON </span></span><br><span class="line">    json = json <span class="keyword">as</span>? NSDictionary,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 检查结果数组</span></span><br><span class="line">    resultsList = json[<span class="string">"results"</span>] <span class="keyword">as</span>? NSArray,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 提取第一项</span></span><br><span class="line">    results = resultsList.firstObject <span class="keyword">as</span>? NSDictionary,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 提取名字和价格</span></span><br><span class="line">    name = results[<span class="string">"trackName"</span>] <span class="keyword">as</span>? <span class="built_in">String</span>, </span><br><span class="line">    price = results[<span class="string">"price"</span>] <span class="keyword">as</span>? NSNumber &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ... blah blah ...</span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-<p><strong>模式匹配关键字的规范</strong>：“如果都是绑定，那就要把绑定组合起来。”</p>
-<p>通过把关键字移动到元组外面的方式来把多模式匹配绑定组合起来。将下面的代码：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">case</span> (<span class="built_in">let</span> x?, <span class="built_in">let</span> y?) = myOptionalTuple &#123;</span><br><span class="line">    <span class="built_in">print</span>(x, y)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>替换为：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">case</span> <span class="built_in">let</span> (x?, y?) = myOptionalTuple &#123;</span><br><span class="line">    <span class="built_in">print</span>(x, y)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong><code>isEmpty</code> 的使用规范</strong>：“如果你在检测一个集合元素的个数，你可能就是在犯错。”用 <code>isEmpty</code> 替换 <code>count == 0</code>。</p>
-<p><strong><code>void</code> 的使用规范</strong>：“使用 <code>void</code> 返回类型，而不是 <code>()</code>。”下面是一个返回 <code>-&gt; Void</code> 而不是 <code>-&gt; ()</code> 的方法。</p>
-<figure class="highlight autoit"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">doThis</span><span class="params">()</span> -&gt; <span class="title">Void</span> </span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">notThis</span><span class="params">()</span> -&gt; <span class="params">()</span></span></span><br></pre></td></tr></table></figure>
-<p><strong><code>!</code> 的使用规范</strong>：“每当你在 Swift 中用惊叹号的时候，一只小猫就会死。”尽可能的避免使用强制转换和强制解包。</p>
-<p><strong>创建集合的规范</strong>：“使用显式类型和空集合。”类型在赋值操作符的左边，空实例在赋值操作符的右边。</p>
-<p>把下面的代码：</p>
-<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">var x = [<span class="link_label">String: Int</span>](<span class="link_url"></span>) // 以及</span><br><span class="line">var y = [<span class="link_label">Double</span>](<span class="link_url"></span>)</span><br><span class="line">var z = Set<span class="xml"><span class="tag">&lt;<span class="title">String</span>&gt;</span></span>()</span><br><span class="line">var mySet = MyOptionSet()</span><br></pre></td></tr></table></figure>
-<p>替换为：</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="variable"><span class="keyword">var</span> x</span>: [String: <span class="typename">Int</span>] = [:]</span><br><span class="line"><span class="variable"><span class="keyword">var</span> y</span>: [<span class="typename">Double</span>] = []</span><br><span class="line"><span class="variable"><span class="keyword">var</span> z</span>: Set<span class="type">&lt;String&gt;</span> = []</span><br><span class="line"><span class="variable"><span class="keyword">var</span> mySet</span>: MyOptionSet = []</span><br></pre></td></tr></table></figure>
-<p><a href="https://twitter.com/_jackhl/status/646723367576276992" target="_blank" rel="external">引用</a></p>
-<p>“<a href="http://mikeash.com/" target="_blank" rel="external">Mike Ash</a>”的冒号规范：“右侧加上空格，而左侧不需要。”Or no soup for you!</p>
-<p>应该使用：</p>
-<figure class="highlight cs"><table><tr><td class="code"><pre><span class="line">[key: <span class="keyword">value</span>] <span class="comment">// 以及</span></span><br><span class="line"><span class="keyword">struct</span> Foo: MyProtocol</span><br></pre></td></tr></table></figure>
-<p>而不是：</p>
-<figure class="highlight crystal"><table><tr><td class="code"><pre><span class="line">[key : value]</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Foo</span> : <span class="title">MyProtocol</span></span></span><br></pre></td></tr></table></figure>
-<p><strong>从 Objective-C 过来的规范</strong>：</p>
-<ul>
-<li>不要在 if 和 switch 条件两边或者 return 关键词上加 Objective-C 样式的圆括号。</li>
-<li>为所有常量使用“骆驼拼写法”，如 allTheConstants 而不是 ALL_CAPS</li>
-<li>用 Swift 的构造器替代传统的，例如：用 <code>CGPoint(x: 1, y:1)</code> 替代 <code>CGPointMake(1, 1)</code></li>
-<li>避免使用行尾分号，尽管这样是可以编译通过的。但是它们会让你的代码看起来很糟糕，而且用起来体验也很差。</li>
-</ul>
-<p><strong>更新</strong></p>
-<p>当然，这不是说说而已，我已经在代码中进行了实践：</p>
-<p><img src="/img/articles/a-handful-of-swift-style-rules-swiftlang/Screen-Shot-2015-11-18-at-10.31.13-AM.png1449449055.5795417" alt="这里写图片描述"></p>
-<p>github <a href="https://github.com/erica/testlint" target="_blank" rel="external">代码地址</a></p>
+<p><code>newtype</code> 的另一个特性是能够创建柯里化类型：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">newtype <span class="type">Counter</span>&lt;<span class="type">A</span>&gt; = <span class="type">Dictionary</span>&lt;<span class="type">A</span>, <span class="type">Int</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>类型是部分确定的，具体行为可以在扩展中实现，从而能包含键（key）类型不相同但值类型都是 Int 的字典。</p>
+<p>期待看到你们的评论。</p>
+<h3 id="self">self</h3><p>另外一个提议是将 <code>self</code> 作为强制前缀，取代上下文语境推断。Greg Parker 在回复中写道：</p>
 <blockquote>
+<p>在 Objective-C 中 <code>self.property</code> 这种写法很不优雅。</p>
+<p>第一种方法是只使用 <code>property</code>。但是同名变量（ivar）会产生歧义，Swift 没有这样的问题。</p>
+<p>第二种方法是用 <code>property</code> 访问属性，用 <code>self-&gt;ivar</code> 去访问同名变量。这是不可行的，因为会和现有的大量代码冲突。Swift 也没有这样的问题。</p>
+</blockquote>
+<h3 id="前置条件与断言（Precondition_vs_Assert）">前置条件与断言（Precondition vs Assert）</h3><p>Dave Abrahams 提出了一个有关重命名断言和前置条件的建议，我立刻将其中的一些深刻见解记在笔记本上：</p>
+<blockquote>
+<p>从语言设计层面来说，这两个函数扮演不同的角色：<br>– assert：检查内部的错误代码。<br>– precondition：检查客户端给你的参数是否有效。</p>
+<p>两者的区别很大，第二个要求有公共文档，第一个不需要。</p>
+<p>例如：在 Swift 的标准库中，我们保证永远不会出现内存错误，除非你调用 (Obj)C 代码或者使用一个明确地标着「unsafe」的结构。我们需要去检验客户端参数，为了避免给了非法的参数引起内存泄露，我们要在参数中文档化这些需求作为前置条件，并且使用（等价的）precondition() 去检验它。我们还有一系列的内部合理检查，用以确定我们代码假定的正确性，而类型系统还不能保证这个代码的假定。由于这些原因，我们使用（等价的）assert()，因为我们不想降低<em>你的</em>代码性能（使用合理的检查）。</p>
+<p>下面是几个具体的例子：</p>
+</blockquote>
+  <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">/// 一个集合，其中的元素类型为 Element</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">struct</span> <span class="title">Repeat</span>&lt;<span class="title">Element</span>&gt; : <span class="title">CollectionType</span> </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  <span class="comment">/// 获取 `position` 位置的元素</span></span><br><span class="line">  <span class="comment">///</span></span><br><span class="line">  <span class="comment">/// - 要求: `position` 是 `self` 中的有效位置并且 `position != endIndex`.</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">subscript</span>(position: <span class="type">Int</span>) -&gt; <span class="type">Element</span> &#123;</span><br><span class="line">    _precondition(position &gt;= <span class="number">0</span> &amp;&amp; position &lt; <span class="built_in">count</span>, <span class="string">"Index out of range"</span>)</span><br><span class="line">    <span class="keyword">return</span> repeatedValue</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">String</span>.<span class="title">UTF8View</span> </span>&#123;</span><br><span class="line">  ...</span><br><span class="line"> <span class="keyword">private</span> <span class="func"><span class="keyword">func</span> <span class="title">_encodeSomeContiguousUTF16AsUTF8</span><span class="params">(i: Int)</span></span> -&gt; (<span class="type">Int</span>, <span class="type">UTF8Chunk</span>) &#123;</span><br><span class="line">    _sanityCheck(elementWidth == <span class="number">2</span>)</span><br><span class="line">    _sanityCheck(!_baseAddress._isNull)</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">let</span> storage = <span class="type">UnsafeBufferPointer</span>(start: startUTF16, <span class="built_in">count</span>: <span class="keyword">self</span>.<span class="built_in">count</span>)</span><br><span class="line">    <span class="keyword">return</span> _transcodeSomeUTF16AsUTF8(storage, i)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>在第一个例子中，我们有一个判断客户的 collection 没有越界的前置条件。在这个例子中，我们其实可以不做检查，因为越界也不会导致内存错误（因为返回的都是同一个 repeatedValue），但是我们还是加上了这个检查，这样我们的用户可以快速发现他们的 bug 。</p>
+<p>第二个例子中是一个私有函数，它只能在我们保证 elementWidth == 2 和 _baseAddress 不为 null 的条件下调用（_sanityCheck 在 stdlib 下等价于 assert）。因为这是私有函数，使用者就是我们自己，所以看起来这个检查可以省略。但是有时候会出意外，比如后续的开发者可能会错误地使用它，因此我们需要添加检查。因为我们在 debug 和 release 的环境下运行我们的测试，并且有较高的测试覆盖率，因此（如果错误使用函数）断言很可能在某处被触发。</p>
+<p>读完上面的内容，你可能认为 assert() 只能在私有方法中使用，而 precondition() 只能在公共方法中使用。事实并非如此；你可以内联任何私有方法到继承的公有方法的方法体内，因此合理的检查依然有意义。前置条件检查也会偶尔在私有方法中使用，最简单的例子就是公有方法转私有方法，复制代码的时候可以把原来的前置条件检查提取成一个私有的辅助方法（Helper）。</p>
+<p><sup>*</sup>注意，有些前置条件实际上不会被执行，所以你不能指望所有的前置条件都被执行。</p>
 <p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
 </blockquote>
   
@@ -171,7 +156,7 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Swift-进阶/">Swift 进阶</a>
+  <a class="article-category-link" href="/categories/Swift-入门/">Swift 入门</a>
 </div>
 
 
@@ -186,7 +171,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://swiftggteam.github.io/2015/12/07/a-handful-of-swift-style-rules-swiftlang/" data-title="几个 Swift 代码规范 | SwiftGG" data-tsina="null" class="share clearfix">
+	  <div data-url="http://swiftggteam.github.io/2015/12/25/interesting-discussions-on-swift-evolution/" data-title="关于 Swift 演变的趣味探讨 | SwiftGG" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -199,19 +184,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/12/08/ios-realm-instead-of-coredata/" title="iOS：选择 Realm 而不是 CoreData">
-  <strong>上一篇：</strong><br/>
-  <span>
-  iOS：选择 Realm 而不是 CoreData</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2015/12/04/the-fibonacci-sequencetype/"  title="斐波那契数列型-从数学角度学习 Swift 序列">
+<a href="/2015/12/24/friday-qa-2015-11-20-covariance-and-contravariance/"  title="Friday Q&amp;A 2015-11-20：协变与逆变">
  <strong>下一篇：</strong><br/> 
- <span>斐波那契数列型-从数学角度学习 Swift 序列
+ <span>Friday Q&amp;A 2015-11-20：协变与逆变
 </span>
 </a>
 </div>
@@ -220,7 +197,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/12/07/a-handful-of-swift-style-rules-swiftlang/" data-title="几个 Swift 代码规范" data-url="http://swiftggteam.github.io/2015/12/07/a-handful-of-swift-style-rules-swiftlang/"></div>
+	<div class="ds-thread" data-thread-key="2015/12/25/interesting-discussions-on-swift-evolution/" data-title="关于 Swift 演变的趣味探讨" data-url="http://swiftggteam.github.io/2015/12/25/interesting-discussions-on-swift-evolution/"></div>
 </section>
 
 
@@ -230,7 +207,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#newtype"><span class="toc-number">1.</span> <span class="toc-text">newtype</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#self"><span class="toc-number">2.</span> <span class="toc-text">self</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#前置条件与断言（Precondition_vs_Assert）"><span class="toc-number">3.</span> <span class="toc-text">前置条件与断言（Precondition vs Assert）</span></a></li></ol>
  
   </div>
 

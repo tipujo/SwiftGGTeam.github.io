@@ -4,7 +4,7 @@
   <subtitle><![CDATA[走心的 Swift 翻译组]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://swiftggteam.github.io/"/>
-  <updated>2015-12-25T00:45:17.944Z</updated>
+  <updated>2015-12-25T01:30:16.783Z</updated>
   <id>http://swiftggteam.github.io/</id>
   
   <author>
@@ -15,11 +15,70 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[关于 Swift 演变的趣味探讨]]></title>
+    <link href="http://swiftggteam.github.io/2015/12/25/interesting-discussions-on-swift-evolution/"/>
+    <id>http://swiftggteam.github.io/2015/12/25/interesting-discussions-on-swift-evolution/</id>
+    <published>2015-12-24T16:00:00.000Z</published>
+    <updated>2015-12-25T01:30:16.783Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/12/15/interesting-discussions-on-swift-evolution/" target="_blank" rel="external">原文链接</a>，原文日期：2015/12/15<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
+</blockquote>
+<!--此处开始正文-->
+<p>记得我曾分享过一些想法和建议，比如：</p>
+<h3 id="newtype">newtype</h3><p>一个是建议 Swift 推出一个 <code>newtype</code> 的关键词，它可以添加完全不同于原生的可扩展的派生类型。例如：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">newtype <span class="type">Currency</span> = <span class="type">NSDecimal</span></span><br></pre></td></tr></table></figure>
+<p>这创建了一个拥有所有 <code>NSDecimal</code> 所有行为的 <code>Currency</code> 类型。然而，你不能让一个 <code>NSDecimal</code> 类型的元素和一个 <code>Currency</code> 类型的元素相加，因为 Swift 中有类型检测。此外，你也可以扩展 <code>Currency</code> 类型。这样看起来就更加有针对性，因为不需要子类化或者添加新的存储属性。</p>
+<a id="more"></a>
+<p><code>newtype</code> 的另一个特性是能够创建柯里化类型：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">newtype <span class="type">Counter</span>&lt;<span class="type">A</span>&gt; = <span class="type">Dictionary</span>&lt;<span class="type">A</span>, <span class="type">Int</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>类型是部分确定的，具体行为可以在扩展中实现，从而能包含键（key）类型不相同但值类型都是 Int 的字典。</p>
+<p>期待看到你们的评论。</p>
+<h3 id="self">self</h3><p>另外一个提议是将 <code>self</code> 作为强制前缀，取代上下文语境推断。Greg Parker 在回复中写道：</p>
+<blockquote>
+<p>在 Objective-C 中 <code>self.property</code> 这种写法很不优雅。</p>
+<p>第一种方法是只使用 <code>property</code>。但是同名变量（ivar）会产生歧义，Swift 没有这样的问题。</p>
+<p>第二种方法是用 <code>property</code> 访问属性，用 <code>self-&gt;ivar</code> 去访问同名变量。这是不可行的，因为会和现有的大量代码冲突。Swift 也没有这样的问题。</p>
+</blockquote>
+<h3 id="前置条件与断言（Precondition_vs_Assert）">前置条件与断言（Precondition vs Assert）</h3><p>Dave Abrahams 提出了一个有关重命名断言和前置条件的建议，我立刻将其中的一些深刻见解记在笔记本上：</p>
+<blockquote>
+<p>从语言设计层面来说，这两个函数扮演不同的角色：<br>– assert：检查内部的错误代码。<br>– precondition：检查客户端给你的参数是否有效。</p>
+<p>两者的区别很大，第二个要求有公共文档，第一个不需要。</p>
+<p>例如：在 Swift 的标准库中，我们保证永远不会出现内存错误，除非你调用 (Obj)C 代码或者使用一个明确地标着「unsafe」的结构。我们需要去检验客户端参数，为了避免给了非法的参数引起内存泄露，我们要在参数中文档化这些需求作为前置条件，并且使用（等价的）precondition() 去检验它。我们还有一系列的内部合理检查，用以确定我们代码假定的正确性，而类型系统还不能保证这个代码的假定。由于这些原因，我们使用（等价的）assert()，因为我们不想降低<em>你的</em>代码性能（使用合理的检查）。</p>
+<p>下面是几个具体的例子：</p>
+</blockquote>
+  <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">/// 一个集合，其中的元素类型为 Element</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">struct</span> <span class="title">Repeat</span>&lt;<span class="title">Element</span>&gt; : <span class="title">CollectionType</span> </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  <span class="comment">/// 获取 `position` 位置的元素</span></span><br><span class="line">  <span class="comment">///</span></span><br><span class="line">  <span class="comment">/// - 要求: `position` 是 `self` 中的有效位置并且 `position != endIndex`.</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">subscript</span>(position: <span class="type">Int</span>) -&gt; <span class="type">Element</span> &#123;</span><br><span class="line">    _precondition(position &gt;= <span class="number">0</span> &amp;&amp; position &lt; <span class="built_in">count</span>, <span class="string">"Index out of range"</span>)</span><br><span class="line">    <span class="keyword">return</span> repeatedValue</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">String</span>.<span class="title">UTF8View</span> </span>&#123;</span><br><span class="line">  ...</span><br><span class="line"> <span class="keyword">private</span> <span class="func"><span class="keyword">func</span> <span class="title">_encodeSomeContiguousUTF16AsUTF8</span><span class="params">(i: Int)</span></span> -&gt; (<span class="type">Int</span>, <span class="type">UTF8Chunk</span>) &#123;</span><br><span class="line">    _sanityCheck(elementWidth == <span class="number">2</span>)</span><br><span class="line">    _sanityCheck(!_baseAddress._isNull)</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">let</span> storage = <span class="type">UnsafeBufferPointer</span>(start: startUTF16, <span class="built_in">count</span>: <span class="keyword">self</span>.<span class="built_in">count</span>)</span><br><span class="line">    <span class="keyword">return</span> _transcodeSomeUTF16AsUTF8(storage, i)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>在第一个例子中，我们有一个判断客户的 collection 没有越界的前置条件。在这个例子中，我们其实可以不做检查，因为越界也不会导致内存错误（因为返回的都是同一个 repeatedValue），但是我们还是加上了这个检查，这样我们的用户可以快速发现他们的 bug 。</p>
+<p>第二个例子中是一个私有函数，它只能在我们保证 elementWidth == 2 和 _baseAddress 不为 null 的条件下调用（_sanityCheck 在 stdlib 下等价于 assert）。因为这是私有函数，使用者就是我们自己，所以看起来这个检查可以省略。但是有时候会出意外，比如后续的开发者可能会错误地使用它，因此我们需要添加检查。因为我们在 debug 和 release 的环境下运行我们的测试，并且有较高的测试覆盖率，因此（如果错误使用函数）断言很可能在某处被触发。</p>
+<p>读完上面的内容，你可能认为 assert() 只能在私有方法中使用，而 precondition() 只能在公共方法中使用。事实并非如此；你可以内联任何私有方法到继承的公有方法的方法体内，因此合理的检查依然有意义。前置条件检查也会偶尔在私有方法中使用，最简单的例子就是公有方法转私有方法，复制代码的时候可以把原来的前置条件检查提取成一个私有的辅助方法（Helper）。</p>
+<p><sup>*</sup>注意，有些前置条件实际上不会被执行，所以你不能指望所有的前置条件都被执行。</p>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/12/15/interesting-discussions-on-swift-evolution/">原文链接</a>，原文日期：2015/12/15<br>译者：<a href="http://daizi.me">小袋子</a>；校对：<a href="https://github.com/Cee">Cee</a>；定稿：<a href="https://github.com/numbbbbb">numbbbbb</a></p>
+</blockquote>
+<!--此处开始正文-->
+<p>记得我曾分享过一些想法和建议，比如：</p>
+<h3 id="newtype">newtype</h3><p>一个是建议 Swift 推出一个 <code>newtype</code> 的关键词，它可以添加完全不同于原生的可扩展的派生类型。例如：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">newtype <span class="type">Currency</span> = <span class="type">NSDecimal</span></span><br></pre></td></tr></table></figure>
+<p>这创建了一个拥有所有 <code>NSDecimal</code> 所有行为的 <code>Currency</code> 类型。然而，你不能让一个 <code>NSDecimal</code> 类型的元素和一个 <code>Currency</code> 类型的元素相加，因为 Swift 中有类型检测。此外，你也可以扩展 <code>Currency</code> 类型。这样看起来就更加有针对性，因为不需要子类化或者添加新的存储属性。</p>]]>
+    
+    </summary>
+    
+      <category term="Erica Sadun" scheme="http://swiftggteam.github.io/tags/Erica-Sadun/"/>
+    
+      <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[Friday Q&A 2015-11-20：协变与逆变]]></title>
     <link href="http://swiftggteam.github.io/2015/12/24/friday-qa-2015-11-20-covariance-and-contravariance/"/>
     <id>http://swiftggteam.github.io/2015/12/24/friday-qa-2015-11-20-covariance-and-contravariance/</id>
     <published>2015-12-23T16:00:00.000Z</published>
-    <updated>2015-12-25T00:45:17.944Z</updated>
+    <updated>2015-12-25T01:30:16.783Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Mike Ash，<a href="https://mikeash.com/pyblog/friday-qa-2015-11-20-covariance-and-contravariance.html" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-20<br>译者：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -246,7 +305,7 @@
     <link href="http://swiftggteam.github.io/2015/12/23/swift-3/"/>
     <id>http://swiftggteam.github.io/2015/12/23/swift-3/</id>
     <published>2015-12-22T16:00:00.000Z</published>
-    <updated>2015-12-25T00:45:17.944Z</updated>
+    <updated>2015-12-25T01:30:16.783Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-3/" target="_blank" rel="external">原文链接</a>，原文日期：2015/12/10<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="undefined"></a></p>
 </blockquote>
@@ -292,7 +351,7 @@
     <link href="http://swiftggteam.github.io/2015/12/22/alamofire-beginner-guide/"/>
     <id>http://swiftggteam.github.io/2015/12/22/alamofire-beginner-guide/</id>
     <published>2015-12-21T16:00:00.000Z</published>
-    <updated>2015-12-25T00:45:17.944Z</updated>
+    <updated>2015-12-25T01:30:16.783Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：gregg mojica，<a href="http://www.appcoda.com/alamofire-beginner-guide/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/30<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -512,7 +571,7 @@
     <link href="http://swiftggteam.github.io/2015/12/21/swift-3-0-and-foundation/"/>
     <id>http://swiftggteam.github.io/2015/12/21/swift-3-0-and-foundation/</id>
     <published>2015-12-20T16:00:00.000Z</published>
-    <updated>2015-12-25T00:45:17.944Z</updated>
+    <updated>2015-12-25T01:30:16.783Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/12/03/swift-3-0-and-foundation/" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-03<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -554,7 +613,7 @@
     <link href="http://swiftggteam.github.io/2015/12/18/changing-swift-whats-coming-up-in-2-2-and-3-0/"/>
     <id>http://swiftggteam.github.io/2015/12/18/changing-swift-whats-coming-up-in-2-2-and-3-0/</id>
     <published>2015-12-17T16:00:00.000Z</published>
-    <updated>2015-12-25T00:45:17.944Z</updated>
+    <updated>2015-12-25T01:30:16.783Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/12/03/changing-swift-whats-coming-up-in-2-2-and-3-0/" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-03<br>译者：<a href="undefined">Channe</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -596,7 +655,7 @@
     <link href="http://swiftggteam.github.io/2015/12/17/per-view-auto-rotation-locking-made-easy-for-ios-8-and-9/"/>
     <id>http://swiftggteam.github.io/2015/12/17/per-view-auto-rotation-locking-made-easy-for-ios-8-and-9/</id>
     <published>2015-12-16T16:00:00.000Z</published>
-    <updated>2015-12-25T00:45:17.944Z</updated>
+    <updated>2015-12-25T01:30:16.783Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Weston Hanners，<a href="http://www.alloc-init.com/2015/11/per-view-auto-rotation-locking-made-easy-for-ios-8-and-9/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-18<br>译者：<a href="undefined">littledogboy</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -791,7 +850,7 @@
     <link href="http://swiftggteam.github.io/2015/12/16/new-to-beta-2-swift-2-1-playground-value-drops-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/12/16/new-to-beta-2-swift-2-1-playground-value-drops-swiftlang/</id>
     <published>2015-12-15T16:00:00.000Z</published>
-    <updated>2015-12-25T00:45:17.944Z</updated>
+    <updated>2015-12-25T01:30:16.783Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/09/23/new-to-beta-2-swift-2-1-playground-value-drops-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-23<br>译者：<a href="http://weibo.com/u/2916092907" target="_blank" rel="external">天才175</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -851,7 +910,7 @@
     <link href="http://swiftggteam.github.io/2015/12/15/mixins-over-inheritance/"/>
     <id>http://swiftggteam.github.io/2015/12/15/mixins-over-inheritance/</id>
     <published>2015-12-15T02:30:00.000Z</published>
-    <updated>2015-12-25T00:45:17.944Z</updated>
+    <updated>2015-12-25T01:30:16.783Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Olivier Halligon，<a href="http://alisoftware.github.io/swift/protocol/2015/11/08/mixins-over-inheritance/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-08<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -974,7 +1033,7 @@
     <link href="http://swiftggteam.github.io/2015/12/14/a-beginners-guide-to-nsdate-in-swift/"/>
     <id>http://swiftggteam.github.io/2015/12/14/a-beginners-guide-to-nsdate-in-swift/</id>
     <published>2015-12-14T01:00:00.000Z</published>
-    <updated>2015-12-25T00:45:17.944Z</updated>
+    <updated>2015-12-25T01:30:16.783Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：gabriel theodoropoulos，<a href="http://www.appcoda.com/nsdate/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-18<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a></p>
 </blockquote>
@@ -1186,7 +1245,7 @@
     <link href="http://swiftggteam.github.io/2015/12/11/correction-on-testing-uialertcontroller/"/>
     <id>http://swiftggteam.github.io/2015/12/11/correction-on-testing-uialertcontroller/</id>
     <published>2015-12-10T16:00:00.000Z</published>
-    <updated>2015-12-25T00:45:17.944Z</updated>
+    <updated>2015-12-25T01:30:16.783Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：dom，<a href="http://swiftandpainless.com/correction-on-testing-uialertcontroller/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-25<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="http://weibo.com/lfbWb" target="_blank" rel="external">lfb_CD</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1235,7 +1294,7 @@
     <link href="http://swiftggteam.github.io/2015/12/10/reduce-all-the-things/"/>
     <id>http://swiftggteam.github.io/2015/12/10/reduce-all-the-things/</id>
     <published>2015-12-09T16:00:00.000Z</published>
-    <updated>2015-12-25T00:45:17.944Z</updated>
+    <updated>2015-12-25T01:30:16.783Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Benedikt Terhechte，<a href="http://appventure.me/2015/11/30/reduce-all-the-things/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-30<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1355,7 +1414,7 @@
     <link href="http://swiftggteam.github.io/2015/12/08/building-a-todo-app-using-realm-and-swift/"/>
     <id>http://swiftggteam.github.io/2015/12/08/building-a-todo-app-using-realm-and-swift/</id>
     <published>2015-12-07T16:00:00.000Z</published>
-    <updated>2015-12-25T00:45:17.944Z</updated>
+    <updated>2015-12-25T01:30:16.783Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Hossam Ghareeb，<a href="http://www.appcoda.com/realm-database-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-28<br>译者：<a href="http://www.futantan.com" target="_blank" rel="external">Prayer</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1536,7 +1595,7 @@
     <link href="http://swiftggteam.github.io/2015/12/08/ios-realm-instead-of-coredata/"/>
     <id>http://swiftggteam.github.io/2015/12/08/ios-realm-instead-of-coredata/</id>
     <published>2015-12-07T16:00:00.000Z</published>
-    <updated>2015-12-25T00:45:17.944Z</updated>
+    <updated>2015-12-25T01:30:16.783Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/ios-realm-instead-of-coredata/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-29<br>译者：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1604,7 +1663,7 @@
     <link href="http://swiftggteam.github.io/2015/12/07/a-handful-of-swift-style-rules-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/12/07/a-handful-of-swift-style-rules-swiftlang/</id>
     <published>2015-12-06T16:00:00.000Z</published>
-    <updated>2015-12-25T00:45:17.944Z</updated>
+    <updated>2015-12-25T01:30:16.783Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/11/17/a-handful-of-swift-style-rules-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-17<br>译者：<a href="http://blog.csdn.net/mmoaay" target="_blank" rel="external">mmoaay</a>；校对：<a href="http://weibo.com/lfbWb" target="_blank" rel="external">lfb_CD</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
 </blockquote>
@@ -1685,7 +1744,7 @@
     <link href="http://swiftggteam.github.io/2015/12/04/the-fibonacci-sequencetype/"/>
     <id>http://swiftggteam.github.io/2015/12/04/the-fibonacci-sequencetype/</id>
     <published>2015-12-03T16:00:00.000Z</published>
-    <updated>2015-12-25T00:45:17.944Z</updated>
+    <updated>2015-12-25T01:30:16.783Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Jacob Bandes-Storch，<a href="http://bandes-stor.ch/blog/2015/08/05/the-fibonacci-sequencetype/" target="_blank" rel="external">原文链接</a>，原文日期：2015/08/05<br>译者：<a href="undefined">Lou</a>；校对：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
 <p>这篇博文启发自<a href="http://codereview.stackexchange.com/questions/60875/project-euler-2-even-fibonacci-numbers-in-swift" target="_blank" rel="external">Code Review.SE</a>上的一个讨论，同时<a href="https://xkcd.com/356/" target="_blank" rel="external">nerd-sniped</a>上的关于数学的有趣的学习。让我对数学和 Swift 的结合有了兴趣。所以我花了一段时间来把这些知识整理成一篇博文，特别是自从我完成了对我网站重建的第一步以后。更重要的是，我希望我能更勤勉的更新我的博客，这8年我只写了一篇而已，希望大家能对我的博客感兴趣。<br>这篇博文的目标对于初学者来讲，比较容易理解，同时也提供给那些已经对这个概念熟悉的人一些有用的细节和例子。希望大家能给我反馈。</p>
@@ -1826,7 +1885,7 @@
     <link href="http://swiftggteam.github.io/2015/12/03/expandable-table-view/"/>
     <id>http://swiftggteam.github.io/2015/12/03/expandable-table-view/</id>
     <published>2015-12-02T16:00:00.000Z</published>
-    <updated>2015-12-25T00:45:17.944Z</updated>
+    <updated>2015-12-25T01:30:16.783Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：AppCoda，<a href="http://www.appcoda.com/expandable-table-view/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-16<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -2004,7 +2063,7 @@
     <link href="http://swiftggteam.github.io/2015/12/02/swift-weak-and-unowned/"/>
     <id>http://swiftggteam.github.io/2015/12/02/swift-weak-and-unowned/</id>
     <published>2015-12-01T16:00:00.000Z</published>
-    <updated>2015-12-25T00:45:17.940Z</updated>
+    <updated>2015-12-25T01:30:16.783Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-weak-and-unowned/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-30<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a></p>
 </blockquote>
@@ -2045,60 +2104,6 @@
       <category term="Thomas Hanning" scheme="http://swiftggteam.github.io/tags/Thomas-Hanning/"/>
     
       <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Xcode:用于管理多个 target 配置的 XCConfig 文件]]></title>
-    <link href="http://swiftggteam.github.io/2015/12/01/xcode-xcconfig-files-for-managing-targets-configurations/"/>
-    <id>http://swiftggteam.github.io/2015/12/01/xcode-xcconfig-files-for-managing-targets-configurations/</id>
-    <published>2015-11-30T16:00:00.000Z</published>
-    <updated>2015-12-25T00:45:17.940Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/xcode-xcconfig-files-for-managing-targets-configurations/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-14<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
-</blockquote>
-<p>让我们来看看 XCConfig 文件如何才能在多个拥有不同配置的 target 中良好地工作。</p>
-<p>今天我本计划学习一些新东西，因此我搜索了 <a href="https://github.com/mozilla/firefox-ios" target="_blank" rel="external">mozilla/firefox-ios</a> 库（译者：这是在火狐浏览器在 github 的一个开源项目）的相关信息，接着我发现他们会在项目中使用大量的配置文件。</p>
-<a id="more"></a>
-<p>我曾经在几个项目中使用过 XCConfig ，但是我并没有在现在开发的项目中使用它。因为这个项目有多个不同配置的 target，因此我开始思考如何才能有效且简单地管理这些 target 。</p>
-<h3 id="用例">用例</h3><p>这个项目现在已经被我的团队接手了。客户的团队先开发了大约半年的时间，最后决定将项目完全外包出去。这个项目一个麻烦的事就是 target 有不同的配置，因此如何更好地解决，是个棘手的问题。</p>
-<p>项目由十个应用 target 组成，2个总的 target 做些业务，以及一个测试 target 。每一个 target 使用不同的尾部和不同的 “api keys”，以及其他像用于 hockeyapp（HockeyApp 是一个用来分发你的程序并收集应用的崩溃报告的收集框架，类似友盟） token 的键（key）。每一个 target 有自己的预处理宏，如：“TARGET_A”, “TARGET_B”等…（虚构的名字）。然后，token，api keys，后端的 url 被存储在 plist 文件中。因此很自然需要一些类来封装这个文件，并且有语法分析程序以及可以提供给我们适当的键。这个类有超过200行的代码，对我来说仅仅阅读这些数据就要花费很多时间。</p>
-<p>因此，我想或许可以使用 XCConfig 文件来简化和替代，而不是使用语法分析程序和十个个预处理宏（一个 target）去决定从 plist 文件应该返回什么值。你可以在下面找到我的解决方案。可能不是最好的方案，但是此刻应该是最好的。如果你有更好的方案，我很愿意去拜读 :)</p>
-<h3 id="概述">概述</h3><p>核心思想是使用一些有层级的配置文件。第一层是用于存储最普通的数据，第二层用于区分 debug 和 release 模式，最后一层用于关联特殊 target 的设置。</p>
-<p><img src="/img/articles/xcode-xcconfig-files-for-managing-targets-configurations/diagram_1.png1449449060.446657" alt=""></p>
-<h3 id="Common-xcconfig">Common.xcconfig</h3><p>这个文件存储着类似应用名称，应用版本，bundle version，以及其他 debug和 release target 中通用的常见配置。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  Common.xcconfig</span></span><br><span class="line"><span class="comment">//  &lt;truncated&gt;</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="type">APP_NAME</span> = <span class="type">App</span></span><br><span class="line"><span class="type">APP_VERSION</span> = <span class="number">1.6</span></span><br><span class="line"><span class="type">APP_BUNDLE_ID</span> = <span class="number">153</span></span><br></pre></td></tr></table></figure>
-<p>考虑到为十个 target 改变相应的应用版本和 bundle 可能会消耗很多时间。其他的选项可能会创建聚合的 target ，这样可以在每次 Cmd+B的时候更新Info-plist 文件，但是我会避免这样的情况并且让项目不会比现在更复杂。</p>
-<h3 id="Common-debug_和_Common-release">Common.debug 和 Common.release</h3><p>这个文件能够存储可用于 debug 和 release target 的最常用配置。文件包含 Common.xcconfig 并且能够重写它的变量。例如：你可以通过重写一个变量，轻易地把每个 debug target 的应用名称改为 “App Debug” 。对于存储常见的用于开发和发行版本 target 的 API Key，这里也是很好的地方。</p>
-<p><strong>提示：使用通用配置文件和 CocoaPods</strong></p>
-<p>如果你使用 CocoaPods，你应该相应地在你的配置文件之一中包括（include）Pods.debug.xcconfig 或者 Pods.release.xcconfig。我推荐先在项目信息标签中设置你的配置文件然后执行 <code>pod install</code> 去让 Pod 项目重新配置。在安装之后，你应该及时地把 Pod 配置文件中的其中一个包括（include）到你自己的文件中去。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Error</span>:</span><br><span class="line">[!] <span class="type">CocoaPods</span> did not <span class="keyword">set</span> the base configuration of your project because your project already has a custom config <span class="keyword">set</span>. <span class="type">In</span> order <span class="keyword">for</span> <span class="type">CocoaPods</span> integration to work at all, please either <span class="keyword">set</span> the base configurations of the target <span class="type">TARGET_NAME</span> to <span class="type">Pods</span>/<span class="type">Target</span> <span class="type">Support</span> <span class="type">Files</span>/<span class="type">Pods</span>/<span class="type">Pods</span>.debug.xcconfig or include the <span class="type">Pods</span>/<span class="type">Target</span> <span class="type">Support</span> <span class="type">Files</span>/<span class="type">Pods</span>/<span class="type">Pods</span>.debug.xcconfig <span class="keyword">in</span> your build configuration.</span><br></pre></td></tr></table></figure>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  Common.debug.xcconfig</span></span><br><span class="line"><span class="comment">//  &lt;truncated&gt;</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">"Common.xcconfig"</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">"Pods/Target Support Files/Pods/Pods.debug.xcconfig"</span></span></span><br><span class="line"></span><br><span class="line">APP_NAME = App Debug</span><br><span class="line">API_KEY_A = API_KEY_HERE</span><br><span class="line">API_KEY_B = API_KEY_HERE</span><br></pre></td></tr></table></figure>
-<h3 id="PerTarget-xcconfig">PerTarget.xcconfig</h3><p>我确实不需要在这个层级使用 debug/release 配置文件（因为项目中的其他遗留问题），所以我只是用包括适当的 Common.debug.xcconfig 或者 Common.release.xcconfig 的 PerTarget.xcconfig 文件。但是最好应该有 debug 和 release 配置文件。在这个层级，你可以配置关联到特殊 target 的东西。</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">//&#10;//  Develop.xcconfig&#10;//  &#60;truncated&#62;&#10;//&#10;&#10;#include &#34;Common.debug.xcconfig&#34;&#10;&#10;BACKEND_URL = http:\/\/develop.api.szulctomasz.com&#10;SOME_KEY_A = VALUE_HERE&#10;SOME_KEY_B = VALUE_HERE</span><br></pre></td></tr></table></figure>
-<h3 id="访问变量">访问变量</h3><p>所有的配置文件被存储了。现在是时候去使用他们了。像我例子中有这么多的 target，我可以把 Info.plist 文件的数量减少到只有1个，由于所有的不同的地方都已经在 xcconfig 文件中了，所以这一个文件可以替代多个文件。</p>
-<p>你可以看到在你通过这些配置文件构建应用之后，有一些值出现在项目的 Build Setting 的 “User-Defined” 部分。</p>
-<p>如果你想要使用配置文件中的变量，例如，在一个target的 Info.plist 文件中，你需要使用这种写法：<code>$(VARIABLE)</code>。使用这种方式，你可以设置 “Bundle Identifier” , “Bundle name” , “Bundle version” 以及其他你想要配置的事项。</p>
-<p>在代码中访问其他变量看起来有点不一样，我发现最简单的方法就是在 Info.plist 中创建附加的区域，通过使用相同的变量名称和使用上述的写法去设置值。这样你就可以在你的代码中读到这些值。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> dictionary = <span class="type">NSBundle</span>.mainBundle().infoDictionary &#123;</span><br><span class="line">    <span class="keyword">let</span> appName = dictionary[<span class="string">"APP_NAME"</span>] <span class="keyword">as</span>! <span class="type">String</span></span><br><span class="line">    <span class="keyword">let</span> appVersion = dictionary[<span class="string">"APP_VERSION"</span>] <span class="keyword">as</span>! <span class="type">String</span></span><br><span class="line">    <span class="keyword">let</span> appBuildVersion = dictionary[<span class="string">"APP_BUILD_VERSION"</span>] <span class="keyword">as</span>! <span class="type">String</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"<span class="subst">\(appName)</span> <span class="subst">\(appVersion)</span> (<span class="subst">\(appBuildVersion)</span>)"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> backend = (dictionary[<span class="string">"BACKEND_URL"</span>] <span class="keyword">as</span>! <span class="type">String</span>).stringByReplacingOccurrencesOfString(<span class="string">"\\"</span>, withString: <span class="string">""</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"backend: <span class="subst">\(backend)</span>"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这里是 <a href="https://github.com/tomkowz/demo-xcconfig" target="_blank" rel="external">tomkowz/demo-xcconfig</a> 的代码，从里面你可以看到一些使用 xcconfig 文件的例子。</p>
-<h3 id="总结">总结</h3><p>Xcode 配置文件给出了配置 target 的简易方式，并且支持方便地维护项目配置。在我用例中，可以很棒地切换到这些文件，因为现在维护项目配置和我没有使用这个解决方案之前比起来简单了很多。</p>
-<blockquote>
-<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
-</blockquote>
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/xcode-xcconfig-files-for-managing-targets-configurations/">原文链接</a>，原文日期：2015-11-14<br>译者：<a href="http://daizi.me">小袋子</a>；校对：<a href="http://weibo.com/xiaoxxiao">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao">千叶知风</a></p>
-</blockquote>
-<p>让我们来看看 XCConfig 文件如何才能在多个拥有不同配置的 target 中良好地工作。</p>
-<p>今天我本计划学习一些新东西，因此我搜索了 <a href="https://github.com/mozilla/firefox-ios">mozilla/firefox-ios</a> 库（译者：这是在火狐浏览器在 github 的一个开源项目）的相关信息，接着我发现他们会在项目中使用大量的配置文件。</p>]]>
-    
-    </summary>
-    
-      <category term="Tomasz Szulc" scheme="http://swiftggteam.github.io/tags/Tomasz-Szulc/"/>
-    
-      <category term="Xcode" scheme="http://swiftggteam.github.io/categories/Xcode/"/>
     
   </entry>
   
