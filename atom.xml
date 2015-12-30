@@ -4,7 +4,7 @@
   <subtitle><![CDATA[走心的 Swift 翻译组]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://swiftggteam.github.io/"/>
-  <updated>2015-12-30T01:07:24.752Z</updated>
+  <updated>2015-12-30T01:12:28.397Z</updated>
   <id>http://swiftggteam.github.io/</id>
   
   <author>
@@ -15,11 +15,107 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[教你如何在 Auto Layout 下设置两个视图之间的最小间距]]></title>
+    <link href="http://swiftggteam.github.io/2015/12/30/minimal-distance-to-two-views-in-auto-layout/"/>
+    <id>http://swiftggteam.github.io/2015/12/30/minimal-distance-to-two-views-in-auto-layout/</id>
+    <published>2015-12-29T16:00:00.000Z</published>
+    <updated>2015-12-30T01:12:28.397Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>作者：dom，<a href="http://swiftandpainless.com/minimal-distance-to-two-views-in-auto-layout/" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-08<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://www.jianshu.com/users/ef1058d2d851" target="_blank" rel="external">星夜暮晨</a>；定稿：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a></p>
+</blockquote>
+<!--此处开始正文-->
+<p>假设现在要在某个视图（view）中放置三个子视图（subviews）。其中两个子视图放置在上方，第三个视图紧挨着它们放到下方。不过上方的两个视图高度不定，并且你不知道哪个更高一些。现在要求我们使用自动布局（Auto Layout）来控制下方视图和上方视图之间间距至少 10 单位像素。</p>
+<a id="more"></a>
+<p>我们该如何实现呢？实现技巧是使用不等式约束条件 (inequality) 以及设置约束优先级 (priority)。相关约束如下：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 注意约束使用不等式 &gt;=，以及设置优先级</span></span><br><span class="line">leftViewConstraints += <span class="type">NSLayoutConstraint</span>.constraintsWithVisualFormat(<span class="string">"V:[red(50)]-(\&gt;=10)-[green]"</span>, options: [], metrics: <span class="literal">nil</span>, views: leftViews)</span><br><span class="line">leftViewConstraints += <span class="type">NSLayoutConstraint</span>.constraintsWithVisualFormat(<span class="string">"V:[blue(100)]-(\&gt;=10)-[green]"</span>, options: [], metrics: <span class="literal">nil</span>, views: leftViews)</span><br><span class="line">leftViewConstraints += <span class="type">NSLayoutConstraint</span>.constraintsWithVisualFormat(<span class="string">"V:[blue(100)]-(\&lt;=10@999)-[green]"</span>, options: [], metrics: <span class="literal">nil</span>, views: leftViews)</span><br></pre></td></tr></table></figure>
+<p>上方两个视图与底部视图的最小间距不能小于 10（译者注：这里约束优先级默认是 1000）。此外蓝色视图与底部视图的最大间距不得大于 10 ，其优先级为 999。</p>
+<p>就是这样！你可以看到如下方截图所示的结果。左侧图片中，蓝色视图的高度为 100 单位像素，红色视图高度为 50 单位像素。 右侧图片则刚刚相反。</p>
+<p><img src="/img/articles/minimal-distance-to-two-views-in-auto-layout/Screen-Shot-2015-12-08-at-21.52.25-300x155.png1451437944.9187686" alt=""></p>
+<p>这里向你提供完整代码的 <a href="http://swift.eltanin.uberspace.de/wp-content/uploads/2015/12/MinimalDistanceAutoLayoutPlayground.playground.zip" target="_blank" rel="external">playground</a> 下载。</p>
+<blockquote>
+<p>译者注：你可以在下载的 playground 下方键入 view 属性，然后在右侧栏点击 Quick Look，也就是那个眼睛，就能看到如上所示的截图了！</p>
+</blockquote>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>作者：dom，<a href="http://swiftandpainless.com/minimal-distance-to-two-views-in-auto-layout/">原文链接</a>，原文日期：2015-12-08<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles">pmst</a>；校对：<a href="http://www.jianshu.com/users/ef1058d2d851">星夜暮晨</a>；定稿：<a href="https://github.com/Cee">Cee</a></p>
+</blockquote>
+<!--此处开始正文-->
+<p>假设现在要在某个视图（view）中放置三个子视图（subviews）。其中两个子视图放置在上方，第三个视图紧挨着它们放到下方。不过上方的两个视图高度不定，并且你不知道哪个更高一些。现在要求我们使用自动布局（Auto Layout）来控制下方视图和上方视图之间间距至少 10 单位像素。</p>]]>
+    
+    </summary>
+    
+      <category term="Swift and Painless" scheme="http://swiftggteam.github.io/tags/Swift-and-Painless/"/>
+    
+      <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[聚焦 Swift #0]]></title>
+    <link href="http://swiftggteam.github.io/2015/12/29/swift-open-source/"/>
+    <id>http://swiftggteam.github.io/2015/12/29/swift-open-source/</id>
+    <published>2015-12-28T16:00:00.000Z</published>
+    <updated>2015-12-30T01:12:28.397Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>作者：Jesse Squires，<a href="http://www.jessesquires.com/swift-open-source/" target="_blank" rel="external">原文链接</a>，原文日期：2015/12/06<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
+<p>译者注：这个系列的关注重点是 Swift 开源项目本身的发展，作者会截取每周发生的大事（比如合并了一个大改动）并进行分析，还会写一些有趣的小发现，很有意思。我们已经拿到翻译授权，会每周进行更新，欢迎关注。</p>
+</blockquote>
+<p>革命起源：<strong>2015.12.06</strong></p>
+<p>Apple 宣告 “<a href="https://developer.apple.com/swift/blog/?id=34" target="_blank" rel="external">Swift即将开源</a>” 的随后几天里，项目的活跃度让人瞠目结舌。回想今年早些时候的 <a href="https://developer.apple.com/wwdc/" target="_blank" rel="external">WWDC</a> 大会上 Apple 提及 Swift 不久会被开源，我可不认为任何人会像这样期待该发布版本。</p>
+<p><img src="/img/articles/swift-open-source/swift-logo.png1451394012.0965536" alt=""></p>
+<a id="more"></a>
+<h3 id="Expectations（期望）">Expectations（期望）</h3><p>没人真正知道接下来会发生什么。譬如 Swift 项目将会被投放到 <a href="http://www.opensource.apple.com/" target="_blank" rel="external">opensource.apple.com</a> 上，变得和其他开源项目一样毫无新意？还是说它会像 <a href="https://github.com/ResearchKit" target="_blank" rel="external">ResearchKit</a> 一样放置到 GitHub 上？最终，Swift 不仅发布到 <a href="https://github.com/apple/" target="_blank" rel="external">GitHub</a> 上，而且 Swift 团队将会以一种彻底透明化的方式工作。Apple 为该发布版所做的工作是令人瞩目的。我们不但可以获得所有的源代码，同时还能浏览每个项目<a href="https://github.com/apple/swift/commits/master" target="_blank" rel="external">完整的提交历史</a>，提供非常详细的视图展示 Swift 团队的开发流程，以及 Swift 的<a href="https://github.com/apple/swift-evolution" target="_blank" rel="external">演变史</a>。 任何你想要获悉的东西都可以在 <a href="http://swift.org/" target="_blank" rel="external">Swift.org</a>上找到。</p>
+<h3 id="Swift_in_the_open">Swift in the open</h3><p>过去的几天里我浏览了 <a href="https://github.com/apple/" target="_blank" rel="external">GitHub</a> 的源码仓以及 Swift 的<a href="https://swift.org/community/#mailing-lists" target="_blank" rel="external">邮件列表</a>。真是太有意思了！很好奇 Swift 开发在之后的发展中会变成什么样子？下面分享到目前为止我觉得很有意思的一些东西。</p>
+<ul>
+<li>Chris Lattner 于 2010.7.17 提交了首个 <a href="https://github.com/apple/swift/commit/18844bc65229786b96b89a9fc7739c0fc897905e" target="_blank" rel="external">commit</a>。</li>
+<li>Swift 源代码发布到 GitHub 上的短短24小时里，<a href="https://github.com/apple/swift" target="_blank" rel="external">Swift repo</a> 星星数以超过 10,000 之多。到目前为止已经拥有 19,000 星星数 和超过 2,000次 fork。在写这篇文章时候，它依旧占据 GitHub 热门榜单第一位。（pmst注：翻译时 <strong>24,724</strong> stars，<strong>3043</strong> fork，遗憾的是不在热门榜单中。）</li>
+<li>所有 repos 的 pull requests 加起来超过 400 之多。许多都已经被接收并合并了。</li>
+<li><a href="https://developer.apple.com/videos/play/wwdc2014-402/" target="_blank" rel="external">WWDC 2014</a> 宣告发布 Swift 语言之后，我想 Swift 团队在 twitter 上的活跃度是有目共睹的：一边答疑解惑；一边是 <a href="https://twitter.com/clattner_llvm" target="_blank" rel="external">Chris Lattner</a>，<a href="https://twitter.com/jckarter" target="_blank" rel="external">Joe Groff</a> 以及 <a href="https://twitter.com/UINT_MIN" target="_blank" rel="external">Jordan Rose</a> 大神时不时地举例说明。正是因为这些推文加速了 bug 的修复！😄</li>
+<li>还记得 <a href="https://www.apple.com/pr/library/2014/07/15Apple-and-IBM-Forge-Global-Partnership-to-Transform-Enterprise-Mobility.html" target="_blank" rel="external">Apple 和 IBM</a> 的<a href="http://www.apple.com/business/mobile-enterprise-apps/" target="_blank" rel="external">合作关系</a>吗？因此 IBM 对服务器端 Swift 开发的<a href="https://developer.ibm.com/swift/2015/12/03/introducing-the-ibm-swift-sandbox/" target="_blank" rel="external">投入</a>也就没什么令人吃惊的。就目前来看，Swift 应用到服务器端的趋势尤为明显。</li>
+<li>Chris Lattner 于星期六下午10点合并了 <a href="https://github.com/apple/swift/pull/166" target="_blank" rel="external">pull requests</a>。😆</li>
+<li>我们已经确切获悉了 Swift3.0 即将做出的改变。没有啥让人惊喜的东东拉。</li>
+<li>Swift3.0 中 <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0004-remove-pre-post-inc-decrement.md" target="_blank" rel="external">++ 和 – 运算符将被移除</a>。感谢 <a href="https://twitter.com/ericasadun" target="_blank" rel="external">Erica Sadun</a>，以及 <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0007-remove-c-style-for-loops.md" target="_blank" rel="external">C 风格的 for 循环</a>。她同一天中提交了2个建议！👏</li>
+<li>Chris lattner <a href="https://github.com/apple/swift/commit/22c3aa0588d2df1a207dcbad85946bab7976894c" target="_blank" rel="external">提交</a>了“Pull some ancient history off an internal wiki page for possible historical interest.” 什么？是的，没错！奇客们注意了。</li>
+<li>自从2014年9月开始 <a href="https://twitter.com/practicalswift" target="_blank" rel="external">@practicalswift</a> 这个专门收集 <a href="https://github.com/practicalswift/swift-compiler-crashes" target="_blank" rel="external">swift 编译崩溃信息的系列</a>已经作为<a href="https://github.com/apple/swift/commit/e5ca8be1a090335d401cd1d7dfcf9b2104674d5b" target="_blank" rel="external">仓库内容</a>的一部分了。</li>
+<li>使用 <code>associated</code> 类型声明取代 <code>typealias</code> 声明方式看起来是一个不错的<a href="https://github.com/apple/swift-evolution/pull/33/files" target="_blank" rel="external">机会</a>。</li>
+<li><a href="https://twitter.com/jtbandes" target="_blank" rel="external">Jacob Bandes-Storch</a> 提交了两个 <a href="https://github.com/apple/swift/pull/272" target="_blank" rel="external">pull request</a> 修复了将近 400 个 crash 。😲</li>
+<li>Swift 团队似乎很热衷于让社区参与进来。无所谓贡献大小！</li>
+<li><a href="https://github.com/apple/swift-corelibs-foundation" target="_blank" rel="external">swift-corelibs-foundation</a> 框架大部分都还<a href="https://github.com/apple/swift-corelibs-foundation/search?utf8=✓&amp;q=NSUnimplemented" target="_blank" rel="external">未实现</a>。看起来还有很多低挂的“果实”能让你来采摘。我很好奇这是否是 Apple 故意而为之，鼓励开发者参与贡献，还是说真的是因为时间紧迫导致的？</li>
+<li>自2010起的<a href="https://github.com/apple/swift/commit/afc81c1855bf711315b8e5de02db138d3d487eeb" target="_blank" rel="external">initial checkin</a> 实际上是版本4，从内部 SVN 仓库中导入的。“Swift SVN r4”。 你将注意到下面头文件中的注释说到：“该源文件是 Swift.org 开源项目中的一部分。Copyright(c)2014-2015 Apple Inc.” 我的看法有三点：<br>  1 在将项目发布到 GitHub 之前，提交历史已经被重新编辑以及整理过了。<br>  2 2010年时，Swift 团队指定的截止日期就是“2014-2015”，无关其他。这本就是 Apple 的一贯做法，反正 Swift 跌跌撞撞地已经到来。<br>  3 Chris Lattner 是个“巫师”。</li>
+</ul>
+<p>我想我们已经有了一个良好的开端。社区实在强大且狂热，仅仅<strong>三天</strong>,Swift 就有了极大地改进。正如 Lattner 所说，革命是属于 Swift 的！</p>
+<p>以上就是我所获知的所有东西了。如果你喜欢该文章，<a href="https://twitter.com/jesse_squires" target="_blank" rel="external">请让我知道</a>。或许我会坚持下去，分享我的发现。</p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>作者：Jesse Squires，<a href="http://www.jessesquires.com/swift-open-source/">原文链接</a>，原文日期：2015/12/06<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles">pmst</a>；校对：<a href="https://github.com/numbbbbb">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb">numbbbbb</a></p>
+<p>译者注：这个系列的关注重点是 Swift 开源项目本身的发展，作者会截取每周发生的大事（比如合并了一个大改动）并进行分析，还会写一些有趣的小发现，很有意思。我们已经拿到翻译授权，会每周进行更新，欢迎关注。</p>
+</blockquote>
+<p>革命起源：<strong>2015.12.06</strong></p>
+<p>Apple 宣告 “<a href="https://developer.apple.com/swift/blog/?id=34">Swift即将开源</a>” 的随后几天里，项目的活跃度让人瞠目结舌。回想今年早些时候的 <a href="https://developer.apple.com/wwdc/">WWDC</a> 大会上 Apple 提及 Swift 不久会被开源，我可不认为任何人会像这样期待该发布版本。</p>
+<p><img src="/img/articles/swift-open-source/swift-logo.png1451394012.0965536" alt=""></p>]]>
+    
+    </summary>
+    
+      <category term="Open Source Swift" scheme="http://swiftggteam.github.io/tags/Open-Source-Swift/"/>
+    
+      <category term="Swift 开源信息" scheme="http://swiftggteam.github.io/categories/Swift-%E5%BC%80%E6%BA%90%E4%BF%A1%E6%81%AF/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[如何使用 Swift、Foursquare API 及 Realm 构建一款 Coffee Shop 应用]]></title>
     <link href="http://swiftggteam.github.io/2015/12/29/foursquare-realm-swift/"/>
     <id>http://swiftggteam.github.io/2015/12/29/foursquare-realm-swift/</id>
     <published>2015-12-28T16:00:00.000Z</published>
-    <updated>2015-12-30T01:07:24.752Z</updated>
+    <updated>2015-12-30T01:12:28.397Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：reinder de vries，<a href="http://www.appcoda.com/foursquare-realm-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/23<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="http://www.brighttj.com" target="_blank" rel="external">saitjr</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -574,67 +670,11 @@
   </entry>
   
   <entry>
-    <title><![CDATA[聚焦 Swift #0]]></title>
-    <link href="http://swiftggteam.github.io/2015/12/29/swift-open-source/"/>
-    <id>http://swiftggteam.github.io/2015/12/29/swift-open-source/</id>
-    <published>2015-12-28T16:00:00.000Z</published>
-    <updated>2015-12-30T01:07:24.756Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>作者：Jesse Squires，<a href="http://www.jessesquires.com/swift-open-source/" target="_blank" rel="external">原文链接</a>，原文日期：2015/12/06<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
-<p>译者注：这个系列的关注重点是 Swift 开源项目本身的发展，作者会截取每周发生的大事（比如合并了一个大改动）并进行分析，还会写一些有趣的小发现，很有意思。我们已经拿到翻译授权，会每周进行更新，欢迎关注。</p>
-</blockquote>
-<p>革命起源：<strong>2015.12.06</strong></p>
-<p>Apple 宣告 “<a href="https://developer.apple.com/swift/blog/?id=34" target="_blank" rel="external">Swift即将开源</a>” 的随后几天里，项目的活跃度让人瞠目结舌。回想今年早些时候的 <a href="https://developer.apple.com/wwdc/" target="_blank" rel="external">WWDC</a> 大会上 Apple 提及 Swift 不久会被开源，我可不认为任何人会像这样期待该发布版本。</p>
-<p><img src="/img/articles/swift-open-source/swift-logo.png1451394012.0965536" alt=""></p>
-<a id="more"></a>
-<h3 id="Expectations（期望）">Expectations（期望）</h3><p>没人真正知道接下来会发生什么。譬如 Swift 项目将会被投放到 <a href="http://www.opensource.apple.com/" target="_blank" rel="external">opensource.apple.com</a> 上，变得和其他开源项目一样毫无新意？还是说它会像 <a href="https://github.com/ResearchKit" target="_blank" rel="external">ResearchKit</a> 一样放置到 GitHub 上？最终，Swift 不仅发布到 <a href="https://github.com/apple/" target="_blank" rel="external">GitHub</a> 上，而且 Swift 团队将会以一种彻底透明化的方式工作。Apple 为该发布版所做的工作是令人瞩目的。我们不但可以获得所有的源代码，同时还能浏览每个项目<a href="https://github.com/apple/swift/commits/master" target="_blank" rel="external">完整的提交历史</a>，提供非常详细的视图展示 Swift 团队的开发流程，以及 Swift 的<a href="https://github.com/apple/swift-evolution" target="_blank" rel="external">演变史</a>。 任何你想要获悉的东西都可以在 <a href="http://swift.org/" target="_blank" rel="external">Swift.org</a>上找到。</p>
-<h3 id="Swift_in_the_open">Swift in the open</h3><p>过去的几天里我浏览了 <a href="https://github.com/apple/" target="_blank" rel="external">GitHub</a> 的源码仓以及 Swift 的<a href="https://swift.org/community/#mailing-lists" target="_blank" rel="external">邮件列表</a>。真是太有意思了！很好奇 Swift 开发在之后的发展中会变成什么样子？下面分享到目前为止我觉得很有意思的一些东西。</p>
-<ul>
-<li>Chris Lattner 于 2010.7.17 提交了首个 <a href="https://github.com/apple/swift/commit/18844bc65229786b96b89a9fc7739c0fc897905e" target="_blank" rel="external">commit</a>。</li>
-<li>Swift 源代码发布到 GitHub 上的短短24小时里，<a href="https://github.com/apple/swift" target="_blank" rel="external">Swift repo</a> 星星数以超过 10,000 之多。到目前为止已经拥有 19,000 星星数 和超过 2,000次 fork。在写这篇文章时候，它依旧占据 GitHub 热门榜单第一位。（pmst注：翻译时 <strong>24,724</strong> stars，<strong>3043</strong> fork，遗憾的是不在热门榜单中。）</li>
-<li>所有 repos 的 pull requests 加起来超过 400 之多。许多都已经被接收并合并了。</li>
-<li><a href="https://developer.apple.com/videos/play/wwdc2014-402/" target="_blank" rel="external">WWDC 2014</a> 宣告发布 Swift 语言之后，我想 Swift 团队在 twitter 上的活跃度是有目共睹的：一边答疑解惑；一边是 <a href="https://twitter.com/clattner_llvm" target="_blank" rel="external">Chris Lattner</a>，<a href="https://twitter.com/jckarter" target="_blank" rel="external">Joe Groff</a> 以及 <a href="https://twitter.com/UINT_MIN" target="_blank" rel="external">Jordan Rose</a> 大神时不时地举例说明。正是因为这些推文加速了 bug 的修复！😄</li>
-<li>还记得 <a href="https://www.apple.com/pr/library/2014/07/15Apple-and-IBM-Forge-Global-Partnership-to-Transform-Enterprise-Mobility.html" target="_blank" rel="external">Apple 和 IBM</a> 的<a href="http://www.apple.com/business/mobile-enterprise-apps/" target="_blank" rel="external">合作关系</a>吗？因此 IBM 对服务器端 Swift 开发的<a href="https://developer.ibm.com/swift/2015/12/03/introducing-the-ibm-swift-sandbox/" target="_blank" rel="external">投入</a>也就没什么令人吃惊的。就目前来看，Swift 应用到服务器端的趋势尤为明显。</li>
-<li>Chris Lattner 于星期六下午10点合并了 <a href="https://github.com/apple/swift/pull/166" target="_blank" rel="external">pull requests</a>。😆</li>
-<li>我们已经确切获悉了 Swift3.0 即将做出的改变。没有啥让人惊喜的东东拉。</li>
-<li>Swift3.0 中 <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0004-remove-pre-post-inc-decrement.md" target="_blank" rel="external">++ 和 – 运算符将被移除</a>。感谢 <a href="https://twitter.com/ericasadun" target="_blank" rel="external">Erica Sadun</a>，以及 <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0007-remove-c-style-for-loops.md" target="_blank" rel="external">C 风格的 for 循环</a>。她同一天中提交了2个建议！👏</li>
-<li>Chris lattner <a href="https://github.com/apple/swift/commit/22c3aa0588d2df1a207dcbad85946bab7976894c" target="_blank" rel="external">提交</a>了“Pull some ancient history off an internal wiki page for possible historical interest.” 什么？是的，没错！奇客们注意了。</li>
-<li>自从2014年9月开始 <a href="https://twitter.com/practicalswift" target="_blank" rel="external">@practicalswift</a> 这个专门收集 <a href="https://github.com/practicalswift/swift-compiler-crashes" target="_blank" rel="external">swift 编译崩溃信息的系列</a>已经作为<a href="https://github.com/apple/swift/commit/e5ca8be1a090335d401cd1d7dfcf9b2104674d5b" target="_blank" rel="external">仓库内容</a>的一部分了。</li>
-<li>使用 <code>associated</code> 类型声明取代 <code>typealias</code> 声明方式看起来是一个不错的<a href="https://github.com/apple/swift-evolution/pull/33/files" target="_blank" rel="external">机会</a>。</li>
-<li><a href="https://twitter.com/jtbandes" target="_blank" rel="external">Jacob Bandes-Storch</a> 提交了两个 <a href="https://github.com/apple/swift/pull/272" target="_blank" rel="external">pull request</a> 修复了将近 400 个 crash 。😲</li>
-<li>Swift 团队似乎很热衷于让社区参与进来。无所谓贡献大小！</li>
-<li><a href="https://github.com/apple/swift-corelibs-foundation" target="_blank" rel="external">swift-corelibs-foundation</a> 框架大部分都还<a href="https://github.com/apple/swift-corelibs-foundation/search?utf8=✓&amp;q=NSUnimplemented" target="_blank" rel="external">未实现</a>。看起来还有很多低挂的“果实”能让你来采摘。我很好奇这是否是 Apple 故意而为之，鼓励开发者参与贡献，还是说真的是因为时间紧迫导致的？</li>
-<li>自2010起的<a href="https://github.com/apple/swift/commit/afc81c1855bf711315b8e5de02db138d3d487eeb" target="_blank" rel="external">initial checkin</a> 实际上是版本4，从内部 SVN 仓库中导入的。“Swift SVN r4”。 你将注意到下面头文件中的注释说到：“该源文件是 Swift.org 开源项目中的一部分。Copyright(c)2014-2015 Apple Inc.” 我的看法有三点：<br>  1 在将项目发布到 GitHub 之前，提交历史已经被重新编辑以及整理过了。<br>  2 2010年时，Swift 团队指定的截止日期就是“2014-2015”，无关其他。这本就是 Apple 的一贯做法，反正 Swift 跌跌撞撞地已经到来。<br>  3 Chris Lattner 是个“巫师”。</li>
-</ul>
-<p>我想我们已经有了一个良好的开端。社区实在强大且狂热，仅仅<strong>三天</strong>,Swift 就有了极大地改进。正如 Lattner 所说，革命是属于 Swift 的！</p>
-<p>以上就是我所获知的所有东西了。如果你喜欢该文章，<a href="https://twitter.com/jesse_squires" target="_blank" rel="external">请让我知道</a>。或许我会坚持下去，分享我的发现。</p>
-<blockquote>
-<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
-</blockquote>
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>作者：Jesse Squires，<a href="http://www.jessesquires.com/swift-open-source/">原文链接</a>，原文日期：2015/12/06<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles">pmst</a>；校对：<a href="https://github.com/numbbbbb">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb">numbbbbb</a></p>
-<p>译者注：这个系列的关注重点是 Swift 开源项目本身的发展，作者会截取每周发生的大事（比如合并了一个大改动）并进行分析，还会写一些有趣的小发现，很有意思。我们已经拿到翻译授权，会每周进行更新，欢迎关注。</p>
-</blockquote>
-<p>革命起源：<strong>2015.12.06</strong></p>
-<p>Apple 宣告 “<a href="https://developer.apple.com/swift/blog/?id=34">Swift即将开源</a>” 的随后几天里，项目的活跃度让人瞠目结舌。回想今年早些时候的 <a href="https://developer.apple.com/wwdc/">WWDC</a> 大会上 Apple 提及 Swift 不久会被开源，我可不认为任何人会像这样期待该发布版本。</p>
-<p><img src="/img/articles/swift-open-source/swift-logo.png1451394012.0965536" alt=""></p>]]>
-    
-    </summary>
-    
-      <category term="Open Source Swift" scheme="http://swiftggteam.github.io/tags/Open-Source-Swift/"/>
-    
-      <category term="Swift 开源信息" scheme="http://swiftggteam.github.io/categories/Swift-%E5%BC%80%E6%BA%90%E4%BF%A1%E6%81%AF/"/>
-    
-  </entry>
-  
-  <entry>
     <title><![CDATA[Friday Q&A 2015-12-11：Swift 中的弱引用]]></title>
     <link href="http://swiftggteam.github.io/2015/12/28/friday-qa-2015-12-11-swift-weak-references/"/>
     <id>http://swiftggteam.github.io/2015/12/28/friday-qa-2015-12-11-swift-weak-references/</id>
     <published>2015-12-27T16:00:00.000Z</published>
-    <updated>2015-12-30T01:07:24.752Z</updated>
+    <updated>2015-12-30T01:12:28.397Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Mike Ash，<a href="https://www.mikeash.com/pyblog/friday-qa-2015-12-11-swift-weak-references.html" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-11<br>译者：<a href="http://weibo.com/riven0951" target="_blank" rel="external">riven</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -791,7 +831,7 @@
     <link href="http://swiftggteam.github.io/2015/12/25/interesting-discussions-on-swift-evolution/"/>
     <id>http://swiftggteam.github.io/2015/12/25/interesting-discussions-on-swift-evolution/</id>
     <published>2015-12-24T16:00:00.000Z</published>
-    <updated>2015-12-30T01:07:24.752Z</updated>
+    <updated>2015-12-30T01:12:28.397Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/12/15/interesting-discussions-on-swift-evolution/" target="_blank" rel="external">原文链接</a>，原文日期：2015/12/15<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -850,7 +890,7 @@
     <link href="http://swiftggteam.github.io/2015/12/24/friday-qa-2015-11-20-covariance-and-contravariance/"/>
     <id>http://swiftggteam.github.io/2015/12/24/friday-qa-2015-11-20-covariance-and-contravariance/</id>
     <published>2015-12-23T16:00:00.000Z</published>
-    <updated>2015-12-30T01:07:24.752Z</updated>
+    <updated>2015-12-30T01:12:28.397Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Mike Ash，<a href="https://mikeash.com/pyblog/friday-qa-2015-11-20-covariance-and-contravariance.html" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-20<br>译者：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1077,7 +1117,7 @@
     <link href="http://swiftggteam.github.io/2015/12/23/swift-3/"/>
     <id>http://swiftggteam.github.io/2015/12/23/swift-3/</id>
     <published>2015-12-22T16:00:00.000Z</published>
-    <updated>2015-12-30T01:07:24.752Z</updated>
+    <updated>2015-12-30T01:12:28.397Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-3/" target="_blank" rel="external">原文链接</a>，原文日期：2015/12/10<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="undefined"></a></p>
 </blockquote>
@@ -1123,7 +1163,7 @@
     <link href="http://swiftggteam.github.io/2015/12/22/alamofire-beginner-guide/"/>
     <id>http://swiftggteam.github.io/2015/12/22/alamofire-beginner-guide/</id>
     <published>2015-12-21T16:00:00.000Z</published>
-    <updated>2015-12-30T01:07:24.752Z</updated>
+    <updated>2015-12-30T01:12:28.397Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：gregg mojica，<a href="http://www.appcoda.com/alamofire-beginner-guide/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/30<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1343,7 +1383,7 @@
     <link href="http://swiftggteam.github.io/2015/12/21/swift-3-0-and-foundation/"/>
     <id>http://swiftggteam.github.io/2015/12/21/swift-3-0-and-foundation/</id>
     <published>2015-12-20T16:00:00.000Z</published>
-    <updated>2015-12-30T01:07:24.752Z</updated>
+    <updated>2015-12-30T01:12:28.397Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/12/03/swift-3-0-and-foundation/" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-03<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1385,7 +1425,7 @@
     <link href="http://swiftggteam.github.io/2015/12/18/changing-swift-whats-coming-up-in-2-2-and-3-0/"/>
     <id>http://swiftggteam.github.io/2015/12/18/changing-swift-whats-coming-up-in-2-2-and-3-0/</id>
     <published>2015-12-17T16:00:00.000Z</published>
-    <updated>2015-12-30T01:07:24.752Z</updated>
+    <updated>2015-12-30T01:12:28.397Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/12/03/changing-swift-whats-coming-up-in-2-2-and-3-0/" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-03<br>译者：<a href="undefined">Channe</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1427,7 +1467,7 @@
     <link href="http://swiftggteam.github.io/2015/12/17/per-view-auto-rotation-locking-made-easy-for-ios-8-and-9/"/>
     <id>http://swiftggteam.github.io/2015/12/17/per-view-auto-rotation-locking-made-easy-for-ios-8-and-9/</id>
     <published>2015-12-16T16:00:00.000Z</published>
-    <updated>2015-12-30T01:07:24.752Z</updated>
+    <updated>2015-12-30T01:12:28.397Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Weston Hanners，<a href="http://www.alloc-init.com/2015/11/per-view-auto-rotation-locking-made-easy-for-ios-8-and-9/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-18<br>译者：<a href="undefined">littledogboy</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1622,7 +1662,7 @@
     <link href="http://swiftggteam.github.io/2015/12/16/new-to-beta-2-swift-2-1-playground-value-drops-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/12/16/new-to-beta-2-swift-2-1-playground-value-drops-swiftlang/</id>
     <published>2015-12-15T16:00:00.000Z</published>
-    <updated>2015-12-30T01:07:24.752Z</updated>
+    <updated>2015-12-30T01:12:28.397Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/09/23/new-to-beta-2-swift-2-1-playground-value-drops-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-23<br>译者：<a href="http://weibo.com/u/2916092907" target="_blank" rel="external">天才175</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1682,7 +1722,7 @@
     <link href="http://swiftggteam.github.io/2015/12/15/mixins-over-inheritance/"/>
     <id>http://swiftggteam.github.io/2015/12/15/mixins-over-inheritance/</id>
     <published>2015-12-15T02:30:00.000Z</published>
-    <updated>2015-12-30T01:07:24.752Z</updated>
+    <updated>2015-12-30T01:12:28.393Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Olivier Halligon，<a href="http://alisoftware.github.io/swift/protocol/2015/11/08/mixins-over-inheritance/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-08<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1805,7 +1845,7 @@
     <link href="http://swiftggteam.github.io/2015/12/14/a-beginners-guide-to-nsdate-in-swift/"/>
     <id>http://swiftggteam.github.io/2015/12/14/a-beginners-guide-to-nsdate-in-swift/</id>
     <published>2015-12-14T01:00:00.000Z</published>
-    <updated>2015-12-30T01:07:24.752Z</updated>
+    <updated>2015-12-30T01:12:28.393Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：gabriel theodoropoulos，<a href="http://www.appcoda.com/nsdate/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-18<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a></p>
 </blockquote>
@@ -2017,7 +2057,7 @@
     <link href="http://swiftggteam.github.io/2015/12/11/correction-on-testing-uialertcontroller/"/>
     <id>http://swiftggteam.github.io/2015/12/11/correction-on-testing-uialertcontroller/</id>
     <published>2015-12-10T16:00:00.000Z</published>
-    <updated>2015-12-30T01:07:24.752Z</updated>
+    <updated>2015-12-30T01:12:28.393Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：dom，<a href="http://swiftandpainless.com/correction-on-testing-uialertcontroller/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-25<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="http://weibo.com/lfbWb" target="_blank" rel="external">lfb_CD</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -2066,7 +2106,7 @@
     <link href="http://swiftggteam.github.io/2015/12/10/reduce-all-the-things/"/>
     <id>http://swiftggteam.github.io/2015/12/10/reduce-all-the-things/</id>
     <published>2015-12-09T16:00:00.000Z</published>
-    <updated>2015-12-30T01:07:24.752Z</updated>
+    <updated>2015-12-30T01:12:28.393Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Benedikt Terhechte，<a href="http://appventure.me/2015/11/30/reduce-all-the-things/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-30<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -2182,11 +2222,79 @@
   </entry>
   
   <entry>
+    <title><![CDATA[iOS：选择 Realm 而不是 CoreData]]></title>
+    <link href="http://swiftggteam.github.io/2015/12/08/ios-realm-instead-of-coredata/"/>
+    <id>http://swiftggteam.github.io/2015/12/08/ios-realm-instead-of-coredata/</id>
+    <published>2015-12-07T16:00:00.000Z</published>
+    <updated>2015-12-30T01:12:28.393Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/ios-realm-instead-of-coredata/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-29<br>译者：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
+</blockquote>
+<!--此处开始正文-->
+<blockquote>
+<p>我已在网上多次看到「Realm」这个词。我甚至曾在十月时有机会参加由 Swift 用户组组织的 Realm 聚会。最终，我有机会用上了 Realm 这个框架。</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="案例">案例</h2><p>现在我正在节食。我需要减一些体重因为在加利福尼亚的时候胖了好多 – 好吃的食物实在是太多了:)！我浏览了一下 iTunes Store 中的那些能够追踪喝水记录的应用，但是在我看来这些应用要么看上去很糟糕，要么交互实在是很烂。我想：如果我决定做一个应用，岂不是一箭双雕吗 – 我又能写一个我想要的应用，又能选择使用 Realm 而不是 Core Data。所以我开工了。</p>
+<p>你知道当我看完文档、开始使用 Realm 框架的第一感觉是什么吗？<strong>哇，这简直真是太棒了！这些开发的家伙做的简直超棒！</strong></p>
+<p><strong>免责声明：</strong>接下来所写的仅仅只覆盖了 Realm 框架中最基本的一部分。我建议你们接下来可以去阅读<a href="https://realm.io/docs/swift/latest/" target="_blank" rel="external">官方文档</a>来获取更多的信息。在这儿我并不想向你们展示关于 Realm 框架的全部内容，因为这篇文章不可能像文档一样又臭又长，并且我自己也会避免这样的问题发生。官方的文档非常的棒，你在开工前可以先读一下它。</p>
+<p>我的这个案例并不是很复杂而是非常简单的。整个 app 只有两个抽象模型（Model）类： <code>Day</code> 和 <code>DrinkLogEntry</code> 。此外，这个 app 也需要这些功能：添加、更新、筛选和排序存储的数据。正如我所说这是个简单的 app 。接下来我会呈现 app 中的一些代码片段。</p>
+<h2 id="抽象模型（Model）">抽象模型（Model）</h2><p>Realm 中没有像 xcdatamodel-like 这样的文件。抽象模型仅仅是继承自 <code>Object</code> 类的文件。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> 表示了用户一天的生活。 Day 这个类的信息包含用户所喝的水和他们的每天喝水的目标。</span><br><span class="line">*/</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Day</span>: <span class="title">Object</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">dynamic</span> <span class="keyword">var</span> identifier: <span class="type">String</span>!</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// 表示一天的开始的时间戳（UTC+0 时区）</span></span><br><span class="line">    <span class="keyword">dynamic</span> <span class="keyword">var</span> timestamp: <span class="type">NSTimeInterval</span> = <span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// 用户所喝的水的量（毫升）</span></span><br><span class="line">    <span class="keyword">dynamic</span> <span class="keyword">var</span> waterDrank: <span class="type">Float</span> = <span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// 用户每天喝水的目标（毫升）</span></span><br><span class="line">    <span class="keyword">dynamic</span> <span class="keyword">var</span> dailyGoal: <span class="type">Float</span> = <span class="number">0</span> <span class="comment">// ml</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> drinkLogs = <span class="type">List</span>&lt;<span class="type">DrinkLogEntry</span>&gt;()</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">convenience</span> <span class="keyword">init</span>(timestamp: <span class="type">NSTimeInterval</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.<span class="keyword">init</span>()</span><br><span class="line">        <span class="keyword">self</span>.timestamp = timestamp</span><br><span class="line">        <span class="keyword">self</span>.identifier = <span class="type">Day</span>.convertTimestampIntoIdentifier(timestamp)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">override</span> <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">primaryKey</span>() -&gt; <span class="title">String</span>? </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"identifier"</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">override</span> <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">indexedProperties</span>() -&gt; [<span class="title">String</span>] </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> [<span class="string">"identifier"</span>]</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">convertTimestampIntoIdentifier</span>(<span class="title">timestamp</span>: <span class="title">NSTimeInterval</span>) -&gt; <span class="title">String</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="type">String</span>(format: <span class="string">"%.0f"</span>, arguments: [timestamp])</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>所有前有 <code>dynamic</code> 关键字的属性都会被转化成数据抽象层的一部分。Realm 也支持关系型数据。在这个例子中 Day 这个类中存在 drinkLogs 的一对多关系。一对一的关系就仅是类中的特定属性了。</p>
+<p>Realm 也支持从 Core Data 中迁移数据。当你需要迁移的时候，可以定义一个闭包并且执行它，然后你就能顺利地执行迁移属性的所有步骤了（译者注：<a href="https://realm.io/news/migrating-from-core-data-to-realm/" target="_blank" rel="external">如何从 Core Data 迁移到 Realm</a>）。</p>
+<h2 id="索引属性（Indexed_properties）和主键（Primary_keys）">索引属性（Indexed properties）和主键（Primary keys）</h2><p>Realm 框架有很多 Core Data 中没有的新特性（也有可能是我没找到，或者说我就是想提一下这点😊）。第一点就是「索引属性」了。你可以定义需要被索引的属性集合。当属性个数比较小的时候，搜索会变得很快。这有助于性能的提升。</p>
+<p>接下来不得不提一下「主键」。你可以定义抽象模型中的一个属性作为它的主键。这能保证更加有效地更新数据以及保证数据的唯一性。</p>
+<p>在我使用的这个例子中，主键和索引属性将作为「标识符」，被用于搜索和更新数据。</p>
+<p>数据中也可以有被忽略的属性，那些属性将不被持久化保存。</p>
+<h2 id="创建、更新并写入数据">创建、更新并写入数据</h2><p>你可以使用未被持久化过的抽象模型，而且这些数据可以被持久化时，你可以将它们写入 Realm 中。比起 Core Data，这就是我为什么喜欢 Realm 更多一点 – 因为它能够很好地解决一些临时数据的问题。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> day = <span class="type">Day</span>(timestamp: timestamp)</span><br><span class="line">day.dailyGoal = <span class="type">MenuSettings</span>().dailyGoal</span><br></pre></td></tr></table></figure>
+<p>为了能够写入 Realm 或者从 Realm 中读取，你需要创建 <code>Realm</code> 实例：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> realm = <span class="keyword">try</span>! <span class="type">Realm</span>()</span><br></pre></td></tr></table></figure>
+<p>这是如何将数据添加到数据库的方法：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">try</span>! realm.write &#123;</span><br><span class="line">    realm.add(day)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我特别喜欢 Realm 中更新数据的方式。我们假设一下有一部分数据是从网络上下载的，并且他们被映射过而且已经加进了数据库。在数据库中已经存在的数据仅需要更新而不是再次添加。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">fetchAll</span><span class="params">(completion: [Day] -&gt; Void)</span></span> &#123;</span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     假设请求返回了 JSON 并且数据已经映射到了抽象数据层的 Day 类型。</span><br><span class="line">          </span><br><span class="line">     创建的数据还没有存入数据库 Realm 中。</span><br><span class="line">     数据的标识符是相等的时间戳。</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">let</span> day1 = <span class="type">Day</span>(timestamp: <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">let</span> day2 = <span class="type">Day</span>(timestamp: <span class="number">86400</span>)</span><br><span class="line">    <span class="keyword">let</span> day3 = <span class="type">Day</span>(timestamp: <span class="number">172800</span>)</span><br><span class="line">    </span><br><span class="line">    completion([day1, day2, day3])</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">sync</span><span class="params">()</span></span> &#123;</span><br><span class="line">    fetchAll &#123; (days) -&gt; <span class="type">Void</span> <span class="keyword">in</span></span><br><span class="line">        <span class="keyword">let</span> realm = <span class="keyword">try</span>! <span class="type">Realm</span>()</span><br><span class="line">        <span class="keyword">try</span>! realm.write &#123;</span><br><span class="line">            <span class="comment">/// 如果有相同的标识符，那么它将会被更新。</span></span><br><span class="line">            realm.add(days, update: <span class="literal">true</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这是一种比手动查询带有相同标识符然后更新值域更好的方法。</p>
+<p>如果更新的参数被置为 false，那么新的数据将具有和在数据库中存在的数据相同的主键。异常会被抛出。</p>
+<p>还有其他一些方法来更新数据，在这篇文章中我就不涉及了。</p>
+<p>这是如何得到所有 Day 类型数据的方法：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> days = realm.objects(<span class="type">Day</span>.<span class="keyword">self</span>)</span><br></pre></td></tr></table></figure>
+<p>筛选数据也很简单：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">realm.objects(<span class="type">Day</span>.<span class="keyword">self</span>).<span class="built_in">filter</span>(<span class="string">"identifier == %@"</span>, dayIdentifier)</span><br></pre></td></tr></table></figure>
+<p>按照时间戳升序排列这些数据：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> days = realm.objects(<span class="type">Day</span>.<span class="keyword">self</span>).sorted(<span class="string">"timestamp"</span>, ascending: <span class="literal">true</span>)</span><br></pre></td></tr></table></figure>
+<p>当你每次执行 <code>object()</code>、<code>sorted()</code> 和 <code>filter()</code> 后均会得到一个 <code>Results&lt;T&gt;</code> 类型的数据。这能让你对结果进行额外的筛选排序等操作 - 这功能非常的强大而且非常好使。</p>
+<h2 id="小结">小结</h2><p>在下一个有更加复杂的数据模型的 app 中<strong>我还会使用</strong> Realm 吗？答案是<strong>肯定</strong>的。因为整个框架使用起来非常的简单、集成起来非常的快速，而且 Realm 提供了非常多而且强大的功能特性。</p>
+<p>P.S. 这个 app 正在等待过审 :)</p>
+<p>2015/12/06更新<br>这个应用上架了 - <a href="https://itunes.apple.com/pl/app/water-intake-drink-more-water/id1062053347?mt=8" target="_blank" rel="external">Water Intake</a></p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/ios-realm-instead-of-coredata/">原文链接</a>，原文日期：2015-11-29<br>译者：<a href="https://github.com/Cee">Cee</a>；校对：<a href="http://weibo.com/xiaoxxiao">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao">千叶知风</a></p>
+</blockquote>
+<!--此处开始正文-->
+<blockquote>
+<p>我已在网上多次看到「Realm」这个词。我甚至曾在十月时有机会参加由 Swift 用户组组织的 Realm 聚会。最终，我有机会用上了 Realm 这个框架。</p>
+</blockquote>]]>
+    
+    </summary>
+    
+      <category term="Tomasz Szulc" scheme="http://swiftggteam.github.io/tags/Tomasz-Szulc/"/>
+    
+      <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[使用 Realm 和 Swift 创建 ToDo 应用]]></title>
     <link href="http://swiftggteam.github.io/2015/12/08/building-a-todo-app-using-realm-and-swift/"/>
     <id>http://swiftggteam.github.io/2015/12/08/building-a-todo-app-using-realm-and-swift/</id>
     <published>2015-12-07T16:00:00.000Z</published>
-    <updated>2015-12-30T01:07:24.752Z</updated>
+    <updated>2015-12-30T01:12:28.393Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Hossam Ghareeb，<a href="http://www.appcoda.com/realm-database-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-28<br>译者：<a href="http://www.futantan.com" target="_blank" rel="external">Prayer</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -2357,155 +2465,6 @@
     </summary>
     
       <category term="AppCoda" scheme="http://swiftggteam.github.io/tags/AppCoda/"/>
-    
-      <category term="Swift 进阶" scheme="http://swiftggteam.github.io/categories/Swift-%E8%BF%9B%E9%98%B6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[iOS：选择 Realm 而不是 CoreData]]></title>
-    <link href="http://swiftggteam.github.io/2015/12/08/ios-realm-instead-of-coredata/"/>
-    <id>http://swiftggteam.github.io/2015/12/08/ios-realm-instead-of-coredata/</id>
-    <published>2015-12-07T16:00:00.000Z</published>
-    <updated>2015-12-30T01:07:24.752Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/ios-realm-instead-of-coredata/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-29<br>译者：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
-</blockquote>
-<!--此处开始正文-->
-<blockquote>
-<p>我已在网上多次看到「Realm」这个词。我甚至曾在十月时有机会参加由 Swift 用户组组织的 Realm 聚会。最终，我有机会用上了 Realm 这个框架。</p>
-</blockquote>
-<a id="more"></a>
-<h2 id="案例">案例</h2><p>现在我正在节食。我需要减一些体重因为在加利福尼亚的时候胖了好多 – 好吃的食物实在是太多了:)！我浏览了一下 iTunes Store 中的那些能够追踪喝水记录的应用，但是在我看来这些应用要么看上去很糟糕，要么交互实在是很烂。我想：如果我决定做一个应用，岂不是一箭双雕吗 – 我又能写一个我想要的应用，又能选择使用 Realm 而不是 Core Data。所以我开工了。</p>
-<p>你知道当我看完文档、开始使用 Realm 框架的第一感觉是什么吗？<strong>哇，这简直真是太棒了！这些开发的家伙做的简直超棒！</strong></p>
-<p><strong>免责声明：</strong>接下来所写的仅仅只覆盖了 Realm 框架中最基本的一部分。我建议你们接下来可以去阅读<a href="https://realm.io/docs/swift/latest/" target="_blank" rel="external">官方文档</a>来获取更多的信息。在这儿我并不想向你们展示关于 Realm 框架的全部内容，因为这篇文章不可能像文档一样又臭又长，并且我自己也会避免这样的问题发生。官方的文档非常的棒，你在开工前可以先读一下它。</p>
-<p>我的这个案例并不是很复杂而是非常简单的。整个 app 只有两个抽象模型（Model）类： <code>Day</code> 和 <code>DrinkLogEntry</code> 。此外，这个 app 也需要这些功能：添加、更新、筛选和排序存储的数据。正如我所说这是个简单的 app 。接下来我会呈现 app 中的一些代码片段。</p>
-<h2 id="抽象模型（Model）">抽象模型（Model）</h2><p>Realm 中没有像 xcdatamodel-like 这样的文件。抽象模型仅仅是继承自 <code>Object</code> 类的文件。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> 表示了用户一天的生活。 Day 这个类的信息包含用户所喝的水和他们的每天喝水的目标。</span><br><span class="line">*/</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Day</span>: <span class="title">Object</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">dynamic</span> <span class="keyword">var</span> identifier: <span class="type">String</span>!</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// 表示一天的开始的时间戳（UTC+0 时区）</span></span><br><span class="line">    <span class="keyword">dynamic</span> <span class="keyword">var</span> timestamp: <span class="type">NSTimeInterval</span> = <span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// 用户所喝的水的量（毫升）</span></span><br><span class="line">    <span class="keyword">dynamic</span> <span class="keyword">var</span> waterDrank: <span class="type">Float</span> = <span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// 用户每天喝水的目标（毫升）</span></span><br><span class="line">    <span class="keyword">dynamic</span> <span class="keyword">var</span> dailyGoal: <span class="type">Float</span> = <span class="number">0</span> <span class="comment">// ml</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> drinkLogs = <span class="type">List</span>&lt;<span class="type">DrinkLogEntry</span>&gt;()</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">convenience</span> <span class="keyword">init</span>(timestamp: <span class="type">NSTimeInterval</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.<span class="keyword">init</span>()</span><br><span class="line">        <span class="keyword">self</span>.timestamp = timestamp</span><br><span class="line">        <span class="keyword">self</span>.identifier = <span class="type">Day</span>.convertTimestampIntoIdentifier(timestamp)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">override</span> <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">primaryKey</span>() -&gt; <span class="title">String</span>? </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"identifier"</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">override</span> <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">indexedProperties</span>() -&gt; [<span class="title">String</span>] </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> [<span class="string">"identifier"</span>]</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">convertTimestampIntoIdentifier</span>(<span class="title">timestamp</span>: <span class="title">NSTimeInterval</span>) -&gt; <span class="title">String</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="type">String</span>(format: <span class="string">"%.0f"</span>, arguments: [timestamp])</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>所有前有 <code>dynamic</code> 关键字的属性都会被转化成数据抽象层的一部分。Realm 也支持关系型数据。在这个例子中 Day 这个类中存在 drinkLogs 的一对多关系。一对一的关系就仅是类中的特定属性了。</p>
-<p>Realm 也支持从 Core Data 中迁移数据。当你需要迁移的时候，可以定义一个闭包并且执行它，然后你就能顺利地执行迁移属性的所有步骤了（译者注：<a href="https://realm.io/news/migrating-from-core-data-to-realm/" target="_blank" rel="external">如何从 Core Data 迁移到 Realm</a>）。</p>
-<h2 id="索引属性（Indexed_properties）和主键（Primary_keys）">索引属性（Indexed properties）和主键（Primary keys）</h2><p>Realm 框架有很多 Core Data 中没有的新特性（也有可能是我没找到，或者说我就是想提一下这点😊）。第一点就是「索引属性」了。你可以定义需要被索引的属性集合。当属性个数比较小的时候，搜索会变得很快。这有助于性能的提升。</p>
-<p>接下来不得不提一下「主键」。你可以定义抽象模型中的一个属性作为它的主键。这能保证更加有效地更新数据以及保证数据的唯一性。</p>
-<p>在我使用的这个例子中，主键和索引属性将作为「标识符」，被用于搜索和更新数据。</p>
-<p>数据中也可以有被忽略的属性，那些属性将不被持久化保存。</p>
-<h2 id="创建、更新并写入数据">创建、更新并写入数据</h2><p>你可以使用未被持久化过的抽象模型，而且这些数据可以被持久化时，你可以将它们写入 Realm 中。比起 Core Data，这就是我为什么喜欢 Realm 更多一点 – 因为它能够很好地解决一些临时数据的问题。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> day = <span class="type">Day</span>(timestamp: timestamp)</span><br><span class="line">day.dailyGoal = <span class="type">MenuSettings</span>().dailyGoal</span><br></pre></td></tr></table></figure>
-<p>为了能够写入 Realm 或者从 Realm 中读取，你需要创建 <code>Realm</code> 实例：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> realm = <span class="keyword">try</span>! <span class="type">Realm</span>()</span><br></pre></td></tr></table></figure>
-<p>这是如何将数据添加到数据库的方法：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">try</span>! realm.write &#123;</span><br><span class="line">    realm.add(day)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>我特别喜欢 Realm 中更新数据的方式。我们假设一下有一部分数据是从网络上下载的，并且他们被映射过而且已经加进了数据库。在数据库中已经存在的数据仅需要更新而不是再次添加。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">fetchAll</span><span class="params">(completion: [Day] -&gt; Void)</span></span> &#123;</span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     假设请求返回了 JSON 并且数据已经映射到了抽象数据层的 Day 类型。</span><br><span class="line">          </span><br><span class="line">     创建的数据还没有存入数据库 Realm 中。</span><br><span class="line">     数据的标识符是相等的时间戳。</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">let</span> day1 = <span class="type">Day</span>(timestamp: <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">let</span> day2 = <span class="type">Day</span>(timestamp: <span class="number">86400</span>)</span><br><span class="line">    <span class="keyword">let</span> day3 = <span class="type">Day</span>(timestamp: <span class="number">172800</span>)</span><br><span class="line">    </span><br><span class="line">    completion([day1, day2, day3])</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">sync</span><span class="params">()</span></span> &#123;</span><br><span class="line">    fetchAll &#123; (days) -&gt; <span class="type">Void</span> <span class="keyword">in</span></span><br><span class="line">        <span class="keyword">let</span> realm = <span class="keyword">try</span>! <span class="type">Realm</span>()</span><br><span class="line">        <span class="keyword">try</span>! realm.write &#123;</span><br><span class="line">            <span class="comment">/// 如果有相同的标识符，那么它将会被更新。</span></span><br><span class="line">            realm.add(days, update: <span class="literal">true</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这是一种比手动查询带有相同标识符然后更新值域更好的方法。</p>
-<p>如果更新的参数被置为 false，那么新的数据将具有和在数据库中存在的数据相同的主键。异常会被抛出。</p>
-<p>还有其他一些方法来更新数据，在这篇文章中我就不涉及了。</p>
-<p>这是如何得到所有 Day 类型数据的方法：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> days = realm.objects(<span class="type">Day</span>.<span class="keyword">self</span>)</span><br></pre></td></tr></table></figure>
-<p>筛选数据也很简单：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">realm.objects(<span class="type">Day</span>.<span class="keyword">self</span>).<span class="built_in">filter</span>(<span class="string">"identifier == %@"</span>, dayIdentifier)</span><br></pre></td></tr></table></figure>
-<p>按照时间戳升序排列这些数据：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> days = realm.objects(<span class="type">Day</span>.<span class="keyword">self</span>).sorted(<span class="string">"timestamp"</span>, ascending: <span class="literal">true</span>)</span><br></pre></td></tr></table></figure>
-<p>当你每次执行 <code>object()</code>、<code>sorted()</code> 和 <code>filter()</code> 后均会得到一个 <code>Results&lt;T&gt;</code> 类型的数据。这能让你对结果进行额外的筛选排序等操作 - 这功能非常的强大而且非常好使。</p>
-<h2 id="小结">小结</h2><p>在下一个有更加复杂的数据模型的 app 中<strong>我还会使用</strong> Realm 吗？答案是<strong>肯定</strong>的。因为整个框架使用起来非常的简单、集成起来非常的快速，而且 Realm 提供了非常多而且强大的功能特性。</p>
-<p>P.S. 这个 app 正在等待过审 :)</p>
-<p>2015/12/06更新<br>这个应用上架了 - <a href="https://itunes.apple.com/pl/app/water-intake-drink-more-water/id1062053347?mt=8" target="_blank" rel="external">Water Intake</a></p>
-<blockquote>
-<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
-</blockquote>
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/ios-realm-instead-of-coredata/">原文链接</a>，原文日期：2015-11-29<br>译者：<a href="https://github.com/Cee">Cee</a>；校对：<a href="http://weibo.com/xiaoxxiao">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao">千叶知风</a></p>
-</blockquote>
-<!--此处开始正文-->
-<blockquote>
-<p>我已在网上多次看到「Realm」这个词。我甚至曾在十月时有机会参加由 Swift 用户组组织的 Realm 聚会。最终，我有机会用上了 Realm 这个框架。</p>
-</blockquote>]]>
-    
-    </summary>
-    
-      <category term="Tomasz Szulc" scheme="http://swiftggteam.github.io/tags/Tomasz-Szulc/"/>
-    
-      <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[几个 Swift 代码规范]]></title>
-    <link href="http://swiftggteam.github.io/2015/12/07/a-handful-of-swift-style-rules-swiftlang/"/>
-    <id>http://swiftggteam.github.io/2015/12/07/a-handful-of-swift-style-rules-swiftlang/</id>
-    <published>2015-12-06T16:00:00.000Z</published>
-    <updated>2015-12-30T01:07:24.752Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/11/17/a-handful-of-swift-style-rules-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-17<br>译者：<a href="http://blog.csdn.net/mmoaay" target="_blank" rel="external">mmoaay</a>；校对：<a href="http://weibo.com/lfbWb" target="_blank" rel="external">lfb_CD</a>；定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
-</blockquote>
-<p>我们需要经常带着新问题来重新审视一下以前的代码规范。</p>
-<a id="more"></a>
-<p><strong><a href="http://twitter.com/Eridius" target="_blank" rel="external">Kevin</a> 提供的一套规范</strong>：“如果尾部的闭包参数是函数式的就用圆括号。如果是程序式的就用花括号。”</p>
-<figure class="highlight less"><table><tr><td class="code"><pre><span class="line"><span class="tag">myCollection</span><span class="class">.map</span>(&#123;<span class="tag">blah</span>&#125;)<span class="class">.filter</span>(&#123;<span class="tag">blah</span>&#125;)<span class="class">.etc</span></span><br><span class="line"><span class="tag">myCollection</span><span class="class">.forEach</span> &#123;&#125; <span class="comment">// 或者 </span></span><br><span class="line"><span class="function">dispatch_after</span>(when, queue) &#123;&#125;</span><br></pre></td></tr></table></figure>
-<p>样式一致性与闭包是否有返回值相关。目前存在的争议是我们是否应该在尾部花括号的左边留空格。</p>
-<p><strong><code>self</code> 的使用规范</strong>：“当<a href="http://ericasadun.com/2015/04/21/swift-occams-code-razor/" target="_blank" rel="external">编译器可以自动推断</a>成员类型时，你就可以在使用隐式成员表达式时省略 <code>self</code>。但无论何时，只要一个方法调用会反射到一个实例，就要使用 <code>self</code>。“</p>
-<p>仔细考虑下面 <code>for</code> 循环语句中的 <code>where</code> 分支。<code>contains</code> 方法就是在没有明确对象的情况下调用的。那是谁做了 <code>contains</code> 操作呢? 因为方法参数中没有传入容器对象，所以这个对象只能是调用这个方法的实例。</p>
-<figure class="highlight applescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (flagLessOne, <span class="type">string</span>) <span class="keyword">in</span> strings.enumerate() </span><br><span class="line">    <span class="keyword">where</span> <span class="keyword">contains</span>(</span><br><span class="line">        Features(rawValue: <span class="number">1</span>&lt;&lt;(flagLessOne + <span class="number">1</span>))) &#123;</span><br><span class="line">    nameArray.append(<span class="type">string</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>完全合格的调用明确指出了原本模糊不清的对象，同时极大滴提高了代码的可读性：</p>
-<figure class="highlight applescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (flagLessOne, <span class="type">string</span>) <span class="keyword">in</span> strings.enumerate() </span><br><span class="line">    <span class="keyword">where</span> self.<span class="keyword">contains</span>(</span><br><span class="line">        Features(rawValue: <span class="number">1</span>&lt;&lt;(flagLessOne + <span class="number">1</span>))) &#123;</span><br><span class="line">    nameArray.append(<span class="type">string</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>条件级联绑定的规范</strong>：“除非你做的是 <code>var</code> 和 <code>let</code> 混合的条件绑定，只用一个 <code>if let</code> 或者 <code>if var</code> 就可以了，需要的话可以自由添加空格。“</p>
-<p>不要使用下面的方式：</p>
-<figure class="highlight xquery"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> x = x, <span class="keyword">let</span> y = y, <span class="keyword">let</span> z = z &#123;blah&#125;</span><br></pre></td></tr></table></figure>
-<p>使用这种：</p>
-<figure class="highlight xquery"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> x = x, y = y, z = z &#123;blah&#125;</span><br></pre></td></tr></table></figure>
-<p>省略多余的 <code>let</code> 关键字可以让级联绑定更加简洁，而且 Xcode 会帮你对这些代码的格式进行很好的调整：</p>
-<figure class="highlight lasso"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">let</span></span><br><span class="line">    x = x,</span><br><span class="line">    y = y,</span><br><span class="line">    z = z &#123;</span><br><span class="line">    <span class="attribute">...</span>blah<span class="attribute">...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>尽管级联绑定避免了 pre-Swift 2 中的“鞭尸金字塔(pyramids of doom)“，但它们又导致了“恐怖便秘块(constipated blocks of horror)“的问题。这种问题主要出现在下面两种情况：</p>
-<ul>
-<li>存在大量的串行绑定，再加上空行和注释时（就像下面的代码）</li>
-<li>使用了一系列 <code>guard</code> 语句时。</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">let</span></span><br><span class="line">    <span class="comment">// 以字典的方式访问 JSON </span></span><br><span class="line">    json = json <span class="keyword">as</span>? NSDictionary,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 检查结果数组</span></span><br><span class="line">    resultsList = json[<span class="string">"results"</span>] <span class="keyword">as</span>? NSArray,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 提取第一项</span></span><br><span class="line">    results = resultsList.firstObject <span class="keyword">as</span>? NSDictionary,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 提取名字和价格</span></span><br><span class="line">    name = results[<span class="string">"trackName"</span>] <span class="keyword">as</span>? <span class="built_in">String</span>, </span><br><span class="line">    price = results[<span class="string">"price"</span>] <span class="keyword">as</span>? NSNumber &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ... blah blah ...</span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-<p><strong>模式匹配关键字的规范</strong>：“如果都是绑定，那就要把绑定组合起来。”</p>
-<p>通过把关键字移动到元组外面的方式来把多模式匹配绑定组合起来。将下面的代码：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">case</span> (<span class="built_in">let</span> x?, <span class="built_in">let</span> y?) = myOptionalTuple &#123;</span><br><span class="line">    <span class="built_in">print</span>(x, y)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>替换为：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">case</span> <span class="built_in">let</span> (x?, y?) = myOptionalTuple &#123;</span><br><span class="line">    <span class="built_in">print</span>(x, y)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong><code>isEmpty</code> 的使用规范</strong>：“如果你在检测一个集合元素的个数，你可能就是在犯错。”用 <code>isEmpty</code> 替换 <code>count == 0</code>。</p>
-<p><strong><code>void</code> 的使用规范</strong>：“使用 <code>void</code> 返回类型，而不是 <code>()</code>。”下面是一个返回 <code>-&gt; Void</code> 而不是 <code>-&gt; ()</code> 的方法。</p>
-<figure class="highlight autoit"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">doThis</span><span class="params">()</span> -&gt; <span class="title">Void</span> </span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">notThis</span><span class="params">()</span> -&gt; <span class="params">()</span></span></span><br></pre></td></tr></table></figure>
-<p><strong><code>!</code> 的使用规范</strong>：“每当你在 Swift 中用惊叹号的时候，一只小猫就会死。”尽可能的避免使用强制转换和强制解包。</p>
-<p><strong>创建集合的规范</strong>：“使用显式类型和空集合。”类型在赋值操作符的左边，空实例在赋值操作符的右边。</p>
-<p>把下面的代码：</p>
-<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">var x = [<span class="link_label">String: Int</span>](<span class="link_url"></span>) // 以及</span><br><span class="line">var y = [<span class="link_label">Double</span>](<span class="link_url"></span>)</span><br><span class="line">var z = Set<span class="xml"><span class="tag">&lt;<span class="title">String</span>&gt;</span></span>()</span><br><span class="line">var mySet = MyOptionSet()</span><br></pre></td></tr></table></figure>
-<p>替换为：</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="variable"><span class="keyword">var</span> x</span>: [String: <span class="typename">Int</span>] = [:]</span><br><span class="line"><span class="variable"><span class="keyword">var</span> y</span>: [<span class="typename">Double</span>] = []</span><br><span class="line"><span class="variable"><span class="keyword">var</span> z</span>: Set<span class="type">&lt;String&gt;</span> = []</span><br><span class="line"><span class="variable"><span class="keyword">var</span> mySet</span>: MyOptionSet = []</span><br></pre></td></tr></table></figure>
-<p><a href="https://twitter.com/_jackhl/status/646723367576276992" target="_blank" rel="external">引用</a></p>
-<p>“<a href="http://mikeash.com/" target="_blank" rel="external">Mike Ash</a>”的冒号规范：“右侧加上空格，而左侧不需要。”Or no soup for you!</p>
-<p>应该使用：</p>
-<figure class="highlight cs"><table><tr><td class="code"><pre><span class="line">[key: <span class="keyword">value</span>] <span class="comment">// 以及</span></span><br><span class="line"><span class="keyword">struct</span> Foo: MyProtocol</span><br></pre></td></tr></table></figure>
-<p>而不是：</p>
-<figure class="highlight crystal"><table><tr><td class="code"><pre><span class="line">[key : value]</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Foo</span> : <span class="title">MyProtocol</span></span></span><br></pre></td></tr></table></figure>
-<p><strong>从 Objective-C 过来的规范</strong>：</p>
-<ul>
-<li>不要在 if 和 switch 条件两边或者 return 关键词上加 Objective-C 样式的圆括号。</li>
-<li>为所有常量使用“骆驼拼写法”，如 allTheConstants 而不是 ALL_CAPS</li>
-<li>用 Swift 的构造器替代传统的，例如：用 <code>CGPoint(x: 1, y:1)</code> 替代 <code>CGPointMake(1, 1)</code></li>
-<li>避免使用行尾分号，尽管这样是可以编译通过的。但是它们会让你的代码看起来很糟糕，而且用起来体验也很差。</li>
-</ul>
-<p><strong>更新</strong></p>
-<p>当然，这不是说说而已，我已经在代码中进行了实践：</p>
-<p><img src="/img/articles/a-handful-of-swift-style-rules-swiftlang/Screen-Shot-2015-11-18-at-10.31.13-AM.png1449449055.5795417" alt="这里写图片描述"></p>
-<p>github <a href="https://github.com/erica/testlint" target="_blank" rel="external">代码地址</a></p>
-<blockquote>
-<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
-</blockquote>
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/11/17/a-handful-of-swift-style-rules-swiftlang/">原文链接</a>，原文日期：2015-11-17<br>译者：<a href="http://blog.csdn.net/mmoaay">mmoaay</a>；校对：<a href="http://weibo.com/lfbWb">lfb_CD</a>；定稿：<a href="http://codebuild.me/">shanks</a></p>
-</blockquote>
-<p>我们需要经常带着新问题来重新审视一下以前的代码规范。</p>]]>
-    
-    </summary>
-    
-      <category term="Erica Sadun" scheme="http://swiftggteam.github.io/tags/Erica-Sadun/"/>
     
       <category term="Swift 进阶" scheme="http://swiftggteam.github.io/categories/Swift-%E8%BF%9B%E9%98%B6/"/>
     

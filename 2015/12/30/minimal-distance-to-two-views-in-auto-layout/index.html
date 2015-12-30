@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="baidu-site-verification" content="vqJV77bZM6" />
   
-    <title>实现可打印内容的 try? 和 try! | SwiftGG 翻译组 - 高质量的 Swift 译文网站</title>
+    <title>教你如何在 Auto Layout 下设置两个视图之间的最小间距 | SwiftGG 翻译组 - 高质量的 Swift 译文网站</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="SwiftGG">
@@ -13,25 +13,26 @@
     <meta name="keywords" content="swift语言,swift翻译,swift学习" /> 
 
     
-    <meta name="description" content="作者：Erica Sadun，原文链接，原文日期：2015/11/5译者：pmst；校对：千叶知风；定稿：numbbbbb
+    <meta name="description" content="作者：dom，原文链接，原文日期：2015-12-08译者：pmst；校对：星夜暮晨；定稿：Cee
 
 &amp;lt;!--此处开始正文--&amp;gt;
-Swift 2 中的try?运算符在可选类型(optionals)和错误处理机制中抛出 error 转换为输出 nil 结果值之间建立了桥接。这样你就可以使用 guard 语句和条件绑定，只关注处理成功的用例(case)。">
+假设现在要在某个视图（view）中放置三个子视图（subviews）。其中两个子视图放置在上方，第三个视图紧挨着它们放到下方。不过上方的两个视图高度不定，并且你不知道哪个更高一些。现在要求我们使用自动布局（Auto Layout）来控制下方视图和上方视图之间间距至少 1">
 <meta property="og:type" content="article">
-<meta property="og:title" content="实现可打印内容的 try? 和 try!">
-<meta property="og:url" content="http://swiftggteam.github.io/2015/11/27/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/index.html">
+<meta property="og:title" content="教你如何在 Auto Layout 下设置两个视图之间的最小间距">
+<meta property="og:url" content="http://swiftggteam.github.io/2015/12/30/minimal-distance-to-two-views-in-auto-layout/index.html">
 <meta property="og:site_name" content="SwiftGG">
-<meta property="og:description" content="作者：Erica Sadun，原文链接，原文日期：2015/11/5译者：pmst；校对：千叶知风；定稿：numbbbbb
+<meta property="og:description" content="作者：dom，原文链接，原文日期：2015-12-08译者：pmst；校对：星夜暮晨；定稿：Cee
 
 &amp;lt;!--此处开始正文--&amp;gt;
-Swift 2 中的try?运算符在可选类型(optionals)和错误处理机制中抛出 error 转换为输出 nil 结果值之间建立了桥接。这样你就可以使用 guard 语句和条件绑定，只关注处理成功的用例(case)。">
-<meta property="og:updated_time" content="2015-12-30T01:12:28.393Z">
+假设现在要在某个视图（view）中放置三个子视图（subviews）。其中两个子视图放置在上方，第三个视图紧挨着它们放到下方。不过上方的两个视图高度不定，并且你不知道哪个更高一些。现在要求我们使用自动布局（Auto Layout）来控制下方视图和上方视图之间间距至少 1">
+<meta property="og:image" content="http://swiftggteam.github.io/img/articles/minimal-distance-to-two-views-in-auto-layout/Screen-Shot-2015-12-08-at-21.52.25-300x155.png1451437944.9187686">
+<meta property="og:updated_time" content="2015-12-30T01:12:28.397Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="实现可打印内容的 try? 和 try!">
-<meta name="twitter:description" content="作者：Erica Sadun，原文链接，原文日期：2015/11/5译者：pmst；校对：千叶知风；定稿：numbbbbb
+<meta name="twitter:title" content="教你如何在 Auto Layout 下设置两个视图之间的最小间距">
+<meta name="twitter:description" content="作者：dom，原文链接，原文日期：2015-12-08译者：pmst；校对：星夜暮晨；定稿：Cee
 
 &amp;lt;!--此处开始正文--&amp;gt;
-Swift 2 中的try?运算符在可选类型(optionals)和错误处理机制中抛出 error 转换为输出 nil 结果值之间建立了桥接。这样你就可以使用 guard 语句和条件绑定，只关注处理成功的用例(case)。">
+假设现在要在某个视图（view）中放置三个子视图（subviews）。其中两个子视图放置在上方，第三个视图紧挨着它们放到下方。不过上方的两个视图高度不定，并且你不知道哪个更高一些。现在要求我们使用自动布局（Auto Layout）来控制下方视图和上方视图之间间距至少 1">
 
     
     <link rel="alternative" href="/atom.xml" title="SwiftGG" type="application/atom+xml">
@@ -89,10 +90,10 @@ Swift 2 中的try?运算符在可选类型(optionals)和错误处理机制中抛
   <header class="article-info clearfix">
     <h1 itemprop="name">
       
-        <a href="/2015/11/27/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/" title="实现可打印内容的 try? 和 try!" itemprop="url">实现可打印内容的 try? 和 try!</a>
+        <a href="/2015/12/30/minimal-distance-to-two-views-in-auto-layout/" title="教你如何在 Auto Layout 下设置两个视图之间的最小间距" itemprop="url">教你如何在 Auto Layout 下设置两个视图之间的最小间距</a>
     </h1>
     <p class="article-time">
-      <time datetime="2015-11-27T01:20:00.000Z" itemprop="datePublished"><i class="icon-time"></i> 2015-11-27</time>
+      <time datetime="2015-12-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-time"></i> 2015-12-30</time>
       <span style="margin-left: 0.5em;"><i class="icon-eye-open"></i> <span class="viewcount"></span></span>
     </p>
   </header>
@@ -107,23 +108,20 @@ Swift 2 中的try?运算符在可选类型(optionals)和错误处理机制中抛
 		</div>
 		
 		<blockquote>
-<p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/11/05/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/5<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
+<p>作者：dom，<a href="http://swiftandpainless.com/minimal-distance-to-two-views-in-auto-layout/" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-08<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://www.jianshu.com/users/ef1058d2d851" target="_blank" rel="external">星夜暮晨</a>；定稿：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a></p>
 </blockquote>
 <!--此处开始正文-->
-<p>Swift 2 中的<code>try?</code>运算符在可选类型(optionals)和错误处理机制中抛出 error 转换为输出 nil 结果值之间建立了桥接。这样你就可以使用 guard 语句和条件绑定，只关注处理成功的用例(case)。<br><a id="more"></a></p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">/// try? 没有错误输出正确结果值</span></span><br><span class="line"><span class="comment">///      有错误发生，输出nil值</span></span><br><span class="line"><span class="keyword">guard</span> <span class="keyword">let</span> foo = <span class="keyword">try</span>? somethingThatMayThrow <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">//处理错误情况并退出作用域</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>倘若你使用这种方式进行错误处理，需要注意，它并不会返回 error 信息。本文想说的是：抛弃错误信息是一件让人郁闷的事情！为什么不有选择地使用<code>try?</code>和<code>try!</code>来自动建立上下文并打印错误信息呢？</p>
-<p>前阵子，我分享了一个模仿<code>try?</code>语句的基础实现，可以保留错误信息。下面的实现首先打印返回的错误，接着继续返回你想要得到的<code>try?</code>的处理结果：结果是一个值或 nil。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">attempt</span><span class="generics">&lt;T&gt;</span><span class="params">(block: <span class="params">()</span></span></span> <span class="keyword">throws</span> -&gt; <span class="type">T</span>) -&gt; <span class="type">Optional</span>&lt;<span class="type">T</span>&gt;&#123; </span><br><span class="line">    <span class="keyword">do</span> &#123; <span class="keyword">return</span> <span class="keyword">try</span> block() &#125; </span><br><span class="line">    <span class="keyword">catch</span> &#123; <span class="built_in">print</span>(error); <span class="keyword">return</span> <span class="literal">nil</span> &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这很有效，尤其是当你想要进一步使用返回值却发现 guard 语句在失败时无法返回错误信息。使用 attemp 函数就可以打印错误信息。举个例子，如果我们要使用 NSFileManager 来删除文件。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">NSFileManager</span>.defaultManager().removeItemAtURL(someURL)</span><br></pre></td></tr></table></figure>
-<p>你应该这样做：将上述代码包裹到<code>do-catch</code>的 block 中(略显冗长)，在 attempt 函数中使用<code>try?</code>，接着处理返回 nil 值的情况，或者使用<code>try!</code>忽视所有错误信息(译者注:倘若实际有错误发生，程序会直接崩溃，使用它之前你必须确保不会有错误产生)。</p>
-<p>当然这里还有另外一种方式。在文章的最后，我构建了一个 attemptFailable 函数，它把 throwing 声明封装到 guard/try 的迷你打印系统中，后者会返回一个布尔类型值。下面是使用方法：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="type">NSFileManager</span>.defaultManager().fileExistsAtPath(myPath) &#123;</span><br><span class="line">    <span class="keyword">guard</span> (attemptFailable&#123;<span class="keyword">try</span> <span class="type">NSFileManager</span>.defaultManager()</span><br><span class="line">         .removeItemAtURL(myURL)&#125;) <span class="keyword">else</span> &#123;abort()&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>显然不是很理想，但是在 playground 中写一些小东西时相当方便，最近我经常使用。(Playground 相当不错，作者书籍<a href="https://itunes.apple.com/us/book/playground-secrets-power-tips/id982838034?mt=11" target="_blank" rel="external">购买链接</a>)。</p>
-<p>你可以使用类似的方式增强<code>try!</code>。相比 Swift 的可选值，<code>doOrDie</code>函数提供了更多信息。就像<code>attemp</code>和<code>attemptFailable</code>函数一样，它能够捕获上下文，在继续使用标准<code>try!</code>终止执行前抛出并打印错误。</p>
-<p>以下是完整代码：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> Foundation</span><br><span class="line"></span><br><span class="line"><span class="comment">// 错误泛型</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">struct</span> <span class="title">Error</span>: <span class="title">ErrorType</span> </span>&#123;<span class="keyword">let</span> reason: <span class="type">String</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> Printing version of try? Call either with standard or autoclosure approach</span><br><span class="line"> </span><br><span class="line"> let contents = attempt&#123;try NSFileManager.defaultManager().contentsOfDirectoryAtPath(fakePath)&#125;</span><br><span class="line"> let contents = attempt&#123;try NSFileManager.defaultManager().contentsOfDirectoryAtPath(XCPlaygroundSharedDataDirectoryURL.path!)&#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> - Returns: Optional that is nil when the called closure throws</span><br><span class="line"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="func"><span class="keyword">func</span> <span class="title">attempt</span><span class="generics">&lt;T&gt;</span><span class="params">(source source: String = <span class="keyword">__FUNCTION__</span>, file: String = <span class="keyword">__FILE__</span>, line: Int = <span class="keyword">__LINE__</span>, closure: <span class="params">()</span></span></span> <span class="keyword">throws</span> -&gt; <span class="type">T</span>) -&gt; <span class="type">Optional</span>&lt;<span class="type">T</span>&gt;&#123;</span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">try</span> closure()</span><br><span class="line">    &#125; <span class="keyword">catch</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> fileName = (file <span class="keyword">as</span> <span class="type">NSString</span>).lastPathComponent</span><br><span class="line">        <span class="keyword">let</span> report = <span class="string">"Error <span class="subst">\(fileName)</span>:<span class="subst">\(source)</span>:<span class="subst">\(line)</span>:\n    <span class="subst">\(error)</span>"</span></span><br><span class="line">        <span class="built_in">print</span>(report)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> 可以打印内容并返回布尔值的 try? 可选实现</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> let success = attemptFailable&#123;try "Test".writeToFile(fakePath, atomically: true, encoding: NSUTF8StringEncoding)&#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> - Returns: Boolean 值，如果被调用的闭包抛出错误返回 false，否则返回 true</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="func"><span class="keyword">func</span> <span class="title">attemptFailable</span><span class="params">(source source: String = <span class="keyword">__FUNCTION__</span>, file: String = <span class="keyword">__FILE__</span>, line: Int = <span class="keyword">__LINE__</span>, closure: <span class="params">()</span></span></span> <span class="keyword">throws</span> -&gt; <span class="type">Void</span>) -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> closure()</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">    &#125; <span class="keyword">catch</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> fileName = (file <span class="keyword">as</span> <span class="type">NSString</span>).lastPathComponent</span><br><span class="line">        <span class="keyword">let</span> report = <span class="string">"Error <span class="subst">\(fileName)</span>:<span class="subst">\(source)</span>:<span class="subst">\(line)</span>:\n    <span class="subst">\(error)</span>"</span></span><br><span class="line">        <span class="built_in">print</span>(report)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> 另外一个包含更多信息的 try! 版本。shouldCrash 是 false 时，即使有错误抛出，也会继续执行</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> doOrDie(shouldCrash: false, closure: &#123;try "Test".writeToFile(fakePath, atomically: true, encoding: NSUTF8StringEncoding)&#125;)</span><br><span class="line"> // 或</span><br><span class="line"> doOrDie(shouldCrash:false)&#123;try NSFileManager.defaultManager().removeItemAtURL(fakeURL)&#125;</span><br><span class="line"> // 或</span><br><span class="line"> doOrDie&#123;try "Test".writeToFile(fakePath, atomically: true, encoding: NSUTF8StringEncoding)&#125;</span><br><span class="line"> </span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="func"><span class="keyword">func</span> <span class="title">doOrDie</span><span class="params">(source: String = <span class="keyword">__FUNCTION__</span>,</span><br><span class="line">    file: String = <span class="keyword">__FILE__</span>, line: Int = <span class="keyword">__LINE__</span>, shouldCrash: Bool = <span class="literal">true</span>, closure: <span class="params">()</span></span></span> <span class="keyword">throws</span> -&gt; <span class="type">Void</span>) &#123;</span><br><span class="line">        <span class="keyword">let</span> success = attemptFailable(source: source, file: file, line: line, closure: closure)</span><br><span class="line">        <span class="keyword">if</span> shouldCrash &amp;&amp; !success &#123;<span class="built_in">fatalError</span>(<span class="string">"Goodbye cruel world"</span>)&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>假设现在要在某个视图（view）中放置三个子视图（subviews）。其中两个子视图放置在上方，第三个视图紧挨着它们放到下方。不过上方的两个视图高度不定，并且你不知道哪个更高一些。现在要求我们使用自动布局（Auto Layout）来控制下方视图和上方视图之间间距至少 10 单位像素。</p>
+<a id="more"></a>
+<p>我们该如何实现呢？实现技巧是使用不等式约束条件 (inequality) 以及设置约束优先级 (priority)。相关约束如下：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 注意约束使用不等式 &gt;=，以及设置优先级</span></span><br><span class="line">leftViewConstraints += <span class="type">NSLayoutConstraint</span>.constraintsWithVisualFormat(<span class="string">"V:[red(50)]-(\&gt;=10)-[green]"</span>, options: [], metrics: <span class="literal">nil</span>, views: leftViews)</span><br><span class="line">leftViewConstraints += <span class="type">NSLayoutConstraint</span>.constraintsWithVisualFormat(<span class="string">"V:[blue(100)]-(\&gt;=10)-[green]"</span>, options: [], metrics: <span class="literal">nil</span>, views: leftViews)</span><br><span class="line">leftViewConstraints += <span class="type">NSLayoutConstraint</span>.constraintsWithVisualFormat(<span class="string">"V:[blue(100)]-(\&lt;=10@999)-[green]"</span>, options: [], metrics: <span class="literal">nil</span>, views: leftViews)</span><br></pre></td></tr></table></figure>
+<p>上方两个视图与底部视图的最小间距不能小于 10（译者注：这里约束优先级默认是 1000）。此外蓝色视图与底部视图的最大间距不得大于 10 ，其优先级为 999。</p>
+<p>就是这样！你可以看到如下方截图所示的结果。左侧图片中，蓝色视图的高度为 100 单位像素，红色视图高度为 50 单位像素。 右侧图片则刚刚相反。</p>
+<p><img src="/img/articles/minimal-distance-to-two-views-in-auto-layout/Screen-Shot-2015-12-08-at-21.52.25-300x155.png1451437944.9187686" alt=""></p>
+<p>这里向你提供完整代码的 <a href="http://swift.eltanin.uberspace.de/wp-content/uploads/2015/12/MinimalDistanceAutoLayoutPlayground.playground.zip" target="_blank" rel="external">playground</a> 下载。</p>
+<blockquote>
+<p>译者注：你可以在下载的 playground 下方键入 view 属性，然后在右侧栏点击 Quick Look，也就是那个眼睛，就能看到如上所示的截图了！</p>
+</blockquote>
 <blockquote>
 <p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
 </blockquote>
@@ -140,7 +138,7 @@ Swift 2 中的try?运算符在可选类型(optionals)和错误处理机制中抛
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Erica-Sadun/">Erica Sadun</a>
+  <span></span> <a href="/tags/Swift-and-Painless/">Swift and Painless</a>
   </div>
 
 </div>
@@ -149,7 +147,7 @@ Swift 2 中的try?运算符在可选类型(optionals)和错误处理机制中抛
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://swiftggteam.github.io/2015/11/27/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/" data-title="实现可打印内容的 try? 和 try! | SwiftGG" data-tsina="null" class="share clearfix">
+	  <div data-url="http://swiftggteam.github.io/2015/12/30/minimal-distance-to-two-views-in-auto-layout/" data-title="教你如何在 Auto Layout 下设置两个视图之间的最小间距 | SwiftGG" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -162,19 +160,11 @@ Swift 2 中的try?运算符在可选类型(optionals)和错误处理机制中抛
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/11/30/should-you-migrate-objective-c-code-to-swift/" title="你应该把 Objective-C 的代码转为 Swift 吗？">
-  <strong>上一篇：</strong><br/>
-  <span>
-  你应该把 Objective-C 的代码转为 Swift 吗？</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2015/11/26/swift-map-and-flatmap/"  title="Swift：map 和 flatMap 基础入门">
+<a href="/2015/12/29/swift-open-source/"  title="聚焦 Swift #0">
  <strong>下一篇：</strong><br/> 
- <span>Swift：map 和 flatMap 基础入门
+ <span>聚焦 Swift #0
 </span>
 </a>
 </div>
@@ -183,7 +173,7 @@ Swift 2 中的try?运算符在可选类型(optionals)和错误处理机制中抛
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/11/27/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/" data-title="实现可打印内容的 try? 和 try!" data-url="http://swiftggteam.github.io/2015/11/27/implementing-printing-versions-of-try-and-try-on-steroids-in-swiftlang/"></div>
+	<div class="ds-thread" data-thread-key="2015/12/30/minimal-distance-to-two-views-in-auto-layout/" data-title="教你如何在 Auto Layout 下设置两个视图之间的最小间距" data-url="http://swiftggteam.github.io/2015/12/30/minimal-distance-to-two-views-in-auto-layout/"></div>
 </section>
 
 
