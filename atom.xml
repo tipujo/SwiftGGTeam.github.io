@@ -4,7 +4,7 @@
   <subtitle><![CDATA[走心的 Swift 翻译组]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://swiftggteam.github.io/"/>
-  <updated>2015-12-30T05:25:31.992Z</updated>
+  <updated>2015-12-30T12:20:17.519Z</updated>
   <id>http://swiftggteam.github.io/</id>
   
   <author>
@@ -15,11 +15,87 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title></title>
+    <link href="http://swiftggteam.github.io/2015/12/30/%E6%AF%8F%E5%91%A8%20Swift%20%E7%A4%BE%E5%8C%BA%E9%97%AE%E7%AD%9420151230/"/>
+    <id>http://swiftggteam.github.io/2015/12/30/每周 Swift 社区问答20151230/</id>
+    <published>2015-12-30T12:20:17.735Z</published>
+    <updated>2015-12-30T12:20:17.519Z</updated>
+    <content type="html"><![CDATA[<p>title: “每周 Swift 社区问答 2015-12-30”<br>date: 2015-12-30<br>tags: [Swift, 社区问答]<br>categories: [Swift, iOS开发]<br>permalink: swift-qa-2015-12-30</p>
+<p>作者：<a href="http://codebuild.me" target="_blank" rel="external">shanks</a></p>
+<p>本周整理问题如下：</p>
+<ul>
+<li><a href="#Q1">Swift regular expressions</a></li>
+<li><a href="#Q2">Storing a reference to array in swift</a></li>
+<li><a href="#Q3">What’s the difference between [String!] and [String]!</a></li>
+<li><a href="#Q4">How can I filter dictionary [[String:String]]</a></li>
+<li><a href="#Q5">Why ‘self.self’ compiles and run in swift?</a></li>
+</ul>
+<p>对应的代码都放到了 github 上，有兴趣的同学可以下载下来研究：<a href="https://github.com/SwiftGGTeam/SwiftCommunityWeeklyQA/tree/master/20151230/%E6%AF%8F%E5%91%A8%20Swift%20%E7%A4%BE%E5%8C%BA%E9%97%AE%E7%AD%9420151230.playground" target="_blank" rel="external">点击下载</a></p>
+<a id="more"></a>
+<p><a name="Q1"></a></p>
+<h2 id="Question1:_Swift_regular_expressions">Question1: Swift regular expressions</h2><p><a href="http://stackoverflow.com/questions/34459701/swift-regular-expressions" target="_blank" rel="external">Q1链接地址</a></p>
+<h3 id="问题描述">问题描述</h3><p>楼主直接就问：如何在 swift 中使用<code>[a-zA-Z]+@[a-zA-Z]+.[a-zA-Z]</code>这样的正则表达式?</p>
+<h3 id="问题解答">问题解答</h3><p>目前在 Swift 中使用正则表达式，还是直接调用 oc 里面的 NSRegularExpression 来完成的。<br>喵神有一个 tips 专门介绍了这个知识点：<br><a href="http://swifter.tips/regex/" target="_blank" rel="external">http://swifter.tips/regex/</a></p>
+<p>下面是跟帖的代码，解决了问题：</p>
+<figure class="highlight stata"><table><tr><td class="code"><pre><span class="line">let <span class="keyword">test</span> = <span class="string">"someone@somewhere.com"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">    let regex = try NSRegularExpression(pattern: <span class="string">"[a-zA-z]+@[a-zA-Z]+.[a-zA-Z]"</span>, options: [])</span><br><span class="line">    <span class="keyword">if</span> regex.firstMatchInString(<span class="keyword">test</span>, options: [], <span class="keyword">range</span>: NSMakeRange(0, <span class="keyword">test</span>.characters.<span class="keyword">count</span>)) != nil &#123;</span><br><span class="line">        <span class="keyword">print</span>(<span class="string">"matched"</span>)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">print</span>(<span class="string">"not matched"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125; catch let <span class="keyword">error</span> <span class="keyword">as</span> NSError &#123;</span><br><span class="line">    <span class="keyword">print</span>(<span class="keyword">error</span>.localizedDescription)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a name="Q2"></a></p>
+<h2 id="Question2:_Storing_a_reference_to_array_in_swift">Question2: Storing a reference to array in swift</h2><p><a href="http://stackoverflow.com/questions/34486043/storing-a-reference-to-array-in-swift" target="_blank" rel="external">Q2链接地址</a></p>
+<h3 id="问题描述-1">问题描述</h3><p>Swift 类中定义的方法，传入参数默认是值拷贝，也就是说，即使方法内部改变参数值，传入的参数原始值是不会改变的。</p>
+<p>楼主纠结如何实现引用拷贝，也就是，赋值给类中的属性以后，改变了属性的值，传入的参数也会跟着改变，见代码如下：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> Foundation</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> foo : <span class="type">Array</span>&lt;<span class="type">Int</span>&gt;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">init</span>(foo: <span class="type">Array</span>&lt;<span class="type">Int</span>&gt;) &#123;</span><br><span class="line">        <span class="keyword">self</span>.foo = foo</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">modify</span><span class="params">()</span></span> &#123;</span><br><span class="line">        foo.append(<span class="number">5</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line"><span class="keyword">let</span> bar = <span class="type">Foo</span>(foo: a)</span><br><span class="line">bar.modify()</span><br><span class="line"><span class="built_in">print</span>(a) <span class="comment">// My goal is that it will print 1,2,3,4,5</span></span><br></pre></td></tr></table></figure>
+<h3 id="问题解答-1">问题解答</h3><p>实际上，使用inout，也不能解决问题，inout 只是应用在方法内部直接改变传入值的时候有用，而上例中，是先赋值给了类的一个属性，改变了属性的值，而没有改变传入参数值。因为 Array<int> 是值类型，赋值默认为值拷贝：</int></p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo1</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> foo : <span class="type">Array</span>&lt;<span class="type">Int</span>&gt;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">init</span>(foo: <span class="type">Array</span>&lt;<span class="type">Int</span>&gt;) &#123;</span><br><span class="line">        <span class="keyword">self</span>.foo = foo</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">modify</span><span class="params">()</span></span> &#123;</span><br><span class="line">        foo.append(<span class="number">5</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> bar1 = <span class="type">Foo1</span>(foo: a)</span><br><span class="line">bar.modify()</span><br><span class="line"><span class="built_in">print</span>(a) <span class="comment">// 还是没有改变 a</span></span><br></pre></td></tr></table></figure>
+<p>以下代码是跟帖中提供的解决方案，使用 UnsafeMutablePointer<int>，也就是 c 语言中的 int * 指针来达成指向内存的一致。从而在修改时候，能够保持一致。但是强烈不推荐此种做法，因为 Swift 强调的类型安全丢失了。</int></p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo2</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> foo : [<span class="type">Int</span>]</span><br><span class="line">    <span class="keyword">var</span> pInner: <span class="type">UnsafeMutablePointer</span>&lt;<span class="type">Int</span>&gt;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">init</span>(foo: [<span class="type">Int</span>]) &#123;</span><br><span class="line">        pInner = <span class="type">UnsafeMutablePointer</span>(foo)</span><br><span class="line">        <span class="keyword">self</span>.foo = <span class="type">Array</span>(<span class="type">UnsafeBufferPointer</span>(start: pInner, <span class="built_in">count</span>: foo.<span class="built_in">count</span>))</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">modify</span><span class="params">(<span class="keyword">inout</span> pOuter: UnsafeMutablePointer&lt;Int&gt;)</span></span> &#123;</span><br><span class="line">        foo.append(<span class="number">5</span>) <span class="comment">// &lt;-- foo gets new memory adress</span></span><br><span class="line">        pInner = <span class="type">UnsafeMutablePointer</span>(foo)</span><br><span class="line">        pOuter = pInner</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> pOuter: <span class="type">UnsafeMutablePointer</span>&lt;<span class="type">Int</span>&gt; = <span class="type">UnsafeMutablePointer</span>(a)</span><br><span class="line"><span class="keyword">var</span> bar2 = <span class="type">Foo2</span>(foo: a) <span class="comment">// 'bar.foo' now at same address as 'a'</span></span><br><span class="line"><span class="built_in">print</span>(bar2.foo) <span class="comment">// [1,2,3,4]</span></span><br><span class="line">bar2.modify(&amp;pOuter) <span class="comment">// -&gt; [1,2,3,4,5]</span></span><br><span class="line">a = <span class="type">Array</span>(<span class="type">UnsafeBufferPointer</span>(start: pOuter, <span class="built_in">count</span>: bar.foo.<span class="built_in">count</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Same pointer adress, OK! */</span></span><br><span class="line"><span class="built_in">print</span>(bar2.pInner)</span><br><span class="line"><span class="built_in">print</span>(pOuter)</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Naturally same value (same address in memory) */</span></span><br><span class="line"><span class="built_in">print</span>(bar.foo)</span><br><span class="line"><span class="built_in">print</span>(a)</span><br></pre></td></tr></table></figure>
+<p>此问题其实在实际编码中，应该尽量避免，一个类，去改变外部的值，违背了类的封装性。</p>
+<p><a name="Q3"></a></p>
+<h2 id="Question3:_What’s_the_difference_between_[String!]_and_[String]!">Question3: What’s the difference between [String!] and [String]!</h2><p><a href="http://stackoverflow.com/questions/34485421/whats-the-difference-between-string-and-string-swift" target="_blank" rel="external">Q3链接地址</a></p>
+<h3 id="问题描述-2">问题描述</h3><p>楼主是新手，新手最多的几个问题之一就是对 Optional 的理解。楼主的问题是：<br>[String!] and [String]! 的区别是什么？</p>
+<h3 id="问题解答-2">问题解答</h3><ul>
+<li><p>[String!] 是一个包含隐式解包 Optional String 的数组，数组的值可以为 nil。</p>
+</li>
+<li><p>[String]! 是一个隐式解包 Optional 的数组，数组类型是 String，可以直接对这个数组赋值为nil，但是因为数组元素类型是 String，所以数组元素不能为nil</p>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> list0: [<span class="built_in">String</span>!] = [<span class="string">"Hello"</span>, nil, <span class="string">"world"</span>, nil]</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> list1: [<span class="built_in">String</span>]! = nil</span><br><span class="line"><span class="keyword">let</span> list2: [<span class="built_in">String</span>]! = [<span class="string">"Hello"</span>, <span class="string">"world"</span>]</span><br></pre></td></tr></table></figure>
+<p><a name="Q4"></a></p>
+<h2 id="Question4:_How_can_I_filter_dictionary_[[String:String]]">Question4: How can I filter dictionary [[String:String]]</h2><h3 id="问题链接">问题链接</h3><p><a href="http://stackoverflow.com/questions/34483418/how-can-i-filter-dictionary-stringstring" target="_blank" rel="external">Q4链接地址</a></p>
+<h3 id="问题描述-3">问题描述</h3><p>楼主有一个二维数组，想通过数组中的 type 字段，进行过滤。于是他写出了如下报错的代码：</p>
+<figure class="highlight julia"><table><tr><td class="code"><pre><span class="line">var data = [[<span class="string">"type"</span>:<span class="string">"Sport"</span>, <span class="string">"model"</span>:<span class="string">"R6"</span>],[<span class="string">"type"</span>:<span class="string">"Enduro"</span>, <span class="string">"model"</span>:<span class="string">"Tenerre"</span>],[<span class="string">"type"</span>:<span class="string">"Chopper"</span>, <span class="string">"model"</span>:<span class="string">"Intruder"</span>]]</span><br><span class="line">//data.filter(&#123; (<span class="keyword">type</span>: <span class="built_in">String</span>) -&gt; <span class="built_in">Bool</span> <span class="keyword">in</span></span><br><span class="line">//    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">//&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="问题解答-3">问题解答</h3><p>数组 filter 方法的定义：</p>
+<p>filter(includeElement: (T) -&gt; Bool) -&gt; T[]</p>
+<p>在这个例子中，数组是二维的，所以 T = [String:String]，也是一个数组。所以正确答案应该是：</p>
+<figure class="highlight julia"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> filteredData = data.filter &#123; (dict:[<span class="built_in">String</span>:<span class="built_in">String</span>]) -&gt; <span class="built_in">Bool</span> <span class="keyword">in</span></span><br><span class="line">    <span class="keyword">return</span> dict[<span class="string">"type"</span>] == <span class="string">"Sport"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a name="Q5"></a></p>
+<h2 id="Question5:_Why_‘self-self’_compiles_and_run_in_swift?">Question5: Why ‘self.self’ compiles and run in swift?</h2><h3 id="问题链接-1">问题链接</h3><p><a href="http://stackoverflow.com/questions/34499890/why-self-self-compiles-and-run-in-swift" target="_blank" rel="external">Q5链接地址</a></p>
+<h3 id="问题描述-4">问题描述</h3><p>楼主的问题是：为什么 self.self 这样的写法在其他语言会报错，而 Swift 中，不会报错：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">test</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> someProperty = <span class="string">""</span></span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">test</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="keyword">self</span>.<span class="keyword">self</span>.someProperty)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="问题解答-4">问题解答</h3><p>实际上，无论支持还是不支持这种语法，一个 self，应该就足够了。<br>跟帖也在质疑这种用法的实用性在那？例如如下的形式，这样写与只带一个 self，没什么区别：</p>
+<figure class="highlight lasso"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> s = <span class="string">"Hello"</span><span class="built_in">.</span><span class="built_in">self</span><span class="built_in">.</span><span class="built_in">self</span><span class="built_in">.</span><span class="built_in">self</span><span class="built_in">.</span><span class="built_in">self</span><span class="built_in">.</span><span class="built_in">self</span><span class="built_in">.</span><span class="built_in">self</span><span class="built_in">.</span><span class="built_in">self</span><span class="built_in">.</span><span class="built_in">self</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> s1 = <span class="string">"Hello"</span><span class="built_in">.</span><span class="built_in">self</span></span><br></pre></td></tr></table></figure>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>title: “每周 Swift 社区问答 2015-12-30”<br>date: 2015-12-30<br>tags: [Swift, 社区问答]<br>categories: [Swift, iOS开发]<br>permalink: swift-qa-2015-12-30</p>
+<p>作者：<a href="http://codebuild.me">shanks</a></p>
+<p>本周整理问题如下：</p>
+<ul>
+<li><a href="#Q1">Swift regular expressions</a></li>
+<li><a href="#Q2">Storing a reference to array in swift</a></li>
+<li><a href="#Q3">What’s the difference between [String!] and [String]!</a></li>
+<li><a href="#Q4">How can I filter dictionary [[String:String]]</a></li>
+<li><a href="#Q5">Why ‘self.self’ compiles and run in swift?</a></li>
+</ul>
+<p>对应的代码都放到了 github 上，有兴趣的同学可以下载下来研究：<a href="https://github.com/SwiftGGTeam/SwiftCommunityWeeklyQA/tree/master/20151230/%E6%AF%8F%E5%91%A8%20Swift%20%E7%A4%BE%E5%8C%BA%E9%97%AE%E7%AD%9420151230.playground">点击下载</a></p>]]>
+    
+    </summary>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[教你如何在 Auto Layout 下设置两个视图之间的最小间距]]></title>
     <link href="http://swiftggteam.github.io/2015/12/30/minimal-distance-to-two-views-in-auto-layout/"/>
     <id>http://swiftggteam.github.io/2015/12/30/minimal-distance-to-two-views-in-auto-layout/</id>
     <published>2015-12-29T16:00:00.000Z</published>
-    <updated>2015-12-30T05:25:31.992Z</updated>
+    <updated>2015-12-30T12:20:19.447Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：dom，<a href="http://swiftandpainless.com/minimal-distance-to-two-views-in-auto-layout/" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-08<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://www.jianshu.com/users/ef1058d2d851" target="_blank" rel="external">星夜暮晨</a>；定稿：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a></p>
 </blockquote>
@@ -59,7 +135,7 @@
     <link href="http://swiftggteam.github.io/2015/12/29/swift-open-source/"/>
     <id>http://swiftggteam.github.io/2015/12/29/swift-open-source/</id>
     <published>2015-12-28T16:00:00.000Z</published>
-    <updated>2015-12-30T05:25:31.992Z</updated>
+    <updated>2015-12-30T12:20:19.447Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Jesse Squires，<a href="http://www.jessesquires.com/swift-open-source/" target="_blank" rel="external">原文链接</a>，原文日期：2015/12/06<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 <p>译者注：这个系列的关注重点是 Swift 开源项目本身的发展，作者会截取每周发生的大事（比如合并了一个大改动）并进行分析，还会写一些有趣的小发现，很有意思。我们已经拿到翻译授权，会每周进行更新，欢迎关注。</p>
@@ -115,7 +191,7 @@
     <link href="http://swiftggteam.github.io/2015/12/29/foursquare-realm-swift/"/>
     <id>http://swiftggteam.github.io/2015/12/29/foursquare-realm-swift/</id>
     <published>2015-12-28T16:00:00.000Z</published>
-    <updated>2015-12-30T05:25:31.992Z</updated>
+    <updated>2015-12-30T12:20:19.447Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：reinder de vries，<a href="http://www.appcoda.com/foursquare-realm-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/23<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="http://www.brighttj.com" target="_blank" rel="external">saitjr</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -674,7 +750,7 @@
     <link href="http://swiftggteam.github.io/2015/12/28/friday-qa-2015-12-11-swift-weak-references/"/>
     <id>http://swiftggteam.github.io/2015/12/28/friday-qa-2015-12-11-swift-weak-references/</id>
     <published>2015-12-27T16:00:00.000Z</published>
-    <updated>2015-12-30T05:25:31.992Z</updated>
+    <updated>2015-12-30T12:20:19.447Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Mike Ash，<a href="https://www.mikeash.com/pyblog/friday-qa-2015-12-11-swift-weak-references.html" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-11<br>译者：<a href="http://weibo.com/riven0951" target="_blank" rel="external">riven</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -831,7 +907,7 @@
     <link href="http://swiftggteam.github.io/2015/12/25/interesting-discussions-on-swift-evolution/"/>
     <id>http://swiftggteam.github.io/2015/12/25/interesting-discussions-on-swift-evolution/</id>
     <published>2015-12-24T16:00:00.000Z</published>
-    <updated>2015-12-30T05:25:31.992Z</updated>
+    <updated>2015-12-30T12:20:19.447Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/12/15/interesting-discussions-on-swift-evolution/" target="_blank" rel="external">原文链接</a>，原文日期：2015/12/15<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -890,7 +966,7 @@
     <link href="http://swiftggteam.github.io/2015/12/24/friday-qa-2015-11-20-covariance-and-contravariance/"/>
     <id>http://swiftggteam.github.io/2015/12/24/friday-qa-2015-11-20-covariance-and-contravariance/</id>
     <published>2015-12-23T16:00:00.000Z</published>
-    <updated>2015-12-30T05:25:31.992Z</updated>
+    <updated>2015-12-30T12:20:19.447Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Mike Ash，<a href="https://mikeash.com/pyblog/friday-qa-2015-11-20-covariance-and-contravariance.html" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-20<br>译者：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -999,11 +1075,57 @@
   </entry>
   
   <entry>
+    <title><![CDATA[Swift 3 及展望]]></title>
+    <link href="http://swiftggteam.github.io/2015/12/23/swift-3/"/>
+    <id>http://swiftggteam.github.io/2015/12/23/swift-3/</id>
+    <published>2015-12-22T16:00:00.000Z</published>
+    <updated>2015-12-30T12:20:19.447Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-3/" target="_blank" rel="external">原文链接</a>，原文日期：2015/12/10<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="undefined"></a></p>
+</blockquote>
+<!--此处开始正文-->
+<p>2015 年 12 月 3 日，Swift 正式开源。同时，官方也公布了 Swift 3 的最新消息，即 Swift 3 将会在 2016 年秋天发布。</p>
+<a id="more"></a>
+<h2 id="API_设计指南与_Swift_中_Objective-C_的导入">API 设计指南与 Swift 中 Objective-C 的导入</h2><p>Swift 3 的 API 设计指南将与 Objective-C 中 Cocoa 的完全不同。这就意味着 Objective-C 中的 API 映射到 Swift 时会与以往不同。<a href="https://github.com/apple/swift-evolution/blob/master/proposals/0005-objective-c-name-translation.md" target="_blank" rel="external">这里</a>有一个相关的例子可以研究一下。以下这行代码的方法调用是从现有的 Objective-C 中「翻译」成 Swift 的：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> contentString = listItemView.stringValue.stringByTrimmingCharactersInSet(</span><br><span class="line">   <span class="type">NSCharacterSet</span>.whitespaceAndNewlineCharacterSet())</span><br></pre></td></tr></table></figure>
+<p>而在 Swift 3 中同样的方法调用将会是下面这个样子的：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> content = listItem.stringValue.trimming(.whitespaceAndNewlines)</span><br></pre></td></tr></table></figure>
+<p>这样让语法看上去更「Swift 化」。然而，这也意味着已经导入的 Objective-C API 将会有很大变动，因此，现有的这些代码将会报错。</p>
+<h2 id="彻底的泛型">彻底的泛型</h2><p>Swift 有泛型，但是这次是为了引进新的特性，就像递归协议约束（使得受限的扩展遵循新协议的能力），比如遵循 <code>Equatable</code> 的数组的元素也是遵循 <code>Equatable</code> 的。</p>
+<h2 id="精简的语言">精简的语言</h2><p>对于那些「和 Swift 语法不是很配」的语言特性仍然会有一些小改动。同样的，这也会使得现有的这些代码报错。</p>
+<h2 id="展望_Swift_3">展望 Swift 3</h2><ul>
+<li><p>Swift 目前还没有在语言层面支持并发操作。取而代之的是使用 NSOpertion 或 dispatch queues 来处理。这种状况在 Swift 3 中仍然不会改变。但是，在未来（Swift 4？）可能会有一个语言层面上并发操作的支持。</p>
+</li>
+<li><p>Swift 和 C，特别是 Objective-C，现在已经有了很好的兼容。但是，却缺乏与 C++ 的兼容。虽然，这也不会在 Swift 3 上有所改变，但是这需要一个比较长期的目标来引进它。</p>
+</li>
+</ul>
+<h2 id="小结">小结</h2><p>首先，Swift 将会在未来大规模的改善和提升，这是一个非常好的消息。另一方面，Swift 3 的发布会使得现有的 Swift 2 代码报错，因此，需要做一些代码迁移的工作才行。</p>
+<h2 id="参考">参考</h2><p><a href="http://swift.org/" target="_blank" rel="external">Swift.org</a><br><a href="https://github.com/apple/swift-evolution" target="_blank" rel="external">Swift Programming Language Evolution</a></p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-3/">原文链接</a>，原文日期：2015/12/10<br>译者：<a href="http://weibo.com/linusling">小铁匠Linus</a>；校对：<a href="https://github.com/Cee">Cee</a>；定稿：<a href="undefined"></a></p>
+</blockquote>
+<!--此处开始正文-->
+<p>2015 年 12 月 3 日，Swift 正式开源。同时，官方也公布了 Swift 3 的最新消息，即 Swift 3 将会在 2016 年秋天发布。</p>]]>
+    
+    </summary>
+    
+      <category term="Thomas Hanning" scheme="http://swiftggteam.github.io/tags/Thomas-Hanning/"/>
+    
+      <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[[原创] 每周 Swift 社区问答 2015-12-23]]></title>
     <link href="http://swiftggteam.github.io/2015/12/23/swift-qa-2015-12-23/"/>
     <id>http://swiftggteam.github.io/2015/12/23/swift-qa-2015-12-23/</id>
     <published>2015-12-22T16:00:00.000Z</published>
-    <updated>2015-12-30T03:15:13.289Z</updated>
+    <updated>2015-12-23T15:15:15.447Z</updated>
     <content type="html"><![CDATA[<p>作者：<a href="http://codebuild.me" target="_blank" rel="external">shanks</a></p>
 <p>本周整理问题如下：</p>
 <ul>
@@ -1113,57 +1235,11 @@
   </entry>
   
   <entry>
-    <title><![CDATA[Swift 3 及展望]]></title>
-    <link href="http://swiftggteam.github.io/2015/12/23/swift-3/"/>
-    <id>http://swiftggteam.github.io/2015/12/23/swift-3/</id>
-    <published>2015-12-22T16:00:00.000Z</published>
-    <updated>2015-12-30T05:25:31.988Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-3/" target="_blank" rel="external">原文链接</a>，原文日期：2015/12/10<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="undefined"></a></p>
-</blockquote>
-<!--此处开始正文-->
-<p>2015 年 12 月 3 日，Swift 正式开源。同时，官方也公布了 Swift 3 的最新消息，即 Swift 3 将会在 2016 年秋天发布。</p>
-<a id="more"></a>
-<h2 id="API_设计指南与_Swift_中_Objective-C_的导入">API 设计指南与 Swift 中 Objective-C 的导入</h2><p>Swift 3 的 API 设计指南将与 Objective-C 中 Cocoa 的完全不同。这就意味着 Objective-C 中的 API 映射到 Swift 时会与以往不同。<a href="https://github.com/apple/swift-evolution/blob/master/proposals/0005-objective-c-name-translation.md" target="_blank" rel="external">这里</a>有一个相关的例子可以研究一下。以下这行代码的方法调用是从现有的 Objective-C 中「翻译」成 Swift 的：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> contentString = listItemView.stringValue.stringByTrimmingCharactersInSet(</span><br><span class="line">   <span class="type">NSCharacterSet</span>.whitespaceAndNewlineCharacterSet())</span><br></pre></td></tr></table></figure>
-<p>而在 Swift 3 中同样的方法调用将会是下面这个样子的：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> content = listItem.stringValue.trimming(.whitespaceAndNewlines)</span><br></pre></td></tr></table></figure>
-<p>这样让语法看上去更「Swift 化」。然而，这也意味着已经导入的 Objective-C API 将会有很大变动，因此，现有的这些代码将会报错。</p>
-<h2 id="彻底的泛型">彻底的泛型</h2><p>Swift 有泛型，但是这次是为了引进新的特性，就像递归协议约束（使得受限的扩展遵循新协议的能力），比如遵循 <code>Equatable</code> 的数组的元素也是遵循 <code>Equatable</code> 的。</p>
-<h2 id="精简的语言">精简的语言</h2><p>对于那些「和 Swift 语法不是很配」的语言特性仍然会有一些小改动。同样的，这也会使得现有的这些代码报错。</p>
-<h2 id="展望_Swift_3">展望 Swift 3</h2><ul>
-<li><p>Swift 目前还没有在语言层面支持并发操作。取而代之的是使用 NSOpertion 或 dispatch queues 来处理。这种状况在 Swift 3 中仍然不会改变。但是，在未来（Swift 4？）可能会有一个语言层面上并发操作的支持。</p>
-</li>
-<li><p>Swift 和 C，特别是 Objective-C，现在已经有了很好的兼容。但是，却缺乏与 C++ 的兼容。虽然，这也不会在 Swift 3 上有所改变，但是这需要一个比较长期的目标来引进它。</p>
-</li>
-</ul>
-<h2 id="小结">小结</h2><p>首先，Swift 将会在未来大规模的改善和提升，这是一个非常好的消息。另一方面，Swift 3 的发布会使得现有的 Swift 2 代码报错，因此，需要做一些代码迁移的工作才行。</p>
-<h2 id="参考">参考</h2><p><a href="http://swift.org/" target="_blank" rel="external">Swift.org</a><br><a href="https://github.com/apple/swift-evolution" target="_blank" rel="external">Swift Programming Language Evolution</a></p>
-<blockquote>
-<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
-</blockquote>
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-3/">原文链接</a>，原文日期：2015/12/10<br>译者：<a href="http://weibo.com/linusling">小铁匠Linus</a>；校对：<a href="https://github.com/Cee">Cee</a>；定稿：<a href="undefined"></a></p>
-</blockquote>
-<!--此处开始正文-->
-<p>2015 年 12 月 3 日，Swift 正式开源。同时，官方也公布了 Swift 3 的最新消息，即 Swift 3 将会在 2016 年秋天发布。</p>]]>
-    
-    </summary>
-    
-      <category term="Thomas Hanning" scheme="http://swiftggteam.github.io/tags/Thomas-Hanning/"/>
-    
-      <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
-    
-  </entry>
-  
-  <entry>
     <title><![CDATA[如何在 Swift 中使用 Alamofire 进行网络编程]]></title>
     <link href="http://swiftggteam.github.io/2015/12/22/alamofire-beginner-guide/"/>
     <id>http://swiftggteam.github.io/2015/12/22/alamofire-beginner-guide/</id>
     <published>2015-12-21T16:00:00.000Z</published>
-    <updated>2015-12-30T05:25:31.988Z</updated>
+    <updated>2015-12-30T12:20:19.447Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：gregg mojica，<a href="http://www.appcoda.com/alamofire-beginner-guide/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/30<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1383,7 +1459,7 @@
     <link href="http://swiftggteam.github.io/2015/12/21/swift-3-0-and-foundation/"/>
     <id>http://swiftggteam.github.io/2015/12/21/swift-3-0-and-foundation/</id>
     <published>2015-12-20T16:00:00.000Z</published>
-    <updated>2015-12-30T05:25:31.988Z</updated>
+    <updated>2015-12-30T12:20:19.447Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/12/03/swift-3-0-and-foundation/" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-03<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1425,7 +1501,7 @@
     <link href="http://swiftggteam.github.io/2015/12/18/changing-swift-whats-coming-up-in-2-2-and-3-0/"/>
     <id>http://swiftggteam.github.io/2015/12/18/changing-swift-whats-coming-up-in-2-2-and-3-0/</id>
     <published>2015-12-17T16:00:00.000Z</published>
-    <updated>2015-12-30T05:25:31.988Z</updated>
+    <updated>2015-12-30T12:20:19.447Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/12/03/changing-swift-whats-coming-up-in-2-2-and-3-0/" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-03<br>译者：<a href="undefined">Channe</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1467,7 +1543,7 @@
     <link href="http://swiftggteam.github.io/2015/12/17/per-view-auto-rotation-locking-made-easy-for-ios-8-and-9/"/>
     <id>http://swiftggteam.github.io/2015/12/17/per-view-auto-rotation-locking-made-easy-for-ios-8-and-9/</id>
     <published>2015-12-16T16:00:00.000Z</published>
-    <updated>2015-12-30T05:25:31.988Z</updated>
+    <updated>2015-12-30T12:20:19.447Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Weston Hanners，<a href="http://www.alloc-init.com/2015/11/per-view-auto-rotation-locking-made-easy-for-ios-8-and-9/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-18<br>译者：<a href="undefined">littledogboy</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1512,11 +1588,71 @@
   </entry>
   
   <entry>
+    <title><![CDATA[Beta 2 更新：Swift 2.1 Playground 使用值放置方法]]></title>
+    <link href="http://swiftggteam.github.io/2015/12/16/new-to-beta-2-swift-2-1-playground-value-drops-swiftlang/"/>
+    <id>http://swiftggteam.github.io/2015/12/16/new-to-beta-2-swift-2-1-playground-value-drops-swiftlang/</id>
+    <published>2015-12-15T16:00:00.000Z</published>
+    <updated>2015-12-30T12:20:19.447Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/09/23/new-to-beta-2-swift-2-1-playground-value-drops-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-23<br>译者：<a href="http://weibo.com/u/2916092907" target="_blank" rel="external">天才175</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
+</blockquote>
+<p><img src="/img/articles/new-to-beta-2-swift-2-1-playground-value-drops-swiftlang/Color-AppScreenSnapz001.png1450226715.996496" alt=""></p>
+<p>Beta 2 的新特性允许你拖放颜色、图片以及文件。在截图中虽然看不到，但如果你打开文本赋值的历史记录，就会显示文件的文本内容（是我的购物清单，好奇的家伙们）。文本常量的类型为<code>NSURL</code>。颜色是<code>UIColor</code>，图片是<code>UIImage</code>。谢天谢地，希望你们对这些没有任何疑问。</p>
+<a id="more"></a>
+<ul>
+<li>非常有趣的是，你可以在 playground 里拖动它们。所以如果你不小心把一张图片放在了颜色那一行，直接拖到 图片赋值那里就行。</li>
+<li>你也可以选择将拖动的物品进行复制。</li>
+<li>双击颜色可以打开颜色选择器（耶！），双击图片可以打开资源文件夹来选取其他资源。双击 URLS 我没发现可以干神马。</li>
+<li>你不能调整代码中占位符的大小，但是你可以调整它们历史记录界面的大小，和其他值一样。</li>
+<li>你还不能通过调用<code>UIColor</code>来生成颜色预览，比如，<code>UIColor.blueColor()</code>就不能生成预览。我发现最简单的方法就是从外部拖进来或者复制/拖另一个颜色，然后用色轮赋值。</li>
+<li>如果代码中占位符是蓝色，别输入。单击关闭它或者直接用键盘输入内容替换它。蓝色意味着可以选取并且可以被改写。简单吧。</li>
+</ul>
+<p>聪明人的做法：<strong>不要把 playground 拖入它自身</strong>。我是认真的，我已经踩过坑了。</p>
+<p><img src="/img/articles/new-to-beta-2-swift-2-1-playground-value-drops-swiftlang/Screen-Shot-2015-09-23-at-8.30.41-PM.png1450226717.1296368" alt=""></p>
+<p>由于文件可以随意复制到资源文件夹。所以：</p>
+<ul>
+<li>不要通过拖动复制同样的文件两次。Xcode 不喜欢那样。</li>
+<li>不要指望编辑源文件可以自动同步修改，你需要修改添加后的文件。</li>
+<li>颜色不能复制到资源里，它们只能是值项。</li>
+<li>目前有很多事情还不能做。比如，你不能从 Safari “复制” URLS 过来。它们需要进行转义，不然会被当作纯文本。虽然可以期待之后可以拖放的词汇会越来越多，但目前只有颜色、图片和本地文件的 NSURL。</li>
+<li>如前所述，不要把 playground 拖入它自身。</li>
+</ul>
+<h2 id="其他新的东西">其他新的东西</h2><p>Swift 关于如何响应引入的 enums，unions, NSNumbers 等有很大的变化。如果你从事大量跨语言编码，值得认真读一读更新说明。</p>
+<p>Swift 2.1 现在可以在字符串插值中使用双引号。</p>
+<blockquote>
+<p>表达式字符串插值现在可以包含字符串了。比如，“My name is \ (attributes[“name”]!)” 现在是有效的。（14050788）</p>
+</blockquote>
+<p>编译器性能有一些提升。没有任何依赖的项（即标记为私有的）不会再触发其他文件的重编译。</p>
+<p>更加宽泛的函数类型。你可以这样赋值了，从<code>任何类型-&gt;Int 闭包</code>到<code>字符串-&gt;任何变量</code>。这种方式到底好还是不好，我仍在思考中。</p>
+<blockquote>
+<p>现在支持函数类型的转换，展现了函数结果类型的协变和函数参数类型的逆变。比如，现在这样的函数类型赋值方式是合法的，从<code>任何类型-&gt;Int 闭包</code>到<code>字符串-&gt;任何变量</code>。（19517003）</p>
+</blockquote>
+<p>下面，抛开 playground, 对于我来说，有一个最重大的改变。那就是 map 闭包（_-&gt;_ 是不是很眼熟？）的错误提示“更加有用了”。我都等不及要试一试了!</p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/09/23/new-to-beta-2-swift-2-1-playground-value-drops-swiftlang/">原文链接</a>，原文日期：2015-09-23<br>译者：<a href="http://weibo.com/u/2916092907">天才175</a>；校对：<a href="https://github.com/numbbbbb">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb">numbbbbb</a></p>
+</blockquote>
+<p><img src="/img/articles/new-to-beta-2-swift-2-1-playground-value-drops-swiftlang/Color-AppScreenSnapz001.png1450226715.996496" alt=""></p>
+<p>Beta 2 的新特性允许你拖放颜色、图片以及文件。在截图中虽然看不到，但如果你打开文本赋值的历史记录，就会显示文件的文本内容（是我的购物清单，好奇的家伙们）。文本常量的类型为<code>NSURL</code>。颜色是<code>UIColor</code>，图片是<code>UIImage</code>。谢天谢地，希望你们对这些没有任何疑问。</p>]]>
+    
+    </summary>
+    
+      <category term="Erica Sadun" scheme="http://swiftggteam.github.io/tags/Erica-Sadun/"/>
+    
+      <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[[原创] 每周 Swift 社区问答 2015-12-16]]></title>
     <link href="http://swiftggteam.github.io/2015/12/16/swift-qa-2015-12-16/"/>
     <id>http://swiftggteam.github.io/2015/12/16/swift-qa-2015-12-16/</id>
     <published>2015-12-15T16:00:00.000Z</published>
-    <updated>2015-12-30T03:15:13.285Z</updated>
+    <updated>2015-12-23T09:10:13.904Z</updated>
     <content type="html"><![CDATA[<p>本周整理问题如下：</p>
 <ul>
 <li><a href="#Q1">Unwrapping NSNumber works fine in iOS Simulator but unexpectedly found nil on iPhone</a></li>
@@ -1658,71 +1794,11 @@
   </entry>
   
   <entry>
-    <title><![CDATA[Beta 2 更新：Swift 2.1 Playground 使用值放置方法]]></title>
-    <link href="http://swiftggteam.github.io/2015/12/16/new-to-beta-2-swift-2-1-playground-value-drops-swiftlang/"/>
-    <id>http://swiftggteam.github.io/2015/12/16/new-to-beta-2-swift-2-1-playground-value-drops-swiftlang/</id>
-    <published>2015-12-15T16:00:00.000Z</published>
-    <updated>2015-12-30T05:25:31.988Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/09/23/new-to-beta-2-swift-2-1-playground-value-drops-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-23<br>译者：<a href="http://weibo.com/u/2916092907" target="_blank" rel="external">天才175</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
-</blockquote>
-<p><img src="/img/articles/new-to-beta-2-swift-2-1-playground-value-drops-swiftlang/Color-AppScreenSnapz001.png1450226715.996496" alt=""></p>
-<p>Beta 2 的新特性允许你拖放颜色、图片以及文件。在截图中虽然看不到，但如果你打开文本赋值的历史记录，就会显示文件的文本内容（是我的购物清单，好奇的家伙们）。文本常量的类型为<code>NSURL</code>。颜色是<code>UIColor</code>，图片是<code>UIImage</code>。谢天谢地，希望你们对这些没有任何疑问。</p>
-<a id="more"></a>
-<ul>
-<li>非常有趣的是，你可以在 playground 里拖动它们。所以如果你不小心把一张图片放在了颜色那一行，直接拖到 图片赋值那里就行。</li>
-<li>你也可以选择将拖动的物品进行复制。</li>
-<li>双击颜色可以打开颜色选择器（耶！），双击图片可以打开资源文件夹来选取其他资源。双击 URLS 我没发现可以干神马。</li>
-<li>你不能调整代码中占位符的大小，但是你可以调整它们历史记录界面的大小，和其他值一样。</li>
-<li>你还不能通过调用<code>UIColor</code>来生成颜色预览，比如，<code>UIColor.blueColor()</code>就不能生成预览。我发现最简单的方法就是从外部拖进来或者复制/拖另一个颜色，然后用色轮赋值。</li>
-<li>如果代码中占位符是蓝色，别输入。单击关闭它或者直接用键盘输入内容替换它。蓝色意味着可以选取并且可以被改写。简单吧。</li>
-</ul>
-<p>聪明人的做法：<strong>不要把 playground 拖入它自身</strong>。我是认真的，我已经踩过坑了。</p>
-<p><img src="/img/articles/new-to-beta-2-swift-2-1-playground-value-drops-swiftlang/Screen-Shot-2015-09-23-at-8.30.41-PM.png1450226717.1296368" alt=""></p>
-<p>由于文件可以随意复制到资源文件夹。所以：</p>
-<ul>
-<li>不要通过拖动复制同样的文件两次。Xcode 不喜欢那样。</li>
-<li>不要指望编辑源文件可以自动同步修改，你需要修改添加后的文件。</li>
-<li>颜色不能复制到资源里，它们只能是值项。</li>
-<li>目前有很多事情还不能做。比如，你不能从 Safari “复制” URLS 过来。它们需要进行转义，不然会被当作纯文本。虽然可以期待之后可以拖放的词汇会越来越多，但目前只有颜色、图片和本地文件的 NSURL。</li>
-<li>如前所述，不要把 playground 拖入它自身。</li>
-</ul>
-<h2 id="其他新的东西">其他新的东西</h2><p>Swift 关于如何响应引入的 enums，unions, NSNumbers 等有很大的变化。如果你从事大量跨语言编码，值得认真读一读更新说明。</p>
-<p>Swift 2.1 现在可以在字符串插值中使用双引号。</p>
-<blockquote>
-<p>表达式字符串插值现在可以包含字符串了。比如，“My name is \ (attributes[“name”]!)” 现在是有效的。（14050788）</p>
-</blockquote>
-<p>编译器性能有一些提升。没有任何依赖的项（即标记为私有的）不会再触发其他文件的重编译。</p>
-<p>更加宽泛的函数类型。你可以这样赋值了，从<code>任何类型-&gt;Int 闭包</code>到<code>字符串-&gt;任何变量</code>。这种方式到底好还是不好，我仍在思考中。</p>
-<blockquote>
-<p>现在支持函数类型的转换，展现了函数结果类型的协变和函数参数类型的逆变。比如，现在这样的函数类型赋值方式是合法的，从<code>任何类型-&gt;Int 闭包</code>到<code>字符串-&gt;任何变量</code>。（19517003）</p>
-</blockquote>
-<p>下面，抛开 playground, 对于我来说，有一个最重大的改变。那就是 map 闭包（_-&gt;_ 是不是很眼熟？）的错误提示“更加有用了”。我都等不及要试一试了!</p>
-<blockquote>
-<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
-</blockquote>
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/09/23/new-to-beta-2-swift-2-1-playground-value-drops-swiftlang/">原文链接</a>，原文日期：2015-09-23<br>译者：<a href="http://weibo.com/u/2916092907">天才175</a>；校对：<a href="https://github.com/numbbbbb">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb">numbbbbb</a></p>
-</blockquote>
-<p><img src="/img/articles/new-to-beta-2-swift-2-1-playground-value-drops-swiftlang/Color-AppScreenSnapz001.png1450226715.996496" alt=""></p>
-<p>Beta 2 的新特性允许你拖放颜色、图片以及文件。在截图中虽然看不到，但如果你打开文本赋值的历史记录，就会显示文件的文本内容（是我的购物清单，好奇的家伙们）。文本常量的类型为<code>NSURL</code>。颜色是<code>UIColor</code>，图片是<code>UIImage</code>。谢天谢地，希望你们对这些没有任何疑问。</p>]]>
-    
-    </summary>
-    
-      <category term="Erica Sadun" scheme="http://swiftggteam.github.io/tags/Erica-Sadun/"/>
-    
-      <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
-    
-  </entry>
-  
-  <entry>
     <title><![CDATA[Mixins 比继承更好]]></title>
     <link href="http://swiftggteam.github.io/2015/12/15/mixins-over-inheritance/"/>
     <id>http://swiftggteam.github.io/2015/12/15/mixins-over-inheritance/</id>
     <published>2015-12-15T02:30:00.000Z</published>
-    <updated>2015-12-30T05:25:31.988Z</updated>
+    <updated>2015-12-30T12:20:19.447Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Olivier Halligon，<a href="http://alisoftware.github.io/swift/protocol/2015/11/08/mixins-over-inheritance/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-08<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1845,7 +1921,7 @@
     <link href="http://swiftggteam.github.io/2015/12/14/a-beginners-guide-to-nsdate-in-swift/"/>
     <id>http://swiftggteam.github.io/2015/12/14/a-beginners-guide-to-nsdate-in-swift/</id>
     <published>2015-12-14T01:00:00.000Z</published>
-    <updated>2015-12-30T05:25:31.988Z</updated>
+    <updated>2015-12-30T12:20:19.443Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：gabriel theodoropoulos，<a href="http://www.appcoda.com/nsdate/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-18<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a></p>
 </blockquote>
@@ -2057,7 +2133,7 @@
     <link href="http://swiftggteam.github.io/2015/12/11/correction-on-testing-uialertcontroller/"/>
     <id>http://swiftggteam.github.io/2015/12/11/correction-on-testing-uialertcontroller/</id>
     <published>2015-12-10T16:00:00.000Z</published>
-    <updated>2015-12-30T05:25:31.988Z</updated>
+    <updated>2015-12-30T12:20:19.443Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：dom，<a href="http://swiftandpainless.com/correction-on-testing-uialertcontroller/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-25<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="http://weibo.com/lfbWb" target="_blank" rel="external">lfb_CD</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -2106,7 +2182,7 @@
     <link href="http://swiftggteam.github.io/2015/12/10/reduce-all-the-things/"/>
     <id>http://swiftggteam.github.io/2015/12/10/reduce-all-the-things/</id>
     <published>2015-12-09T16:00:00.000Z</published>
-    <updated>2015-12-30T05:25:31.988Z</updated>
+    <updated>2015-12-30T12:20:19.443Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Benedikt Terhechte，<a href="http://appventure.me/2015/11/30/reduce-all-the-things/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-30<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -2226,7 +2302,7 @@
     <link href="http://swiftggteam.github.io/2015/12/08/ios-realm-instead-of-coredata/"/>
     <id>http://swiftggteam.github.io/2015/12/08/ios-realm-instead-of-coredata/</id>
     <published>2015-12-07T16:00:00.000Z</published>
-    <updated>2015-12-30T05:25:31.988Z</updated>
+    <updated>2015-12-30T12:20:19.443Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/ios-realm-instead-of-coredata/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-29<br>译者：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -2286,187 +2362,6 @@
       <category term="Tomasz Szulc" scheme="http://swiftggteam.github.io/tags/Tomasz-Szulc/"/>
     
       <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[使用 Realm 和 Swift 创建 ToDo 应用]]></title>
-    <link href="http://swiftggteam.github.io/2015/12/08/building-a-todo-app-using-realm-and-swift/"/>
-    <id>http://swiftggteam.github.io/2015/12/08/building-a-todo-app-using-realm-and-swift/</id>
-    <published>2015-12-07T16:00:00.000Z</published>
-    <updated>2015-12-30T05:25:31.988Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>作者：Hossam Ghareeb，<a href="http://www.appcoda.com/realm-database-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-28<br>译者：<a href="http://www.futantan.com" target="_blank" rel="external">Prayer</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
-</blockquote>
-<!--此处开始正文-->
-<p>智能手机的快速发展的同时，涌现出了很多对开发者友好的开发工具。这些工具不仅使得开发变得更加简单和容易，同时也保证了性能和产品质量。如今想要在 App Store 中占据一席之地，并非易事。而且想要使得应用易于扩展就更加困难了。当你成功获得百万量级的用户时，应用中的每一个细节都不能放过，并且需要在很短的时间完成对细节的打磨。所以和数据库打交道，是很多开发者都会面临的一个问题。<a id="more"></a>相信我们每个人都会因为数据库引起的各种问题而头疼不已，对于数据库，我想如今我们只有两种选择：<a href="http://www.appcoda.com/sqlite-database-ios-app-tutorial/" target="_blank" rel="external">SQLite</a> 和 <a href="http://www.appcoda.com/introduction-to-core-data/" target="_blank" rel="external">Core Data</a>。我是 Core Data 的忠实粉丝，它对记录（records）的处理和持久化数据的能力非常强大，但是我意识到，在开发应用的过程中，我在 Core Data 上浪费了太多的时间。最近，我无意中发现了 Realm，一个可以替代 SQLite 和 Core Data 的更好的解决方案。</p>
-<p><img src="http://www.appcoda.com/wp-content/uploads/2015/10/realm-db-1024x683.jpg" alt=""></p>
-<!--more-->
-<h2 id="Realm_是什么？">Realm 是什么？</h2><p>Realm 是一个跨平台的移动终端数据库，支持 iOS（Swift 和 Objective-C 语言都支持）和 Android。Realm 的目的就是提供比 SQLite 和 Core Data 更好更快的数据库支持。它不仅仅是更好和更快，而且更加易于使用，短短几行代码就可以完成很多操作。Realm 完全免费，你可以随意使用它。Realm 是为移动设备而生的，因为在过去的十年中，移动终端的数据库技术没有任何的革新。现在如果和移动终端的数据库打交道，你只有一种选择，使用 SQLite 或者是底层封装了 SQLite 的技术比如 Core Data。Realm 的目的是更加易用，它并不是一个建立在 SQLite 之上的 ORM，而是一个基于自己的持久化引擎，简单并且快速的面向对象移动数据库。</p>
-<h2 id="为什么选择_Realm？">为什么选择 Realm？</h2><p><a href="https://realm.io/cn/" target="_blank" rel="external">Realm</a>拥有令人难以置信的速度并且使用起来非常简单，你会发现，无论是想完成数据库的读还是写操作，都只需要短短的几行代码。下面我会列出它的所有优势，并说明为什么 Realm 是你在移动应用上数据库的不二选择：</p>
-<ul>
-<li><p><strong>安装简单</strong>：在下一个章节 — 如何使用 Realm 中你会了解到，安装 Realm 会比你想象的更为简单。使用简单的 Cocoapods 命令，你就可以完成所有的安装工作。</p>
-</li>
-<li><p><strong>速度更快</strong>：使用 Realm 库操作数据库的速度非常快。它比 SQLite 和 CoreData 都更加快速，<a href="https://realm.io/news/introducing-realm/#fast" target="_blank" rel="external">这里</a>有它们之间的比较指标作为证据。</p>
-</li>
-<li><p><strong>跨平台</strong>：Realm 的数据库文件是跨平台的，可以在 iOS 和 Android 间共享。无论你是使用 Java、Objective-C 或者 Swift，都可以使用相同的抽象模型访问。</p>
-</li>
-<li><p><strong>易于扩展</strong>：如果你的移动应用需要处理大量的用户数据记录，数据库的可扩展性就显得十分重要。在开始着手开发应用之前，这一点就应该被考虑在内。Realm 提供很好的可扩展性，在操作大量的数据时，速度也非常之快。选择使用 Realm 可以为你的应用带来更快的速度和更加流畅的用户体验。</p>
-</li>
-<li><p><strong>规范的文档和很好的支持</strong>：Realm 提供了丰富的大量条理清晰、易于阅读的文档。如果你有任何的问题，你也可以通过 Twitter、Github 或 Stackoverflow 来获得帮助。</p>
-</li>
-<li><p><strong>可信任</strong>：Realm 已经被大量的初创公司和大公司用于它们的移动应用中，像 Pinterest、Dubsmash 和 Hipmunk。</p>
-</li>
-<li><p><strong>免费</strong>：除了以上这些极好的优点以外，它还是完！全！免！费！的！</p>
-</li>
-</ul>
-<h2 id="让我们开始动手吧">让我们开始动手吧</h2><p>让我们开始学习 Realm，使用它来构建一个简单的使用 Swift 语言的 iPhone 应用。所完成的 demo 程序是一个简单的 Todo 应用。用户可以增加任务清单，每个任务清单都能够包含多个任务。任务拥有名称、备注、到期日期，可以添加图片，并且拥有一个布尔值来表示该任务是否已经完成。在开始创建 Xcode 项目之前，我们需要先配置好 Xcode，安装使用 Realm 所需的工具。</p>
-<h2 id="环境要求">环境要求</h2><p>请注意需要满足下列要求</p>
-<ul>
-<li>iOS 8 及更高的版本，OS X 10.9 及更高的版本</li>
-<li>Xcode 6.3 及更高版本</li>
-<li>Realm 有两个发行版，一个针对 Swift 2.0，另一个针对 Swift 1.2。我们推荐您使用 Swift 2.0 的版本。当然你也可以使用针对 Swift 1.2 的版本，但是以后这个版本 Realm 不会再进行更新支持，所以为了保险起见，使用 Swift 2.0 对应的版本，是个更好的选择。</li>
-</ul>
-<h2 id="配置_Xcode_和所需的工具">配置 Xcode 和所需的工具</h2><p>在开始配置 Xcode 项目之前，请确保运行环境已经正确安装了 CocoaPods，我们将使用它来为项目安装 Realm。如果对 <a href="https://cocoapods.org/" target="_blank" rel="external">CocoaPods</a> 不熟悉，你可以查看在线的教程，这些教程的材料足够让你明白如何开始使用它。</p>
-<p>现在，使用 <code>Single View Application</code> 项目模板创建一个 Xcode 工程，命名为 <code>RealmTasks</code> 或者其他你喜欢的名字。请确保选择 Swift 作为开发语言。之后在终端中进入到该工程目录，使用如下命令来初始化 CocoaPods：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pod init</span><br></pre></td></tr></table></figure>
-<p>然后使用 Xcode 打开生成的 Podfile 文件，在 target 之后，添加 <code>pod &#39;RealmSwift&#39;</code>，修改完之后，应该是下面这个样子：</p>
-<p><img src="http://www.appcoda.com/wp-content/uploads/2015/10/realm-podfile-1024x430.png" alt=""></p>
-<p>下面运行 <code>pod install</code> 命令来把 Realm 下载安装到项目中。完成之后，你会在你的工程文件目录发现一个新生成的 Xcode 工作空间。请确保打开 <strong>RealmTasks.xcworkspace</strong> 而不是 xcodeproj。打开工作空间后，你会看到像下面这样的情形：</p>
-<p><img src="http://www.appcoda.com/wp-content/uploads/2015/10/realm-pod-folder-1024x446.png" alt=""></p>
-<p>现在就可以在 Xcode 中使用 Realm 啦，但是我们将安装下面的小工具来让使用 Realm 的过程更加容易。</p>
-<h2 id="在_Xcode_中安装_Realm_插件">在 Xcode 中安装 Realm 插件</h2><p>Realm 开发团队提供了一个生成 Realm 模型非常有用的插件。为了安装这个插件，我们要使用 <a href="http://alcatraz.io/" target="_blank" rel="external">Alcatraz</a>。如果你不知道 Alcatraz 是什么的话，这里解释一下，它是一个简单有用的开源包管理工具，它可以让你无需任何配置，自动地为 Xcode 安装插件、文件模板和颜色主题。为了安装 Alcatraz，你只需将以下代码复制到终端中执行，之后重启 Xcode：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl -fsSL https://raw.githubusercontent.com/supermarin/Alcatraz/master/Scripts/install.sh | sh</span><br></pre></td></tr></table></figure>
-<p>然后在 Xcode 中，选择 <code>Window</code> -&gt; <code>Package Manager</code>，如下图：</p>
-<p><img src="http://www.appcoda.com/wp-content/uploads/2015/10/realm-package-manager-1024x334.png" alt=""></p>
-<p>然后在弹出的窗口中，你可以选择安装你喜欢的插件或者文件模板，在搜索框中你可以搜索你喜欢的插件、配色。在搜索框输入「Realm」，在出现的结果中选择「RealmPlugin」，点击 <code>Install</code> 按钮</p>
-<p><img src="http://www.appcoda.com/wp-content/uploads/2015/10/realm-plugin-1024x996.png" alt=""></p>
-<h2 id="Realm_浏览器">Realm 浏览器</h2><p>给大家介绍的最后一个工具是 Realm 浏览器。这个浏览器可以帮助你阅读和编辑你的 <code>.realm</code> 数据库文件。这些文件在应用程序中被创建，在数据库表中保存了所有的数据实体（entities）、属性（attributes）和记录（records）。之前我们说过，这些数据库文件可以在像 iOS 和 Android 这样不同的平台间共享。想要下载最新版本的 Realm 浏览器，请访问 <a href="https://itunes.apple.com/app/realm-browser/id1007457278" target="_blank" rel="external">iTunes store</a>。打开 Realm 浏览器，选择 <code>Tools</code> -&gt; <code>Generate demo database</code>。它会帮你生成 realm 数据库测试文件，你可以使用该浏览器打开和编辑它的内容。当你打开的时候，你会看到像下面的内容：</p>
-<p><img src="http://www.appcoda.com/wp-content/uploads/2015/10/browser.png" alt=""></p>
-<p>正如你所见，在 RealmTestClass1 中，它拥有 1000 条记录，显示了多种不同的参数类型（即「列」）。我们会在下节介绍支持的属性类型。</p>
-<p>现在，Realm 的所有准备工作都已就绪，那我们开始动手吧！</p>
-<h2 id="数据模型类">数据模型类</h2><p>好戏才刚刚开始。首先我们来创建模型类或者说我们的数据库。为了创建 Realm 数据模型类，你只需要简单地新建一个普通的 Swift 类继承自 Object 就可以了。因为 Realm 数据模型类的基类是 Object，所以 Object 的子类都可以扩展为 Realm 的模型类。一旦创建类后，就可以添加属性了。Realm 支持以下多种数据类型：</p>
-<p>– Int，Int8，Int16，Int32 和 Int64<br>– Boolean<br>– Float<br>– String<br>– NSDate<br>– NSData<br>– 继承自 Object 的类 =&gt; 作为一对一关系（Used for One-to-one relations）<br>– List<object> =&gt; 作为一对多关系（Used for one-to-many relations）</object></p>
-<p>Realm 中的 List 可以包含多个 Object 实例，参考上面 demo 数据库的截图，最后一列表示在其他数据表中的存在的一组引用。在和 Realm 模型类打交道的时候，使用的方式和其他 Swift 类一样。例如，你可以添加方法或者遵循指定的协议。</p>
-<p>多说无益，来看代码 😂</p>
-<p>现在让我们使用之前在 Xcode 中安装的 Realm 插件来新建一个 Realm 类。打开 Xcode，新建文件，在右边的侧边栏选择 Realm：</p>
-<p><img src="http://www.appcoda.com/wp-content/uploads/2015/10/realm_model.png" alt=""></p>
-<p>然后选择 Swift 语言，类名我们输入 Task。会得到如下结果：</p>
-<p><img src="http://www.appcoda.com/wp-content/uploads/2015/10/Task_swift.png" alt=""></p>
-<p>现在，可以向 Task 数据模型中添加属性了。</p>
-<h2 id="属性">属性</h2><p>我们需要在数据模型中添加需要的属性。该例子中，Task 需要有 name（String），createdAt（NSDate)），notes（String），和 isCompleted（Bool）这些属性。添加这些之后，代码应该像下面这样子：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Task</span>: <span class="title">Object</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">  <span class="keyword">dynamic</span> <span class="keyword">var</span> name = <span class="string">""</span></span><br><span class="line">  <span class="keyword">dynamic</span> <span class="keyword">var</span> createdAt = <span class="type">NSDate</span>()</span><br><span class="line">  <span class="keyword">dynamic</span> <span class="keyword">var</span> notes = <span class="string">""</span></span><br><span class="line">  <span class="keyword">dynamic</span> <span class="keyword">var</span> isCompleted = <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 声明让 Realm 忽略的属性（Realm 将不持有这些属性）</span></span><br><span class="line">    </span><br><span class="line"><span class="comment">//  override static func ignoredProperties() -&gt; [String] &#123;</span></span><br><span class="line"><span class="comment">//    return []</span></span><br><span class="line"><span class="comment">//  &#125;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>我们已经为 Task 模型类添加了属性，所有的属性前面都加了 <code>dynamic var</code> 前缀，这使得属性可以被数据库读写。</p>
-<p>接下来，我们要创建 TaskList 模型类，用来存储 Task 实例：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TaskList</span>: <span class="title">Object</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">  <span class="keyword">dynamic</span> <span class="keyword">var</span> name = <span class="string">""</span></span><br><span class="line">  <span class="keyword">dynamic</span> <span class="keyword">var</span> createdAt = <span class="type">NSDate</span>()</span><br><span class="line">  <span class="keyword">let</span> tasks = <span class="type">List</span>&lt;<span class="type">Task</span>&gt;()</span><br><span class="line">    </span><br><span class="line"><span class="comment">// 声明让 Realm 忽略的属性（Realm 将不持有这些属性）</span></span><br><span class="line">    </span><br><span class="line"><span class="comment">//  override static func ignoredProperties() -&gt; [String] &#123;</span></span><br><span class="line"><span class="comment">//    return []</span></span><br><span class="line"><span class="comment">//  &#125;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>TaskList 模型类拥有 name，createAt 和一个包含 Task 的 List 属性。需要注意的是：</p>
-<ol>
-<li>List<object> 用来表示一对多的关系：一个 TaskList 中拥有多个 Task。</object></li>
-<li>List 和 Array 在使用上非常相似，所用的方法和访问数据的方式（索引和下标）都相同。正如你所见的一样，List 后标明了数据类型，所包含的所有对象都应该是相同类型的。</li>
-<li>List<t> 是泛型，这也是为什么我们没有在声明前面加上 dynamic 的原因，因为在 Objective-C 运行时无法表示泛型属性。</t></li>
-</ol>
-<p>就像在之前实现中你看到的一对多关系那样，在 Realm 中创建数据关系非常简单。在使用一对一的关系时，我们不使用 List<t> 而是使用 Object 类型，来看下面的例子：</t></p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span>: <span class="title">Object</span></span>&#123;</span><br><span class="line">  <span class="keyword">dynamic</span> <span class="keyword">var</span> name = <span class="string">""</span></span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Car</span>: <span class="title">Object</span></span>&#123;</span><br><span class="line">  <span class="keyword">dynamic</span> <span class="keyword">var</span> owner:<span class="type">Person</span>?</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>上面的例子中，owner 属性表示 Car 和 Person 之间的一对一数据关系。</p>
-<p>现在基本的数据模型都已经创建好了。接下来我们会通过创建一个 ToDo 应用的过程，来讨论 Realm。首先，<a href="https://github.com/hossamghareeb/realmtasks" target="_blank" rel="external">从这里下载 app</a> 并且一窥究竟。在 Xcode 7 或更高的版本中运行，就像下面这样：</p>
-<p><img src="http://www.appcoda.com/wp-content/uploads/2015/10/realm-todo-list-app-1024x661.png" alt=""></p>
-<p>在项目中，我添加了两个视图控制器：TasksViewController 和 TaskListViewController。第一个视图控制器用来显示单个 task，第二个视图控制器用来显示所有的 TaskList。在 list 视图中，点击 + 按钮来添加一个任务清单。选择一个任务清单将会详情视图。你可以在这里添加多个 task。</p>
-<p>了解了 demo 的大体思路之后，现在让我们来看看如何向 Realm 数据库中添加一个新的任务清单。为了实现这个功能，需要如下处理：</p>
-<ol>
-<li>创建 TaskList 实例对象，并将其保存到 Realm 数据库中。</li>
-<li>向数据库中查询 list 数据，并更新 UI。</li>
-</ol>
-<p>为了在 Realm 中保存数据，你只需要实例化继承自 Object 的数据模型类，然后将对象写入到 Realm 中，下面是示例代码：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> taskListA = <span class="type">TaskList</span>()</span><br><span class="line">taskListA.name = <span class="string">"Wishlist"</span></span><br><span class="line">        </span><br><span class="line"><span class="keyword">let</span> wish1 = <span class="type">Task</span>()</span><br><span class="line">wish1.name = <span class="string">"iPhone6s"</span></span><br><span class="line">wish1.notes = <span class="string">"64 GB, Gold"</span></span><br><span class="line">        </span><br><span class="line"><span class="keyword">let</span> wish2 = <span class="type">Task</span>(value: [<span class="string">"name"</span>: <span class="string">"Game Console"</span>, <span class="string">"notes"</span>: <span class="string">"Playstation 4, 1 TB"</span>])</span><br><span class="line"><span class="keyword">let</span> wish3 = <span class="type">Task</span>(value: [<span class="string">"Car"</span>, <span class="type">NSDate</span>(), <span class="string">"Auto R8"</span>, <span class="literal">false</span>])</span><br><span class="line"> </span><br><span class="line">taskListA.tasks.appendContentsOf([wish1, wish2, wish3])</span><br></pre></td></tr></table></figure>
-<p>通过实例化 TaskList 类，我们创建了一个任务清单，之后设置了它的属性。随后我们创建了 3 个 Task 类型的对象（即 wish1，wish2 和 wish3）。这里我们演示了创建 Realm 对象的三种途径：</p>
-<ol>
-<li>wish1 的实例化方式：简单的实例化 Realm 类，然后设置属性。</li>
-<li>wish2 的实例化方式：传入一个字典，字典中的 key 为属性名，值为要设置的值。</li>
-<li>wish3 的实例化方式：使用数组传入的方式。数组中值的顺序需要和模型类中的声明顺序一致。</li>
-</ol>
-<h3 id="嵌套对象">嵌套对象</h3><p>在 Realm 中还可以是使用嵌套的方式来创建对象。在一对一关系和一对多关系的时候，你可以使用这种方式，这时候，一个类型对象的初始化需要一个 Object 或多个另一个类型的对象 List<object>。面临这种情况的时候，你可以选择上面的第二或者第三种方法，使用一个字典或者一个数组来表示一个对象。下面是嵌套对象的一个例子：</object></p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> taskListB = <span class="type">TaskList</span>(value: [<span class="string">"MoviesList"</span>, <span class="type">NSDate</span>(), [[<span class="string">"The Martian"</span>, <span class="type">NSDate</span>(), <span class="string">""</span>, <span class="literal">false</span>], [<span class="string">"The Maze Runner"</span>, <span class="type">NSDate</span>(), <span class="string">""</span>, <span class="literal">true</span>]]])</span><br></pre></td></tr></table></figure>
-<p>在上面的代码中，我们创建了一个电影清单，并设置了清单名称、创建时间和清单内容，清单内容包括多个 task。每个 task 使用数组的方式来创建，例如 <code>[&quot;The Maze Runner&quot;, NSDate(), &quot;&quot;, true]</code> 表示一个 task，内容分别对应了名称、创建时间、备注和是否已经完成。</p>
-<h2 id="使用_Realm_持久化对象">使用 Realm 持久化对象</h2><p>现在你应该知道了如何在 Realm 中创建和使用对象，但是为了能够在应用程序重新启动的时候使用这些数据，需要使用写事务将它们持久化到 Realm 的数据库中。当使用 Realm 来持久化数据的时候，只要这些对象已经存储成功，你可以在任何线程中获取这些对象。一个 Realm 实例表示一个 Realm 数据库。可以像下面一样实例化它：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> uiRealm = <span class="keyword">try</span>! <span class="type">Realm</span>()</span><br></pre></td></tr></table></figure>
-<p>我们常常将上面这行代码写在 <code>AppDelegate.swift</code> 文件的顶端（译者注：类之外，全局变量），这样就可以在整个项目中获得该对象的引用。之后便可以很方便地调用它的读和写方法：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">uiRealm.write &#123; () -&gt; <span class="type">Void</span> <span class="keyword">in</span></span><br><span class="line">  uiRealm.add([taskListA, taskListB])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>首先，uiRealm 对象已经在 AppDelegate 中创建，在整个 app 中都可以使用。Realm 对象在每个线程中都应该只被创建一次，因为它不是线程安全的，不能在不同的线程中共享。如果你想要在另一个线程中执行写操作，那么就需要创建一个新的 Realm 对象。我将这个实例命名为 <code>uiRealm</code>，就是因为它应该只在 UI 线程中被使用。</p>
-<p>现在让我们回到我们的 app 中，我们需要在用户点击 Create 按钮的时候保存任务列表。在 <code>TasksViewController</code> 的 <code>displayAlertToAddTask</code>方法中，我们有一个 <code>createAction</code> 对象：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> createAction = <span class="type">UIAlertAction</span>(title: doneTitle, style: <span class="type">UIAlertActionStyle</span>.<span class="type">Default</span>) &#123; (action) -&gt; <span class="type">Void</span> <span class="keyword">in</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">let</span> taskName = alertController.textFields?.first?.text</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> updatedTask != <span class="literal">nil</span>&#123;</span><br><span class="line">        <span class="comment">// update mode</span></span><br><span class="line">        uiRealm.write(&#123; () -&gt; <span class="type">Void</span> <span class="keyword">in</span></span><br><span class="line">            updatedTask.name = taskName!</span><br><span class="line">            <span class="keyword">self</span>.readTasksAndUpateUI()</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">let</span> newTask = <span class="type">Task</span>()</span><br><span class="line">        newTask.name = taskName!</span><br><span class="line">        </span><br><span class="line">        uiRealm.write(&#123; () -&gt; <span class="type">Void</span> <span class="keyword">in</span></span><br><span class="line">            </span><br><span class="line">            <span class="keyword">self</span>.selectedList.tasks.append(newTask)</span><br><span class="line">            <span class="keyword">self</span>.readTasksAndUpateUI()</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在上面的代码中，我们从 TextField 中获取到任务名称，调用 Realm 的写方法来保存任务列表。</p>
-<p><em>请注意，当你同时进行多个写操作的时候，他们会相互阻塞，阻塞住他们所运行的线程。所以应当考虑在 UI 之外的线程中来进行操作。另外需要注意的是，在进行写事务的时候，读操作并不会造成阻塞。这非常有用，尤其是当你在后台进行写操作的时候，用户可能会在不同界面切换，而这时候可以进行读操作。</em></p>
-<h2 id="检索数据">检索数据</h2><p>现在你已经学会了如何在 Realm 中写数据，下面我们来看看如何检索数据。在 Realm 中检索数据的方式非常直观。Realm 提供了很多选项来过滤出你想要的数据。在 Realm 中进行查找操作的时候，它将会返回一个 Results 对象。可以把 Results 简单地当做是 Swift 的数组，因为它们的接口非常类似。</p>
-<p>当得到 Results 实例的时候，这代表你已经从磁盘中直接获取到了数据。对这些数据的任何操作（使用事务）将会影响到磁盘上的数据。在 Realm 中来检索数据，只需要调用对象的方法，并将类名作为参数传进去。让我们看看如何使用这种方式来读取 TaskLists 并更新 UI：</p>
-<p>我们在 <code>TasksListsViewController</code> 中定义了该属性：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> lists : <span class="type">Results</span>&lt;<span class="type">TaskList</span>&gt;!</span><br></pre></td></tr></table></figure>
-<p>然后实现了 <code>readTasksAndUpdateUI</code> 方法：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">readTasksAndUpdateUI</span><span class="params">()</span></span>&#123;</span><br><span class="line">    </span><br><span class="line">    lists = uiRealm.objects(<span class="type">TaskList</span>)</span><br><span class="line">    <span class="keyword">self</span>.taskListsTableView.setEditing(<span class="literal">false</span>, animated: <span class="literal">true</span>)</span><br><span class="line">    <span class="keyword">self</span>.taskListsTableView.reloadData()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在 <code>tableView(_:cellForRowAtIndexPath:_)</code> 方法中，我们将显示列表的名称，还有每个列表内的任务个数：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath)</span></span> -&gt; <span class="type">UITableViewCell</span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">let</span> cell = tableView.dequeueReusableCellWithIdentifier(<span class="string">"listCell"</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">let</span> list = lists[indexPath.row]</span><br><span class="line">    </span><br><span class="line">    cell?.textLabel?.text = list.name</span><br><span class="line">    cell?.detailTextLabel?.text = <span class="string">"<span class="subst">\(list.tasks.<span class="built_in">count</span>)</span> Tasks"</span></span><br><span class="line">    <span class="keyword">return</span> cell!</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>代码逻辑非常直观吧。最后需要做的就是在 <code>viewWillAppear</code> 中调用 <code>readTasksAndUpdateUI</code> 方法，来确保总是显示数据更新之后的视图。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">viewWillAppear</span><span class="params">(animated: Bool)</span></span> &#123;</span><br><span class="line">    readTasksAndUpdateUI()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>上面展示了如何使用 Realm 来进行任务列表的读写操作。接下来，我们来看看如何进行数据更新和删除操作。在开始之前，先来看看项目模板中的修改和删除部分的相关代码。</p>
-<p>首先在 <code>TaskListsViewController</code> 中，我们用一个布尔值 <code>isEditingMode</code> 来表示是在正常状态还是编辑状态：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> isEditingMode = <span class="literal">false</span></span><br></pre></td></tr></table></figure>
-<p>当 Edit 按钮被点击的时候，将会调用 <code>didClickOnEditButton</code> 方法：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="preprocessor">@IBAction</span> <span class="func"><span class="keyword">func</span> <span class="title">didClickOnEditButton</span><span class="params">(sender: UIBarButtonItem)</span></span> &#123;</span><br><span class="line">    isEditingMode = !isEditingMode</span><br><span class="line">    <span class="keyword">self</span>.taskListsTableView.setEditing(isEditingMode, animated: <span class="literal">true</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这个方法会使用 table view 的 <code>setEditing</code> 方法来启用或禁用 UITableView 的编辑模式。在表格视图中，默认的编辑操作是删除，但是从 iOS 8.0 开始，增加了一个 <code>editActionsForRowAtIndexPath</code> 方法来自定义一些操作，这些操作在在用户滑动表格 cell 的时候出现。</p>
-<p>我们将使用该方法来添加两个功能 — 删除和编辑，代码如下：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath)</span></span> -&gt; [<span class="type">UITableViewRowAction</span>]? &#123;</span><br><span class="line">    <span class="keyword">let</span> deleteAction = <span class="type">UITableViewRowAction</span>(style: <span class="type">UITableViewRowActionStyle</span>.<span class="type">Destructive</span>, title: <span class="string">"Delete"</span>) &#123; (deleteAction, indexPath) -&gt; <span class="type">Void</span> <span class="keyword">in</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">//这里开始是删除</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">let</span> listToBeDeleted = <span class="keyword">self</span>.lists[indexPath.row]</span><br><span class="line">        uiRealm.write(&#123; () -&gt; <span class="type">Void</span> <span class="keyword">in</span></span><br><span class="line">            uiRealm.delete(listToBeDeleted)</span><br><span class="line">            <span class="keyword">self</span>.readTasksAndUpdateUI()</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> editAction = <span class="type">UITableViewRowAction</span>(style: <span class="type">UITableViewRowActionStyle</span>.<span class="type">Normal</span>, title: <span class="string">"Edit"</span>) &#123; (editAction, indexPath) -&gt; <span class="type">Void</span> <span class="keyword">in</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 这里开始是编辑</span></span><br><span class="line">        <span class="keyword">let</span> listToBeUpdated = <span class="keyword">self</span>.lists[indexPath.row]</span><br><span class="line">        <span class="keyword">self</span>.displayAlertToAddTaskList(listToBeUpdated)</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> [deleteAction, editAction]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这里我们使用 <code>UITableViewRowAction</code> 添加了两个操作，方法中定义了操作的 <code>style</code>，<code>title</code> 和 <code>handler</code>。当在滑动 cell 或者以其他方式进入编辑模式的时候，会像下面这样：</p>
-<p><img src="http://www.appcoda.com/wp-content/uploads/2015/10/edit-mode-576x1024.png" alt=""></p>
-<p>以上就是在进行删除和更新操作时候的 UI 代码逻辑。</p>
-<h2 id="删除对象">删除对象</h2><p>想要从 Realm 数据库中删除对象或者数据，你只需要调用 Realm 对象的 <code>delete</code> 方法，同时将该对象作为参数传入。当然，这些操作会在写事务中完成。来看一下下面的代码的工作方式，我们从 Realm 数据库中删除了一个任务列表：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> listToBeDeleted = <span class="keyword">self</span>.lists[indexPath.row]</span><br><span class="line">uiRealm.write(&#123; () -&gt; <span class="type">Void</span> <span class="keyword">in</span></span><br><span class="line">           uiRealm.delete(listToBeDeleted)</span><br><span class="line">           <span class="keyword">self</span>.readTasksAndUpdateUI()</span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
-<p>在删除之后，我们调用了 <code>readTasksAndUpdateUI</code> 方法来读取数据并更新 UI。</p>
-<p>除了删除单个数据，在 Realm 中，还有一个方法叫做 <code>deleteAll</code>，它允许你删除数据库中所有 class 的所有数据。如果你想为当前用户持久化数据，但是在他退出登录的时候抹掉所有的相关数据，这个方法将会十分有用。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">uiRealm.write(&#123; () -&gt; <span class="type">Void</span> <span class="keyword">in</span></span><br><span class="line">    uiRealm.deleteAll()</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<h2 id="更新_Objects">更新 Objects</h2><p>在 Realm 中有多种方式可以来更新 object，但是这些方法都应该在写事务中完成。下面我们来看一些更新对象的方式。</p>
-<h3 id="使用属性（Property）">使用属性（Property）</h3><p>你可以通过直接在 Realm 的写闭包中设置属性的值来更新数据。例如，在 <code>TasksViewController</code> 中，我们可以简单地设置属性值来更新任务的状态信息：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">uiRealm.write(&#123; () -&gt; <span class="type">Void</span> <span class="keyword">in</span></span><br><span class="line">    task.isCompleted = <span class="literal">true</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<h3 id="使用主键（Primary_Key）">使用主键（Primary Key）</h3><p>Realm 支持将某个 string 或 int 类型的属性设置为主键。当使用 <code>add()</code> 方法来创建 Realm 对象时，如果有相同主键的对象存在，就会更新这个对象的值。下面是示例代码：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> user = <span class="type">User</span>()</span><br><span class="line">user.firstName = <span class="string">"John"</span></span><br><span class="line">user.lastName = <span class="string">"Smith"</span></span><br><span class="line">user.email = <span class="string">"example@example.com"</span></span><br><span class="line">user.id = <span class="number">1</span></span><br><span class="line"><span class="comment">// 更新 id 是 1 的用户</span></span><br><span class="line">realm.write &#123;</span><br><span class="line">            realm.add(user, update: <span class="literal">true</span>)</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
-<p>这里的 id 属性为主键。如果 id 为 1 的用户存在，Realm 会更新相应的对象。如果不存在，Realm 将会把该对象存入数据库中。</p>
-<h3 id="使用_KVC（Key-Value_Coding）">使用 KVC（Key-Value Coding）</h3><p>如果你是 iOS 开发的老手，那么对 Key-Value Coding 肯定不会陌生。Realm 的类型，像是 Object、Results 和 List，都可以使用 Key-Value Coding。该特性可以帮助你在运行时设置或更新属性值。另外一个在 List 和 Results 中支持 KVC 的好处是，可以在无需遍历每个对象的情况下，批量更新对象数据。这么说你可能不是很理解，我们来看个例子：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> tasks = uiRealm.objects(<span class="type">Task</span>)</span><br><span class="line">uiRealm.write &#123; () -&gt; <span class="type">Void</span> <span class="keyword">in</span></span><br><span class="line">    tasks.setValue(<span class="literal">true</span>, forKeyPath: <span class="string">"isCompleted"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在上面的代码中，使用查询语句来请求所有的 Task 对象，之后将所有得到的对象的 <code>isCompleted</code> 属性设置为 true。可以看出，将 Realm 中的所有 tasks 标记为已完成，仅仅只用了一行代码。</p>
-<p>让我们回过头来看看我们的 ToDo 应用。如果仔细观察 <code>displayAlertToAddTaskList</code> 方法，你会看到如下代码片段：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"> <span class="comment">// 更新状态</span></span><br><span class="line">uiRealm.write(&#123; () -&gt; <span class="type">Void</span> <span class="keyword">in</span></span><br><span class="line">          updatedList.name = listName!</span><br><span class="line">          <span class="keyword">self</span>.readTasksAndUpdateUI()</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<p>当用户遍历列表名称的时候，上面的代码会被调用。通过设置 name 属性的方式，就更新了数据库中的内容。</p>
-<h2 id="显示任务项">显示任务项</h2><p>我们已经一起看过了 <code>TaskListViewController</code> 的绝大部分代码。现在让我们打开 <code>TasksViewController</code> 来看看，这个视图控制器用来显示任务清单中的任务项。视图控制器拥有一个 UITableView, 该视图有两个 section：完成的任务和未完成的任务。在 <code>TasksViewController</code> 中，有如下属性：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> selectedList : <span class="type">TaskList</span>!</span><br><span class="line"><span class="keyword">var</span> openTasks : <span class="type">Results</span>&lt;<span class="type">Task</span>&gt;!</span><br><span class="line"><span class="keyword">var</span> completedTasks : <span class="type">Results</span>&lt;<span class="type">Task</span>&gt;!</span><br></pre></td></tr></table></figure>
-<p><code>selectedList</code> 用来存储 <code>TaskListsViewController</code> 传递过来的选中的任务列表。为了将完成和未完成的任务分开，声明了两个属性，<code>openTasks</code> 和 <code>completedTasks</code>。为了过滤出不同的任务完成状态，我们将使用 Realm 的方法 <code>filter()</code>。在解释该函数如何工作之前，让我们先来看看如何在代码中使用它：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">readTasksAndUpateUI</span><span class="params">()</span></span>&#123;</span><br><span class="line">    </span><br><span class="line">    completedTasks = <span class="keyword">self</span>.selectedList.tasks.<span class="built_in">filter</span>(<span class="string">"isCompleted = true"</span>)</span><br><span class="line">    openTasks = <span class="keyword">self</span>.selectedList.tasks.<span class="built_in">filter</span>(<span class="string">"isCompleted = false"</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">self</span>.tasksTableView.reloadData()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在上面的方法中，我们使用 <code>filter</code> 方法来过滤 <code>results</code>。Realm 提供了 <code>filter()</code> 方法来过滤数据。该方法可以被 List、Result 和 Object 对象调用。方法会返回过满足滤条件参数的特定对象。你可以把 <code>filter</code> 当做 <code>NSPredicate</code>。基本上来说，你可以认为这两者差不多。就像上面的代码一样，你同样可以使用 string 作为参数创建一个 <code>NSPredicate</code> 对象，并把它作为参数传给 <code>filter</code> 方法。</p>
-<p>让我们来看另外一个例子：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 使用断言字符串</span></span><br><span class="line"><span class="keyword">var</span> redCars = realm.objects(<span class="type">Car</span>).<span class="built_in">filter</span>(<span class="string">"color = 'red' AND name BEGINSWITH 'BMW'"</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 使用 NSPredicate</span></span><br><span class="line"><span class="keyword">let</span> aPredicate = <span class="type">NSPredicate</span>(format: <span class="string">"color = %@ AND name BEGINSWITH %@"</span>, <span class="string">"red"</span>, <span class="string">"BMW"</span>)</span><br><span class="line">redCars = realm.objects(<span class="type">Car</span>).<span class="built_in">filter</span>(aPredicate)</span><br></pre></td></tr></table></figure>
-<p>在上面的代码中，我们使用 <code>filter</code> 方法来过滤 <code>color</code> 为 red，并且 <code>name</code> 以 “BMW” 开头的对象。第一行代码使用 string 作为参数来进行过滤。另外，你也可以使用 NSPredicate 获得同样的效果。下面的表格总结了 filter 方法的大部分常用操作：</p>
-<p><img src="http://www.appcoda.com/wp-content/uploads/2015/10/realm-database-info-1024x675.png" alt=""></p>
-<h2 id="排序">排序</h2><p>既然我们谈到了 Realm 数据库的基本操作，在本教程结束之前，我还想给大家介绍另外一个特性。排序功能，这是 Realm 提供了另一个特别有用的特性。对于 List 和 Result 对象，你可以调用方法 <code>sorted（「排序标准」）</code> 来将一组数据进行排序。让我们来看看如何在任务列表中使用该方法让任务列表以字母表或者创建时间先后顺序排序。首先，在 UI 中，我们增加了一个 segment control，将会根据选择的情况来进行对应的排序。</p>
-<p><img src="http://www.appcoda.com/wp-content/uploads/2015/10/Simulator-Screen-Shot-Oct-24-2015-8.47.06-PM-576x1024.png" alt=""></p>
-<p>根据不同的选择来进行排序，代码逻辑如下：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="preprocessor">@IBAction</span> <span class="func"><span class="keyword">func</span> <span class="title">didSelectSortCriteria</span><span class="params">(sender: UISegmentedControl)</span></span> &#123;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> sender.selectedSegmentIndex == <span class="number">0</span>&#123;</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 按 A-Z 排序</span></span><br><span class="line">            <span class="keyword">self</span>.lists = <span class="keyword">self</span>.lists.sorted(<span class="string">"name"</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="comment">// 按日期排序</span></span><br><span class="line">            <span class="keyword">self</span>.lists = <span class="keyword">self</span>.lists.sorted(<span class="string">"createdAt"</span>, ascending:<span class="literal">false</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">self</span>.taskListsTableView.reloadData()</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<h2 id="总结">总结</h2><p>Realm 是一个非常简单易用，直观的本地数据库解决方案。Realm 提供了很好的可扩展性，只用很少的几行代码就可完成操作。对于大部分的应用甚至是游戏来说，我觉得如果需要使用数据库的话，Realm 值得尝试。</p>
-<h2 id="下一步？">下一步？</h2><p>学习了本教程，你应该可以在项目中使用 Realm 来进行增删改查等基本的操作。Realm 还具有一些高阶特性，值得深入学习。最好的学习资料就是 Realm 网站的官方文档，Realm 的小伙伴把文档写得非常赞！</p>
-<p>如果想要教程 ToDo 应用的的完整代码，你可以在<a href="https://github.com/hossamghareeb/realmtasks" target="_blank" rel="external">这里下载</a>。</p>
-<p>如果对代码有任何的问题，都欢迎留言反馈，我们会很乐意帮助到您。</p>
-<blockquote>
-<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
-</blockquote>
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>作者：Hossam Ghareeb，<a href="http://www.appcoda.com/realm-database-swift/">原文链接</a>，原文日期：2015-10-28<br>译者：<a href="http://www.futantan.com">Prayer</a>；校对：<a href="https://github.com/Cee">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao">千叶知风</a></p>
-</blockquote>
-<!--此处开始正文-->
-<p>智能手机的快速发展的同时，涌现出了很多对开发者友好的开发工具。这些工具不仅使得开发变得更加简单和容易，同时也保证了性能和产品质量。如今想要在 App Store 中占据一席之地，并非易事。而且想要使得应用易于扩展就更加困难了。当你成功获得百万量级的用户时，应用中的每一个细节都不能放过，并且需要在很短的时间完成对细节的打磨。所以和数据库打交道，是很多开发者都会面临的一个问题。]]>
-    
-    </summary>
-    
-      <category term="AppCoda" scheme="http://swiftggteam.github.io/tags/AppCoda/"/>
-    
-      <category term="Swift 进阶" scheme="http://swiftggteam.github.io/categories/Swift-%E8%BF%9B%E9%98%B6/"/>
     
   </entry>
   
