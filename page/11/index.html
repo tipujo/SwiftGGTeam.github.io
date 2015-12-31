@@ -81,6 +81,73 @@
   <header class="article-info clearfix">
     <h1 itemprop="name">
       
+        <a href="/2015/09/07/objective-c-pointers-and-swift/" title="浅谈 Swift 2 中的 Objective-C 指针" itemprop="url">浅谈 Swift 2 中的 Objective-C 指针</a>
+    </h1>
+    <p class="article-time">
+      <time datetime="2015-09-06T16:00:00.000Z" itemprop="datePublished"><i class="icon-time"></i> 2015-09-07</time>
+      <span style="margin-left: 0.5em;"><i class="icon-eye-open"></i> <span class="viewcount"></span></span>
+    </p>
+  </header>
+
+    <div class="article-content">
+        
+        <blockquote>
+<p>作者：Jameson Quave，<a href="http://jamesonquave.com/blog/objective-c-pointers-and-swift">原文链接</a>，原文日期：2015/08/23<br>译者：<a href="http://blog.csdn.net/mmoaay">mmoaay</a>；校对：<a href="https://github.com/numbbbbb">numbbbbb</a>；定稿：<a href="http://codebuild.me/">shanks</a></p>
+<p>本文写于 2015 年 8 月 23 日，与 Xcode7 Beta 版和 Swift 2 兼容</p>
+</blockquote>
+<h2 id="在_Swift_中读_C_指针">在 Swift 中读 C 指针</h2><p>下面这个 Objective-C 方法会返回一个 <code>int</code> 指针，或者说 C 术语里面的 <code>(int *)</code>：</p>
+<figure class="highlight objectivec"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">PointerBridge</span> : <span class="title">NSObject</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> count;</span><br><span class="line">&#125;</span><br><span class="line">- (<span class="keyword">int</span> *) getCountPtr;</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">PointerBridge</span></span></span><br><span class="line">- (instancetype) init &#123;</span><br><span class="line">    <span class="keyword">self</span> = [<span class="keyword">super</span> init];</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">self</span>) &#123;</span><br><span class="line">        count = <span class="number">23</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line">- (<span class="keyword">int</span> *) getCountPtr &#123;</span><br><span class="line">    <span class="keyword">return</span> &amp;count;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2015/09/07/objective-c-pointers-and-swift/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Swift-进阶/">Swift 进阶</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Jameson-Quave/">Jameson Quave</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2015/09/07/objective-c-pointers-and-swift/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/09/07/objective-c-pointers-and-swift/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        
+  <header class="article-info clearfix">
+    <h1 itemprop="name">
+      
         <a href="/2015/09/06/commoncrypto-in-swift/" title="如何在 Swift 中使用 CommonCrypto 类进行加密(I)" itemprop="url">如何在 Swift 中使用 CommonCrypto 类进行加密(I)</a>
     </h1>
     <p class="article-time">
@@ -600,76 +667,9 @@ part2:http://www.jianshu.com/p/0b9bdffc2523" target="_blank" rel="external">译�
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        
-  <header class="article-info clearfix">
-    <h1 itemprop="name">
-      
-        <a href="/2015/08/28/swift_when_the_functional_approach_is_not_right/" title="Swift:什么时候不适合使用函数式方法" itemprop="url">Swift:什么时候不适合使用函数式方法</a>
-    </h1>
-    <p class="article-time">
-      <time datetime="2015-08-27T16:00:00.000Z" itemprop="datePublished"><i class="icon-time"></i> 2015-08-28</time>
-      <span style="margin-left: 0.5em;"><i class="icon-eye-open"></i> <span class="viewcount"></span></span>
-    </p>
-  </header>
-
-    <div class="article-content">
-        
-        <blockquote>
-<p>作者：Natasha，<a href="http://natashatherobot.com/swift-when-the-functional-approach-is-not-right/">原文链接</a>，原文日期：2015/07/24<br>译者：<a href="http://weibo.com/u/2916092907">天才175</a>；校对：<a href="https://github.com/numbbbbb">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb">numbbbbb</a></p>
-</blockquote>
-<p>昨天，我在代码库中找到一段我所认为的极具 Swift 风格的代码。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> minionImages = [<span class="type">UIImage</span>]()</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">1</span>...<span class="number">7</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">let</span> minionImage = <span class="type">UIImage</span>(named: <span class="string">"minionIcon-<span class="subst">\(i)</span>"</span>) &#123;</span><br><span class="line">        minionImages.append(minionImage)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这真是使用函数式编程进行重构的绝佳机会，哦吼吼！我可以做函数式编程了！！！是的，我非常激动。</p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2015/08/28/swift_when_the_functional_approach_is_not_right/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Swift-入门/">Swift 入门</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Natasha-The-Robot/">Natasha The Robot</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/08/28/swift_when_the_functional_approach_is_not_right/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/08/28/swift_when_the_functional_approach_is_not_right/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
-    <a class="extend prev" rel="prev" href="/page/10/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/12/">Next<span></span></a>
+    <a class="extend prev" rel="prev" href="/page/10/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/12/">Next<span></span></a>
   </nav>
 
 </div>
@@ -730,7 +730,7 @@ part2:http://www.jianshu.com/p/0b9bdffc2523" target="_blank" rel="external">译�
 		  
 		
 		  
-			<li><a href="/categories/iOS开发/" title="iOS开发">iOS开发<sup>3</sup></a></li>
+			<li><a href="/categories/iOS开发/" title="iOS开发">iOS开发<sup>4</sup></a></li>
 		  
 		
 		</ul>
@@ -743,11 +743,11 @@ part2:http://www.jianshu.com/p/0b9bdffc2523" target="_blank" rel="external">译�
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Thomas-Hanning/" title="Thomas Hanning">Thomas Hanning<sup>13</sup></a></li>
+				<li><a href="/tags/Natasha-The-Robot/" title="Natasha The Robot">Natasha The Robot<sup>14</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Natasha-The-Robot/" title="Natasha The Robot">Natasha The Robot<sup>13</sup></a></li>
+				<li><a href="/tags/Thomas-Hanning/" title="Thomas Hanning">Thomas Hanning<sup>13</sup></a></li>
 			
 		
 			
