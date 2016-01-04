@@ -4,7 +4,7 @@
   <subtitle><![CDATA[走心的 Swift 翻译组]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://swiftggteam.github.io/"/>
-  <updated>2015-12-31T01:35:16.943Z</updated>
+  <updated>2016-01-04T00:40:22.108Z</updated>
   <id>http://swiftggteam.github.io/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://swiftggteam.github.io/2015/12/31/cocoapods-on-a-team/"/>
     <id>http://swiftggteam.github.io/2015/12/31/cocoapods-on-a-team/</id>
     <published>2015-12-30T16:00:00.000Z</published>
-    <updated>2015-12-31T01:35:16.943Z</updated>
+    <updated>2016-01-04T00:40:22.108Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/cocoapods-on-a-team/" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-18<br>译者：<a href="http://ijack.pw/" target="_blank" rel="external">JackAlan</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -60,7 +60,7 @@
     <link href="http://swiftggteam.github.io/2015/12/30/minimal-distance-to-two-views-in-auto-layout/"/>
     <id>http://swiftggteam.github.io/2015/12/30/minimal-distance-to-two-views-in-auto-layout/</id>
     <published>2015-12-29T16:00:00.000Z</published>
-    <updated>2015-12-31T01:35:16.943Z</updated>
+    <updated>2016-01-04T00:40:22.108Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：dom，<a href="http://swiftandpainless.com/minimal-distance-to-two-views-in-auto-layout/" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-08<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://www.jianshu.com/users/ef1058d2d851" target="_blank" rel="external">星夜暮晨</a>；定稿：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a></p>
 </blockquote>
@@ -182,7 +182,7 @@
     <link href="http://swiftggteam.github.io/2015/12/29/swift-open-source/"/>
     <id>http://swiftggteam.github.io/2015/12/29/swift-open-source/</id>
     <published>2015-12-28T16:00:00.000Z</published>
-    <updated>2015-12-31T01:35:16.943Z</updated>
+    <updated>2016-01-04T00:40:22.108Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Jesse Squires，<a href="http://www.jessesquires.com/swift-open-source/" target="_blank" rel="external">原文链接</a>，原文日期：2015/12/06<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 <p>译者注：这个系列的关注重点是 Swift 开源项目本身的发展，作者会截取每周发生的大事（比如合并了一个大改动）并进行分析，还会写一些有趣的小发现，很有意思。我们已经拿到翻译授权，会每周进行更新，欢迎关注。</p>
@@ -238,7 +238,7 @@
     <link href="http://swiftggteam.github.io/2015/12/29/foursquare-realm-swift/"/>
     <id>http://swiftggteam.github.io/2015/12/29/foursquare-realm-swift/</id>
     <published>2015-12-28T16:00:00.000Z</published>
-    <updated>2015-12-31T01:35:16.943Z</updated>
+    <updated>2016-01-04T00:40:22.108Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：reinder de vries，<a href="http://www.appcoda.com/foursquare-realm-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/23<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="http://www.brighttj.com" target="_blank" rel="external">saitjr</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -797,7 +797,7 @@
     <link href="http://swiftggteam.github.io/2015/12/28/friday-qa-2015-12-11-swift-weak-references/"/>
     <id>http://swiftggteam.github.io/2015/12/28/friday-qa-2015-12-11-swift-weak-references/</id>
     <published>2015-12-27T16:00:00.000Z</published>
-    <updated>2015-12-31T01:35:16.943Z</updated>
+    <updated>2016-01-04T00:40:22.108Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Mike Ash，<a href="https://www.mikeash.com/pyblog/friday-qa-2015-12-11-swift-weak-references.html" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-11<br>译者：<a href="http://weibo.com/riven0951" target="_blank" rel="external">riven</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -954,7 +954,7 @@
     <link href="http://swiftggteam.github.io/2015/12/25/interesting-discussions-on-swift-evolution/"/>
     <id>http://swiftggteam.github.io/2015/12/25/interesting-discussions-on-swift-evolution/</id>
     <published>2015-12-24T16:00:00.000Z</published>
-    <updated>2015-12-31T01:35:16.943Z</updated>
+    <updated>2016-01-04T00:40:22.108Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/12/15/interesting-discussions-on-swift-evolution/" target="_blank" rel="external">原文链接</a>，原文日期：2015/12/15<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1013,7 +1013,7 @@
     <link href="http://swiftggteam.github.io/2015/12/24/friday-qa-2015-11-20-covariance-and-contravariance/"/>
     <id>http://swiftggteam.github.io/2015/12/24/friday-qa-2015-11-20-covariance-and-contravariance/</id>
     <published>2015-12-23T16:00:00.000Z</published>
-    <updated>2015-12-31T01:35:16.943Z</updated>
+    <updated>2016-01-04T00:40:22.108Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Mike Ash，<a href="https://mikeash.com/pyblog/friday-qa-2015-11-20-covariance-and-contravariance.html" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-20<br>译者：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1126,7 +1126,7 @@
     <link href="http://swiftggteam.github.io/2015/12/23/swift-3/"/>
     <id>http://swiftggteam.github.io/2015/12/23/swift-3/</id>
     <published>2015-12-22T16:00:00.000Z</published>
-    <updated>2015-12-31T01:35:16.943Z</updated>
+    <updated>2016-01-04T00:40:22.108Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-3/" target="_blank" rel="external">原文链接</a>，原文日期：2015/12/10<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="undefined"></a></p>
 </blockquote>
@@ -1286,7 +1286,7 @@
     <link href="http://swiftggteam.github.io/2015/12/22/alamofire-beginner-guide/"/>
     <id>http://swiftggteam.github.io/2015/12/22/alamofire-beginner-guide/</id>
     <published>2015-12-21T16:00:00.000Z</published>
-    <updated>2015-12-31T01:35:16.943Z</updated>
+    <updated>2016-01-04T00:40:22.108Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：gregg mojica，<a href="http://www.appcoda.com/alamofire-beginner-guide/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/30<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1506,7 +1506,7 @@
     <link href="http://swiftggteam.github.io/2015/12/21/swift-3-0-and-foundation/"/>
     <id>http://swiftggteam.github.io/2015/12/21/swift-3-0-and-foundation/</id>
     <published>2015-12-20T16:00:00.000Z</published>
-    <updated>2015-12-31T01:35:16.943Z</updated>
+    <updated>2016-01-04T00:40:22.108Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/12/03/swift-3-0-and-foundation/" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-03<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1548,7 +1548,7 @@
     <link href="http://swiftggteam.github.io/2015/12/18/changing-swift-whats-coming-up-in-2-2-and-3-0/"/>
     <id>http://swiftggteam.github.io/2015/12/18/changing-swift-whats-coming-up-in-2-2-and-3-0/</id>
     <published>2015-12-17T16:00:00.000Z</published>
-    <updated>2015-12-31T01:35:16.943Z</updated>
+    <updated>2016-01-04T00:40:22.108Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/12/03/changing-swift-whats-coming-up-in-2-2-and-3-0/" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-03<br>译者：<a href="undefined">Channe</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1590,7 +1590,7 @@
     <link href="http://swiftggteam.github.io/2015/12/17/per-view-auto-rotation-locking-made-easy-for-ios-8-and-9/"/>
     <id>http://swiftggteam.github.io/2015/12/17/per-view-auto-rotation-locking-made-easy-for-ios-8-and-9/</id>
     <published>2015-12-16T16:00:00.000Z</published>
-    <updated>2015-12-31T01:35:16.943Z</updated>
+    <updated>2016-01-04T00:40:22.108Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Weston Hanners，<a href="http://www.alloc-init.com/2015/11/per-view-auto-rotation-locking-made-easy-for-ios-8-and-9/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-18<br>译者：<a href="undefined">littledogboy</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1639,7 +1639,7 @@
     <link href="http://swiftggteam.github.io/2015/12/16/new-to-beta-2-swift-2-1-playground-value-drops-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/12/16/new-to-beta-2-swift-2-1-playground-value-drops-swiftlang/</id>
     <published>2015-12-15T16:00:00.000Z</published>
-    <updated>2015-12-31T01:35:16.943Z</updated>
+    <updated>2016-01-04T00:40:22.108Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/09/23/new-to-beta-2-swift-2-1-playground-value-drops-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-23<br>译者：<a href="http://weibo.com/u/2916092907" target="_blank" rel="external">天才175</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1845,7 +1845,7 @@
     <link href="http://swiftggteam.github.io/2015/12/15/mixins-over-inheritance/"/>
     <id>http://swiftggteam.github.io/2015/12/15/mixins-over-inheritance/</id>
     <published>2015-12-15T02:30:00.000Z</published>
-    <updated>2015-12-31T01:35:16.943Z</updated>
+    <updated>2016-01-04T00:40:22.108Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Olivier Halligon，<a href="http://alisoftware.github.io/swift/protocol/2015/11/08/mixins-over-inheritance/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-08<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1968,7 +1968,7 @@
     <link href="http://swiftggteam.github.io/2015/12/14/a-beginners-guide-to-nsdate-in-swift/"/>
     <id>http://swiftggteam.github.io/2015/12/14/a-beginners-guide-to-nsdate-in-swift/</id>
     <published>2015-12-14T01:00:00.000Z</published>
-    <updated>2015-12-31T01:35:16.939Z</updated>
+    <updated>2016-01-04T00:40:22.108Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：gabriel theodoropoulos，<a href="http://www.appcoda.com/nsdate/" target="_blank" rel="external">原文链接</a>，原文日期：2015-10-18<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a></p>
 </blockquote>
@@ -2180,7 +2180,7 @@
     <link href="http://swiftggteam.github.io/2015/12/11/correction-on-testing-uialertcontroller/"/>
     <id>http://swiftggteam.github.io/2015/12/11/correction-on-testing-uialertcontroller/</id>
     <published>2015-12-10T16:00:00.000Z</published>
-    <updated>2015-12-31T01:35:16.939Z</updated>
+    <updated>2016-01-04T00:40:22.104Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：dom，<a href="http://swiftandpainless.com/correction-on-testing-uialertcontroller/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-25<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="http://weibo.com/lfbWb" target="_blank" rel="external">lfb_CD</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -2229,7 +2229,7 @@
     <link href="http://swiftggteam.github.io/2015/12/10/reduce-all-the-things/"/>
     <id>http://swiftggteam.github.io/2015/12/10/reduce-all-the-things/</id>
     <published>2015-12-09T16:00:00.000Z</published>
-    <updated>2015-12-31T01:35:16.939Z</updated>
+    <updated>2016-01-04T00:40:22.104Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Benedikt Terhechte，<a href="http://appventure.me/2015/11/30/reduce-all-the-things/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-30<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
