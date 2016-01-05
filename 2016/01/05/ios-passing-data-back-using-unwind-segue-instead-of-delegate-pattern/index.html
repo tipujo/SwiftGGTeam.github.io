@@ -19,8 +19,7 @@
 
 这是一个不使用 delegate 模式传递回调数据的好方法。
 
-我今天注意到这个小技巧，值得和你分享一下。
-通常当我们创建一个视图控制器作为 picker 时，它会从屏幕的底部出现，覆盖在当前页面上，并且仅只占屏幕的一部分。当选择一个值后，就通过 d">
+我今天注意到这个小技巧，值得和你分享一下。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用 unwind segue 而不是 delegate 模式传递回调数据">
 <meta property="og:url" content="http://swiftggteam.github.io/2016/01/05/ios-passing-data-back-using-unwind-segue-instead-of-delegate-pattern/index.html">
@@ -31,9 +30,8 @@
 
 这是一个不使用 delegate 模式传递回调数据的好方法。
 
-我今天注意到这个小技巧，值得和你分享一下。
-通常当我们创建一个视图控制器作为 picker 时，它会从屏幕的底部出现，覆盖在当前页面上，并且仅只占屏幕的一部分。当选择一个值后，就通过 d">
-<meta property="og:updated_time" content="2016-01-05T00:45:20.294Z">
+我今天注意到这个小技巧，值得和你分享一下。">
+<meta property="og:updated_time" content="2016-01-05T00:50:20.683Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用 unwind segue 而不是 delegate 模式传递回调数据">
 <meta name="twitter:description" content="作者：Tomasz Szulc，原文链接，原文日期：2015-12-6译者：靛青K；校对：Channe；定稿：Cee
@@ -42,8 +40,7 @@
 
 这是一个不使用 delegate 模式传递回调数据的好方法。
 
-我今天注意到这个小技巧，值得和你分享一下。
-通常当我们创建一个视图控制器作为 picker 时，它会从屏幕的底部出现，覆盖在当前页面上，并且仅只占屏幕的一部分。当选择一个值后，就通过 d">
+我今天注意到这个小技巧，值得和你分享一下。">
 
     
     <link rel="alternative" href="/atom.xml" title="SwiftGG" type="application/atom+xml">
@@ -126,6 +123,7 @@
 <p>这是一个不使用 delegate 模式传递回调数据的好方法。</p>
 </blockquote>
 <p>我今天注意到这个小技巧，值得和你分享一下。</p>
+<a id="more"></a>
 <p>通常当我们创建一个视图控制器作为 picker 时，它会从屏幕的底部出现，覆盖在当前页面上，并且仅只占屏幕的一部分。当选择一个值后，就通过 delegate 模式返回回来。代码大概就像这样：</p>
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ViewController</span>: <span class="title">UIViewController</span>, <span class="title">AnimalPickerViewControllerDelegate</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="preprocessor">@IBOutlet</span> <span class="keyword">var</span> label: <span class="type">UILabel</span>!</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">prepareForSegue</span><span class="params">(segue: UIStoryboardSegue, sender: AnyObject?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">if</span> segue.identifier == <span class="string">"ShowAnimalPicker"</span> &#123;</span><br><span class="line">            <span class="keyword">let</span> pickerVC = segue.destinationViewController <span class="keyword">as</span>! <span class="type">AnimalPickerViewController</span></span><br><span class="line">            pickerVC.delegate = <span class="keyword">self</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">animalPicker</span><span class="params">(picker: AnimalPickerViewController, didSelectAnimal animal: String)</span></span> &#123;</span><br><span class="line">        label.text = animal</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">AnimalPickerViewControllerDelegate</span>: <span class="title">class</span> </span>&#123;</span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">animalPicker</span><span class="params">(picker: AnimalPickerViewController, didSelectAnimal animal: String)</span></span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AnimalPickerViewController</span>: <span class="title">UIViewController</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">weak</span> <span class="keyword">var</span> delegate: <span class="type">AnimalPickerViewControllerDelegate</span>?</span><br><span class="line"></span><br><span class="line">    <span class="preprocessor">@IBAction</span> <span class="func"><span class="keyword">func</span> <span class="title">dogButtonPressed</span><span class="params">(sender: AnyObject)</span></span> &#123;</span><br><span class="line">        selectAnimal(<span class="string">"Dog"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="preprocessor">@IBAction</span> <span class="func"><span class="keyword">func</span> <span class="title">catButtonPressed</span><span class="params">(sender: AnyObject)</span></span> &#123;</span><br><span class="line">        selectAnimal(<span class="string">"Cat"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="preprocessor">@IBAction</span> <span class="func"><span class="keyword">func</span> <span class="title">snakeButtonPressed</span><span class="params">(sender: AnyObject)</span></span> &#123;</span><br><span class="line">        selectAnimal(<span class="string">"Snake"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="func"><span class="keyword">func</span> <span class="title">selectAnimal</span><span class="params">(animal: String)</span></span> &#123;</span><br><span class="line">        delegate?.animalPicker(<span class="keyword">self</span>, didSelectAnimal: animal)</span><br><span class="line">        dismissViewControllerAnimated(<span class="literal">true</span>, completion: <span class="literal">nil</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
