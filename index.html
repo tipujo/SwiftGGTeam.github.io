@@ -81,6 +81,88 @@
   <header class="article-info clearfix">
     <h1 itemprop="name">
       
+        <a href="/2016/01/05/ios-passing-data-back-using-unwind-segue-instead-of-delegate-pattern/" title="使用 unwind segue 而不是 delegate 模式传递回调数据" itemprop="url">使用 unwind segue 而不是 delegate 模式传递回调数据</a>
+    </h1>
+    <p class="article-time">
+      <time datetime="2016-01-04T16:00:00.000Z" itemprop="datePublished"><i class="icon-time"></i> 2016-01-05</time>
+      <span style="margin-left: 0.5em;"><i class="icon-eye-open"></i> <span class="viewcount"></span></span>
+    </p>
+  </header>
+
+    <div class="article-content">
+        
+        <blockquote>
+<p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/ios-passing-data-back-using-unwind-segue-instead-of-delegate-pattern/" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-6<br>译者：<a href="http://www.dianqk.org/" target="_blank" rel="external">靛青K</a>；校对：<a href="undefined">Channe</a>；定稿：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a></p>
+</blockquote>
+<!--此处开始正文-->
+<blockquote>
+<p>这是一个不使用 delegate 模式传递回调数据的好方法。</p>
+</blockquote>
+<p>我今天注意到这个小技巧，值得和你分享一下。</p>
+<p>通常当我们创建一个视图控制器作为 picker 时，它会从屏幕的底部出现，覆盖在当前页面上，并且仅只占屏幕的一部分。当选择一个值后，就通过 delegate 模式返回回来。代码大概就像这样：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ViewController</span>: <span class="title">UIViewController</span>, <span class="title">AnimalPickerViewControllerDelegate</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="preprocessor">@IBOutlet</span> <span class="keyword">var</span> label: <span class="type">UILabel</span>!</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">prepareForSegue</span><span class="params">(segue: UIStoryboardSegue, sender: AnyObject?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">if</span> segue.identifier == <span class="string">"ShowAnimalPicker"</span> &#123;</span><br><span class="line">            <span class="keyword">let</span> pickerVC = segue.destinationViewController <span class="keyword">as</span>! <span class="type">AnimalPickerViewController</span></span><br><span class="line">            pickerVC.delegate = <span class="keyword">self</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">animalPicker</span><span class="params">(picker: AnimalPickerViewController, didSelectAnimal animal: String)</span></span> &#123;</span><br><span class="line">        label.text = animal</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">AnimalPickerViewControllerDelegate</span>: <span class="title">class</span> </span>&#123;</span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">animalPicker</span><span class="params">(picker: AnimalPickerViewController, didSelectAnimal animal: String)</span></span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AnimalPickerViewController</span>: <span class="title">UIViewController</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">weak</span> <span class="keyword">var</span> delegate: <span class="type">AnimalPickerViewControllerDelegate</span>?</span><br><span class="line"></span><br><span class="line">    <span class="preprocessor">@IBAction</span> <span class="func"><span class="keyword">func</span> <span class="title">dogButtonPressed</span><span class="params">(sender: AnyObject)</span></span> &#123;</span><br><span class="line">        selectAnimal(<span class="string">"Dog"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="preprocessor">@IBAction</span> <span class="func"><span class="keyword">func</span> <span class="title">catButtonPressed</span><span class="params">(sender: AnyObject)</span></span> &#123;</span><br><span class="line">        selectAnimal(<span class="string">"Cat"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="preprocessor">@IBAction</span> <span class="func"><span class="keyword">func</span> <span class="title">snakeButtonPressed</span><span class="params">(sender: AnyObject)</span></span> &#123;</span><br><span class="line">        selectAnimal(<span class="string">"Snake"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="func"><span class="keyword">func</span> <span class="title">selectAnimal</span><span class="params">(animal: String)</span></span> &#123;</span><br><span class="line">        delegate?.animalPicker(<span class="keyword">self</span>, didSelectAnimal: animal)</span><br><span class="line">        dismissViewControllerAnimated(<span class="literal">true</span>, completion: <span class="literal">nil</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>于是就像你看到的，我使用了 segue 去弹出这个 picker 视图控制器，但我使用了 delegate 模式获取返回的数据值。</p>
+<p>今天我认识到在这种情况下，使用 unwind segue 更合适。我没有必要使用 delegate 模式。并且代码是这个样子：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ViewController</span>: <span class="title">UIViewController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="preprocessor">@IBOutlet</span> <span class="keyword">var</span> label: <span class="type">UILabel</span>!</span><br><span class="line">    </span><br><span class="line">    <span class="preprocessor">@IBAction</span> <span class="func"><span class="keyword">func</span> <span class="title">performUnwindSegue</span><span class="params">(segue: UIStoryboardSegue)</span></span> &#123;</span><br><span class="line">        <span class="keyword">if</span> segue.identifier == <span class="type">AnimalPickerViewController</span>.<span class="type">UnwindSegue</span> &#123;</span><br><span class="line">            label.text = (segue.sourceViewController <span class="keyword">as</span>! <span class="type">AnimalPickerViewController</span>).selectedAnimal</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AnimalPickerViewController</span>: <span class="title">UIViewController</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">let</span> <span class="type">UnwindSegue</span> = <span class="string">"UnwindAnimalPicker"</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span>(<span class="keyword">set</span>) <span class="keyword">var</span> selectedAnimal: <span class="type">String</span>!</span><br><span class="line">    </span><br><span class="line">    <span class="preprocessor">@IBAction</span> <span class="func"><span class="keyword">func</span> <span class="title">dogButtonPressed</span><span class="params">(sender: AnyObject)</span></span> &#123;</span><br><span class="line">        selectAnimal(<span class="string">"Dog"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="preprocessor">@IBAction</span> <span class="func"><span class="keyword">func</span> <span class="title">catButtonPressed</span><span class="params">(sender: AnyObject)</span></span> &#123;</span><br><span class="line">        selectAnimal(<span class="string">"Cat"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="preprocessor">@IBAction</span> <span class="func"><span class="keyword">func</span> <span class="title">snakeButtonPressed</span><span class="params">(sender: AnyObject)</span></span> &#123;</span><br><span class="line">        selectAnimal(<span class="string">"Snake"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="func"><span class="keyword">func</span> <span class="title">selectAnimal</span><span class="params">(animal: String)</span></span> &#123;</span><br><span class="line">        selectedAnimal = animal</span><br><span class="line">        performSegueWithIdentifier(<span class="type">AnimalPickerViewController</span>.<span class="type">UnwindSegue</span>, sender: <span class="literal">nil</span>)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>是不是更好一些？对于我来说，在这种特别的情况时，的确更好。希望对你有一些帮助！</p>
+<p>（译者注：关于 Unwind Segue 的使用，需要注意的几点。我们最好先将下面的代码写上：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="preprocessor">@IBAction</span> <span class="func"><span class="keyword">func</span> <span class="title">performUnwindSegue</span><span class="params">(segue: UIStoryboardSegue)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> segue.identifier == <span class="type">AnimalPickerViewController</span>.<span class="type">UnwindSegue</span> &#123;</span><br><span class="line">        label.text = (segue.sourceViewController <span class="keyword">as</span>! <span class="type">AnimalPickerViewController</span>).selectedAnimal</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样我们再从 button 等控件拉向 exit 时才会有效果。至于 identifier 是设置在刚刚拉向 exit 的 segue（unwind segue）。我补写了本文的 <a href="http://github.com/DianQK/StudyUnwindSegue" target="_blank" rel="external">demo</a>，如果你还有什么困惑可以直接看这个 demo。）</p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Swift-入门/">Swift 入门</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Tomasz-Szulc/">Tomasz Szulc</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/01/05/ios-passing-data-back-using-unwind-segue-instead-of-delegate-pattern/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/01/05/ios-passing-data-back-using-unwind-segue-instead-of-delegate-pattern/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        
+  <header class="article-info clearfix">
+    <h1 itemprop="name">
+      
         <a href="/2016/01/04/editable-text-field-alert-controller-tutorial/" title="Alert Controller 中实现可编辑文本字输入框教程" itemprop="url">Alert Controller 中实现可编辑文本字输入框教程</a>
     </h1>
     <p class="article-time">
@@ -688,72 +770,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        
-  <header class="article-info clearfix">
-    <h1 itemprop="name">
-      
-        <a href="/2015/12/23/swift-3/" title="Swift 3 及展望" itemprop="url">Swift 3 及展望</a>
-    </h1>
-    <p class="article-time">
-      <time datetime="2015-12-22T16:00:00.000Z" itemprop="datePublished"><i class="icon-time"></i> 2015-12-23</time>
-      <span style="margin-left: 0.5em;"><i class="icon-eye-open"></i> <span class="viewcount"></span></span>
-    </p>
-  </header>
-
-    <div class="article-content">
-        
-        <blockquote>
-<p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-3/">原文链接</a>，原文日期：2015/12/10<br>译者：<a href="http://weibo.com/linusling">小铁匠Linus</a>；校对：<a href="https://github.com/Cee">Cee</a>；定稿：<a href="undefined"></a></p>
-</blockquote>
-<!--此处开始正文-->
-<p>2015 年 12 月 3 日，Swift 正式开源。同时，官方也公布了 Swift 3 的最新消息，即 Swift 3 将会在 2016 年秋天发布。</p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2015/12/23/swift-3/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Swift-入门/">Swift 入门</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Thomas-Hanning/">Thomas Hanning</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/12/23/swift-3/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/12/23/swift-3/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -785,7 +801,7 @@
 		  
 		
 		  
-			<li><a href="/categories/Swift-入门/" title="Swift 入门">Swift 入门<sup>56</sup></a></li>
+			<li><a href="/categories/Swift-入门/" title="Swift 入门">Swift 入门<sup>57</sup></a></li>
 		  
 		
 		  
@@ -850,7 +866,7 @@
 			
 		
 			
-				<li><a href="/tags/Mike-Ash/" title="Mike Ash">Mike Ash<sup>5</sup></a></li>
+				<li><a href="/tags/Tomasz-Szulc/" title="Tomasz Szulc">Tomasz Szulc<sup>6</sup></a></li>
 			
 		
 			
@@ -858,7 +874,7 @@
 			
 		
 			
-				<li><a href="/tags/Tomasz-Szulc/" title="Tomasz Szulc">Tomasz Szulc<sup>5</sup></a></li>
+				<li><a href="/tags/Mike-Ash/" title="Mike Ash">Mike Ash<sup>5</sup></a></li>
 			
 		
 			
