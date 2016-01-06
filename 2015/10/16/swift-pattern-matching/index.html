@@ -13,7 +13,7 @@
     <meta name="keywords" content="swift语言,swift翻译,swift学习" /> 
 
     
-    <meta name="description" content="作者：Ole Begemann，原文链接，原文日期：2015-09-18译者：lfb-CD；校对：pmst；定稿：千叶知风
+    <meta name="description" content="作者：Ole Begemann，原文链接，原文日期：2015-09-18译者：lfb_CD；校对：pmst；定稿：千叶知风
 
 &amp;lt;!--此处开始正文--&amp;gt;
 Swift中的模式匹配更新:2015.9.19: 添加了一些关于Swift语法问题的笔记。把自定义操作符的符号改为了一个我认为更加适合的。在总结中添加了一些对函数式编程的想法。2015.9.25: 添加了关于标准库中已经存在的~&amp;gt;操作符的笔">
@@ -21,14 +21,14 @@ Swift中的模式匹配更新:2015.9.19: 添加了一些关于Swift语法问题�
 <meta property="og:title" content="Swift中的模式匹配">
 <meta property="og:url" content="http://swiftggteam.github.io/2015/10/16/swift-pattern-matching/index.html">
 <meta property="og:site_name" content="SwiftGG">
-<meta property="og:description" content="作者：Ole Begemann，原文链接，原文日期：2015-09-18译者：lfb-CD；校对：pmst；定稿：千叶知风
+<meta property="og:description" content="作者：Ole Begemann，原文链接，原文日期：2015-09-18译者：lfb_CD；校对：pmst；定稿：千叶知风
 
 &amp;lt;!--此处开始正文--&amp;gt;
 Swift中的模式匹配更新:2015.9.19: 添加了一些关于Swift语法问题的笔记。把自定义操作符的符号改为了一个我认为更加适合的。在总结中添加了一些对函数式编程的想法。2015.9.25: 添加了关于标准库中已经存在的~&amp;gt;操作符的笔">
-<meta property="og:updated_time" content="2016-01-06T05:20:16.417Z">
+<meta property="og:updated_time" content="2016-01-06T12:05:17.031Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift中的模式匹配">
-<meta name="twitter:description" content="作者：Ole Begemann，原文链接，原文日期：2015-09-18译者：lfb-CD；校对：pmst；定稿：千叶知风
+<meta name="twitter:description" content="作者：Ole Begemann，原文链接，原文日期：2015-09-18译者：lfb_CD；校对：pmst；定稿：千叶知风
 
 &amp;lt;!--此处开始正文--&amp;gt;
 Swift中的模式匹配更新:2015.9.19: 添加了一些关于Swift语法问题的笔记。把自定义操作符的符号改为了一个我认为更加适合的。在总结中添加了一些对函数式编程的想法。2015.9.25: 添加了关于标准库中已经存在的~&amp;gt;操作符的笔">
@@ -107,7 +107,7 @@ Swift中的模式匹配更新:2015.9.19: 添加了一些关于Swift语法问题�
 		</div>
 		
 		<blockquote>
-<p>作者：Ole Begemann，<a href="http://oleb.net/blog/2015/09/swift-pattern-matching/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-18<br>译者：<a href="undefined">lfb-CD</a>；校对：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
+<p>作者：Ole Begemann，<a href="http://oleb.net/blog/2015/09/swift-pattern-matching/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-18<br>译者：<a href="http://weibo.com/lfbWb" target="_blank" rel="external">lfb_CD</a>；校对：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
 <!--此处开始正文-->
 <h1 id="Swift中的模式匹配">Swift中的模式匹配</h1><p>更新:<br>2015.9.19: 添加了一些关于Swift语法问题的笔记。把自定义操作符的符号改为了一个我认为更加适合的。在总结中添加了一些对函数式编程的想法。<br>2015.9.25: 添加了关于标准库中已经存在的<code>~&gt;</code>操作符的笔记<br><a id="more"></a><br>这个系列的其他文章：<br>(1)Custom Pattern Matching (就是这篇)<br>(2)<a href="http://oleb.net/blog/2015/09/swift-ranges-and-intervals/" target="_blank" rel="external">Ranges and Intervals</a><br>(3)<a href="http://oleb.net/blog/2015/09/more-pattern-matching-examples/" target="_blank" rel="external">More Pattern Matching Examples</a></p>
