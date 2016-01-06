@@ -4,7 +4,7 @@
   <subtitle><![CDATA[走心的 Swift 翻译组]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://swiftggteam.github.io/"/>
-  <updated>2016-01-06T04:45:17.402Z</updated>
+  <updated>2016-01-06T04:50:14.927Z</updated>
   <id>http://swiftggteam.github.io/</id>
   
   <author>
@@ -15,199 +15,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title><![CDATA[聚焦 Swift #2]]></title>
-    <link href="http://swiftggteam.github.io/2016/01/06/open-source-swift-weekly-2/"/>
-    <id>http://swiftggteam.github.io/2016/01/06/open-source-swift-weekly-2/</id>
-    <published>2016-01-06T04:30:00.000Z</published>
-    <updated>2016-01-06T04:45:17.402Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>作者：Jesse Squires，<a href="http://www.jessesquires.com/open-source-swift-weekly-2/" target="_blank" rel="external">原文链接</a>，原文日期：2015.12.17<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
-</blockquote>
-<!--此处开始正文-->
-<blockquote>
-<p>本周 Swift.org 又有哪些新鲜事呢？ <strong>2015.12.17</strong></p>
-</blockquote>
-<p>Swift.org 社区已经度过其源码开发的第二个星期。倘若你期望过个安静的周末，最好打消这个念头。要知道项目中仍旧还有一大堆事情需要处理，压根就没有减缓的迹象。Swift 团队继续以公开的方式<a href="https://twitter.com/uint_min/status/675022507527684096" target="_blank" rel="external">运作</a>，鼓励开发者们加入到贡献的行列中。本周主要修复了一些 crashs 以及更多的 Swift 变革提案。闲话少说，开始本周简讯！</p>
-<a id="more"></a>
-<h3 id="社区">社区</h3><p>Craig Federighi 在 John Gruber 的<a href="http://daringfireball.net/thetalkshow/2015/12/07/ep-139" target="_blank" rel="external">脱口秀节目</a>中回顾了 Swift 的第一周开源情况。我真的非常喜欢这一期节目，继续被苹果的开源所深深折服！采访仅仅只持续了 30 分钟左右。Daring Fireball 还提供了完整的<a href="http://daringfireball.net/thetalkshow/139/federighi-gruber-transcript" target="_blank" rel="external">采访对话记录</a>。</p>
-<p><a href="https://github.com/zhuowei" target="_blank" rel="external">@zhuowei</a> 看起来已经在为 <a href="https://github.com/SwiftAndroid" target="_blank" rel="external">Android</a> 提供 Swift 支持了。我真心希望这个项目能火起来。用 Swift 开发 Andriud 应用对于移动开发者来说无疑是一个巨大的胜利！</p>
-<p>这里需要澄清上星期的一个纰漏 —— 柯里化函数将不会被完全移除，仅仅只是<a href="https://github.com/apple/swift-evolution/pull/43#issuecomment-163849233" target="_blank" rel="external">语法</a>而已。</p>
-<h3 id="Commits_和_pull_requests">Commits 和 pull requests</h3><ul>
-<li><a href="https://github.com/slavapestov" target="_blank" rel="external">Slava Pestov</a> 推送了一个 <a href="https://github.com/apple/swift/commit/c258f991f64a431da57fc79b66e879e5062fba3b" target="_blank" rel="external">commit</a> 修复了编译器中 91% 的报错。😲（pmst注：本来编译时有783个错误，现在只有74个了！）</li>
-<li><a href="https://github.com/nubbel" target="_blank" rel="external">Dominique d’Argent</a> 在他自己实现的 <code>NSAffineTransform</code> 中首次介绍了 <a href="https://github.com/apple/swift-corelibs-foundation/pull/93#discussion_r47160608" target="_blank" rel="external">unicode 变量名称</a>。这也是迄今为止我所看到的唯一一个。谁要是能把使用 💩 的 pull request 合并到项目中，我非常乐意请他喝杯☕或🍺。</li>
-<li><a href="https://github.com/apple/swift/pull/413" target="_blank" rel="external">Bill Abt</a> 和 <a href="https://github.com/apple/swift-corelibs-libdispatch/pull/15" target="_blank" rel="external">David Grove</a> 这两位来自 IBM 的大神为 Swift 和核心标准库（core libraries）做出了巨大的贡献！正如 Federighi 在脱口秀所说， IBM 非常乐意将 Swift 应用到服务器端。</li>
-<li>Chris Lattner 修复了少量的 <a href="https://github.com/apple/swift/commit/0bfacde2420937bfb6e0e1be6567b0e90ee2fb67" target="_blank" rel="external">radars</a> 问题。</li>
-<li><a href="https://github.com/dduan" target="_blank" rel="external">Daninel Duan</a> 提交了一个 <a href="https://github.com/apple/swift/pull/419" target="_blank" rel="external">pull request</a> 用于优化 <code>Set</code> 集合类型。这将提升大约 42% 的执行效率。咳！<a href="https://twitter.com/practicalswift" target="_blank" rel="external">@PracticalSwift</a> 还修正了<a href="https://github.com/apple/swift/pull/561" target="_blank" rel="external">一堆</a><a href="https://github.com/apple/swift/pull/526" target="_blank" rel="external">错别字</a>。😂</li>
-<li>William Dillon 开始为 ARMv7 主机提供<a href="https://github.com/apple/swift/pull/439" target="_blank" rel="external">支持</a>，譬如 Raspberry Pi,，BeagleBone 以及 Nvidia Tegras.</li>
-<li>Brian Gesiak 一如既往地从事<a href="https://github.com/apple/swift-corelibs-xctest/pull/14" target="_blank" rel="external">测试 XCTest 框架的工作</a>，他在 corelibs-xctest 项目的提交数量贡献榜中位居<a href="https://github.com/apple/swift-corelibs-xctest/graphs/contributors" target="_blank" rel="external">第三</a>。👏</li>
-</ul>
-<h3 id="提案">提案</h3><p>第一个无关 Swift 语言的变革提案已经被<a href="https://twitter.com/clattner_llvm/status/676472122437271552" target="_blank" rel="external">采纳</a>拉！你必须感谢下 <a href="https://twitter.com/ericasadun" target="_blank" rel="external">Erica Sadun</a> ，是她让你告别了 <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0007-remove-c-style-for-loops.md" target="_blank" rel="external">C 语言风格的 for 循环</a>。从 Swift2.2 开始，如果使用 C 语言风格的 for-loop ，你将收到警告信息，直至 Swift3.0 正式发布版本中将被彻底移除。“在大多数情况下，我们一致认同在 Swift 代码中极少会使用 C 语言风格的 for-loop ”，大多数情况下会选择使用<code>for-in</code>语句。同时注意到<a href="https://lists.swift.org/pipermail/swift-evolution-announce/2015-December/000001.html" target="_blank" rel="external">通知</a>中描述了改变将可能导致的两个潜在问题。 </p>
-<p><a href="https://github.com/ddunbar" target="_blank" rel="external">Max Howell</a>，<a href="https://github.com/ddunbar" target="_blank" rel="external">Daniel Dunbar</a>，和 <a href="https://github.com/mattt" target="_blank" rel="external">Mattt Thompson</a> 已经准备提交一份<a href="https://github.com/apple/swift-evolution/pull/51" target="_blank" rel="external">提案</a>，为 <a href="https://github.com/apple/swift-package-manager" target="_blank" rel="external">Swift 包管理器</a>（Swift package manager）增加测试支持！“测试是现代软件开发中的一个重要组成部分。紧密耦合的测试集成到 Swift 包管理器中有助于确保一个稳定可靠的打包机制。我们建议扩展我们的常规包目录布局以适应测试模块。”🎉</p>
-<p>Max Moiseev 建议给 <code>AnySequence.init</code> 增添约束条件，应该会在本周审核。我想不出任何理由为什么这个建议不被采纳。“事实上，这些约束应该被应用到 <code>SequenceType</code> 协议自身上（尽管就目前来看是不太可能了），同我们预期的那样每个 <code>SequenceType</code> 实现都已经满足自身。”</p>
-<p>Divid Hart <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0009-require-self-for-accessing-instance-members.md" target="_blank" rel="external">建议</a>：要求使用 <code>self</code> 来访问实例成员，目前正在审核当中。如果你现在还未遵守的话，<code>self</code> 关键字总是必须的，即使它可以进行隐式地推断。譬如， <code>self.view</code> 与简化的 <code>view</code>。 有关这个的讨论非常多，你可以前往<a href="http://www.jessesquires.com/open-source-swift-weekly-2/(https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20151214/002407.html" target="_blank" rel="external">邮件列表</a>)和 <a href="https://twitter.com/ashfurrow/status/676881928168017921" target="_blank" rel="external">twitter</a> 看看。我并不是这个建议的拥护者，但是这样有助于我理解一些参数。</p>
-<p>Erica Sadun 同时发表了一篇精彩的文章细述了最近的一些提议。</p>
-<h3 id="Mailing_lists">Mailing lists</h3><p>这里有个非常有意思的<a href="https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20151207/001948.html" target="_blank" rel="external">话题</a>，有关动态方法与静态方法的调度。Chris Lattner 亲述：“简而言之：我真正所要表达的意思是旧的静态与动态比喻至少只是故事的一半。你真正需要的是将编译模型包含进来，从而由此产生的程序设计模式加入到故事中，要知道程序设计模式才是真正所要关心的。”</p>
-<p>Fabian Ehrentraud 发起了一个<a href="https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20151207/001054.html" target="_blank" rel="external">话题</a>，讨论了当导入无 <code>nullability</code> 属性的 Objective-C 代码时如何改善崩溃安全性（crash-safety）。目前，出自 Objective-C 的成员采用隐式可选类型桥接到 Swift 上（例如 view!）。这个提议中建议在导入这些成员时用显示可选类型替换（view?），这样可以促使开发者安全地处理可能的 <code>nil</code> 值。对我来说，这听起来很不错。老实讲，我不太理解为什么一开始会有隐式解包可选（implicitly unwrapped optionals）存在，这看起来和 Swift 的安全宗旨相悖嘛。</p>
-<p>Colin Cornaby <a href="https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20151214/002324.html" target="_blank" rel="external">建议</a>将分号（;）完全从 Swift 中移除来顺应摒弃所有 C-style 语言特性的大势。正如邮件列表中有人提到，分号在语法上通常可以忽略，但是它们能将类似的语句组合到一行代码中，提高代码可读性。我觉得两者都有道理，不过目前来看这个讨论还没有引起足够的重视，短期不太可能修改。<br>送大家一句话：</p>
-<blockquote>
-<p>Stare long enough into the language design, and the language design stares back into you.<br>—— <a href="https://twitter.com/jckarter/status/676939142790569986" target="_blank" rel="external">Joe Groff</a></p>
-<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
-</blockquote>
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>作者：Jesse Squires，<a href="http://www.jessesquires.com/open-source-swift-weekly-2/">原文链接</a>，原文日期：2015.12.17<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles">pmst</a>；校对：<a href="https://github.com/numbbbbb">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb">numbbbbb</a></p>
-</blockquote>
-<!--此处开始正文-->
-<blockquote>
-<p>本周 Swift.org 又有哪些新鲜事呢？ <strong>2015.12.17</strong></p>
-</blockquote>
-<p>Swift.org 社区已经度过其源码开发的第二个星期。倘若你期望过个安静的周末，最好打消这个念头。要知道项目中仍旧还有一大堆事情需要处理，压根就没有减缓的迹象。Swift 团队继续以公开的方式<a href="https://twitter.com/uint_min/status/675022507527684096">运作</a>，鼓励开发者们加入到贡献的行列中。本周主要修复了一些 crashs 以及更多的 Swift 变革提案。闲话少说，开始本周简讯！</p>]]>
-    
-    </summary>
-    
-      <category term="Open Source Swift" scheme="http://swiftggteam.github.io/tags/Open-Source-Swift/"/>
-    
-      <category term="Swift 开源信息" scheme="http://swiftggteam.github.io/categories/Swift-%E5%BC%80%E6%BA%90%E4%BF%A1%E6%81%AF/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[聚焦 Swift #1]]></title>
-    <link href="http://swiftggteam.github.io/2016/01/06/open-source-swift-weekly-1/"/>
-    <id>http://swiftggteam.github.io/2016/01/06/open-source-swift-weekly-1/</id>
-    <published>2016-01-06T04:20:00.000Z</published>
-    <updated>2016-01-06T04:45:17.402Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>作者：Jesse Squires，<a href="http://www.jessesquires.com/open-source-swift-weekly-1/" target="_blank" rel="external">原文链接</a>，原文日期：2015.12.10<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
-</blockquote>
-<!--此处开始正文-->
-<p><a href="http://www.jessesquires.com/swift-open-source/" target="_blank" rel="external">上一篇文章</a>中我阐述了自己的想法以及时刻关注 <a href="https://swift.org/" target="_blank" rel="external">Swift open source</a> 项目的动向，看起来深得社区中许多开发者的喜欢。因此，我将竭尽所能维护该周刊——每周三更新哦，要知道 Swift 开源项目通告就在这一天发布。每周我都会提供高质量的汇总，细述本周发生的变动，更新一些有意思的统计信息，以及提供感兴趣的内容链接。如果你有任何建议，请告诉<a href="https://twitter.com/jesse_squires" target="_blank" rel="external">我</a>!。OK！是时候开始安利本周内容了！</p>
-<a id="more"></a>
-<h3 id="This_week_on_Swift-org">This week on Swift.org</h3><ul>
-<li><a href="https://twitter.com/ManavGabhawala" target="_blank" rel="external">Manav Gabhawala</a> 提交了一个非常有趣的<a href="https://github.com/apple/swift-evolution/pull/37" target="_blank" rel="external">建议</a>：为 Swift 增加隐式构造方法（ implicit initializers）。特别指出这将解决数字类型（number types）转换时候冗长的问题。不管怎样，<a href="https://lists.swift.org/pipermail/swift-evolution/2015-December/000352.html" target="_blank" rel="external">邮件列表</a>中指出了相关安全和清晰的观点。</li>
-<li><a href="https://twitter.com/1101_debian" target="_blank" rel="external">Alex Denisov</a> 提交了一个 <a href="https://github.com/apple/swift/pull/295" target="_blank" rel="external">pull request</a> 竟然修复了 323 个 crashes 。😲</li>
-<li><a href="https://github.com/apple/swift-evolution/pull/39" target="_blank" rel="external">使用 git </a>火候不够？别担心！许多<a href="https://github.com/apple/swift-evolution/pull/34#issuecomment-162693826" target="_blank" rel="external">牛人</a>同样不擅长那玩样。我想指出：别因为这个而成为你为 Swift 做贡献的绊脚石！</li>
-<li>昨天晚上 Chris Lattner 修复了 <a href="https://github.com/apple/swift/commit/5dded3f3523e9bd6ea45d0b6ffe5068a59d03a3f" target="_blank" rel="external">radars</a> 问题。</li>
-<li>倘若你注意到这条消息，柯里化函数将<a href="https://github.com/apple/swift-evolution/blob/master/proposals/0002-remove-currying.md" target="_blank" rel="external">从 Swift3.0 中被移除</a>了。（什么是<a href="https://robots.thoughtbot.com/introduction-to-function-currying-in-swift" target="_blank" rel="external">柯里化</a>?）ps：下一篇文章中作者已经纠正，暂不透剧。^.^</li>
-<li><a href="https://twitter.com/owensd" target="_blank" rel="external">David Owens</a> 提交了一份<a href="https://github.com/apple/swift-evolution/pull/26" target="_blank" rel="external">提案</a>为 <code>throws</code> 关键字增添类型注释。当 Swift 的错误处理模型首次调用时，缺乏明确的错误类型受到开发者普遍的批评。邮件列表中对此进行了良好的<a href="https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20151207/001117.html" target="_blank" rel="external">讨论</a>。这里给出了原始版本的 <a href="https://github.com/apple/swift/blob/master/docs/ErrorHandlingRationale.rst" target="_blank" rel="external">Error Handling</a> 以及 <a href="https://github.com/apple/swift/blob/master/docs/ErrorHandlingRationale.rst" target="_blank" rel="external">Rationale 和 Proposal</a> 供你参考。</li>
-<li>Swift 目前已经拥有将近 200 的贡献者以及超过 230 的 pull request 被合并进来。</li>
-<li>上星期我提到了 <a href="https://github.com/apple/swift-corelibs-foundation" target="_blank" rel="external">Foundation</a> 还遗留大量<a href="https://github.com/apple/swift-corelibs-foundation/search?utf8=✓&amp;q=NSUnimplemented" target="_blank" rel="external">未实现的内容</a>。同时还存在一些令人惊讶的 <a href="https://github.com/apple/swift-corelibs-foundation/pull/89/files" target="_blank" rel="external">bugs</a> 等待处理。</li>
-<li><a href="https://github.com/argon" target="_blank" rel="external">Andrew Naylor</a> 雄心勃勃地实现了 <a href="https://github.com/apple/swift-corelibs-foundation/pull/54" target="_blank" rel="external">NSJSONSerialization</a>。👏</li>
-<li><a href="https://twitter.com/jtbandes" target="_blank" rel="external">Jacob Bandes-Storch</a>提交了一份<a href="https://github.com/apple/swift-evolution/pull/44" target="_blank" rel="external">提案</a>致力于提高与 C API 的桥接。</li>
-<li>邮件中列表中还讨论了一个很有意思的问题，默认为 class 以及 methods 标记为 <code>final</code> 。其实任何阻止或防止子类化（subclassing）对我来说都是没问题的（不妨看看作者的<a href="https://twitter.com/jesse_squires/status/664588682997964800" target="_blank" rel="external">观点</a>）。😊</li>
-<li>Swift Programming Language iBook(ePub) 官方文档目前可以直接从 Swift.org 官网上下载下来（不再局限于 iBook Store），此外目前书籍是基于<a href="https://swift.org/documentation/" target="_blank" rel="external">知识共享署名4.0国际(CC by 4.0)许可证</a>下开源的！对于翻译来说这是相当棒的！ps：原因请点<a href="https://twitter.com/clattner_llvm/status/674454905449373696" target="_blank" rel="external">这里</a>。</li>
-<li>对于 Chris Lattner 来说，编程不过是“夜晚和周末”的爱好罢了。😂</li>
-</ul>
-<blockquote>
-<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
-</blockquote>
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>作者：Jesse Squires，<a href="http://www.jessesquires.com/open-source-swift-weekly-1/">原文链接</a>，原文日期：2015.12.10<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles">pmst</a>；校对：<a href="https://github.com/numbbbbb">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb">numbbbbb</a></p>
-</blockquote>
-<!--此处开始正文-->
-<p><a href="http://www.jessesquires.com/swift-open-source/">上一篇文章</a>中我阐述了自己的想法以及时刻关注 <a href="https://swift.org/">Swift open source</a> 项目的动向，看起来深得社区中许多开发者的喜欢。因此，我将竭尽所能维护该周刊——每周三更新哦，要知道 Swift 开源项目通告就在这一天发布。每周我都会提供高质量的汇总，细述本周发生的变动，更新一些有意思的统计信息，以及提供感兴趣的内容链接。如果你有任何建议，请告诉<a href="https://twitter.com/jesse_squires">我</a>!。OK！是时候开始安利本周内容了！</p>]]>
-    
-    </summary>
-    
-      <category term="Open Source Swift" scheme="http://swiftggteam.github.io/tags/Open-Source-Swift/"/>
-    
-      <category term="Swift 开源信息" scheme="http://swiftggteam.github.io/categories/Swift-%E5%BC%80%E6%BA%90%E4%BF%A1%E6%81%AF/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[聚焦 Swift #3]]></title>
-    <link href="http://swiftggteam.github.io/2016/01/06/open-source-swift-weekly-3/"/>
-    <id>http://swiftggteam.github.io/2016/01/06/open-source-swift-weekly-3/</id>
-    <published>2016-01-06T04:20:00.000Z</published>
-    <updated>2016-01-06T04:45:17.402Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>作者：Jesse Squires，<a href="http://www.jessesquires.com/open-source-swift-weekly-3/" target="_blank" rel="external">原文链接</a>，原文日期：2015.12.24<br>译者：<a href="http://www.jianshu.com/users/3b40e55ec6d5/latest_articles" target="_blank" rel="external">小锅</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
-</blockquote>
-<p>正如预期的一样，在圣诞放假期间 Swift.org 的<a href="https://lists.swift.org/pipermail/swift-corelibs-dev/Week-of-Mon-20151214/000179.html" target="_blank" rel="external">步伐</a><a href="https://lists.swift.org/pipermail/swift-dev/Week-of-Mon-20151221/000540.html" target="_blank" rel="external">慢了下来</a>。我也在放假期间出去玩耍了一番，所以这篇文章会比较平常的来得短。如果你还没准备好，我强烈建议你从代码中抽身出去享受一下假期，<a href="https://twitter.com/chriseidhof/status/679213894343200768" target="_blank" rel="external">防止过劳</a>（译者注：然而我们并没有放假）。😄现在，让我们开始本周简讯！</p>
-<a id="more"></a>
-<h2 id="Commits_以及_Pull_requests">Commits 以及 Pull requests</h2><p><a href="https://github.com/tienex" target="_blank" rel="external">@tienex</a> 针对 Linux/armv7 支持提交了一个<a href="https://github.com/apple/swift/pull/608" target="_blank" rel="external">pull request</a>。</p>
-<p><a href="https://github.com/practicalswift" target="_blank" rel="external">@practicalswift</a> 增加了大量的 <a href="https://github.com/apple/swift/pulls?utf8=%E2%9C%93&amp;q=is%3Apr+author%3Apracticalswift+is%3Aclosed+test+case" target="_blank" rel="external">测试用例</a>。在写本篇文章的时候，这些改变应该还需要一段时间才会被合并。</p>
-<p><a href="https://github.com/masters3d" target="_blank" rel="external">@masters3d</a> 合并了一个 <a href="https://github.com/apple/swift-evolution/pull/72/files" target="_blank" rel="external">pull request</a>，这个 PR 将一些对于 Swift 的常见改变文档化了。这是一个很棒的主意，可以减少重复的建议。在为邮件列表提交建议时，记得要先<a href="https://github.com/apple/swift-evolution/blob/master/commonly_proposed.md" target="_blank" rel="external">核对这个列表</a> 。</p>
-<p>Doug Gregor <a href="https://github.com/apple/swift/commit/c8dd8d066132683aa32c2a5740b291d057937367" target="_blank" rel="external">实现了 SE-0001</a>，“允许（基本上）所有的关键字作为参数标签”。这是一个很大的改变。当 Swift 首次发布的时候，我的一个 Objective-C 库使用了 <code>extension:</code> 作为一个<a href="https://github.com/jessesquires/JSQSystemSoundPlayer/issues/8" target="_blank" rel="external">参数名称</a>(作为一个文件的扩展名)并且桥接到了 Swift 当中，这导致了很多的问题，所以我只能将它重命名为 <code>fileExtension:</code>。我十分期待在 Swift 2.2 当中看到这个改变！注意 <code>var</code>，<code>let</code> 和 <code>inout</code> 关键字被排除在外。</p>
-<h2 id="建议">建议</h2><p>Oisin Kidney 的<a href="https://github.com/apple/swift-evolution/blob/master/proposals/0008-lazy-flatmap-for-optionals.md" target="_blank" rel="external">建议 (SE-0008)</a>，<em>为可选类型序列增加一个 Lazy flatMap</em>，已经被 Swift 2.2 <a href="https://lists.swift.org/pipermail/swift-evolution-announce/2015-December/000006.html" target="_blank" rel="external">接受</a>！🎉</p>
-<p>Kevin Ballard 的<a href="https://github.com/apple/swift-evolution/blob/master/proposals/0015-tuple-comparison-operators.md" target="_blank" rel="external">建议 (SE-0015)</a>，Tuple 比较运算符已经<a href="https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20151221/004423.html" target="_blank" rel="external">被接受</a>！在写作本篇文章的时候，这个建议的状态还未返回在 GitHub 上。因为这个建议不会影响到现在代码，我猜它应该会加入到 Swift 2.2 当中。🎉</p>
-<p>Joe Groff 提交了<a href="https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20151214/003148.html" target="_blank" rel="external">一个建议</a>，为 Swift 的属性增加属性行为。你可以在 GitHub 上找到<a href="https://gist.github.com/jckarter/f3d392cf183c6b2b2ac3" target="_blank" rel="external">原型</a>。如果你更喜欢在 twitter 中获取这些信息，<a href="https://twitter.com/jckarter/status/677554831003791360" target="_blank" rel="external">它在这里</a>。😄 简单来讲，这个建议提出了一个大纲，可以使用一个扩展的框架为属性增加不同的属性行为，类似 Objective-C 当中的 <code>atomic</code> 与 <code>copy</code>。目前，Swift 有些硬编码的针对特定用途的属性行为，比如 <code>lazy</code>，<code>@NSCopying</code>，和 <code>willSet</code> / <code>didSet</code>。这个建议主要目的是将这些概念规范和统一起来，使它们跟底层的框架实现方式一致，以使它们可以更方便地进行扩展。开发者甚至可以实现它们自己的属性行为。这听起来实在很酷。一些示例的属性行为包含：lazy, 记忆化(memoization), 延迟初始化(delayed initialization)。</p>
-<h2 id="邮件列表">邮件列表</h2><p>Andyy Hope 开启了<a href="https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20151221/003819.html" target="_blank" rel="external">一个讨论</a>，建议为枚举增加一个 <code>.allValues</code> 属性，通过这个属性可以将枚举中的所有 case 以数组的方式返回。看起来到目前为止有很多人支持这个观点。<a href="https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20151207/001233.html" target="_blank" rel="external">Jacob Bandes-Storch</a> 在几周之前也提出过这个想法。我也是这个想法的拥簇者，在之前我就好几次试图写过几次这样的代码了。👍 </p>
-<p>Kevin Ballard <a href="https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20151221/004223.html" target="_blank" rel="external">建议</a> 为“一周Swift”建立一个更正式的 newsletter. 😁 也许我应该创建一个 swiftweekly.org?</p>
-<blockquote>
-<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
-</blockquote>
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>作者：Jesse Squires，<a href="http://www.jessesquires.com/open-source-swift-weekly-3/">原文链接</a>，原文日期：2015.12.24<br>译者：<a href="http://www.jianshu.com/users/3b40e55ec6d5/latest_articles">小锅</a>；校对：<a href="https://github.com/numbbbbb">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb">numbbbbb</a></p>
-</blockquote>
-<p>正如预期的一样，在圣诞放假期间 Swift.org 的<a href="https://lists.swift.org/pipermail/swift-corelibs-dev/Week-of-Mon-20151214/000179.html">步伐</a><a href="https://lists.swift.org/pipermail/swift-dev/Week-of-Mon-20151221/000540.html">慢了下来</a>。我也在放假期间出去玩耍了一番，所以这篇文章会比较平常的来得短。如果你还没准备好，我强烈建议你从代码中抽身出去享受一下假期，<a href="https://twitter.com/chriseidhof/status/679213894343200768">防止过劳</a>（译者注：然而我们并没有放假）。😄现在，让我们开始本周简讯！</p>]]>
-    
-    </summary>
-    
-      <category term="Open Source Swift" scheme="http://swiftggteam.github.io/tags/Open-Source-Swift/"/>
-    
-      <category term="Swift 开源信息" scheme="http://swiftggteam.github.io/categories/Swift-%E5%BC%80%E6%BA%90%E4%BF%A1%E6%81%AF/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[在 Target-Action 中使用响应链]]></title>
-    <link href="http://swiftggteam.github.io/2016/01/06/utilize-the-responder-chain-for-target-action/"/>
-    <id>http://swiftggteam.github.io/2016/01/06/utilize-the-responder-chain-for-target-action/</id>
-    <published>2016-01-05T16:00:00.000Z</published>
-    <updated>2016-01-06T04:45:17.402Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>作者：dom，<a href="http://swiftandpainless.com/utilize-the-responder-chain-for-target-action/" target="_blank" rel="external">原文链接</a>，原文日期：2016/1/1<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="http://www.brighttj.com" target="_blank" rel="external">saitjr</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
-</blockquote>
-<!--此处开始正文-->
-<p>本文会介绍 iOS 的响应链以及如何在 Target-Action 中使用它。</p>
-<h2 id="响应链（The_Responder_Chain）">响应链（The Responder Chain）</h2><p>在 iOS 中，事件（比如，触摸事件（touch event））都使用响应链来传递。响应链由响应者对象（Responder Objects，<a href="https://developer.apple.com/library/ios/documentation/EventHandling/Conceptual/EventHandlingiPhoneOS/event_delivery_responder_chain/event_delivery_responder_chain.html#//apple_ref/doc/uid/TP40009541-CH4-SW1" target="_blank" rel="external">苹果官方术语</a>）构成。如果你看过官方文档，可能会注意到 <code>UIView</code> 和 <code>UIViewController</code> 都是响应者对象。这就意味着， <code>UIView</code> 和 <code>UIViewController</code> 都继承自 <code>UIResponder</code> ，如下图：</p>
-<p><img src="/img/articles/utilize-the-responder-chain-for-target-action/UIViewDocumentation.png1452047417.154566" alt=""></p>
-<a id="more"></a>
-<p>当用户点击了视图层级（view hierarchy）中的一个 view 时，iOS 会通过点击测试（hit test）来判定哪个响应者对象优先响应触摸事件。这个过程从最底层的 window 开始，沿着视图层级向上寻找并检查这个 touch 是不是发生在当前 view 边界内。该过程中被点击的最后一个 view 会先收到触摸事件。如果该 view 没有对触摸事件做出反应，触摸事件就会沿着响应链传递到下一个响应者。苹果的官方<a href="https://developer.apple.com/library/ios/documentation/EventHandling/Conceptual/EventHandlingiPhoneOS/event_delivery_responder_chain/event_delivery_responder_chain.html#//apple_ref/doc/uid/TP40009541-CH4-SW4" target="_blank" rel="external">示例</a>很好的解释了这个过程。如果 view 告诉 iOS 它没有被点击，那它的子视图就不会被检查。</p>
-<p>这就会产生一个有趣的事情。当一个正常显示（父视图的 <code>clipsToBounds</code> 被设置为 <code>false</code> 时）的按钮位于父视图边界外时，该按钮不会接收到任何的触摸事件。因此，当一个按钮不能响应事件时，记得检查一下该按钮是否有在父视图的边界内。</p>
-<h2 id="Target-Action">Target-Action</h2><p>Target-Action 机制通过设置 <code>target</code> 为 <code>nil</code>来使用响应链。事件触发时，iOS 会询问第一响应者是否要处理传递过来的 action。如果不处理的话，第一响应者就会把该 action 传递给下一个响应者（<a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIResponder_Class/index.html#//apple_ref/occ/instm/UIResponder/nextResponder" target="_blank" rel="external">苹果官方文档 <code>nextResponder</code> </a>）。</p>
-<h2 id="举个例子">举个例子</h2><p>让我们来举个例子吧。我们的 view controller 中有一个 view ，里面有一个 button 和一个 label 。我们可以在 <code>viewDidLoad</code> 中把 view controller 设置为 <code>target</code> 来相应按钮的点击事件，像这样 <code>subview.button.addTarget(self, action: &quot;onButtonTap:&quot;, forControlEvents: .TouchUpInside)</code> 。但是，我们也可以把 <code>target</code> 设置为 <code>nil</code>，然后就可以使用响应链了。以下是初始化并添加 button 和 label 的代码：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ViewWithButtonAndLabel</span>: <span class="title">UIView</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> button: <span class="type">UIButton</span></span><br><span class="line">    <span class="keyword">let</span> label: <span class="type">UILabel</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="keyword">init</span>(frame: <span class="type">CGRect</span>) &#123;</span><br><span class="line">        label = <span class="type">UILabel</span>()</span><br><span class="line">        label.textAlignment = .<span class="type">Center</span></span><br><span class="line">        label.text = <span class="string">"Touch the button"</span></span><br><span class="line"></span><br><span class="line">        button = <span class="type">UIButton</span>(type: .<span class="type">System</span>)</span><br><span class="line">        button.setTitle(<span class="string">"The Button"</span>, forState: .<span class="type">Normal</span>)</span><br><span class="line">        button.addTarget(<span class="literal">nil</span>, action: <span class="string">"onButtonTap:"</span>, forControlEvents: .<span class="type">TouchUpInside</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> stackView = <span class="type">UIStackView</span>(arrangedSubviews: [label, button])</span><br><span class="line">        stackView.translatesAutoresizingMaskIntoConstraints = <span class="literal">false</span></span><br><span class="line">        stackView.axis = .<span class="type">Vertical</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">super</span>.<span class="keyword">init</span>(frame: frame)</span><br><span class="line"></span><br><span class="line">        backgroundColor = .yellowColor()</span><br><span class="line"></span><br><span class="line">        addSubview(stackView)</span><br><span class="line"></span><br><span class="line">        stackView.centerXAnchor.constraintEqualToAnchor(centerXAnchor).active = <span class="literal">true</span></span><br><span class="line">        stackView.centerYAnchor.constraintEqualToAnchor(centerYAnchor).active = <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">required</span> <span class="keyword">init</span>?(coder aDecoder: <span class="type">NSCoder</span>) &#123;</span><br><span class="line">        <span class="built_in">fatalError</span>(<span class="string">"init(coder:) has not been implemented"</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>button.addTarget(nil, action: &quot;onButtonTap:&quot;, forControlEvents: .TouchUpInside)</code> 这行代码中，将按钮的 <code>target</code> 设置为 <code>nil</code> 。如之前描述的那样，这就意味着 action 会沿着响应链向下传递，直到一个响应者对象处理该 action 为止。</p>
-<p>以下是 view controller 的部分代码：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ViewController</span>: <span class="title">UIViewController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> viewWithButtonAndLabel = <span class="type">ViewWithButtonAndLabel</span>()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.viewDidLoad()</span><br><span class="line"></span><br><span class="line">        view.backgroundColor = .whiteColor()</span><br><span class="line"></span><br><span class="line">        view.addSubview(viewWithButtonAndLabel)</span><br><span class="line"></span><br><span class="line">        viewWithButtonAndLabel.translatesAutoresizingMaskIntoConstraints = <span class="literal">false</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> views = [<span class="string">"subView"</span>: viewWithButtonAndLabel]</span><br><span class="line">        <span class="keyword">var</span> layoutConstraints = [<span class="type">NSLayoutConstraint</span>]()</span><br><span class="line">        layoutConstraints += <span class="type">NSLayoutConstraint</span>.constraintsWithVisualFormat(<span class="string">"|-20-[subView]-20-|"</span>, options: [], metrics: <span class="literal">nil</span>, views: views)</span><br><span class="line">        layoutConstraints += <span class="type">NSLayoutConstraint</span>.constraintsWithVisualFormat(<span class="string">"V:|-20-[subView]-20-|"</span>, options: [], metrics: <span class="literal">nil</span>, views: views)</span><br><span class="line">        <span class="type">NSLayoutConstraint</span>.activateConstraints(layoutConstraints)</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">onButtonTap</span><span class="params">(sender: UIButton)</span></span> &#123;</span><br><span class="line">        viewWithButtonAndLabel.label.text = viewWithButtonAndLabel.label.text == <span class="string">"Yeah!"</span> ? <span class="string">"Touch the button"</span> : <span class="string">"Yeah!"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>即使我们没有明确的设置 <code>target</code> ，当点击按钮的时候，view controller 里的 <code>onButtonTap(_:)</code> 也会被调用，因为它是第一响应者，且实现了相应的处理。</p>
-<p>你可以去 GitHub 上查看本文的<a href="https://github.com/dasdom/ResponderChainDemo" target="_blank" rel="external">示例代码</a>。</p>
-<h2 id="结论">结论</h2><p>响应链是你的好朋友，试着去了解它。还要多读文档，学习如何使用响应链，让你的代码更牛。</p>
-<blockquote>
-<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
-</blockquote>
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>作者：dom，<a href="http://swiftandpainless.com/utilize-the-responder-chain-for-target-action/">原文链接</a>，原文日期：2016/1/1<br>译者：<a href="http://weibo.com/linusling">小铁匠Linus</a>；校对：<a href="http://www.brighttj.com">saitjr</a>；定稿：<a href="https://github.com/numbbbbb">numbbbbb</a></p>
-</blockquote>
-<!--此处开始正文-->
-<p>本文会介绍 iOS 的响应链以及如何在 Target-Action 中使用它。</p>
-<h2 id="响应链（The_Responder_Chain）">响应链（The Responder Chain）</h2><p>在 iOS 中，事件（比如，触摸事件（touch event））都使用响应链来传递。响应链由响应者对象（Responder Objects，<a href="https://developer.apple.com/library/ios/documentation/EventHandling/Conceptual/EventHandlingiPhoneOS/event_delivery_responder_chain/event_delivery_responder_chain.html#//apple_ref/doc/uid/TP40009541-CH4-SW1">苹果官方术语</a>）构成。如果你看过官方文档，可能会注意到 <code>UIView</code> 和 <code>UIViewController</code> 都是响应者对象。这就意味着， <code>UIView</code> 和 <code>UIViewController</code> 都继承自 <code>UIResponder</code> ，如下图：</p>
-<p><img src="/img/articles/utilize-the-responder-chain-for-target-action/UIViewDocumentation.png1452047417.154566" alt=""></p>]]>
-    
-    </summary>
-    
-      <category term="Swift and Painless" scheme="http://swiftggteam.github.io/tags/Swift-and-Painless/"/>
-    
-      <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
-    
-  </entry>
-  
-  <entry>
     <title><![CDATA[每周 Swift 社区问答 2016-01-06]]></title>
     <link href="http://swiftggteam.github.io/2016/01/06/swift-qa-2016-01-06/"/>
     <id>http://swiftggteam.github.io/2016/01/06/swift-qa-2016-01-06/</id>
-    <published>2016-01-05T16:00:00.000Z</published>
-    <updated>2016-01-06T04:45:14.650Z</updated>
+    <published>2016-01-06T15:00:00.000Z</published>
+    <updated>2016-01-06T04:50:14.927Z</updated>
     <content type="html"><![CDATA[<p>作者：<a href="http://codebuild.me" target="_blank" rel="external">shanks</a> &amp; <a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a></p>
 <p>本周整理问题如下：</p>
 <ul>
@@ -356,11 +168,199 @@
   </entry>
   
   <entry>
+    <title><![CDATA[聚焦 Swift #2]]></title>
+    <link href="http://swiftggteam.github.io/2016/01/06/open-source-swift-weekly-2/"/>
+    <id>http://swiftggteam.github.io/2016/01/06/open-source-swift-weekly-2/</id>
+    <published>2016-01-06T04:30:00.000Z</published>
+    <updated>2016-01-06T04:50:21.675Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>作者：Jesse Squires，<a href="http://www.jessesquires.com/open-source-swift-weekly-2/" target="_blank" rel="external">原文链接</a>，原文日期：2015.12.17<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
+</blockquote>
+<!--此处开始正文-->
+<blockquote>
+<p>本周 Swift.org 又有哪些新鲜事呢？ <strong>2015.12.17</strong></p>
+</blockquote>
+<p>Swift.org 社区已经度过其源码开发的第二个星期。倘若你期望过个安静的周末，最好打消这个念头。要知道项目中仍旧还有一大堆事情需要处理，压根就没有减缓的迹象。Swift 团队继续以公开的方式<a href="https://twitter.com/uint_min/status/675022507527684096" target="_blank" rel="external">运作</a>，鼓励开发者们加入到贡献的行列中。本周主要修复了一些 crashs 以及更多的 Swift 变革提案。闲话少说，开始本周简讯！</p>
+<a id="more"></a>
+<h3 id="社区">社区</h3><p>Craig Federighi 在 John Gruber 的<a href="http://daringfireball.net/thetalkshow/2015/12/07/ep-139" target="_blank" rel="external">脱口秀节目</a>中回顾了 Swift 的第一周开源情况。我真的非常喜欢这一期节目，继续被苹果的开源所深深折服！采访仅仅只持续了 30 分钟左右。Daring Fireball 还提供了完整的<a href="http://daringfireball.net/thetalkshow/139/federighi-gruber-transcript" target="_blank" rel="external">采访对话记录</a>。</p>
+<p><a href="https://github.com/zhuowei" target="_blank" rel="external">@zhuowei</a> 看起来已经在为 <a href="https://github.com/SwiftAndroid" target="_blank" rel="external">Android</a> 提供 Swift 支持了。我真心希望这个项目能火起来。用 Swift 开发 Andriud 应用对于移动开发者来说无疑是一个巨大的胜利！</p>
+<p>这里需要澄清上星期的一个纰漏 —— 柯里化函数将不会被完全移除，仅仅只是<a href="https://github.com/apple/swift-evolution/pull/43#issuecomment-163849233" target="_blank" rel="external">语法</a>而已。</p>
+<h3 id="Commits_和_pull_requests">Commits 和 pull requests</h3><ul>
+<li><a href="https://github.com/slavapestov" target="_blank" rel="external">Slava Pestov</a> 推送了一个 <a href="https://github.com/apple/swift/commit/c258f991f64a431da57fc79b66e879e5062fba3b" target="_blank" rel="external">commit</a> 修复了编译器中 91% 的报错。😲（pmst注：本来编译时有783个错误，现在只有74个了！）</li>
+<li><a href="https://github.com/nubbel" target="_blank" rel="external">Dominique d’Argent</a> 在他自己实现的 <code>NSAffineTransform</code> 中首次介绍了 <a href="https://github.com/apple/swift-corelibs-foundation/pull/93#discussion_r47160608" target="_blank" rel="external">unicode 变量名称</a>。这也是迄今为止我所看到的唯一一个。谁要是能把使用 💩 的 pull request 合并到项目中，我非常乐意请他喝杯☕或🍺。</li>
+<li><a href="https://github.com/apple/swift/pull/413" target="_blank" rel="external">Bill Abt</a> 和 <a href="https://github.com/apple/swift-corelibs-libdispatch/pull/15" target="_blank" rel="external">David Grove</a> 这两位来自 IBM 的大神为 Swift 和核心标准库（core libraries）做出了巨大的贡献！正如 Federighi 在脱口秀所说， IBM 非常乐意将 Swift 应用到服务器端。</li>
+<li>Chris Lattner 修复了少量的 <a href="https://github.com/apple/swift/commit/0bfacde2420937bfb6e0e1be6567b0e90ee2fb67" target="_blank" rel="external">radars</a> 问题。</li>
+<li><a href="https://github.com/dduan" target="_blank" rel="external">Daninel Duan</a> 提交了一个 <a href="https://github.com/apple/swift/pull/419" target="_blank" rel="external">pull request</a> 用于优化 <code>Set</code> 集合类型。这将提升大约 42% 的执行效率。咳！<a href="https://twitter.com/practicalswift" target="_blank" rel="external">@PracticalSwift</a> 还修正了<a href="https://github.com/apple/swift/pull/561" target="_blank" rel="external">一堆</a><a href="https://github.com/apple/swift/pull/526" target="_blank" rel="external">错别字</a>。😂</li>
+<li>William Dillon 开始为 ARMv7 主机提供<a href="https://github.com/apple/swift/pull/439" target="_blank" rel="external">支持</a>，譬如 Raspberry Pi,，BeagleBone 以及 Nvidia Tegras.</li>
+<li>Brian Gesiak 一如既往地从事<a href="https://github.com/apple/swift-corelibs-xctest/pull/14" target="_blank" rel="external">测试 XCTest 框架的工作</a>，他在 corelibs-xctest 项目的提交数量贡献榜中位居<a href="https://github.com/apple/swift-corelibs-xctest/graphs/contributors" target="_blank" rel="external">第三</a>。👏</li>
+</ul>
+<h3 id="提案">提案</h3><p>第一个无关 Swift 语言的变革提案已经被<a href="https://twitter.com/clattner_llvm/status/676472122437271552" target="_blank" rel="external">采纳</a>拉！你必须感谢下 <a href="https://twitter.com/ericasadun" target="_blank" rel="external">Erica Sadun</a> ，是她让你告别了 <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0007-remove-c-style-for-loops.md" target="_blank" rel="external">C 语言风格的 for 循环</a>。从 Swift2.2 开始，如果使用 C 语言风格的 for-loop ，你将收到警告信息，直至 Swift3.0 正式发布版本中将被彻底移除。“在大多数情况下，我们一致认同在 Swift 代码中极少会使用 C 语言风格的 for-loop ”，大多数情况下会选择使用<code>for-in</code>语句。同时注意到<a href="https://lists.swift.org/pipermail/swift-evolution-announce/2015-December/000001.html" target="_blank" rel="external">通知</a>中描述了改变将可能导致的两个潜在问题。 </p>
+<p><a href="https://github.com/ddunbar" target="_blank" rel="external">Max Howell</a>，<a href="https://github.com/ddunbar" target="_blank" rel="external">Daniel Dunbar</a>，和 <a href="https://github.com/mattt" target="_blank" rel="external">Mattt Thompson</a> 已经准备提交一份<a href="https://github.com/apple/swift-evolution/pull/51" target="_blank" rel="external">提案</a>，为 <a href="https://github.com/apple/swift-package-manager" target="_blank" rel="external">Swift 包管理器</a>（Swift package manager）增加测试支持！“测试是现代软件开发中的一个重要组成部分。紧密耦合的测试集成到 Swift 包管理器中有助于确保一个稳定可靠的打包机制。我们建议扩展我们的常规包目录布局以适应测试模块。”🎉</p>
+<p>Max Moiseev 建议给 <code>AnySequence.init</code> 增添约束条件，应该会在本周审核。我想不出任何理由为什么这个建议不被采纳。“事实上，这些约束应该被应用到 <code>SequenceType</code> 协议自身上（尽管就目前来看是不太可能了），同我们预期的那样每个 <code>SequenceType</code> 实现都已经满足自身。”</p>
+<p>Divid Hart <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0009-require-self-for-accessing-instance-members.md" target="_blank" rel="external">建议</a>：要求使用 <code>self</code> 来访问实例成员，目前正在审核当中。如果你现在还未遵守的话，<code>self</code> 关键字总是必须的，即使它可以进行隐式地推断。譬如， <code>self.view</code> 与简化的 <code>view</code>。 有关这个的讨论非常多，你可以前往<a href="http://www.jessesquires.com/open-source-swift-weekly-2/(https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20151214/002407.html" target="_blank" rel="external">邮件列表</a>)和 <a href="https://twitter.com/ashfurrow/status/676881928168017921" target="_blank" rel="external">twitter</a> 看看。我并不是这个建议的拥护者，但是这样有助于我理解一些参数。</p>
+<p>Erica Sadun 同时发表了一篇精彩的文章细述了最近的一些提议。</p>
+<h3 id="Mailing_lists">Mailing lists</h3><p>这里有个非常有意思的<a href="https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20151207/001948.html" target="_blank" rel="external">话题</a>，有关动态方法与静态方法的调度。Chris Lattner 亲述：“简而言之：我真正所要表达的意思是旧的静态与动态比喻至少只是故事的一半。你真正需要的是将编译模型包含进来，从而由此产生的程序设计模式加入到故事中，要知道程序设计模式才是真正所要关心的。”</p>
+<p>Fabian Ehrentraud 发起了一个<a href="https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20151207/001054.html" target="_blank" rel="external">话题</a>，讨论了当导入无 <code>nullability</code> 属性的 Objective-C 代码时如何改善崩溃安全性（crash-safety）。目前，出自 Objective-C 的成员采用隐式可选类型桥接到 Swift 上（例如 view!）。这个提议中建议在导入这些成员时用显示可选类型替换（view?），这样可以促使开发者安全地处理可能的 <code>nil</code> 值。对我来说，这听起来很不错。老实讲，我不太理解为什么一开始会有隐式解包可选（implicitly unwrapped optionals）存在，这看起来和 Swift 的安全宗旨相悖嘛。</p>
+<p>Colin Cornaby <a href="https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20151214/002324.html" target="_blank" rel="external">建议</a>将分号（;）完全从 Swift 中移除来顺应摒弃所有 C-style 语言特性的大势。正如邮件列表中有人提到，分号在语法上通常可以忽略，但是它们能将类似的语句组合到一行代码中，提高代码可读性。我觉得两者都有道理，不过目前来看这个讨论还没有引起足够的重视，短期不太可能修改。<br>送大家一句话：</p>
+<blockquote>
+<p>Stare long enough into the language design, and the language design stares back into you.<br>—— <a href="https://twitter.com/jckarter/status/676939142790569986" target="_blank" rel="external">Joe Groff</a></p>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>作者：Jesse Squires，<a href="http://www.jessesquires.com/open-source-swift-weekly-2/">原文链接</a>，原文日期：2015.12.17<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles">pmst</a>；校对：<a href="https://github.com/numbbbbb">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb">numbbbbb</a></p>
+</blockquote>
+<!--此处开始正文-->
+<blockquote>
+<p>本周 Swift.org 又有哪些新鲜事呢？ <strong>2015.12.17</strong></p>
+</blockquote>
+<p>Swift.org 社区已经度过其源码开发的第二个星期。倘若你期望过个安静的周末，最好打消这个念头。要知道项目中仍旧还有一大堆事情需要处理，压根就没有减缓的迹象。Swift 团队继续以公开的方式<a href="https://twitter.com/uint_min/status/675022507527684096">运作</a>，鼓励开发者们加入到贡献的行列中。本周主要修复了一些 crashs 以及更多的 Swift 变革提案。闲话少说，开始本周简讯！</p>]]>
+    
+    </summary>
+    
+      <category term="Open Source Swift" scheme="http://swiftggteam.github.io/tags/Open-Source-Swift/"/>
+    
+      <category term="Swift 开源信息" scheme="http://swiftggteam.github.io/categories/Swift-%E5%BC%80%E6%BA%90%E4%BF%A1%E6%81%AF/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[聚焦 Swift #1]]></title>
+    <link href="http://swiftggteam.github.io/2016/01/06/open-source-swift-weekly-1/"/>
+    <id>http://swiftggteam.github.io/2016/01/06/open-source-swift-weekly-1/</id>
+    <published>2016-01-06T04:20:00.000Z</published>
+    <updated>2016-01-06T04:50:21.675Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>作者：Jesse Squires，<a href="http://www.jessesquires.com/open-source-swift-weekly-1/" target="_blank" rel="external">原文链接</a>，原文日期：2015.12.10<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
+</blockquote>
+<!--此处开始正文-->
+<p><a href="http://www.jessesquires.com/swift-open-source/" target="_blank" rel="external">上一篇文章</a>中我阐述了自己的想法以及时刻关注 <a href="https://swift.org/" target="_blank" rel="external">Swift open source</a> 项目的动向，看起来深得社区中许多开发者的喜欢。因此，我将竭尽所能维护该周刊——每周三更新哦，要知道 Swift 开源项目通告就在这一天发布。每周我都会提供高质量的汇总，细述本周发生的变动，更新一些有意思的统计信息，以及提供感兴趣的内容链接。如果你有任何建议，请告诉<a href="https://twitter.com/jesse_squires" target="_blank" rel="external">我</a>!。OK！是时候开始安利本周内容了！</p>
+<a id="more"></a>
+<h3 id="This_week_on_Swift-org">This week on Swift.org</h3><ul>
+<li><a href="https://twitter.com/ManavGabhawala" target="_blank" rel="external">Manav Gabhawala</a> 提交了一个非常有趣的<a href="https://github.com/apple/swift-evolution/pull/37" target="_blank" rel="external">建议</a>：为 Swift 增加隐式构造方法（ implicit initializers）。特别指出这将解决数字类型（number types）转换时候冗长的问题。不管怎样，<a href="https://lists.swift.org/pipermail/swift-evolution/2015-December/000352.html" target="_blank" rel="external">邮件列表</a>中指出了相关安全和清晰的观点。</li>
+<li><a href="https://twitter.com/1101_debian" target="_blank" rel="external">Alex Denisov</a> 提交了一个 <a href="https://github.com/apple/swift/pull/295" target="_blank" rel="external">pull request</a> 竟然修复了 323 个 crashes 。😲</li>
+<li><a href="https://github.com/apple/swift-evolution/pull/39" target="_blank" rel="external">使用 git </a>火候不够？别担心！许多<a href="https://github.com/apple/swift-evolution/pull/34#issuecomment-162693826" target="_blank" rel="external">牛人</a>同样不擅长那玩样。我想指出：别因为这个而成为你为 Swift 做贡献的绊脚石！</li>
+<li>昨天晚上 Chris Lattner 修复了 <a href="https://github.com/apple/swift/commit/5dded3f3523e9bd6ea45d0b6ffe5068a59d03a3f" target="_blank" rel="external">radars</a> 问题。</li>
+<li>倘若你注意到这条消息，柯里化函数将<a href="https://github.com/apple/swift-evolution/blob/master/proposals/0002-remove-currying.md" target="_blank" rel="external">从 Swift3.0 中被移除</a>了。（什么是<a href="https://robots.thoughtbot.com/introduction-to-function-currying-in-swift" target="_blank" rel="external">柯里化</a>?）ps：下一篇文章中作者已经纠正，暂不透剧。^.^</li>
+<li><a href="https://twitter.com/owensd" target="_blank" rel="external">David Owens</a> 提交了一份<a href="https://github.com/apple/swift-evolution/pull/26" target="_blank" rel="external">提案</a>为 <code>throws</code> 关键字增添类型注释。当 Swift 的错误处理模型首次调用时，缺乏明确的错误类型受到开发者普遍的批评。邮件列表中对此进行了良好的<a href="https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20151207/001117.html" target="_blank" rel="external">讨论</a>。这里给出了原始版本的 <a href="https://github.com/apple/swift/blob/master/docs/ErrorHandlingRationale.rst" target="_blank" rel="external">Error Handling</a> 以及 <a href="https://github.com/apple/swift/blob/master/docs/ErrorHandlingRationale.rst" target="_blank" rel="external">Rationale 和 Proposal</a> 供你参考。</li>
+<li>Swift 目前已经拥有将近 200 的贡献者以及超过 230 的 pull request 被合并进来。</li>
+<li>上星期我提到了 <a href="https://github.com/apple/swift-corelibs-foundation" target="_blank" rel="external">Foundation</a> 还遗留大量<a href="https://github.com/apple/swift-corelibs-foundation/search?utf8=✓&amp;q=NSUnimplemented" target="_blank" rel="external">未实现的内容</a>。同时还存在一些令人惊讶的 <a href="https://github.com/apple/swift-corelibs-foundation/pull/89/files" target="_blank" rel="external">bugs</a> 等待处理。</li>
+<li><a href="https://github.com/argon" target="_blank" rel="external">Andrew Naylor</a> 雄心勃勃地实现了 <a href="https://github.com/apple/swift-corelibs-foundation/pull/54" target="_blank" rel="external">NSJSONSerialization</a>。👏</li>
+<li><a href="https://twitter.com/jtbandes" target="_blank" rel="external">Jacob Bandes-Storch</a>提交了一份<a href="https://github.com/apple/swift-evolution/pull/44" target="_blank" rel="external">提案</a>致力于提高与 C API 的桥接。</li>
+<li>邮件中列表中还讨论了一个很有意思的问题，默认为 class 以及 methods 标记为 <code>final</code> 。其实任何阻止或防止子类化（subclassing）对我来说都是没问题的（不妨看看作者的<a href="https://twitter.com/jesse_squires/status/664588682997964800" target="_blank" rel="external">观点</a>）。😊</li>
+<li>Swift Programming Language iBook(ePub) 官方文档目前可以直接从 Swift.org 官网上下载下来（不再局限于 iBook Store），此外目前书籍是基于<a href="https://swift.org/documentation/" target="_blank" rel="external">知识共享署名4.0国际(CC by 4.0)许可证</a>下开源的！对于翻译来说这是相当棒的！ps：原因请点<a href="https://twitter.com/clattner_llvm/status/674454905449373696" target="_blank" rel="external">这里</a>。</li>
+<li>对于 Chris Lattner 来说，编程不过是“夜晚和周末”的爱好罢了。😂</li>
+</ul>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>作者：Jesse Squires，<a href="http://www.jessesquires.com/open-source-swift-weekly-1/">原文链接</a>，原文日期：2015.12.10<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles">pmst</a>；校对：<a href="https://github.com/numbbbbb">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb">numbbbbb</a></p>
+</blockquote>
+<!--此处开始正文-->
+<p><a href="http://www.jessesquires.com/swift-open-source/">上一篇文章</a>中我阐述了自己的想法以及时刻关注 <a href="https://swift.org/">Swift open source</a> 项目的动向，看起来深得社区中许多开发者的喜欢。因此，我将竭尽所能维护该周刊——每周三更新哦，要知道 Swift 开源项目通告就在这一天发布。每周我都会提供高质量的汇总，细述本周发生的变动，更新一些有意思的统计信息，以及提供感兴趣的内容链接。如果你有任何建议，请告诉<a href="https://twitter.com/jesse_squires">我</a>!。OK！是时候开始安利本周内容了！</p>]]>
+    
+    </summary>
+    
+      <category term="Open Source Swift" scheme="http://swiftggteam.github.io/tags/Open-Source-Swift/"/>
+    
+      <category term="Swift 开源信息" scheme="http://swiftggteam.github.io/categories/Swift-%E5%BC%80%E6%BA%90%E4%BF%A1%E6%81%AF/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[聚焦 Swift #3]]></title>
+    <link href="http://swiftggteam.github.io/2016/01/06/open-source-swift-weekly-3/"/>
+    <id>http://swiftggteam.github.io/2016/01/06/open-source-swift-weekly-3/</id>
+    <published>2016-01-06T04:20:00.000Z</published>
+    <updated>2016-01-06T04:50:21.675Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>作者：Jesse Squires，<a href="http://www.jessesquires.com/open-source-swift-weekly-3/" target="_blank" rel="external">原文链接</a>，原文日期：2015.12.24<br>译者：<a href="http://www.jianshu.com/users/3b40e55ec6d5/latest_articles" target="_blank" rel="external">小锅</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
+</blockquote>
+<p>正如预期的一样，在圣诞放假期间 Swift.org 的<a href="https://lists.swift.org/pipermail/swift-corelibs-dev/Week-of-Mon-20151214/000179.html" target="_blank" rel="external">步伐</a><a href="https://lists.swift.org/pipermail/swift-dev/Week-of-Mon-20151221/000540.html" target="_blank" rel="external">慢了下来</a>。我也在放假期间出去玩耍了一番，所以这篇文章会比较平常的来得短。如果你还没准备好，我强烈建议你从代码中抽身出去享受一下假期，<a href="https://twitter.com/chriseidhof/status/679213894343200768" target="_blank" rel="external">防止过劳</a>（译者注：然而我们并没有放假）。😄现在，让我们开始本周简讯！</p>
+<a id="more"></a>
+<h2 id="Commits_以及_Pull_requests">Commits 以及 Pull requests</h2><p><a href="https://github.com/tienex" target="_blank" rel="external">@tienex</a> 针对 Linux/armv7 支持提交了一个<a href="https://github.com/apple/swift/pull/608" target="_blank" rel="external">pull request</a>。</p>
+<p><a href="https://github.com/practicalswift" target="_blank" rel="external">@practicalswift</a> 增加了大量的 <a href="https://github.com/apple/swift/pulls?utf8=%E2%9C%93&amp;q=is%3Apr+author%3Apracticalswift+is%3Aclosed+test+case" target="_blank" rel="external">测试用例</a>。在写本篇文章的时候，这些改变应该还需要一段时间才会被合并。</p>
+<p><a href="https://github.com/masters3d" target="_blank" rel="external">@masters3d</a> 合并了一个 <a href="https://github.com/apple/swift-evolution/pull/72/files" target="_blank" rel="external">pull request</a>，这个 PR 将一些对于 Swift 的常见改变文档化了。这是一个很棒的主意，可以减少重复的建议。在为邮件列表提交建议时，记得要先<a href="https://github.com/apple/swift-evolution/blob/master/commonly_proposed.md" target="_blank" rel="external">核对这个列表</a> 。</p>
+<p>Doug Gregor <a href="https://github.com/apple/swift/commit/c8dd8d066132683aa32c2a5740b291d057937367" target="_blank" rel="external">实现了 SE-0001</a>，“允许（基本上）所有的关键字作为参数标签”。这是一个很大的改变。当 Swift 首次发布的时候，我的一个 Objective-C 库使用了 <code>extension:</code> 作为一个<a href="https://github.com/jessesquires/JSQSystemSoundPlayer/issues/8" target="_blank" rel="external">参数名称</a>(作为一个文件的扩展名)并且桥接到了 Swift 当中，这导致了很多的问题，所以我只能将它重命名为 <code>fileExtension:</code>。我十分期待在 Swift 2.2 当中看到这个改变！注意 <code>var</code>，<code>let</code> 和 <code>inout</code> 关键字被排除在外。</p>
+<h2 id="建议">建议</h2><p>Oisin Kidney 的<a href="https://github.com/apple/swift-evolution/blob/master/proposals/0008-lazy-flatmap-for-optionals.md" target="_blank" rel="external">建议 (SE-0008)</a>，<em>为可选类型序列增加一个 Lazy flatMap</em>，已经被 Swift 2.2 <a href="https://lists.swift.org/pipermail/swift-evolution-announce/2015-December/000006.html" target="_blank" rel="external">接受</a>！🎉</p>
+<p>Kevin Ballard 的<a href="https://github.com/apple/swift-evolution/blob/master/proposals/0015-tuple-comparison-operators.md" target="_blank" rel="external">建议 (SE-0015)</a>，Tuple 比较运算符已经<a href="https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20151221/004423.html" target="_blank" rel="external">被接受</a>！在写作本篇文章的时候，这个建议的状态还未返回在 GitHub 上。因为这个建议不会影响到现在代码，我猜它应该会加入到 Swift 2.2 当中。🎉</p>
+<p>Joe Groff 提交了<a href="https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20151214/003148.html" target="_blank" rel="external">一个建议</a>，为 Swift 的属性增加属性行为。你可以在 GitHub 上找到<a href="https://gist.github.com/jckarter/f3d392cf183c6b2b2ac3" target="_blank" rel="external">原型</a>。如果你更喜欢在 twitter 中获取这些信息，<a href="https://twitter.com/jckarter/status/677554831003791360" target="_blank" rel="external">它在这里</a>。😄 简单来讲，这个建议提出了一个大纲，可以使用一个扩展的框架为属性增加不同的属性行为，类似 Objective-C 当中的 <code>atomic</code> 与 <code>copy</code>。目前，Swift 有些硬编码的针对特定用途的属性行为，比如 <code>lazy</code>，<code>@NSCopying</code>，和 <code>willSet</code> / <code>didSet</code>。这个建议主要目的是将这些概念规范和统一起来，使它们跟底层的框架实现方式一致，以使它们可以更方便地进行扩展。开发者甚至可以实现它们自己的属性行为。这听起来实在很酷。一些示例的属性行为包含：lazy, 记忆化(memoization), 延迟初始化(delayed initialization)。</p>
+<h2 id="邮件列表">邮件列表</h2><p>Andyy Hope 开启了<a href="https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20151221/003819.html" target="_blank" rel="external">一个讨论</a>，建议为枚举增加一个 <code>.allValues</code> 属性，通过这个属性可以将枚举中的所有 case 以数组的方式返回。看起来到目前为止有很多人支持这个观点。<a href="https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20151207/001233.html" target="_blank" rel="external">Jacob Bandes-Storch</a> 在几周之前也提出过这个想法。我也是这个想法的拥簇者，在之前我就好几次试图写过几次这样的代码了。👍 </p>
+<p>Kevin Ballard <a href="https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20151221/004223.html" target="_blank" rel="external">建议</a> 为“一周Swift”建立一个更正式的 newsletter. 😁 也许我应该创建一个 swiftweekly.org?</p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>作者：Jesse Squires，<a href="http://www.jessesquires.com/open-source-swift-weekly-3/">原文链接</a>，原文日期：2015.12.24<br>译者：<a href="http://www.jianshu.com/users/3b40e55ec6d5/latest_articles">小锅</a>；校对：<a href="https://github.com/numbbbbb">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb">numbbbbb</a></p>
+</blockquote>
+<p>正如预期的一样，在圣诞放假期间 Swift.org 的<a href="https://lists.swift.org/pipermail/swift-corelibs-dev/Week-of-Mon-20151214/000179.html">步伐</a><a href="https://lists.swift.org/pipermail/swift-dev/Week-of-Mon-20151221/000540.html">慢了下来</a>。我也在放假期间出去玩耍了一番，所以这篇文章会比较平常的来得短。如果你还没准备好，我强烈建议你从代码中抽身出去享受一下假期，<a href="https://twitter.com/chriseidhof/status/679213894343200768">防止过劳</a>（译者注：然而我们并没有放假）。😄现在，让我们开始本周简讯！</p>]]>
+    
+    </summary>
+    
+      <category term="Open Source Swift" scheme="http://swiftggteam.github.io/tags/Open-Source-Swift/"/>
+    
+      <category term="Swift 开源信息" scheme="http://swiftggteam.github.io/categories/Swift-%E5%BC%80%E6%BA%90%E4%BF%A1%E6%81%AF/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[在 Target-Action 中使用响应链]]></title>
+    <link href="http://swiftggteam.github.io/2016/01/06/utilize-the-responder-chain-for-target-action/"/>
+    <id>http://swiftggteam.github.io/2016/01/06/utilize-the-responder-chain-for-target-action/</id>
+    <published>2016-01-05T16:00:00.000Z</published>
+    <updated>2016-01-06T04:50:21.675Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>作者：dom，<a href="http://swiftandpainless.com/utilize-the-responder-chain-for-target-action/" target="_blank" rel="external">原文链接</a>，原文日期：2016/1/1<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="http://www.brighttj.com" target="_blank" rel="external">saitjr</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
+</blockquote>
+<!--此处开始正文-->
+<p>本文会介绍 iOS 的响应链以及如何在 Target-Action 中使用它。</p>
+<h2 id="响应链（The_Responder_Chain）">响应链（The Responder Chain）</h2><p>在 iOS 中，事件（比如，触摸事件（touch event））都使用响应链来传递。响应链由响应者对象（Responder Objects，<a href="https://developer.apple.com/library/ios/documentation/EventHandling/Conceptual/EventHandlingiPhoneOS/event_delivery_responder_chain/event_delivery_responder_chain.html#//apple_ref/doc/uid/TP40009541-CH4-SW1" target="_blank" rel="external">苹果官方术语</a>）构成。如果你看过官方文档，可能会注意到 <code>UIView</code> 和 <code>UIViewController</code> 都是响应者对象。这就意味着， <code>UIView</code> 和 <code>UIViewController</code> 都继承自 <code>UIResponder</code> ，如下图：</p>
+<p><img src="/img/articles/utilize-the-responder-chain-for-target-action/UIViewDocumentation.png1452047417.154566" alt=""></p>
+<a id="more"></a>
+<p>当用户点击了视图层级（view hierarchy）中的一个 view 时，iOS 会通过点击测试（hit test）来判定哪个响应者对象优先响应触摸事件。这个过程从最底层的 window 开始，沿着视图层级向上寻找并检查这个 touch 是不是发生在当前 view 边界内。该过程中被点击的最后一个 view 会先收到触摸事件。如果该 view 没有对触摸事件做出反应，触摸事件就会沿着响应链传递到下一个响应者。苹果的官方<a href="https://developer.apple.com/library/ios/documentation/EventHandling/Conceptual/EventHandlingiPhoneOS/event_delivery_responder_chain/event_delivery_responder_chain.html#//apple_ref/doc/uid/TP40009541-CH4-SW4" target="_blank" rel="external">示例</a>很好的解释了这个过程。如果 view 告诉 iOS 它没有被点击，那它的子视图就不会被检查。</p>
+<p>这就会产生一个有趣的事情。当一个正常显示（父视图的 <code>clipsToBounds</code> 被设置为 <code>false</code> 时）的按钮位于父视图边界外时，该按钮不会接收到任何的触摸事件。因此，当一个按钮不能响应事件时，记得检查一下该按钮是否有在父视图的边界内。</p>
+<h2 id="Target-Action">Target-Action</h2><p>Target-Action 机制通过设置 <code>target</code> 为 <code>nil</code>来使用响应链。事件触发时，iOS 会询问第一响应者是否要处理传递过来的 action。如果不处理的话，第一响应者就会把该 action 传递给下一个响应者（<a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIResponder_Class/index.html#//apple_ref/occ/instm/UIResponder/nextResponder" target="_blank" rel="external">苹果官方文档 <code>nextResponder</code> </a>）。</p>
+<h2 id="举个例子">举个例子</h2><p>让我们来举个例子吧。我们的 view controller 中有一个 view ，里面有一个 button 和一个 label 。我们可以在 <code>viewDidLoad</code> 中把 view controller 设置为 <code>target</code> 来相应按钮的点击事件，像这样 <code>subview.button.addTarget(self, action: &quot;onButtonTap:&quot;, forControlEvents: .TouchUpInside)</code> 。但是，我们也可以把 <code>target</code> 设置为 <code>nil</code>，然后就可以使用响应链了。以下是初始化并添加 button 和 label 的代码：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ViewWithButtonAndLabel</span>: <span class="title">UIView</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> button: <span class="type">UIButton</span></span><br><span class="line">    <span class="keyword">let</span> label: <span class="type">UILabel</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="keyword">init</span>(frame: <span class="type">CGRect</span>) &#123;</span><br><span class="line">        label = <span class="type">UILabel</span>()</span><br><span class="line">        label.textAlignment = .<span class="type">Center</span></span><br><span class="line">        label.text = <span class="string">"Touch the button"</span></span><br><span class="line"></span><br><span class="line">        button = <span class="type">UIButton</span>(type: .<span class="type">System</span>)</span><br><span class="line">        button.setTitle(<span class="string">"The Button"</span>, forState: .<span class="type">Normal</span>)</span><br><span class="line">        button.addTarget(<span class="literal">nil</span>, action: <span class="string">"onButtonTap:"</span>, forControlEvents: .<span class="type">TouchUpInside</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> stackView = <span class="type">UIStackView</span>(arrangedSubviews: [label, button])</span><br><span class="line">        stackView.translatesAutoresizingMaskIntoConstraints = <span class="literal">false</span></span><br><span class="line">        stackView.axis = .<span class="type">Vertical</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">super</span>.<span class="keyword">init</span>(frame: frame)</span><br><span class="line"></span><br><span class="line">        backgroundColor = .yellowColor()</span><br><span class="line"></span><br><span class="line">        addSubview(stackView)</span><br><span class="line"></span><br><span class="line">        stackView.centerXAnchor.constraintEqualToAnchor(centerXAnchor).active = <span class="literal">true</span></span><br><span class="line">        stackView.centerYAnchor.constraintEqualToAnchor(centerYAnchor).active = <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">required</span> <span class="keyword">init</span>?(coder aDecoder: <span class="type">NSCoder</span>) &#123;</span><br><span class="line">        <span class="built_in">fatalError</span>(<span class="string">"init(coder:) has not been implemented"</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>button.addTarget(nil, action: &quot;onButtonTap:&quot;, forControlEvents: .TouchUpInside)</code> 这行代码中，将按钮的 <code>target</code> 设置为 <code>nil</code> 。如之前描述的那样，这就意味着 action 会沿着响应链向下传递，直到一个响应者对象处理该 action 为止。</p>
+<p>以下是 view controller 的部分代码：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ViewController</span>: <span class="title">UIViewController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> viewWithButtonAndLabel = <span class="type">ViewWithButtonAndLabel</span>()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.viewDidLoad()</span><br><span class="line"></span><br><span class="line">        view.backgroundColor = .whiteColor()</span><br><span class="line"></span><br><span class="line">        view.addSubview(viewWithButtonAndLabel)</span><br><span class="line"></span><br><span class="line">        viewWithButtonAndLabel.translatesAutoresizingMaskIntoConstraints = <span class="literal">false</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> views = [<span class="string">"subView"</span>: viewWithButtonAndLabel]</span><br><span class="line">        <span class="keyword">var</span> layoutConstraints = [<span class="type">NSLayoutConstraint</span>]()</span><br><span class="line">        layoutConstraints += <span class="type">NSLayoutConstraint</span>.constraintsWithVisualFormat(<span class="string">"|-20-[subView]-20-|"</span>, options: [], metrics: <span class="literal">nil</span>, views: views)</span><br><span class="line">        layoutConstraints += <span class="type">NSLayoutConstraint</span>.constraintsWithVisualFormat(<span class="string">"V:|-20-[subView]-20-|"</span>, options: [], metrics: <span class="literal">nil</span>, views: views)</span><br><span class="line">        <span class="type">NSLayoutConstraint</span>.activateConstraints(layoutConstraints)</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">onButtonTap</span><span class="params">(sender: UIButton)</span></span> &#123;</span><br><span class="line">        viewWithButtonAndLabel.label.text = viewWithButtonAndLabel.label.text == <span class="string">"Yeah!"</span> ? <span class="string">"Touch the button"</span> : <span class="string">"Yeah!"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>即使我们没有明确的设置 <code>target</code> ，当点击按钮的时候，view controller 里的 <code>onButtonTap(_:)</code> 也会被调用，因为它是第一响应者，且实现了相应的处理。</p>
+<p>你可以去 GitHub 上查看本文的<a href="https://github.com/dasdom/ResponderChainDemo" target="_blank" rel="external">示例代码</a>。</p>
+<h2 id="结论">结论</h2><p>响应链是你的好朋友，试着去了解它。还要多读文档，学习如何使用响应链，让你的代码更牛。</p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>作者：dom，<a href="http://swiftandpainless.com/utilize-the-responder-chain-for-target-action/">原文链接</a>，原文日期：2016/1/1<br>译者：<a href="http://weibo.com/linusling">小铁匠Linus</a>；校对：<a href="http://www.brighttj.com">saitjr</a>；定稿：<a href="https://github.com/numbbbbb">numbbbbb</a></p>
+</blockquote>
+<!--此处开始正文-->
+<p>本文会介绍 iOS 的响应链以及如何在 Target-Action 中使用它。</p>
+<h2 id="响应链（The_Responder_Chain）">响应链（The Responder Chain）</h2><p>在 iOS 中，事件（比如，触摸事件（touch event））都使用响应链来传递。响应链由响应者对象（Responder Objects，<a href="https://developer.apple.com/library/ios/documentation/EventHandling/Conceptual/EventHandlingiPhoneOS/event_delivery_responder_chain/event_delivery_responder_chain.html#//apple_ref/doc/uid/TP40009541-CH4-SW1">苹果官方术语</a>）构成。如果你看过官方文档，可能会注意到 <code>UIView</code> 和 <code>UIViewController</code> 都是响应者对象。这就意味着， <code>UIView</code> 和 <code>UIViewController</code> 都继承自 <code>UIResponder</code> ，如下图：</p>
+<p><img src="/img/articles/utilize-the-responder-chain-for-target-action/UIViewDocumentation.png1452047417.154566" alt=""></p>]]>
+    
+    </summary>
+    
+      <category term="Swift and Painless" scheme="http://swiftggteam.github.io/tags/Swift-and-Painless/"/>
+    
+      <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[使用 unwind segue 而不是 delegate 模式传递回调数据]]></title>
     <link href="http://swiftggteam.github.io/2016/01/05/ios-passing-data-back-using-unwind-segue-instead-of-delegate-pattern/"/>
     <id>http://swiftggteam.github.io/2016/01/05/ios-passing-data-back-using-unwind-segue-instead-of-delegate-pattern/</id>
     <published>2016-01-04T16:00:00.000Z</published>
-    <updated>2016-01-06T04:45:17.402Z</updated>
+    <updated>2016-01-06T04:50:21.675Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/ios-passing-data-back-using-unwind-segue-instead-of-delegate-pattern/" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-6<br>译者：<a href="http://www.dianqk.org/" target="_blank" rel="external">靛青K</a>；校对：<a href="undefined">Channe</a>；定稿：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a></p>
 </blockquote>
@@ -408,7 +408,7 @@
     <link href="http://swiftggteam.github.io/2016/01/04/editable-text-field-alert-controller-tutorial/"/>
     <id>http://swiftggteam.github.io/2016/01/04/editable-text-field-alert-controller-tutorial/</id>
     <published>2016-01-03T16:00:00.000Z</published>
-    <updated>2016-01-06T04:45:17.402Z</updated>
+    <updated>2016-01-06T04:50:21.675Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Arthur Knopper，<a href="http://www.ioscreator.com/tutorials/editable-text-field-alert-controller-tutorial" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-21<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -460,7 +460,7 @@
     <link href="http://swiftggteam.github.io/2015/12/31/cocoapods-on-a-team/"/>
     <id>http://swiftggteam.github.io/2015/12/31/cocoapods-on-a-team/</id>
     <published>2015-12-30T16:00:00.000Z</published>
-    <updated>2016-01-06T04:45:17.402Z</updated>
+    <updated>2016-01-06T04:50:21.675Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/cocoapods-on-a-team/" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-18<br>译者：<a href="http://ijack.pw/" target="_blank" rel="external">JackAlan</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -501,7 +501,7 @@
     <link href="http://swiftggteam.github.io/2015/12/30/minimal-distance-to-two-views-in-auto-layout/"/>
     <id>http://swiftggteam.github.io/2015/12/30/minimal-distance-to-two-views-in-auto-layout/</id>
     <published>2015-12-29T16:00:00.000Z</published>
-    <updated>2016-01-06T04:45:17.402Z</updated>
+    <updated>2016-01-06T04:50:21.675Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：dom，<a href="http://swiftandpainless.com/minimal-distance-to-two-views-in-auto-layout/" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-08<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://www.jianshu.com/users/ef1058d2d851" target="_blank" rel="external">星夜暮晨</a>；定稿：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a></p>
 </blockquote>
@@ -623,7 +623,7 @@
     <link href="http://swiftggteam.github.io/2015/12/29/swift-open-source/"/>
     <id>http://swiftggteam.github.io/2015/12/29/swift-open-source/</id>
     <published>2015-12-28T16:00:00.000Z</published>
-    <updated>2016-01-06T04:45:17.402Z</updated>
+    <updated>2016-01-06T04:50:21.675Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Jesse Squires，<a href="http://www.jessesquires.com/swift-open-source/" target="_blank" rel="external">原文链接</a>，原文日期：2015/12/06<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 <p>译者注：这个系列的关注重点是 Swift 开源项目本身的发展，作者会截取每周发生的大事（比如合并了一个大改动）并进行分析，还会写一些有趣的小发现，很有意思。我们已经拿到翻译授权，会每周进行更新，欢迎关注。</p>
@@ -679,7 +679,7 @@
     <link href="http://swiftggteam.github.io/2015/12/29/foursquare-realm-swift/"/>
     <id>http://swiftggteam.github.io/2015/12/29/foursquare-realm-swift/</id>
     <published>2015-12-28T16:00:00.000Z</published>
-    <updated>2016-01-06T04:45:17.402Z</updated>
+    <updated>2016-01-06T04:50:21.675Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：reinder de vries，<a href="http://www.appcoda.com/foursquare-realm-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/23<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="http://www.brighttj.com" target="_blank" rel="external">saitjr</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1238,7 +1238,7 @@
     <link href="http://swiftggteam.github.io/2015/12/28/friday-qa-2015-12-11-swift-weak-references/"/>
     <id>http://swiftggteam.github.io/2015/12/28/friday-qa-2015-12-11-swift-weak-references/</id>
     <published>2015-12-27T16:00:00.000Z</published>
-    <updated>2016-01-06T04:45:17.402Z</updated>
+    <updated>2016-01-06T04:50:21.671Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Mike Ash，<a href="https://www.mikeash.com/pyblog/friday-qa-2015-12-11-swift-weak-references.html" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-11<br>译者：<a href="http://weibo.com/riven0951" target="_blank" rel="external">riven</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1395,7 +1395,7 @@
     <link href="http://swiftggteam.github.io/2015/12/25/interesting-discussions-on-swift-evolution/"/>
     <id>http://swiftggteam.github.io/2015/12/25/interesting-discussions-on-swift-evolution/</id>
     <published>2015-12-24T16:00:00.000Z</published>
-    <updated>2016-01-06T04:45:17.402Z</updated>
+    <updated>2016-01-06T04:50:21.671Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/12/15/interesting-discussions-on-swift-evolution/" target="_blank" rel="external">原文链接</a>，原文日期：2015/12/15<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1454,7 +1454,7 @@
     <link href="http://swiftggteam.github.io/2015/12/24/friday-qa-2015-11-20-covariance-and-contravariance/"/>
     <id>http://swiftggteam.github.io/2015/12/24/friday-qa-2015-11-20-covariance-and-contravariance/</id>
     <published>2015-12-23T16:00:00.000Z</published>
-    <updated>2016-01-06T04:45:17.402Z</updated>
+    <updated>2016-01-06T04:50:21.671Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Mike Ash，<a href="https://mikeash.com/pyblog/friday-qa-2015-11-20-covariance-and-contravariance.html" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-20<br>译者：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1567,7 +1567,7 @@
     <link href="http://swiftggteam.github.io/2015/12/23/swift-3/"/>
     <id>http://swiftggteam.github.io/2015/12/23/swift-3/</id>
     <published>2015-12-22T16:00:00.000Z</published>
-    <updated>2016-01-06T04:45:17.402Z</updated>
+    <updated>2016-01-06T04:50:21.671Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-3/" target="_blank" rel="external">原文链接</a>，原文日期：2015/12/10<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="undefined"></a></p>
 </blockquote>
@@ -1727,7 +1727,7 @@
     <link href="http://swiftggteam.github.io/2015/12/22/alamofire-beginner-guide/"/>
     <id>http://swiftggteam.github.io/2015/12/22/alamofire-beginner-guide/</id>
     <published>2015-12-21T16:00:00.000Z</published>
-    <updated>2016-01-06T04:45:17.402Z</updated>
+    <updated>2016-01-06T04:50:21.671Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：gregg mojica，<a href="http://www.appcoda.com/alamofire-beginner-guide/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/30<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1947,7 +1947,7 @@
     <link href="http://swiftggteam.github.io/2015/12/21/swift-3-0-and-foundation/"/>
     <id>http://swiftggteam.github.io/2015/12/21/swift-3-0-and-foundation/</id>
     <published>2015-12-20T16:00:00.000Z</published>
-    <updated>2016-01-06T04:45:17.402Z</updated>
+    <updated>2016-01-06T04:50:21.671Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/12/03/swift-3-0-and-foundation/" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-03<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1989,7 +1989,7 @@
     <link href="http://swiftggteam.github.io/2015/12/18/changing-swift-whats-coming-up-in-2-2-and-3-0/"/>
     <id>http://swiftggteam.github.io/2015/12/18/changing-swift-whats-coming-up-in-2-2-and-3-0/</id>
     <published>2015-12-17T16:00:00.000Z</published>
-    <updated>2016-01-06T04:45:17.402Z</updated>
+    <updated>2016-01-06T04:50:21.671Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/12/03/changing-swift-whats-coming-up-in-2-2-and-3-0/" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-03<br>译者：<a href="undefined">Channe</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
