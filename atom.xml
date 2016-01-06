@@ -4,7 +4,7 @@
   <subtitle><![CDATA[走心的 Swift 翻译组]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://swiftggteam.github.io/"/>
-  <updated>2016-01-06T04:34:54.216Z</updated>
+  <updated>2016-01-06T04:45:17.402Z</updated>
   <id>http://swiftggteam.github.io/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://swiftggteam.github.io/2016/01/06/open-source-swift-weekly-2/"/>
     <id>http://swiftggteam.github.io/2016/01/06/open-source-swift-weekly-2/</id>
     <published>2016-01-06T04:30:00.000Z</published>
-    <updated>2016-01-06T04:34:54.216Z</updated>
+    <updated>2016-01-06T04:45:17.402Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Jesse Squires，<a href="http://www.jessesquires.com/open-source-swift-weekly-2/" target="_blank" rel="external">原文链接</a>，原文日期：2015.12.17<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -73,49 +73,11 @@
   </entry>
   
   <entry>
-    <title><![CDATA[聚焦 Swift #3]]></title>
-    <link href="http://swiftggteam.github.io/2016/01/06/open-source-swift-weekly-3/"/>
-    <id>http://swiftggteam.github.io/2016/01/06/open-source-swift-weekly-3/</id>
-    <published>2016-01-06T04:20:00.000Z</published>
-    <updated>2016-01-06T04:34:54.216Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>作者：Jesse Squires，<a href="http://www.jessesquires.com/open-source-swift-weekly-3/" target="_blank" rel="external">原文链接</a>，原文日期：2015.12.24<br>译者：<a href="http://www.jianshu.com/users/3b40e55ec6d5/latest_articles" target="_blank" rel="external">小锅</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
-</blockquote>
-<p>正如预期的一样，在圣诞放假期间 Swift.org 的<a href="https://lists.swift.org/pipermail/swift-corelibs-dev/Week-of-Mon-20151214/000179.html" target="_blank" rel="external">步伐</a><a href="https://lists.swift.org/pipermail/swift-dev/Week-of-Mon-20151221/000540.html" target="_blank" rel="external">慢了下来</a>。我也在放假期间出去玩耍了一番，所以这篇文章会比较平常的来得短。如果你还没准备好，我强烈建议你从代码中抽身出去享受一下假期，<a href="https://twitter.com/chriseidhof/status/679213894343200768" target="_blank" rel="external">防止过劳</a>（译者注：然而我们并没有放假）。😄现在，让我们开始本周简讯！</p>
-<a id="more"></a>
-<h2 id="Commits_以及_Pull_requests">Commits 以及 Pull requests</h2><p><a href="https://github.com/tienex" target="_blank" rel="external">@tienex</a> 针对 Linux/armv7 支持提交了一个<a href="https://github.com/apple/swift/pull/608" target="_blank" rel="external">pull request</a>。</p>
-<p><a href="https://github.com/practicalswift" target="_blank" rel="external">@practicalswift</a> 增加了大量的 <a href="https://github.com/apple/swift/pulls?utf8=%E2%9C%93&amp;q=is%3Apr+author%3Apracticalswift+is%3Aclosed+test+case" target="_blank" rel="external">测试用例</a>。在写本篇文章的时候，这些改变应该还需要一段时间才会被合并。</p>
-<p><a href="https://github.com/masters3d" target="_blank" rel="external">@masters3d</a> 合并了一个 <a href="https://github.com/apple/swift-evolution/pull/72/files" target="_blank" rel="external">pull request</a>，这个 PR 将一些对于 Swift 的常见改变文档化了。这是一个很棒的主意，可以减少重复的建议。在为邮件列表提交建议时，记得要先<a href="https://github.com/apple/swift-evolution/blob/master/commonly_proposed.md" target="_blank" rel="external">核对这个列表</a> 。</p>
-<p>Doug Gregor <a href="https://github.com/apple/swift/commit/c8dd8d066132683aa32c2a5740b291d057937367" target="_blank" rel="external">实现了 SE-0001</a>，“允许（基本上）所有的关键字作为参数标签”。这是一个很大的改变。当 Swift 首次发布的时候，我的一个 Objective-C 库使用了 <code>extension:</code> 作为一个<a href="https://github.com/jessesquires/JSQSystemSoundPlayer/issues/8" target="_blank" rel="external">参数名称</a>(作为一个文件的扩展名)并且桥接到了 Swift 当中，这导致了很多的问题，所以我只能将它重命名为 <code>fileExtension:</code>。我十分期待在 Swift 2.2 当中看到这个改变！注意 <code>var</code>，<code>let</code> 和 <code>inout</code> 关键字被排除在外。</p>
-<h2 id="建议">建议</h2><p>Oisin Kidney 的<a href="https://github.com/apple/swift-evolution/blob/master/proposals/0008-lazy-flatmap-for-optionals.md" target="_blank" rel="external">建议 (SE-0008)</a>，<em>为可选类型序列增加一个 Lazy flatMap</em>，已经被 Swift 2.2 <a href="https://lists.swift.org/pipermail/swift-evolution-announce/2015-December/000006.html" target="_blank" rel="external">接受</a>！🎉</p>
-<p>Kevin Ballard 的<a href="https://github.com/apple/swift-evolution/blob/master/proposals/0015-tuple-comparison-operators.md" target="_blank" rel="external">建议 (SE-0015)</a>，Tuple 比较运算符已经<a href="https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20151221/004423.html" target="_blank" rel="external">被接受</a>！在写作本篇文章的时候，这个建议的状态还未返回在 GitHub 上。因为这个建议不会影响到现在代码，我猜它应该会加入到 Swift 2.2 当中。🎉</p>
-<p>Joe Groff 提交了<a href="https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20151214/003148.html" target="_blank" rel="external">一个建议</a>，为 Swift 的属性增加属性行为。你可以在 GitHub 上找到<a href="https://gist.github.com/jckarter/f3d392cf183c6b2b2ac3" target="_blank" rel="external">原型</a>。如果你更喜欢在 twitter 中获取这些信息，<a href="https://twitter.com/jckarter/status/677554831003791360" target="_blank" rel="external">它在这里</a>。😄 简单来讲，这个建议提出了一个大纲，可以使用一个扩展的框架为属性增加不同的属性行为，类似 Objective-C 当中的 <code>atomic</code> 与 <code>copy</code>。目前，Swift 有些硬编码的针对特定用途的属性行为，比如 <code>lazy</code>，<code>@NSCopying</code>，和 <code>willSet</code> / <code>didSet</code>。这个建议主要目的是将这些概念规范和统一起来，使它们跟底层的框架实现方式一致，以使它们可以更方便地进行扩展。开发者甚至可以实现它们自己的属性行为。这听起来实在很酷。一些示例的属性行为包含：lazy, 记忆化(memoization), 延迟初始化(delayed initialization)。</p>
-<h2 id="邮件列表">邮件列表</h2><p>Andyy Hope 开启了<a href="https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20151221/003819.html" target="_blank" rel="external">一个讨论</a>，建议为枚举增加一个 <code>.allValues</code> 属性，通过这个属性可以将枚举中的所有 case 以数组的方式返回。看起来到目前为止有很多人支持这个观点。<a href="https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20151207/001233.html" target="_blank" rel="external">Jacob Bandes-Storch</a> 在几周之前也提出过这个想法。我也是这个想法的拥簇者，在之前我就好几次试图写过几次这样的代码了。👍 </p>
-<p>Kevin Ballard <a href="https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20151221/004223.html" target="_blank" rel="external">建议</a> 为“一周Swift”建立一个更正式的 newsletter. 😁 也许我应该创建一个 swiftweekly.org?</p>
-<blockquote>
-<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
-</blockquote>
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>作者：Jesse Squires，<a href="http://www.jessesquires.com/open-source-swift-weekly-3/">原文链接</a>，原文日期：2015.12.24<br>译者：<a href="http://www.jianshu.com/users/3b40e55ec6d5/latest_articles">小锅</a>；校对：<a href="https://github.com/numbbbbb">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb">numbbbbb</a></p>
-</blockquote>
-<p>正如预期的一样，在圣诞放假期间 Swift.org 的<a href="https://lists.swift.org/pipermail/swift-corelibs-dev/Week-of-Mon-20151214/000179.html">步伐</a><a href="https://lists.swift.org/pipermail/swift-dev/Week-of-Mon-20151221/000540.html">慢了下来</a>。我也在放假期间出去玩耍了一番，所以这篇文章会比较平常的来得短。如果你还没准备好，我强烈建议你从代码中抽身出去享受一下假期，<a href="https://twitter.com/chriseidhof/status/679213894343200768">防止过劳</a>（译者注：然而我们并没有放假）。😄现在，让我们开始本周简讯！</p>]]>
-    
-    </summary>
-    
-      <category term="Open Source Swift" scheme="http://swiftggteam.github.io/tags/Open-Source-Swift/"/>
-    
-      <category term="Swift 开源信息" scheme="http://swiftggteam.github.io/categories/Swift-%E5%BC%80%E6%BA%90%E4%BF%A1%E6%81%AF/"/>
-    
-  </entry>
-  
-  <entry>
     <title><![CDATA[聚焦 Swift #1]]></title>
     <link href="http://swiftggteam.github.io/2016/01/06/open-source-swift-weekly-1/"/>
     <id>http://swiftggteam.github.io/2016/01/06/open-source-swift-weekly-1/</id>
     <published>2016-01-06T04:20:00.000Z</published>
-    <updated>2016-01-06T04:34:54.216Z</updated>
+    <updated>2016-01-06T04:45:17.402Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Jesse Squires，<a href="http://www.jessesquires.com/open-source-swift-weekly-1/" target="_blank" rel="external">原文链接</a>，原文日期：2015.12.10<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -157,11 +119,49 @@
   </entry>
   
   <entry>
+    <title><![CDATA[聚焦 Swift #3]]></title>
+    <link href="http://swiftggteam.github.io/2016/01/06/open-source-swift-weekly-3/"/>
+    <id>http://swiftggteam.github.io/2016/01/06/open-source-swift-weekly-3/</id>
+    <published>2016-01-06T04:20:00.000Z</published>
+    <updated>2016-01-06T04:45:17.402Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>作者：Jesse Squires，<a href="http://www.jessesquires.com/open-source-swift-weekly-3/" target="_blank" rel="external">原文链接</a>，原文日期：2015.12.24<br>译者：<a href="http://www.jianshu.com/users/3b40e55ec6d5/latest_articles" target="_blank" rel="external">小锅</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
+</blockquote>
+<p>正如预期的一样，在圣诞放假期间 Swift.org 的<a href="https://lists.swift.org/pipermail/swift-corelibs-dev/Week-of-Mon-20151214/000179.html" target="_blank" rel="external">步伐</a><a href="https://lists.swift.org/pipermail/swift-dev/Week-of-Mon-20151221/000540.html" target="_blank" rel="external">慢了下来</a>。我也在放假期间出去玩耍了一番，所以这篇文章会比较平常的来得短。如果你还没准备好，我强烈建议你从代码中抽身出去享受一下假期，<a href="https://twitter.com/chriseidhof/status/679213894343200768" target="_blank" rel="external">防止过劳</a>（译者注：然而我们并没有放假）。😄现在，让我们开始本周简讯！</p>
+<a id="more"></a>
+<h2 id="Commits_以及_Pull_requests">Commits 以及 Pull requests</h2><p><a href="https://github.com/tienex" target="_blank" rel="external">@tienex</a> 针对 Linux/armv7 支持提交了一个<a href="https://github.com/apple/swift/pull/608" target="_blank" rel="external">pull request</a>。</p>
+<p><a href="https://github.com/practicalswift" target="_blank" rel="external">@practicalswift</a> 增加了大量的 <a href="https://github.com/apple/swift/pulls?utf8=%E2%9C%93&amp;q=is%3Apr+author%3Apracticalswift+is%3Aclosed+test+case" target="_blank" rel="external">测试用例</a>。在写本篇文章的时候，这些改变应该还需要一段时间才会被合并。</p>
+<p><a href="https://github.com/masters3d" target="_blank" rel="external">@masters3d</a> 合并了一个 <a href="https://github.com/apple/swift-evolution/pull/72/files" target="_blank" rel="external">pull request</a>，这个 PR 将一些对于 Swift 的常见改变文档化了。这是一个很棒的主意，可以减少重复的建议。在为邮件列表提交建议时，记得要先<a href="https://github.com/apple/swift-evolution/blob/master/commonly_proposed.md" target="_blank" rel="external">核对这个列表</a> 。</p>
+<p>Doug Gregor <a href="https://github.com/apple/swift/commit/c8dd8d066132683aa32c2a5740b291d057937367" target="_blank" rel="external">实现了 SE-0001</a>，“允许（基本上）所有的关键字作为参数标签”。这是一个很大的改变。当 Swift 首次发布的时候，我的一个 Objective-C 库使用了 <code>extension:</code> 作为一个<a href="https://github.com/jessesquires/JSQSystemSoundPlayer/issues/8" target="_blank" rel="external">参数名称</a>(作为一个文件的扩展名)并且桥接到了 Swift 当中，这导致了很多的问题，所以我只能将它重命名为 <code>fileExtension:</code>。我十分期待在 Swift 2.2 当中看到这个改变！注意 <code>var</code>，<code>let</code> 和 <code>inout</code> 关键字被排除在外。</p>
+<h2 id="建议">建议</h2><p>Oisin Kidney 的<a href="https://github.com/apple/swift-evolution/blob/master/proposals/0008-lazy-flatmap-for-optionals.md" target="_blank" rel="external">建议 (SE-0008)</a>，<em>为可选类型序列增加一个 Lazy flatMap</em>，已经被 Swift 2.2 <a href="https://lists.swift.org/pipermail/swift-evolution-announce/2015-December/000006.html" target="_blank" rel="external">接受</a>！🎉</p>
+<p>Kevin Ballard 的<a href="https://github.com/apple/swift-evolution/blob/master/proposals/0015-tuple-comparison-operators.md" target="_blank" rel="external">建议 (SE-0015)</a>，Tuple 比较运算符已经<a href="https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20151221/004423.html" target="_blank" rel="external">被接受</a>！在写作本篇文章的时候，这个建议的状态还未返回在 GitHub 上。因为这个建议不会影响到现在代码，我猜它应该会加入到 Swift 2.2 当中。🎉</p>
+<p>Joe Groff 提交了<a href="https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20151214/003148.html" target="_blank" rel="external">一个建议</a>，为 Swift 的属性增加属性行为。你可以在 GitHub 上找到<a href="https://gist.github.com/jckarter/f3d392cf183c6b2b2ac3" target="_blank" rel="external">原型</a>。如果你更喜欢在 twitter 中获取这些信息，<a href="https://twitter.com/jckarter/status/677554831003791360" target="_blank" rel="external">它在这里</a>。😄 简单来讲，这个建议提出了一个大纲，可以使用一个扩展的框架为属性增加不同的属性行为，类似 Objective-C 当中的 <code>atomic</code> 与 <code>copy</code>。目前，Swift 有些硬编码的针对特定用途的属性行为，比如 <code>lazy</code>，<code>@NSCopying</code>，和 <code>willSet</code> / <code>didSet</code>。这个建议主要目的是将这些概念规范和统一起来，使它们跟底层的框架实现方式一致，以使它们可以更方便地进行扩展。开发者甚至可以实现它们自己的属性行为。这听起来实在很酷。一些示例的属性行为包含：lazy, 记忆化(memoization), 延迟初始化(delayed initialization)。</p>
+<h2 id="邮件列表">邮件列表</h2><p>Andyy Hope 开启了<a href="https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20151221/003819.html" target="_blank" rel="external">一个讨论</a>，建议为枚举增加一个 <code>.allValues</code> 属性，通过这个属性可以将枚举中的所有 case 以数组的方式返回。看起来到目前为止有很多人支持这个观点。<a href="https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20151207/001233.html" target="_blank" rel="external">Jacob Bandes-Storch</a> 在几周之前也提出过这个想法。我也是这个想法的拥簇者，在之前我就好几次试图写过几次这样的代码了。👍 </p>
+<p>Kevin Ballard <a href="https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20151221/004223.html" target="_blank" rel="external">建议</a> 为“一周Swift”建立一个更正式的 newsletter. 😁 也许我应该创建一个 swiftweekly.org?</p>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>作者：Jesse Squires，<a href="http://www.jessesquires.com/open-source-swift-weekly-3/">原文链接</a>，原文日期：2015.12.24<br>译者：<a href="http://www.jianshu.com/users/3b40e55ec6d5/latest_articles">小锅</a>；校对：<a href="https://github.com/numbbbbb">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb">numbbbbb</a></p>
+</blockquote>
+<p>正如预期的一样，在圣诞放假期间 Swift.org 的<a href="https://lists.swift.org/pipermail/swift-corelibs-dev/Week-of-Mon-20151214/000179.html">步伐</a><a href="https://lists.swift.org/pipermail/swift-dev/Week-of-Mon-20151221/000540.html">慢了下来</a>。我也在放假期间出去玩耍了一番，所以这篇文章会比较平常的来得短。如果你还没准备好，我强烈建议你从代码中抽身出去享受一下假期，<a href="https://twitter.com/chriseidhof/status/679213894343200768">防止过劳</a>（译者注：然而我们并没有放假）。😄现在，让我们开始本周简讯！</p>]]>
+    
+    </summary>
+    
+      <category term="Open Source Swift" scheme="http://swiftggteam.github.io/tags/Open-Source-Swift/"/>
+    
+      <category term="Swift 开源信息" scheme="http://swiftggteam.github.io/categories/Swift-%E5%BC%80%E6%BA%90%E4%BF%A1%E6%81%AF/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[在 Target-Action 中使用响应链]]></title>
     <link href="http://swiftggteam.github.io/2016/01/06/utilize-the-responder-chain-for-target-action/"/>
     <id>http://swiftggteam.github.io/2016/01/06/utilize-the-responder-chain-for-target-action/</id>
     <published>2016-01-05T16:00:00.000Z</published>
-    <updated>2016-01-06T04:34:54.216Z</updated>
+    <updated>2016-01-06T04:45:17.402Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：dom，<a href="http://swiftandpainless.com/utilize-the-responder-chain-for-target-action/" target="_blank" rel="external">原文链接</a>，原文日期：2016/1/1<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="http://www.brighttj.com" target="_blank" rel="external">saitjr</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -203,11 +203,164 @@
   </entry>
   
   <entry>
+    <title><![CDATA[每周 Swift 社区问答 2016-01-06]]></title>
+    <link href="http://swiftggteam.github.io/2016/01/06/swift-qa-2016-01-06/"/>
+    <id>http://swiftggteam.github.io/2016/01/06/swift-qa-2016-01-06/</id>
+    <published>2016-01-05T16:00:00.000Z</published>
+    <updated>2016-01-06T04:45:14.650Z</updated>
+    <content type="html"><![CDATA[<p>作者：<a href="http://codebuild.me" target="_blank" rel="external">shanks</a> &amp; <a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a></p>
+<p>本周整理问题如下：</p>
+<ul>
+<li><a href="#Q1">Question on extracting a substring from a url</a></li>
+<li><a href="#Q2">All func pointers need a protocol now</a></li>
+<li><a href="#Q3">Property for Double and CGFloat</a></li>
+<li><a href="#Q4">Question on dismissing model ViewController</a></li>
+<li><a href="#Q5">count numbers in array and order them by count in swift</a></li>
+<li><a href="#Q6">Cannot invoke [Method] with argument list of type ( , )</a></li>
+<li><a href="#Q7">Swift programming style</a></li>
+</ul>
+<p>对应的代码都放到了 github 上，有兴趣的同学可以下载下来研究：<a href="https://github.com/SwiftGGTeam/SwiftCommunityWeeklyQA/tree/master/20160106/%E6%AF%8F%E5%91%A8%20Swift%20%E7%A4%BE%E5%8C%BA%E9%97%AE%E7%AD%9420160106.playground" target="_blank" rel="external">点击下载</a></p>
+<a id="more"></a>
+<p><a name="Q1"></a></p>
+<h2 id="Question1:_Question_on_extracting_a_substring_from_a_url">Question1: Question on extracting a substring from a url</h2><p><a href="https://forums.developer.apple.com/thread/29374" target="_blank" rel="external">Q1链接地址</a></p>
+<h3 id="问题描述">问题描述</h3><p>这个问题在实战中经常被提及，譬如现在有一个字符串URL：<a href="https://api.github.com/gists/public?page=2" target="_blank" rel="external">https://api.github.com/gists/public?page=2</a> ，我需要从中提取出“?page=2”以及“<a href="https://api.github.com/gists/public”，将这两个部分存储到两个变量中，如下：" target="_blank" rel="external">https://api.github.com/gists/public”，将这两个部分存储到两个变量中，如下：</a></p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> strBase = <span class="string">"https://api.github.com/gists/public"</span></span><br><span class="line"><span class="keyword">var</span> strPage = <span class="string">"?page=2"</span></span><br></pre></td></tr></table></figure>
+<p>问题解答前了解下小知识：</p>
+<ul>
+<li>HTTP GET请求中，url 与请求参数之间用<strong>?</strong>分隔，参数与参数之间是<strong>&amp;</strong>分隔。</li>
+</ul>
+<h3 id="问题解答">问题解答</h3><p>思路：显而易见，关注点应该放在<strong>?</strong>上，解决方式也五花八门，现提供以下几种方式：</p>
+<ul>
+<li>方法一</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> urlStr = <span class="string">"https://api.github.com/gists/public?page=2"</span></span><br><span class="line"><span class="keyword">var</span> strBase:<span class="type">String</span>		<span class="comment">// 请求地址</span></span><br><span class="line"><span class="keyword">var</span> strPage:<span class="type">String</span>		<span class="comment">// 请求参数</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> qIndex = urlStr.characters.indexOf(<span class="string">"?"</span>) &#123;  <span class="comment">//35</span></span><br><span class="line"><span class="comment">// 2</span></span><br><span class="line">strBase = urlStr.substringToIndex(qIndex)</span><br><span class="line">strPage = urlStr.substringFromIndex(qIndex)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line"><span class="comment">// 3</span></span><br><span class="line">strBase = urlStr</span><br><span class="line">strPage = <span class="string">""</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>首先定位到 <strong>?</strong> 的 index 索引值。</li>
+<li>请求地址中存在参数（即存在?），那么通过<code>substringToIndex</code> 和 <code>substringFromIndex</code> 获取到两个部分</li>
+<li>请求地址中不存在参数，那么直接传入的地址就是<code>strBase</code>。</li>
+</ol>
+<p>这里的<code>qIndex</code>是一个索引值，类型是<code>String.CharacterView.Index</code>，修改该值并非是用 <code>+、-</code> 操作，而是调用<code>qIndex.successor()</code> 取到下一位索引值，使用<code>qIndex.predecessor()</code>取到前一位索引值。</p>
+<p>对于<code>substringToIndex(qIndex)</code>方法，从 urlStr 的 <code>startIndex(这里是0)</code> 开始截取直到 <code>qIndex</code>；对于<code>substringFromIndex(qIndex)</code> 方法，即从 <code>qIndex</code> 索引开始直到<code>endIndex</code>前面一个索引，为什么这么说？举个例子，“Hello”字符的 startIndex 毫无疑问是等于0，但 endIndex 不是等于4！！而是5！！最后一个字符的后一位！希望大家记住。</p>
+<ul>
+<li>方法二</li>
+</ul>
+<p>这里是使用了<code>componentsSeparatedByString</code>方法，通过<strong>?</strong>字符将字符串分隔符将原字符串分割成多个部分到数组中。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> parts = urlStr.componentsSeparatedByString(<span class="string">"?"</span>)</span><br><span class="line"><span class="comment">// 1</span></span><br><span class="line">strBase = parts[<span class="number">0</span>]</span><br><span class="line"><span class="comment">// 2</span></span><br><span class="line">strPage = parts.<span class="built_in">count</span> &gt;= <span class="number">2</span> ? <span class="string">"?"</span> + parts[<span class="number">1</span>] : <span class="string">""</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>显然这里只有一个 ? 字符，将原字符串分割成两个部分，第一个部分当然是 strBase 喽</li>
+<li>通过数组的count 来判断是否存在请求参数。</li>
+</ol>
+<ul>
+<li>方法三<br>这里使用了 NSURLComponents 方法：</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> urlCompo = <span class="type">NSURLComponents</span>(string: urlStr) &#123;</span><br><span class="line">strPage = urlCompo.query != <span class="literal">nil</span> ? <span class="string">"?"</span> + urlCompo.query! : <span class="string">""</span></span><br><span class="line">urlCompo.query = <span class="literal">nil</span></span><br><span class="line">strBase = urlCompo.string!</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line"><span class="built_in">fatalError</span>(<span class="string">"invalid URL"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>举一反三，如果我还想获得请求参数中的各个参数，那应该怎么做呢？我先抛砖引玉下：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> urlStr1 = <span class="string">"https://api.github.com/gists/public?page=2&amp;name=machao&amp;pwd=222"</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> parts1 = urlStr1.componentsSeparatedByString(<span class="string">"?"</span>)</span><br><span class="line">strBase = parts1[<span class="number">0</span>]</span><br><span class="line"><span class="keyword">var</span> strPara = parts1.<span class="built_in">count</span> &gt;= <span class="number">2</span> ? <span class="string">"?"</span> + parts[<span class="number">1</span>] : <span class="string">""</span></span><br><span class="line"></span><br><span class="line">strPara.removeAtIndex(strPara.startIndex)</span><br><span class="line"><span class="keyword">let</span> <span class="type">Paras1</span> = strPara.componentsSeparatedByString(<span class="string">"&amp;"</span>)<span class="comment">//就是这个！</span></span><br></pre></td></tr></table></figure>
+<p><a name="Q2"></a></p>
+<h2 id="Question2:_All_func_pointers_need_a_protocol_now?">Question2: All func pointers need a protocol now?</h2><p><a href="https://forums.developer.apple.com/thread/29580" target="_blank" rel="external">Q2链接地址</a></p>
+<h3 id="问题描述-1">问题描述</h3><p>Gargoyle 想实现一个对象之间的回调，但是却未使用 protocol + delegate 的设计模式，而是使用了如下方法：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">MyView</span>: <span class="title">UIView</span> </span>&#123;</span><br><span class="line"><span class="keyword">var</span> onSomeAction: ((<span class="type">String</span>) -&gt; <span class="type">Void</span>)!</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">MyViewController</span>: <span class="title">UIViewController</span> </span>&#123;</span><br><span class="line"><span class="keyword">let</span> myView = <span class="type">MyView</span>(frame: <span class="type">CGRectZero</span>)</span><br><span class="line"><span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</span><br><span class="line"><span class="keyword">super</span>.viewDidLoad()</span><br><span class="line">myView.onSomeAction = someFunc</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="func"><span class="keyword">func</span> <span class="title">someFunc</span><span class="params">(str: String)</span></span> &#123;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意到 <code>myViewController</code> 实例与 <code>myView</code> 实例会形成一个 retain cycle ，倘若你想为 <code>var onSomeAction</code> 使用 <code>weak</code> 关键字，抱歉！报错“weak cannot be applied to non-class type xxxx” ，显然对于非 class 对象你无法使用 weak 关键字。</p>
+<h3 id="问题解答-1">问题解答</h3><p>Jessy 提供了一种解决方案：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> onSomeAction_get: () -&gt; (<span class="type">String</span> -&gt; <span class="type">Void</span>)! = &#123;<span class="literal">nil</span>&#125;</span><br><span class="line"></span><br><span class="line">myView.onSomeAction_get = &#123;[<span class="keyword">unowned</span> <span class="keyword">self</span>] <span class="keyword">in</span> <span class="keyword">self</span>.someFunc&#125;</span><br></pre></td></tr></table></figure>
+<p>首先对闭包类型进行了修改，从<code>(String) -&gt; Void</code> 变为 <code>() -&gt; (String -&gt; Void)</code> ；其次为 <code>myView</code> 的 <code>onSomeAction_get</code> 赋值是用闭包方式，其中使用了[unowned self] 保证不会形成retain cycle，这也是问题解决的关键所在。</p>
+<p><a name="Q3"></a></p>
+<h2 id="Question3:_Property_for_Double_and_CGFloat">Question3: Property for Double and CGFloat</h2><p><a href="https://forums.developer.apple.com/thread/29710" target="_blank" rel="external">Q3链接地址</a></p>
+<h3 id="问题描述-2">问题描述</h3><p>Albinus 希望判断是一个随意给定的 number 是否是整型，譬如给定一个 number 是 Double 类型，他现在是通过extension 来实现的，代码如下：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">Double</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> isInteger: <span class="type">Bool</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="type">Double</span>(<span class="keyword">self</span>) == <span class="type">Double</span>(<span class="type">Int</span>(<span class="keyword">self</span>))</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意到通过 extension 扩展了一个computed property <code>isInteger</code> ， 布尔类型，判断方式也很简单，是通过类型转换先 Int 去除小数部分（如果有的话），然后再转成 Double 类型，这样做很繁琐，但是 Swift 作为一门强类型语言，类型安全放在首位，任何时候都要先保证类型统一。</p>
+<p>再来说说其他数字类型，譬如 CGFloat 、 Float 等等，我们都可以通过 extension 依葫芦画瓢来实现，不过有木有更简单，直观的方式呢？</p>
+<h3 id="问题解答-2">问题解答</h3><p>OOPer 给出了自己解答：</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">protocol IntegerCheckableFloatType: FloatLiteralConvertible, Equatable &#123;</span><br><span class="line">    func % (lhs: Self, rhs: Self) -&gt; Self   // % 可是取余运算符哦</span><br><span class="line">    var isInteger: Bool &#123;get&#125;</span><br><span class="line">    &#125;</span><br><span class="line">extension IntegerCheckableFloatType &#123;</span><br><span class="line">    var isInteger: Bool &#123;</span><br><span class="line">        return self % 1.0 == 0.0 as Self</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">extension Double: IntegerCheckableFloatType &#123;&#125;</span><br><span class="line">extension CGFloat: IntegerCheckableFloatType &#123;&#125;</span><br><span class="line">extension Float: IntegerCheckableFloatType &#123;&#125;</span><br><span class="line">(123.4).isInteger //-&gt;false</span><br><span class="line">(123.0).isInteger //-&gt;true</span><br></pre></td></tr></table></figure>
+<p>首先定义 <code>IntegerCheckableFloatType</code> 协议，它遵循（实现）了 <code>FloatLiteralConvertible</code> 和 <code>Equatable</code> 协议，当然协议本身还要求一个 method 以及 read-only property，分别是 <code>func % (lhs: Self, rhs: Self) -&gt; Self</code> 和 <code>isInteger</code>。</p>
+<p>对于 <code>FloatLiteralConvertible</code> 协议内容：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typealias</span> <span class="type">FloatLiteralType</span></span><br><span class="line"><span class="comment">/// Create an instance initialized to `value`.</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">init</span>(floatLiteral value: <span class="type">Self</span>.<span class="type">FloatLiteralType</span>)</span><br></pre></td></tr></table></figure>
+<p><code>FloatLiteralType</code> 又是什么鬼？其实是<code>public typealias FloatLiteralType = Double</code> 正如你所看到其实就是 Double。 只要实现了这个协议的类型就能使用浮点类型<strong>字面量</strong>进行初识化。</p>
+<p><code>Equatable</code> 更简单，协议内容如下：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="func"><span class="keyword">func</span> ==<span class="params">(lhs: <span class="keyword">Self</span>, rhs: <span class="keyword">Self</span>)</span></span> -&gt; <span class="type">Bool</span></span><br></pre></td></tr></table></figure>
+<p>从名称就知道这个协议用于 <code>==</code> 进行两个数之间的判断了，返回一个布尔类型值来标示是否相等。</p>
+<p>现在巧妙的是我们使用了 Protocol 中的 <a href="https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Protocols.html#//apple_ref/doc/uid/TP40014097-CH25-ID267" target="_blank" rel="external">extension 特性</a>，为协议增加了默认行为，如下：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">IntegerCheckableFloatType</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> isInteger: <span class="type">Bool</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">self</span> % <span class="number">1.0</span> == <span class="number">0.0</span> <span class="keyword">as</span> <span class="type">Self</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>根据协议的知识，一个类型遵循了某个协议，那么必须实现该协议中的所有“要求”。但是！倘若你使用了 extension 特性为协议增加了一个默认行为，那么类型遵循了该协议，本身却不实现，则会调用默认行为。就拿上文例子说吧，如果类型遵循了<code>IntegerCheckableFloatType</code> 协议却没有实现 <code>var isInteger:Bool</code> 这个只读属性，就会调用默认行为<code>self % 1.0 == 0.0 as Self</code> ，不过一旦你自己实现了 <code>var isInteger:Bool</code>这个协议内容，就会覆盖原有的默认行为。</p>
+<p>再来看看后面部分：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">Double</span>: <span class="title">IntegerCheckableFloatType</span> </span>&#123;&#125;</span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">CGFloat</span>: <span class="title">IntegerCheckableFloatType</span> </span>&#123;&#125;</span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">Float</span>: <span class="title">IntegerCheckableFloatType</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>我们令 <code>Double、CGFloat和Float</code> 遵循自定义协议<code>IntegerCheckableFloatType</code>，你可能会问怎么不实现协议内容呢？原因是这些类型本身就已经是实现了<code>FloatLiteralConvertible</code> 以及 <code>Equatable</code> 协议，另外<code>func % (lhs: Self, rhs: Self) -&gt; Self</code> 也是实现的。所以你只需要贴心地用extension对已有类型进行扩展，告知它们是遵循<code>IntegerCheckableFloatType</code>即可，想要判断是否是整型，只需要获取<code>isInteger</code>属性即可。</p>
+<p><a name="Q4"></a></p>
+<h2 id="Question4:_Question_on_dismissing_model_ViewController">Question4: Question on dismissing model ViewController</h2><h3 id="问题链接">问题链接</h3><p><a href="https://forums.developer.apple.com/thread/29701" target="_blank" rel="external">Q4链接地址</a></p>
+<h3 id="问题描述-3">问题描述</h3><p>VolmDev 问了一个自己在实际开发中遇到的问题：应用需要登录操作，为此当主界面出现之后，跳转到登陆界面，输入账号密码，点击 Login 按钮，关闭登陆界面，回到主界面，一切就应该结束，不是吗？ 可问题偏偏出现了！当关闭登陆界面后居然又跳出了登陆界面！再关闭又打开？ VolmDev 抓狂了，这尼玛什么情况！他附上了完整的代码，如下：</p>
+<p>这是ViewController.swift 文件源代码：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ViewController.swift</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> UIKit</span><br><span class="line"><span class="keyword">import</span> SafariServices</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ViewController</span>: <span class="title">UIViewController</span>, <span class="title">LoginViewDelegate</span>  </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> safariViewController: <span class="type">SFSafariViewController</span>?</span><br><span class="line"></span><br><span class="line"><span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">super</span>.viewDidLoad()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">viewDidAppear</span><span class="params">(animated: Bool)</span></span> &#123;</span><br><span class="line">	<span class="keyword">super</span>.viewDidAppear(animated)</span><br><span class="line">	showPopUp()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">didReceiveMemoryWarning</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">super</span>.didReceiveMemoryWarning()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">showPopUp</span><span class="params">()</span></span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">let</span> storyboard = <span class="type">UIStoryboard</span>(name: <span class="string">"Main"</span>, bundle: <span class="type">NSBundle</span>.mainBundle())</span><br><span class="line">	<span class="keyword">if</span> <span class="keyword">let</span> loginVC = storyboard.instantiateViewControllerWithIdentifier(</span><br><span class="line"><span class="string">"LoginViewController"</span>) <span class="keyword">as</span>? <span class="type">LoginViewController</span> &#123;</span><br><span class="line">	loginVC.delegate = <span class="keyword">self</span></span><br><span class="line">	<span class="keyword">self</span>.presentViewController(loginVC, animated: <span class="literal">true</span>, completion: <span class="literal">nil</span>)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// delegate function.</span></span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">didTapLoginButton</span><span class="params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">self</span>.dismissViewControllerAnimated(<span class="literal">false</span>, completion: <span class="literal">nil</span>)</span><br><span class="line"><span class="comment">//        if let authURL = GitHubAPIManager.sharedInstance.URLToStartOAuth2Login() &#123;</span></span><br><span class="line"><span class="comment">//            safariViewController = SFSafariViewController(URL: authURL)</span></span><br><span class="line"><span class="comment">//            safariViewController?.delegate = self</span></span><br><span class="line"><span class="comment">//            if let webViewController = safariViewController &#123;</span></span><br><span class="line"><span class="comment">//                self.presentViewController(webViewController, animated: true, completion: nil)</span></span><br><span class="line"><span class="comment">//            &#125;</span></span><br><span class="line"><span class="comment">//        &#125;</span></span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这是 LoginViewController.swift 文件源代码:</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">//  LoginViewController.swift</span></span><br><span class="line"><span class="comment">//  TestingPopUps</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> UIKit</span><br><span class="line"></span><br><span class="line"><span class="comment">// this is a delegate function that can be used</span></span><br><span class="line"><span class="comment">// to call a funct+-*`*ion outside this class to do</span></span><br><span class="line"><span class="comment">// something on behafe of this class.</span></span><br><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">LoginViewDelegate</span>: <span class="title">class</span> </span>&#123;</span><br><span class="line">	<span class="func"><span class="keyword">func</span> <span class="title">didTapLoginButton</span><span class="params">()</span></span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LoginViewController</span>: <span class="title">UIViewController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">weak</span> <span class="keyword">var</span> delegate: <span class="type">LoginViewDelegate</span>?</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">@IBAction</span> <span class="func"><span class="keyword">func</span> <span class="title">btnDismiss</span><span class="params">(sender: AnyObject)</span></span> &#123;</span><br><span class="line"><span class="comment">// Note: I tried dismissing here too with failure</span></span><br><span class="line"><span class="comment">//self.dismissViewControllerAnimated(false, completion: nil)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> delegate = <span class="keyword">self</span>.delegate &#123;</span><br><span class="line">	delegate.didTapLoginButton()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">super</span>.viewDidLoad()</span><br><span class="line">	<span class="comment">// Do any additional setup after loading the view.</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">didReceiveMemoryWarning</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">super</span>.didReceiveMemoryWarning()</span><br><span class="line">	<span class="comment">// Dispose of any resources that can be recreated.</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当然，storyboard 还有些不关紧要的东西，倘若有兴趣，你可以自己来补充。</p>
+<p>倘若不想看源代码思考下，请直接跳转到问题解答。</p>
+<h3 id="问题解答-3">问题解答</h3><p>该例出现的问题其实很简单，但也是新手经常犯的错误。贴出逻辑错误的部分：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">viewDidAppear</span><span class="params">(animated: Bool)</span></span> &#123;</span><br><span class="line">    <span class="keyword">super</span>.viewDidAppear(animated)</span><br><span class="line">    showPopUp()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当 viewController 的主视图出现之后，调用showPopUp方法弹出登陆界面，貌似没什么错误。此时登陆界面位于主视图之上，输入账号密码之后点击按钮，通过 protocol+delegate 方法告知 viewController 视图控制器用户点击了登陆按钮，此时事件处理只是简单的关闭登陆视图：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">didTapLoginButton</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">self</span>.dismissViewControllerAnimated(<span class="literal">false</span>, completion: <span class="literal">nil</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>关闭视图之后，意味着 viewController 的视图又出现了！那么就会调用<code>viewDidAppear</code> 方法，再次调用了<code>showPopUp</code>方法！问题就是这么来的。</p>
+<h3 id="思考">思考</h3><p>今天的问题很基础，但是同样有我们值得学习的地方，我简单归纳下：</p>
+<ol>
+<li>你需要了解 ViewController 中几个方法的调用顺序，譬如：viewDidLoad() viewDidAppear() LoadView()等等</li>
+<li>Protocol + Delegate 的用法。</li>
+<li>从 StoryBoard 中加载视图控制器。也就是 <code>storyboard.instantiateViewControllerWithIdentifier()</code>。</li>
+</ol>
+<p><a name="Q5"></a></p>
+<h2 id="Question5:_count_numbers_in_array_and_order_them_by_count_in_swift">Question5: count numbers in array and order them by count in swift</h2><h3 id="问题链接-1">问题链接</h3><p><a href="http://stackoverflow.com/questions/34614782/count-numbers-in-array-and-order-them-by-count-in-swift" target="_blank" rel="external">Q5链接地址</a></p>
+<h3 id="问题描述-4">问题描述</h3><p>楼主提了一个算法问题：<br>1、已知一个数组，按照单个元素在数组中出现的次数作为重新排序的依据，个数多的排在前面<br>2、相同个数时候，元素值大的排前面</p>
+<p>例如：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">5</span>]</span><br></pre></td></tr></table></figure>
+<p>经过计算得到的结果是：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">[<span class="number">5</span>, <span class="number">5</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">1</span>]</span><br></pre></td></tr></table></figure>
+<h3 id="问题解答-4">问题解答</h3><p>问题解答思路也比较简单，首先是要计算每个元素在数组中出现的次数，然后再做排序。<br>跟帖提供了 2 中解法，都是这样的思路。不过实现方式略有不同：</p>
+<p>解法1：<br>扩展 SequenceType，因为数组的遍历是基于 SequenceType 协议的，所以自然会拥有扩展的方法 frequencies，用来计算元素在数组出现的次数。然后通过 sort 方法输出比较的结果。注意结果数组元素是元组形式。如果想变成与输入相同的结构，要做一下遍历输出。</p>
+<figure class="highlight xquery"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">extension SequenceType <span class="keyword">where</span> Generator.Element : Hashable &#123;</span><br><span class="line">    func frequencies() -&gt; [Generator.Element:Int] &#123;</span><br><span class="line">        var results : [Generator.Element:Int] = [:]</span><br><span class="line">        for element in self &#123;</span><br><span class="line">            results[element] = (results[element] ?? <span class="number">0</span>) + <span class="number">1</span></span><br><span class="line">        &#125;</span><br><span class="line">        return results</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> alpha = [<span class="number">2</span>,<span class="number">8</span>,<span class="number">2</span>,<span class="number">6</span>,<span class="number">1</span>,<span class="number">8</span>,<span class="number">2</span>,<span class="number">6</span>,<span class="number">6</span>]</span><br><span class="line"><span class="keyword">let</span> beta = [<span class="number">6</span>,<span class="number">6</span>,<span class="number">6</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">8</span>,<span class="number">8</span>,<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> sorted = alpha.frequencies().sort &#123;</span><br><span class="line">    if <span class="variable">$0</span>.<span class="number">1</span> &gt; <span class="variable">$1</span>.<span class="number">1</span> &#123; // if the frequency is higher, return true</span><br><span class="line">        return true</span><br><span class="line">    &#125; else if <span class="variable">$0</span>.<span class="number">1</span> == <span class="variable">$1</span>.<span class="number">1</span> &#123; // if the frequency is equal</span><br><span class="line">        return <span class="variable">$0</span>.<span class="number">0</span> &gt; <span class="variable">$1</span>.<span class="number">0</span> // return value is higher</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        return false // else return false</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>解答2：<br>定义一个字典数组，专门来存储每个元素在数组出现的次数，然后用 sort 方法来输出结果：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> arr1 = [<span class="number">2</span>,<span class="number">8</span>,<span class="number">2</span>,<span class="number">6</span>,<span class="number">1</span>,<span class="number">8</span>,<span class="number">2</span>,<span class="number">6</span>,<span class="number">6</span>]</span><br><span class="line"><span class="keyword">var</span> arr2 = [<span class="number">6</span>,<span class="number">6</span>,<span class="number">6</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">8</span>,<span class="number">8</span>,<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> counting = [<span class="type">Int</span>: <span class="type">Int</span>]()</span><br><span class="line"></span><br><span class="line"><span class="comment">// fill counting dictionary</span></span><br><span class="line"><span class="keyword">for</span> num <span class="keyword">in</span> arr1 &#123;</span><br><span class="line">    <span class="keyword">if</span> counting[num] != <span class="literal">nil</span> &#123;</span><br><span class="line">        counting[num]!++</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        counting[num] = <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// [6: 3, 2: 3, 8: 2, 1: 1]</span></span><br><span class="line"><span class="built_in">print</span>(counting)</span><br><span class="line"></span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">order</span><span class="params">(i1: Int, i2: Int)</span></span> -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> count1 = counting[i1]</span><br><span class="line">    <span class="keyword">let</span> count2 = counting[i2]</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// if counting is the same: compare which number is greater</span></span><br><span class="line">    <span class="keyword">if</span> count1 == count2 &#123;</span><br><span class="line">        <span class="keyword">return</span> i1 &gt; i2</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> count1 &gt; count2</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// [6, 6, 6, 2, 2, 2, 8, 8, 1]</span></span><br><span class="line"><span class="built_in">print</span>(arr1.<span class="built_in">sort</span>(order))</span><br><span class="line"><span class="built_in">print</span>(arr2)</span><br></pre></td></tr></table></figure>
+<p><a name="Q6"></a></p>
+<h2 id="Question6:_Cannot_invoke_[Method]_with_argument_list_of_type_(_,_)">Question6: Cannot invoke [Method] with argument list of type ( , )</h2><h3 id="问题链接-2">问题链接</h3><p><a href="http://stackoverflow.com/questions/34610440/cannot-invoke-method-with-argument-list-of-type" target="_blank" rel="external">Q6链接地址</a></p>
+<h3 id="问题描述-5">问题描述</h3><p>楼主的问题是：<br>已知协议 A，B 其中协议 B 遵从 协议 A。类 Utility 定义了一个泛型方法 add，T 遵从 A 协议。<br>在另外一个 Test 类的方法 addItem 中，调用了这个 add 方法，但是传入的 data 类型是 B，但调用时候出错，见下面代码：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">A</span> </span>&#123; &#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">B</span>: <span class="title">A</span> </span>&#123; &#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Utility</span> </span>&#123;</span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">add</span><span class="generics">&lt;T:A&gt;</span><span class="params">(t:T.<span class="keyword">Type</span>,param:T)</span></span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> util: <span class="type">Utility</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">init</span>() &#123;</span><br><span class="line">        util = <span class="type">Utility</span>()</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">addItem</span><span class="params">(data:B)</span></span>&#123;</span><br><span class="line">        <span class="comment">//util.add(B.self,param: data) //这里报错：expected an argument list of type '(T.Type, param: T)'</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="问题解答-5">问题解答</h3><p>楼主把 data 的类型定义为协议 B，这不是正确的用法，应该定义一个泛型类型 T，T 遵从 B 协议，见以下代码：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test1</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> util: <span class="type">Utility</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">init</span>() &#123;</span><br><span class="line">        util = <span class="type">Utility</span>()</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">addItem</span><span class="generics">&lt;T: B&gt;</span><span class="params">(data: T)</span></span> &#123;</span><br><span class="line">        util.add(<span class="type">T</span>.<span class="keyword">self</span>, param: data)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a name="Q7"></a></p>
+<h2 id="Question7:_Swift_programming_style">Question7: Swift programming style</h2><h3 id="问题链接-3">问题链接</h3><p><a href="http://stackoverflow.com/questions/34607320/swift-programming-style" target="_blank" rel="external">Q7链接地址</a></p>
+<h3 id="问题描述-6">问题描述</h3><p>楼主的问题是：extension 存在的意义是啥，为什么不直接写到一个定义里面，比如：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">xxx</span> </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">xxx</span> </span>&#123;</span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">yyy</span><span class="params">()</span></span> &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//: 可以合并成以下代码：</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">xxx1</span> </span>&#123;</span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">yyy</span><span class="params">()</span></span> &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="问题解答-6">问题解答</h3><p>此问题其实很容易解答，extension 存在的意义，是去扩展已有的类型，而不是新建了类型，而去用 extension 扩展新的逻辑。<br>比如，对 Int，Double 新增功能，就需要用到 extension。<br>跟帖中也建议楼主好好读读官方文档，理解一下extension存在的价值。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>作者：<a href="http://codebuild.me">shanks</a> &amp; <a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles">pmst</a></p>
+<p>本周整理问题如下：</p>
+<ul>
+<li><a href="#Q1">Question on extracting a substring from a url</a></li>
+<li><a href="#Q2">All func pointers need a protocol now</a></li>
+<li><a href="#Q3">Property for Double and CGFloat</a></li>
+<li><a href="#Q4">Question on dismissing model ViewController</a></li>
+<li><a href="#Q5">count numbers in array and order them by count in swift</a></li>
+<li><a href="#Q6">Cannot invoke [Method] with argument list of type ( , )</a></li>
+<li><a href="#Q7">Swift programming style</a></li>
+</ul>
+<p>对应的代码都放到了 github 上，有兴趣的同学可以下载下来研究：<a href="https://github.com/SwiftGGTeam/SwiftCommunityWeeklyQA/tree/master/20160106/%E6%AF%8F%E5%91%A8%20Swift%20%E7%A4%BE%E5%8C%BA%E9%97%AE%E7%AD%9420160106.playground">点击下载</a></p>]]>
+    
+    </summary>
+    
+      <category term="Swift" scheme="http://swiftggteam.github.io/tags/Swift/"/>
+    
+      <category term="社区问答" scheme="http://swiftggteam.github.io/tags/%E7%A4%BE%E5%8C%BA%E9%97%AE%E7%AD%94/"/>
+    
+      <category term="Swift" scheme="http://swiftggteam.github.io/categories/Swift/"/>
+    
+      <category term="iOS开发" scheme="http://swiftggteam.github.io/categories/iOS%E5%BC%80%E5%8F%91/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[使用 unwind segue 而不是 delegate 模式传递回调数据]]></title>
     <link href="http://swiftggteam.github.io/2016/01/05/ios-passing-data-back-using-unwind-segue-instead-of-delegate-pattern/"/>
     <id>http://swiftggteam.github.io/2016/01/05/ios-passing-data-back-using-unwind-segue-instead-of-delegate-pattern/</id>
     <published>2016-01-04T16:00:00.000Z</published>
-    <updated>2016-01-06T04:34:54.216Z</updated>
+    <updated>2016-01-06T04:45:17.402Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/ios-passing-data-back-using-unwind-segue-instead-of-delegate-pattern/" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-6<br>译者：<a href="http://www.dianqk.org/" target="_blank" rel="external">靛青K</a>；校对：<a href="undefined">Channe</a>；定稿：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a></p>
 </blockquote>
@@ -255,7 +408,7 @@
     <link href="http://swiftggteam.github.io/2016/01/04/editable-text-field-alert-controller-tutorial/"/>
     <id>http://swiftggteam.github.io/2016/01/04/editable-text-field-alert-controller-tutorial/</id>
     <published>2016-01-03T16:00:00.000Z</published>
-    <updated>2016-01-06T04:34:54.216Z</updated>
+    <updated>2016-01-06T04:45:17.402Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Arthur Knopper，<a href="http://www.ioscreator.com/tutorials/editable-text-field-alert-controller-tutorial" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-21<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -307,7 +460,7 @@
     <link href="http://swiftggteam.github.io/2015/12/31/cocoapods-on-a-team/"/>
     <id>http://swiftggteam.github.io/2015/12/31/cocoapods-on-a-team/</id>
     <published>2015-12-30T16:00:00.000Z</published>
-    <updated>2016-01-06T04:34:54.216Z</updated>
+    <updated>2016-01-06T04:45:17.402Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/cocoapods-on-a-team/" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-18<br>译者：<a href="http://ijack.pw/" target="_blank" rel="external">JackAlan</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -340,6 +493,46 @@
       <category term="Natasha The Robot" scheme="http://swiftggteam.github.io/tags/Natasha-The-Robot/"/>
     
       <category term="iOS开发" scheme="http://swiftggteam.github.io/categories/iOS%E5%BC%80%E5%8F%91/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[教你如何在 Auto Layout 下设置两个视图之间的最小间距]]></title>
+    <link href="http://swiftggteam.github.io/2015/12/30/minimal-distance-to-two-views-in-auto-layout/"/>
+    <id>http://swiftggteam.github.io/2015/12/30/minimal-distance-to-two-views-in-auto-layout/</id>
+    <published>2015-12-29T16:00:00.000Z</published>
+    <updated>2016-01-06T04:45:17.402Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>作者：dom，<a href="http://swiftandpainless.com/minimal-distance-to-two-views-in-auto-layout/" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-08<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://www.jianshu.com/users/ef1058d2d851" target="_blank" rel="external">星夜暮晨</a>；定稿：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a></p>
+</blockquote>
+<!--此处开始正文-->
+<p>假设现在要在某个视图（view）中放置三个子视图（subviews）。其中两个子视图放置在上方，第三个视图紧挨着它们放到下方。不过上方的两个视图高度不定，并且你不知道哪个更高一些。现在要求我们使用自动布局（Auto Layout）来控制下方视图和上方视图之间间距至少 10 单位像素。</p>
+<a id="more"></a>
+<p>我们该如何实现呢？实现技巧是使用不等式约束条件 (inequality) 以及设置约束优先级 (priority)。相关约束如下：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 注意约束使用不等式 &gt;=，以及设置优先级</span></span><br><span class="line">leftViewConstraints += <span class="type">NSLayoutConstraint</span>.constraintsWithVisualFormat(<span class="string">"V:[red(50)]-(&gt;=10)-[green]"</span>, options: [], metrics: <span class="literal">nil</span>, views: leftViews)</span><br><span class="line">leftViewConstraints += <span class="type">NSLayoutConstraint</span>.constraintsWithVisualFormat(<span class="string">"V:[blue(100)]-(&gt;=10)-[green]"</span>, options: [], metrics: <span class="literal">nil</span>, views: leftViews)</span><br><span class="line">leftViewConstraints += <span class="type">NSLayoutConstraint</span>.constraintsWithVisualFormat(<span class="string">"V:[blue(100)]-(&lt;=10@999)-[green]"</span>, options: [], metrics: <span class="literal">nil</span>, views: leftViews)</span><br></pre></td></tr></table></figure>
+<p>上方两个视图与底部视图的最小间距不能小于 10（译者注：这里约束优先级默认是 1000）。此外蓝色视图与底部视图的最大间距不得大于 10 ，其优先级为 999。</p>
+<p>就是这样！你可以看到如下方截图所示的结果。左侧图片中，蓝色视图的高度为 100 单位像素，红色视图高度为 50 单位像素。 右侧图片则刚刚相反。</p>
+<p><img src="/img/articles/minimal-distance-to-two-views-in-auto-layout/Screen-Shot-2015-12-08-at-21.52.25-300x155.png1451437944.9187686" alt=""></p>
+<p>这里向你提供完整代码的 <a href="http://swift.eltanin.uberspace.de/wp-content/uploads/2015/12/MinimalDistanceAutoLayoutPlayground.playground.zip" target="_blank" rel="external">playground</a> 下载。</p>
+<blockquote>
+<p>译者注：你可以在下载的 playground 下方键入 view 属性，然后在右侧栏点击 Quick Look，也就是那个眼睛，就能看到如上所示的截图了！</p>
+</blockquote>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
+</blockquote>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>作者：dom，<a href="http://swiftandpainless.com/minimal-distance-to-two-views-in-auto-layout/">原文链接</a>，原文日期：2015-12-08<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles">pmst</a>；校对：<a href="http://www.jianshu.com/users/ef1058d2d851">星夜暮晨</a>；定稿：<a href="https://github.com/Cee">Cee</a></p>
+</blockquote>
+<!--此处开始正文-->
+<p>假设现在要在某个视图（view）中放置三个子视图（subviews）。其中两个子视图放置在上方，第三个视图紧挨着它们放到下方。不过上方的两个视图高度不定，并且你不知道哪个更高一些。现在要求我们使用自动布局（Auto Layout）来控制下方视图和上方视图之间间距至少 10 单位像素。</p>]]>
+    
+    </summary>
+    
+      <category term="Swift and Painless" scheme="http://swiftggteam.github.io/tags/Swift-and-Painless/"/>
+    
+      <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
     
   </entry>
   
@@ -426,51 +619,11 @@
   </entry>
   
   <entry>
-    <title><![CDATA[教你如何在 Auto Layout 下设置两个视图之间的最小间距]]></title>
-    <link href="http://swiftggteam.github.io/2015/12/30/minimal-distance-to-two-views-in-auto-layout/"/>
-    <id>http://swiftggteam.github.io/2015/12/30/minimal-distance-to-two-views-in-auto-layout/</id>
-    <published>2015-12-29T16:00:00.000Z</published>
-    <updated>2016-01-06T04:34:54.216Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>作者：dom，<a href="http://swiftandpainless.com/minimal-distance-to-two-views-in-auto-layout/" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-08<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://www.jianshu.com/users/ef1058d2d851" target="_blank" rel="external">星夜暮晨</a>；定稿：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a></p>
-</blockquote>
-<!--此处开始正文-->
-<p>假设现在要在某个视图（view）中放置三个子视图（subviews）。其中两个子视图放置在上方，第三个视图紧挨着它们放到下方。不过上方的两个视图高度不定，并且你不知道哪个更高一些。现在要求我们使用自动布局（Auto Layout）来控制下方视图和上方视图之间间距至少 10 单位像素。</p>
-<a id="more"></a>
-<p>我们该如何实现呢？实现技巧是使用不等式约束条件 (inequality) 以及设置约束优先级 (priority)。相关约束如下：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 注意约束使用不等式 &gt;=，以及设置优先级</span></span><br><span class="line">leftViewConstraints += <span class="type">NSLayoutConstraint</span>.constraintsWithVisualFormat(<span class="string">"V:[red(50)]-(&gt;=10)-[green]"</span>, options: [], metrics: <span class="literal">nil</span>, views: leftViews)</span><br><span class="line">leftViewConstraints += <span class="type">NSLayoutConstraint</span>.constraintsWithVisualFormat(<span class="string">"V:[blue(100)]-(&gt;=10)-[green]"</span>, options: [], metrics: <span class="literal">nil</span>, views: leftViews)</span><br><span class="line">leftViewConstraints += <span class="type">NSLayoutConstraint</span>.constraintsWithVisualFormat(<span class="string">"V:[blue(100)]-(&lt;=10@999)-[green]"</span>, options: [], metrics: <span class="literal">nil</span>, views: leftViews)</span><br></pre></td></tr></table></figure>
-<p>上方两个视图与底部视图的最小间距不能小于 10（译者注：这里约束优先级默认是 1000）。此外蓝色视图与底部视图的最大间距不得大于 10 ，其优先级为 999。</p>
-<p>就是这样！你可以看到如下方截图所示的结果。左侧图片中，蓝色视图的高度为 100 单位像素，红色视图高度为 50 单位像素。 右侧图片则刚刚相反。</p>
-<p><img src="/img/articles/minimal-distance-to-two-views-in-auto-layout/Screen-Shot-2015-12-08-at-21.52.25-300x155.png1451437944.9187686" alt=""></p>
-<p>这里向你提供完整代码的 <a href="http://swift.eltanin.uberspace.de/wp-content/uploads/2015/12/MinimalDistanceAutoLayoutPlayground.playground.zip" target="_blank" rel="external">playground</a> 下载。</p>
-<blockquote>
-<p>译者注：你可以在下载的 playground 下方键入 view 属性，然后在右侧栏点击 Quick Look，也就是那个眼睛，就能看到如上所示的截图了！</p>
-</blockquote>
-<blockquote>
-<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
-</blockquote>
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>作者：dom，<a href="http://swiftandpainless.com/minimal-distance-to-two-views-in-auto-layout/">原文链接</a>，原文日期：2015-12-08<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles">pmst</a>；校对：<a href="http://www.jianshu.com/users/ef1058d2d851">星夜暮晨</a>；定稿：<a href="https://github.com/Cee">Cee</a></p>
-</blockquote>
-<!--此处开始正文-->
-<p>假设现在要在某个视图（view）中放置三个子视图（subviews）。其中两个子视图放置在上方，第三个视图紧挨着它们放到下方。不过上方的两个视图高度不定，并且你不知道哪个更高一些。现在要求我们使用自动布局（Auto Layout）来控制下方视图和上方视图之间间距至少 10 单位像素。</p>]]>
-    
-    </summary>
-    
-      <category term="Swift and Painless" scheme="http://swiftggteam.github.io/tags/Swift-and-Painless/"/>
-    
-      <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
-    
-  </entry>
-  
-  <entry>
     <title><![CDATA[聚焦 Swift #0]]></title>
     <link href="http://swiftggteam.github.io/2015/12/29/swift-open-source/"/>
     <id>http://swiftggteam.github.io/2015/12/29/swift-open-source/</id>
     <published>2015-12-28T16:00:00.000Z</published>
-    <updated>2016-01-06T04:34:54.216Z</updated>
+    <updated>2016-01-06T04:45:17.402Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Jesse Squires，<a href="http://www.jessesquires.com/swift-open-source/" target="_blank" rel="external">原文链接</a>，原文日期：2015/12/06<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 <p>译者注：这个系列的关注重点是 Swift 开源项目本身的发展，作者会截取每周发生的大事（比如合并了一个大改动）并进行分析，还会写一些有趣的小发现，很有意思。我们已经拿到翻译授权，会每周进行更新，欢迎关注。</p>
@@ -526,7 +679,7 @@
     <link href="http://swiftggteam.github.io/2015/12/29/foursquare-realm-swift/"/>
     <id>http://swiftggteam.github.io/2015/12/29/foursquare-realm-swift/</id>
     <published>2015-12-28T16:00:00.000Z</published>
-    <updated>2016-01-06T04:34:54.216Z</updated>
+    <updated>2016-01-06T04:45:17.402Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：reinder de vries，<a href="http://www.appcoda.com/foursquare-realm-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/23<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="http://www.brighttj.com" target="_blank" rel="external">saitjr</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1085,7 +1238,7 @@
     <link href="http://swiftggteam.github.io/2015/12/28/friday-qa-2015-12-11-swift-weak-references/"/>
     <id>http://swiftggteam.github.io/2015/12/28/friday-qa-2015-12-11-swift-weak-references/</id>
     <published>2015-12-27T16:00:00.000Z</published>
-    <updated>2016-01-06T04:34:54.216Z</updated>
+    <updated>2016-01-06T04:45:17.402Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Mike Ash，<a href="https://www.mikeash.com/pyblog/friday-qa-2015-12-11-swift-weak-references.html" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-11<br>译者：<a href="http://weibo.com/riven0951" target="_blank" rel="external">riven</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1242,7 +1395,7 @@
     <link href="http://swiftggteam.github.io/2015/12/25/interesting-discussions-on-swift-evolution/"/>
     <id>http://swiftggteam.github.io/2015/12/25/interesting-discussions-on-swift-evolution/</id>
     <published>2015-12-24T16:00:00.000Z</published>
-    <updated>2016-01-06T04:34:54.216Z</updated>
+    <updated>2016-01-06T04:45:17.402Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/12/15/interesting-discussions-on-swift-evolution/" target="_blank" rel="external">原文链接</a>，原文日期：2015/12/15<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1301,7 +1454,7 @@
     <link href="http://swiftggteam.github.io/2015/12/24/friday-qa-2015-11-20-covariance-and-contravariance/"/>
     <id>http://swiftggteam.github.io/2015/12/24/friday-qa-2015-11-20-covariance-and-contravariance/</id>
     <published>2015-12-23T16:00:00.000Z</published>
-    <updated>2016-01-06T04:34:54.216Z</updated>
+    <updated>2016-01-06T04:45:17.402Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Mike Ash，<a href="https://mikeash.com/pyblog/friday-qa-2015-11-20-covariance-and-contravariance.html" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-20<br>译者：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1414,7 +1567,7 @@
     <link href="http://swiftggteam.github.io/2015/12/23/swift-3/"/>
     <id>http://swiftggteam.github.io/2015/12/23/swift-3/</id>
     <published>2015-12-22T16:00:00.000Z</published>
-    <updated>2016-01-06T04:34:54.216Z</updated>
+    <updated>2016-01-06T04:45:17.402Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-3/" target="_blank" rel="external">原文链接</a>，原文日期：2015/12/10<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="undefined"></a></p>
 </blockquote>
@@ -1574,7 +1727,7 @@
     <link href="http://swiftggteam.github.io/2015/12/22/alamofire-beginner-guide/"/>
     <id>http://swiftggteam.github.io/2015/12/22/alamofire-beginner-guide/</id>
     <published>2015-12-21T16:00:00.000Z</published>
-    <updated>2016-01-06T04:34:54.216Z</updated>
+    <updated>2016-01-06T04:45:17.402Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：gregg mojica，<a href="http://www.appcoda.com/alamofire-beginner-guide/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/30<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1794,7 +1947,7 @@
     <link href="http://swiftggteam.github.io/2015/12/21/swift-3-0-and-foundation/"/>
     <id>http://swiftggteam.github.io/2015/12/21/swift-3-0-and-foundation/</id>
     <published>2015-12-20T16:00:00.000Z</published>
-    <updated>2016-01-06T04:34:54.216Z</updated>
+    <updated>2016-01-06T04:45:17.402Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/12/03/swift-3-0-and-foundation/" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-03<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1836,7 +1989,7 @@
     <link href="http://swiftggteam.github.io/2015/12/18/changing-swift-whats-coming-up-in-2-2-and-3-0/"/>
     <id>http://swiftggteam.github.io/2015/12/18/changing-swift-whats-coming-up-in-2-2-and-3-0/</id>
     <published>2015-12-17T16:00:00.000Z</published>
-    <updated>2016-01-06T04:34:54.216Z</updated>
+    <updated>2016-01-06T04:45:17.402Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/12/03/changing-swift-whats-coming-up-in-2-2-and-3-0/" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-03<br>译者：<a href="undefined">Channe</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1870,55 +2023,6 @@
       <category term="Erica Sadun" scheme="http://swiftggteam.github.io/tags/Erica-Sadun/"/>
     
       <category term="Swift 入门" scheme="http://swiftggteam.github.io/categories/Swift-%E5%85%A5%E9%97%A8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[在 iOS8 和 iOS9 中锁定视图自动旋转]]></title>
-    <link href="http://swiftggteam.github.io/2015/12/17/per-view-auto-rotation-locking-made-easy-for-ios-8-and-9/"/>
-    <id>http://swiftggteam.github.io/2015/12/17/per-view-auto-rotation-locking-made-easy-for-ios-8-and-9/</id>
-    <published>2015-12-16T16:00:00.000Z</published>
-    <updated>2016-01-06T04:34:54.216Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>作者：Weston Hanners，<a href="http://www.alloc-init.com/2015/11/per-view-auto-rotation-locking-made-easy-for-ios-8-and-9/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-18<br>译者：<a href="undefined">littledogboy</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
-</blockquote>
-<!--此处开始正文-->
-<p>这周我在开发一个 App，客户想要此 App 在某些情况下锁定竖屏，某些情况下锁定横屏。幸运的是，我已经在自动布局下创建了所有的视图，因此它们已经支持所需的约束，我仅需要锁定视图旋转。<br><a id="more"></a></p>
-<p>旋转 API 属于 UIKit 中经常被弃用的内容，因此当我开始旋转工作时，不得不查一下。我还想说，弃用和替换相关的 API 太麻烦了。经过一个小时左右的研究和两个小时的实践，我终于整出了两部分。（译者注：=W=，我当时也搞了好久）</p>
-<ul>
-<li>选中 <code>Info.plist</code> 文件中所有你想要支持的旋转方向。</li>
-</ul>
-<p><img src="/img/articles/per-view-auto-rotation-locking-made-easy-for-ios-8-and-9/InterfaceOrientation.png1450312516.562497" alt=""></p>
-<ul>
-<li>然后我们仅需要实现一个方法。</li>
-</ul>
-<p>Swift 1.2</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">supportedInterfaceOrientations</span><span class="params">()</span></span> -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="type">Int</span>(<span class="type">UIInterfaceOrientationMask</span>.<span class="type">Portrait</span>.rawValue)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>Swift 2.0</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">supportedInterfaceOrientations</span><span class="params">()</span></span> -&gt; <span class="type">UIInterfaceOrientationMask</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="type">UIInterfaceOrientationMask</span>.<span class="type">Portrait</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>确保选中你想要锁定的方向是横屏还是竖屏。</p>
-<p>这可能是我最近看到过的最乱的接口改动，并且我花了好长时间才意识到我在 Swift 1.2 中犯下的错误。（那个 Int cast 太丑了）</p>
-<p><a href="http://www.alloc-init.com/wp-content/uploads/2015/11/RotationTest.zip" target="_blank" rel="external">Sample Code</a> (Swift 1.2 Project)</p>
-<p><strong>Update 11/18/2015:</strong></p>
-<p>我刚刚意识到,我标题有点词不达意。</p>
-<p><strong>“使用一个小技巧锁定视图控制器”</strong></p>
-<p>好吧，下不为例。</p>
-<blockquote>
-<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg" target="_blank" rel="external">http://swift.gg</a>。</p>
-</blockquote>
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>作者：Weston Hanners，<a href="http://www.alloc-init.com/2015/11/per-view-auto-rotation-locking-made-easy-for-ios-8-and-9/">原文链接</a>，原文日期：2015-11-18<br>译者：<a href="undefined">littledogboy</a>；校对：<a href="https://github.com/numbbbbb">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao">千叶知风</a></p>
-</blockquote>
-<!--此处开始正文-->
-<p>这周我在开发一个 App，客户想要此 App 在某些情况下锁定竖屏，某些情况下锁定横屏。幸运的是，我已经在自动布局下创建了所有的视图，因此它们已经支持所需的约束，我仅需要锁定视图旋转。<br>]]>
-    
-    </summary>
-    
-      <category term="Swift 入门" scheme="http://swiftggteam.github.io/tags/Swift-%E5%85%A5%E9%97%A8/"/>
-    
-      <category term="alloc-init" scheme="http://swiftggteam.github.io/categories/alloc-init/"/>
     
   </entry>
   
