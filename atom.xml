@@ -4,7 +4,7 @@
   <subtitle><![CDATA[走心的 Swift 翻译组]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://swiftggteam.github.io/"/>
-  <updated>2016-01-06T02:30:21.442Z</updated>
+  <updated>2016-01-06T03:05:17.016Z</updated>
   <id>http://swiftggteam.github.io/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://swiftggteam.github.io/2016/01/06/utilize-the-responder-chain-for-target-action/"/>
     <id>http://swiftggteam.github.io/2016/01/06/utilize-the-responder-chain-for-target-action/</id>
     <published>2016-01-05T16:00:00.000Z</published>
-    <updated>2016-01-06T02:30:21.442Z</updated>
+    <updated>2016-01-06T03:05:17.016Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：dom，<a href="http://swiftandpainless.com/utilize-the-responder-chain-for-target-action/" target="_blank" rel="external">原文链接</a>，原文日期：2016/1/1<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="http://www.brighttj.com" target="_blank" rel="external">saitjr</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -27,6 +27,7 @@
 <p>本文会介绍 iOS 的响应链以及如何在 Target-Action 中使用它。</p>
 <h2 id="响应链（The_Responder_Chain）">响应链（The Responder Chain）</h2><p>在 iOS 中，事件（比如，触摸事件（touch event））都使用响应链来传递。响应链由响应者对象（Responder Objects，<a href="https://developer.apple.com/library/ios/documentation/EventHandling/Conceptual/EventHandlingiPhoneOS/event_delivery_responder_chain/event_delivery_responder_chain.html#//apple_ref/doc/uid/TP40009541-CH4-SW1" target="_blank" rel="external">苹果官方术语</a>）构成。如果你看过官方文档，可能会注意到 <code>UIView</code> 和 <code>UIViewController</code> 都是响应者对象。这就意味着， <code>UIView</code> 和 <code>UIViewController</code> 都继承自 <code>UIResponder</code> ，如下图：</p>
 <p><img src="/img/articles/utilize-the-responder-chain-for-target-action/UIViewDocumentation.png1452047417.154566" alt=""></p>
+<a id="more"></a>
 <p>当用户点击了视图层级（view hierarchy）中的一个 view 时，iOS 会通过点击测试（hit test）来判定哪个响应者对象优先响应触摸事件。这个过程从最底层的 window 开始，沿着视图层级向上寻找并检查这个 touch 是不是发生在当前 view 边界内。该过程中被点击的最后一个 view 会先收到触摸事件。如果该 view 没有对触摸事件做出反应，触摸事件就会沿着响应链传递到下一个响应者。苹果的官方<a href="https://developer.apple.com/library/ios/documentation/EventHandling/Conceptual/EventHandlingiPhoneOS/event_delivery_responder_chain/event_delivery_responder_chain.html#//apple_ref/doc/uid/TP40009541-CH4-SW4" target="_blank" rel="external">示例</a>很好的解释了这个过程。如果 view 告诉 iOS 它没有被点击，那它的子视图就不会被检查。</p>
 <p>这就会产生一个有趣的事情。当一个正常显示（父视图的 <code>clipsToBounds</code> 被设置为 <code>false</code> 时）的按钮位于父视图边界外时，该按钮不会接收到任何的触摸事件。因此，当一个按钮不能响应事件时，记得检查一下该按钮是否有在父视图的边界内。</p>
 <h2 id="Target-Action">Target-Action</h2><p>Target-Action 机制通过设置 <code>target</code> 为 <code>nil</code>来使用响应链。事件触发时，iOS 会询问第一响应者是否要处理传递过来的 action。如果不处理的话，第一响应者就会把该 action 传递给下一个响应者（<a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIResponder_Class/index.html#//apple_ref/occ/instm/UIResponder/nextResponder" target="_blank" rel="external">苹果官方文档 <code>nextResponder</code> </a>）。</p>
@@ -44,7 +45,13 @@
 ]]></content>
     <summary type="html">
     <![CDATA[<blockquote>
-<p>作者：dom，<a href="http://swiftandpainless.com/utilize-the-responder-chain-for-target-action/" target="_blank" rel="external">原]]>
+<p>作者：dom，<a href="http://swiftandpainless.com/utilize-the-responder-chain-for-target-action/">原文链接</a>，原文日期：2016/1/1<br>译者：<a href="http://weibo.com/linusling">小铁匠Linus</a>；校对：<a href="http://www.brighttj.com">saitjr</a>；定稿：<a href="https://github.com/numbbbbb">numbbbbb</a></p>
+</blockquote>
+<!--此处开始正文-->
+<p>本文会介绍 iOS 的响应链以及如何在 Target-Action 中使用它。</p>
+<h2 id="响应链（The_Responder_Chain）">响应链（The Responder Chain）</h2><p>在 iOS 中，事件（比如，触摸事件（touch event））都使用响应链来传递。响应链由响应者对象（Responder Objects，<a href="https://developer.apple.com/library/ios/documentation/EventHandling/Conceptual/EventHandlingiPhoneOS/event_delivery_responder_chain/event_delivery_responder_chain.html#//apple_ref/doc/uid/TP40009541-CH4-SW1">苹果官方术语</a>）构成。如果你看过官方文档，可能会注意到 <code>UIView</code> 和 <code>UIViewController</code> 都是响应者对象。这就意味着， <code>UIView</code> 和 <code>UIViewController</code> 都继承自 <code>UIResponder</code> ，如下图：</p>
+<p><img src="/img/articles/utilize-the-responder-chain-for-target-action/UIViewDocumentation.png1452047417.154566" alt=""></p>]]>
+    
     </summary>
     
       <category term="Swift and Painless" scheme="http://swiftggteam.github.io/tags/Swift-and-Painless/"/>
@@ -58,7 +65,7 @@
     <link href="http://swiftggteam.github.io/2016/01/05/ios-passing-data-back-using-unwind-segue-instead-of-delegate-pattern/"/>
     <id>http://swiftggteam.github.io/2016/01/05/ios-passing-data-back-using-unwind-segue-instead-of-delegate-pattern/</id>
     <published>2016-01-04T16:00:00.000Z</published>
-    <updated>2016-01-06T02:30:21.442Z</updated>
+    <updated>2016-01-06T03:05:17.016Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Tomasz Szulc，<a href="http://szulctomasz.com/ios-passing-data-back-using-unwind-segue-instead-of-delegate-pattern/" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-6<br>译者：<a href="http://www.dianqk.org/" target="_blank" rel="external">靛青K</a>；校对：<a href="undefined">Channe</a>；定稿：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a></p>
 </blockquote>
@@ -106,7 +113,7 @@
     <link href="http://swiftggteam.github.io/2016/01/04/editable-text-field-alert-controller-tutorial/"/>
     <id>http://swiftggteam.github.io/2016/01/04/editable-text-field-alert-controller-tutorial/</id>
     <published>2016-01-03T16:00:00.000Z</published>
-    <updated>2016-01-06T02:30:21.442Z</updated>
+    <updated>2016-01-06T03:05:17.016Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Arthur Knopper，<a href="http://www.ioscreator.com/tutorials/editable-text-field-alert-controller-tutorial" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-21<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -158,7 +165,7 @@
     <link href="http://swiftggteam.github.io/2015/12/31/cocoapods-on-a-team/"/>
     <id>http://swiftggteam.github.io/2015/12/31/cocoapods-on-a-team/</id>
     <published>2015-12-30T16:00:00.000Z</published>
-    <updated>2016-01-06T02:30:21.442Z</updated>
+    <updated>2016-01-06T03:05:17.016Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Natasha The Robot，<a href="http://natashatherobot.com/cocoapods-on-a-team/" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-18<br>译者：<a href="http://ijack.pw/" target="_blank" rel="external">JackAlan</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -281,7 +288,7 @@
     <link href="http://swiftggteam.github.io/2015/12/30/minimal-distance-to-two-views-in-auto-layout/"/>
     <id>http://swiftggteam.github.io/2015/12/30/minimal-distance-to-two-views-in-auto-layout/</id>
     <published>2015-12-29T16:00:00.000Z</published>
-    <updated>2016-01-06T02:30:21.442Z</updated>
+    <updated>2016-01-06T03:05:17.016Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：dom，<a href="http://swiftandpainless.com/minimal-distance-to-two-views-in-auto-layout/" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-08<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="http://www.jianshu.com/users/ef1058d2d851" target="_blank" rel="external">星夜暮晨</a>；定稿：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a></p>
 </blockquote>
@@ -321,7 +328,7 @@
     <link href="http://swiftggteam.github.io/2015/12/29/swift-open-source/"/>
     <id>http://swiftggteam.github.io/2015/12/29/swift-open-source/</id>
     <published>2015-12-28T16:00:00.000Z</published>
-    <updated>2016-01-06T02:30:21.442Z</updated>
+    <updated>2016-01-06T03:05:17.016Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Jesse Squires，<a href="http://www.jessesquires.com/swift-open-source/" target="_blank" rel="external">原文链接</a>，原文日期：2015/12/06<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 <p>译者注：这个系列的关注重点是 Swift 开源项目本身的发展，作者会截取每周发生的大事（比如合并了一个大改动）并进行分析，还会写一些有趣的小发现，很有意思。我们已经拿到翻译授权，会每周进行更新，欢迎关注。</p>
@@ -377,7 +384,7 @@
     <link href="http://swiftggteam.github.io/2015/12/29/foursquare-realm-swift/"/>
     <id>http://swiftggteam.github.io/2015/12/29/foursquare-realm-swift/</id>
     <published>2015-12-28T16:00:00.000Z</published>
-    <updated>2016-01-06T02:30:21.442Z</updated>
+    <updated>2016-01-06T03:05:17.016Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：reinder de vries，<a href="http://www.appcoda.com/foursquare-realm-swift/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/23<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="http://www.brighttj.com" target="_blank" rel="external">saitjr</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -936,7 +943,7 @@
     <link href="http://swiftggteam.github.io/2015/12/28/friday-qa-2015-12-11-swift-weak-references/"/>
     <id>http://swiftggteam.github.io/2015/12/28/friday-qa-2015-12-11-swift-weak-references/</id>
     <published>2015-12-27T16:00:00.000Z</published>
-    <updated>2016-01-06T02:30:21.442Z</updated>
+    <updated>2016-01-06T03:05:17.016Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Mike Ash，<a href="https://www.mikeash.com/pyblog/friday-qa-2015-12-11-swift-weak-references.html" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-11<br>译者：<a href="http://weibo.com/riven0951" target="_blank" rel="external">riven</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1093,7 +1100,7 @@
     <link href="http://swiftggteam.github.io/2015/12/25/interesting-discussions-on-swift-evolution/"/>
     <id>http://swiftggteam.github.io/2015/12/25/interesting-discussions-on-swift-evolution/</id>
     <published>2015-12-24T16:00:00.000Z</published>
-    <updated>2016-01-06T02:30:21.442Z</updated>
+    <updated>2016-01-06T03:05:17.016Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/12/15/interesting-discussions-on-swift-evolution/" target="_blank" rel="external">原文链接</a>，原文日期：2015/12/15<br>译者：<a href="http://daizi.me" target="_blank" rel="external">小袋子</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1152,7 +1159,7 @@
     <link href="http://swiftggteam.github.io/2015/12/24/friday-qa-2015-11-20-covariance-and-contravariance/"/>
     <id>http://swiftggteam.github.io/2015/12/24/friday-qa-2015-11-20-covariance-and-contravariance/</id>
     <published>2015-12-23T16:00:00.000Z</published>
-    <updated>2016-01-06T02:30:21.442Z</updated>
+    <updated>2016-01-06T03:05:17.016Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Mike Ash，<a href="https://mikeash.com/pyblog/friday-qa-2015-11-20-covariance-and-contravariance.html" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-20<br>译者：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；校对：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1265,7 +1272,7 @@
     <link href="http://swiftggteam.github.io/2015/12/23/swift-3/"/>
     <id>http://swiftggteam.github.io/2015/12/23/swift-3/</id>
     <published>2015-12-22T16:00:00.000Z</published>
-    <updated>2016-01-06T02:30:21.442Z</updated>
+    <updated>2016-01-06T03:05:17.016Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Thomas Hanning，<a href="http://www.thomashanning.com/swift-3/" target="_blank" rel="external">原文链接</a>，原文日期：2015/12/10<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="undefined"></a></p>
 </blockquote>
@@ -1425,7 +1432,7 @@
     <link href="http://swiftggteam.github.io/2015/12/22/alamofire-beginner-guide/"/>
     <id>http://swiftggteam.github.io/2015/12/22/alamofire-beginner-guide/</id>
     <published>2015-12-21T16:00:00.000Z</published>
-    <updated>2016-01-06T02:30:21.442Z</updated>
+    <updated>2016-01-06T03:05:17.016Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：gregg mojica，<a href="http://www.appcoda.com/alamofire-beginner-guide/" target="_blank" rel="external">原文链接</a>，原文日期：2015/11/30<br>译者：<a href="http://weibo.com/linusling" target="_blank" rel="external">小铁匠Linus</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1645,7 +1652,7 @@
     <link href="http://swiftggteam.github.io/2015/12/21/swift-3-0-and-foundation/"/>
     <id>http://swiftggteam.github.io/2015/12/21/swift-3-0-and-foundation/</id>
     <published>2015-12-20T16:00:00.000Z</published>
-    <updated>2016-01-06T02:30:21.442Z</updated>
+    <updated>2016-01-06T03:05:17.016Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/12/03/swift-3-0-and-foundation/" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-03<br>译者：<a href="http://www.jianshu.com/users/596f2ba91ce9/latest_articles" target="_blank" rel="external">pmst</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1687,7 +1694,7 @@
     <link href="http://swiftggteam.github.io/2015/12/18/changing-swift-whats-coming-up-in-2-2-and-3-0/"/>
     <id>http://swiftggteam.github.io/2015/12/18/changing-swift-whats-coming-up-in-2-2-and-3-0/</id>
     <published>2015-12-17T16:00:00.000Z</published>
-    <updated>2016-01-06T02:30:21.442Z</updated>
+    <updated>2016-01-06T03:05:17.016Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/12/03/changing-swift-whats-coming-up-in-2-2-and-3-0/" target="_blank" rel="external">原文链接</a>，原文日期：2015-12-03<br>译者：<a href="undefined">Channe</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1729,7 +1736,7 @@
     <link href="http://swiftggteam.github.io/2015/12/17/per-view-auto-rotation-locking-made-easy-for-ios-8-and-9/"/>
     <id>http://swiftggteam.github.io/2015/12/17/per-view-auto-rotation-locking-made-easy-for-ios-8-and-9/</id>
     <published>2015-12-16T16:00:00.000Z</published>
-    <updated>2016-01-06T02:30:21.438Z</updated>
+    <updated>2016-01-06T03:05:17.016Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Weston Hanners，<a href="http://www.alloc-init.com/2015/11/per-view-auto-rotation-locking-made-easy-for-ios-8-and-9/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-18<br>译者：<a href="undefined">littledogboy</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
@@ -1924,7 +1931,7 @@
     <link href="http://swiftggteam.github.io/2015/12/16/new-to-beta-2-swift-2-1-playground-value-drops-swiftlang/"/>
     <id>http://swiftggteam.github.io/2015/12/16/new-to-beta-2-swift-2-1-playground-value-drops-swiftlang/</id>
     <published>2015-12-15T16:00:00.000Z</published>
-    <updated>2016-01-06T02:30:21.438Z</updated>
+    <updated>2016-01-06T03:05:17.016Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Erica Sadun，<a href="http://ericasadun.com/2015/09/23/new-to-beta-2-swift-2-1-playground-value-drops-swiftlang/" target="_blank" rel="external">原文链接</a>，原文日期：2015-09-23<br>译者：<a href="http://weibo.com/u/2916092907" target="_blank" rel="external">天才175</a>；校对：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a>；定稿：<a href="https://github.com/numbbbbb" target="_blank" rel="external">numbbbbb</a></p>
 </blockquote>
@@ -1984,7 +1991,7 @@
     <link href="http://swiftggteam.github.io/2015/12/15/mixins-over-inheritance/"/>
     <id>http://swiftggteam.github.io/2015/12/15/mixins-over-inheritance/</id>
     <published>2015-12-15T02:30:00.000Z</published>
-    <updated>2016-01-06T02:30:21.438Z</updated>
+    <updated>2016-01-06T03:05:17.016Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>作者：Olivier Halligon，<a href="http://alisoftware.github.io/swift/protocol/2015/11/08/mixins-over-inheritance/" target="_blank" rel="external">原文链接</a>，原文日期：2015-11-08<br>译者：<a href="http://www.jianshu.com/users/97c49dfd1f9f/latest_articles" target="_blank" rel="external">ray16897188</a>；校对：<a href="https://github.com/Cee" target="_blank" rel="external">Cee</a>；定稿：<a href="http://weibo.com/xiaoxxiao" target="_blank" rel="external">千叶知风</a></p>
 </blockquote>
